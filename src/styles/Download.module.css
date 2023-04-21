@@ -1,0 +1,53 @@
+.background {
+  position: relative;
+  z-index: 1;
+}
+.backgroundImage {
+  position: absolute;
+  z-index: -1;
+}
+.backgroundImage img {
+  width: 100%;
+}
+.content {
+  display: flex;
+  align-items: center;
+  padding: 3rem;
+}
+.left h2 {
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 48px;
+  text-transform: capitalize;
+  color: var(--white);
+}
+.left p {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  text-transform: capitalize;
+  color: var(--white);
+  margin: 1rem 0;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem;
+  background-color: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.button p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  text-transform: capitalize;
+  color: var(--black);
+}
+.button img {
+  width: 25px;
+  height: 25px;
+}
+.right img {}

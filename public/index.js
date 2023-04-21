@@ -1,0 +1,11 @@
+export { default as Logo } from './logo.png';
+export { default as Google } from './google.png';
+export { default as HomeMain } from './home-main.png';
+export { default as HomeStick } from './home-stick.png';
+export { default as Advantages } from './advantages.png';
+export { default as Customizable } from './customizable.png';
+export { default as Users } from './users.png';
+export { default as About } from './about.png';
+export { default as Download } from './download.png';
+export { default as Background } from './background.png';
+export { default as FooterLogo } from './footerLogo.png';

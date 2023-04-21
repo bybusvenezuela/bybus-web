@@ -1,0 +1,37 @@
+.title p {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+.title h2 {
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 48px;
+  text-transform: capitalize;
+  width: 60%;
+}
+.questions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.question {
+    padding: 1.5rem;
+}
+.question h3 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  text-transform: capitalize;
+}
+.question p {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: justify;
+  text-transform: capitalize;
+}

@@ -1,0 +1,56 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  /* gap: 3rem; */
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  gap: 1rem;
+}
+.menu a {
+  color: var(--black);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  transition: all 0.3s ease-out;
+}
+.menu a:hover {
+  color: var(--yellow);
+}
+
+.button {
+  padding: 1rem 2rem;
+  background-color: var(--black);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.button p {
+  font-weight: 600;
+  line-height: 28px;
+  text-transform: capitalize;
+  color: var(--white);
+}
+.button img {
+    width: 23px;
+    height: 23px;
+}
