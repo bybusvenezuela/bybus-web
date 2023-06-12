@@ -61,3 +61,8 @@ ul {
 .yellow p, .yellow h3 {
   color: var(--white);
 }
+
+.icon-social {
+  font-size: 2rem;
+  color: var(--black);
+}

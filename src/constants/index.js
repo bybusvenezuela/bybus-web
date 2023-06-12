@@ -210,3 +210,34 @@ export const footer = {
   },
   copy: 'Copyright 2023 ByBus all rights reserved'
 };
+
+export const baseContact = {
+  title: 'Get in touch',
+  subtitle: 'Contact Me',
+  contactTitle: 'Talk to me',
+  contactSubtitle: 'Write me',
+  name: 'name',
+  email: 'email',
+  message: 'message'
+}
+
+export const cardContact = [
+  {
+      id: 'card-1',
+      title: 'Email',
+      data: 'bybus@gmail.com',
+      icon: 'bx bx-mail-send',
+  },
+  {
+      id: 'card-2',
+      title: 'WhatsApp',
+      data: '+ 58 000 000 000',
+      icon: 'bx bxl-whatsapp',
+  },
+  {
+      id: 'card-3',
+      title: 'Twitter',
+      data: '@bybus',
+      icon: 'bx bxl-twitter',
+  },
+]

@@ -8,6 +8,7 @@ import {
   Download,
   Footer,
 } from "@/components";
+import Contact from "@/components/Contact";
 import styles from "@/styles/Main.module.css";
 
 export default function Main() {
@@ -25,6 +26,8 @@ export default function Main() {
       <FAQ />
       {/* Donwload */}
       <Download />
+      {/* Contact Form */}
+      <Contact />
       {/* Footer */}
       <Footer />
     </div>
