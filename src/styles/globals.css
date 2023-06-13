@@ -2,6 +2,7 @@
 
 :root {
   --max: 1100px;
+  --min: 400px;
   --border-radius: 12px;
   --font: "Montserrat", sans-serif;
 
@@ -65,4 +66,22 @@ ul {
 .icon-social {
   font-size: 2rem;
   color: var(--black);
+}
+@media screen and (max-width:500px) {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--min);
+  }
+  
+  .section {
+    padding: 1rem 1rem;
+  }
+  .section_two {
+    padding: 0rem 1rem;
+  }
+  .icon-social {
+    font-size: 1.5rem;
+    color: var(--black);
+  }
 }

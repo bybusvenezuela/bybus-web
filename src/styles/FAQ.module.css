@@ -35,3 +35,31 @@
   text-align: justify;
   text-transform: capitalize;
 }
+@media screen and (max-width: 500px) {
+  .title p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .title h2 {
+    font-size: 44px;
+    line-height: 48px;
+  }
+  .questions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0rem;
+    margin-top: 2rem;
+  }
+  .question {
+      padding: 1rem;
+  }
+  .question h3 {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+  .question p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

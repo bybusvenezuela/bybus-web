@@ -43,3 +43,31 @@
   font-size: 18px;
   color: var(--white);
 }
+@media screen and (max-width: 500px) {
+  .content {
+    flex-direction: column-reverse;
+    margin-top: -3rem;
+    margin-bottom: -2rem;
+  }
+  .right {
+    width: 100%;
+  }
+  .question {
+    font-size: 44px;
+    line-height: 50px;
+  }
+  .paragraph {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .subtitle {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+  
+  }
+  .subtitle p {
+    font-size: 18px;
+  }
+
+}

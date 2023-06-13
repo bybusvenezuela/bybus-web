@@ -51,6 +51,22 @@
   color: var(--white);
 }
 .button img {
-    width: 23px;
-    height: 23px;
+  width: 23px;
+  height: 23px;
+}
+@media screen and (max-width: 500px) {
+  .menu {
+    display: none;
+  }
+  .button {
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+  }
+  .button p {
+    font-size: 14px;
+  }
+  .button img {
+    width: 18px;
+    height: 18px;
+  }
 }

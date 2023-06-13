@@ -55,3 +55,35 @@
 .right img {
     margin: 20px 0px;
 }
+@media screen and (max-width: 500px) {
+  .top p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .top h2 {
+    font-size: 44px;
+    line-height: 44px;
+  }
+  .bot {
+    flex-direction: column;
+  }
+  .left img {
+    width: 350px;
+    height: 350px;
+  }
+  .right img {
+    margin: 20px 0px 5px;
+}
+  .right h3 {
+    font-size: 26px;
+    line-height: 30px;
+  }
+  .right p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .right h4 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}

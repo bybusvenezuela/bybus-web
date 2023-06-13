@@ -107,3 +107,40 @@
   text-align: center;
   color: var(--black);
 }
+@media screen and (max-width: 500px) {
+  .top {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: space-between;
+    gap: 0rem;
+    margin-bottom: 2rem;
+  }
+  .contact p {
+    font-size: 14px;
+  }
+  .contact,
+.links,
+.legal,
+.newsletter {
+  padding: 2rem 0;
+  border-top: 1px solid var(--gray);
+  width: 100%;
+}
+.links h2,
+.legal h2,
+.newsletter h2 {
+  font-size: 24px;
+  line-height: 20px;
+}
+.linksContent,
+.legalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.linksContent a,
+.legalContent a {
+  font-size: 14px;
+  line-height: 22px;
+}
+}
