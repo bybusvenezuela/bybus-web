@@ -8,7 +8,7 @@ const Navbar = () => {
     <div className="container section">
       <div className={styles.navbar}>
         <div className={styles.left}>
-          <Image src={navbar.logo} alt="" />
+          <Image src={navbar.logo} alt="" width={130} height={50} />
           <div className={styles.menu}>
             {navbar.menu.map((item) => (
               <Link href={`${item.id}`} key={item.id}>

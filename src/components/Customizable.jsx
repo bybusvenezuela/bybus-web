@@ -9,7 +9,7 @@ const Customizable = () => {
     <div className="container section">
       <div className={styles.content}>
         <div className={styles.left}>
-          <Image src={customizable.mainImage} alt="" />
+          <Image src={customizable.mainImage} alt="" width={1000} height={1000} />
         </div>
         <div className={styles.right}>
           <div className={styles.title}>

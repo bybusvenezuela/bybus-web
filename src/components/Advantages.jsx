@@ -20,7 +20,7 @@ const Advantages = () => {
           <p className={styles.paragraph}>{advantages.paragraph}</p>
         </div>
         <div className={styles.right}>
-          <Image src={advantages.mainImage} alt="" />
+          <Image src={advantages.mainImage} alt="" width={1000} height={1000} />
         </div>
       </div>
     </div>
