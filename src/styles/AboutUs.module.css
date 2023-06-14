@@ -28,9 +28,8 @@
 }
 .right h3 {
   font-weight: 700;
-  font-size: 32px;
+  font-size: 23px;
   line-height: 36px;
-  text-transform: capitalize;
   color: var(--black);
   margin-bottom: 10px;
 }
@@ -38,7 +37,6 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  text-transform: capitalize;
   color: var(--black);
   opacity: 0.5;
 }
@@ -75,7 +73,7 @@
     margin: 20px 0px 5px;
 }
   .right h3 {
-    font-size: 26px;
+    font-size: 20px;
     line-height: 30px;
   }
   .right p {

@@ -29,11 +29,11 @@
   text-transform: capitalize;
 }
 .question p {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 28px;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
   text-align: justify;
-  text-transform: capitalize;
 }
 @media screen and (max-width: 500px) {
   .title p {

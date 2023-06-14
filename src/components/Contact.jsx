@@ -11,8 +11,8 @@ const Contact = () => {
   return (
     <div className="section container">
       <div className={styles.sectionTitle}>
-        <p className={styles.text}>{`Form`}</p>
-        <h2 className={styles.title}>{`Contact Us`}</h2>
+        <p className={styles.text}>{`Formulario`}</p>
+        <h2 className={styles.title}>{`Contáctanos`}</h2>
       </div>
 
       <div className={styles.contact}>
@@ -28,7 +28,7 @@ const Contact = () => {
 
         <form className={styles.form} ref={form} onSubmit={sendEmail}>
           <div className={styles.field}>
-            <label className={styles.label}>company name</label>
+            <label className={styles.label}>Razón social</label>
             <input
               type="text"
               className={styles.input}
@@ -44,7 +44,7 @@ const Contact = () => {
             />
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>email</label>
+            <label className={styles.label}>correo electrónico</label>
             <input
               type="email"
               className={styles.input}
@@ -53,7 +53,7 @@ const Contact = () => {
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>phone number</label>
+            <label className={styles.label}>Número de teléfono</label>
             <input
               type="text"
               className={styles.input}
@@ -61,7 +61,7 @@ const Contact = () => {
             />
           </div>
 
-          <button className={styles.button}>Send</button>
+          <button className={styles.button}>Enviar</button>
         </form>
       </div>
     </div>

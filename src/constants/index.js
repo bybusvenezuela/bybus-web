@@ -5,25 +5,25 @@ export const navbar = {
   menu: [
     {
       id: "home",
-      title: "Home",
+      title: "Inicio",
     },
     {
       id: "about-us",
-      title: "About us",
+      title: "Nosotros",
     },
     {
       id: "pricing",
-      title: "Pricing",
+      title: "Precios",
     },
     {
       id: "contact-us",
-      title: "Contact us",
+      title: "Contáctanos",
     },
   ],
   button: {
     id: "donwload",
     logo: All.Google,
-    title: "Donwload",
+    title: "Descárgalo",
   },
 };
 
@@ -36,13 +36,13 @@ export const home = {
   buttons: {
     one: {
       id: "one-btn",
-      title: "get started",
+      title: "Empieza ya",
       link: "/",
       icon: "bx bxs-chevrons-right",
     },
     two: {
       id: "two-btn",
-      title: "watch video",
+      title: "Tutorial",
       link: "/",
       icon: "bx bx-play-circle",
     },
@@ -51,80 +51,67 @@ export const home = {
 
 export const advantages = {
   mainImage: All.Advantages,
-  title: "advantages",
-  question: "why choose ByBus?",
+  title: "Ventajas",
+  question: "¿Por qué escoger ByBus?",
   icon: "bx bx-bell",
-  subtitle: "Smart Travel",
-  paragraph: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-  ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in
-  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum."`,
+  subtitle: "viaja tranquilo",
+  paragraph: `Elige ByBus, la primera y única aplicación de venta de pasajes en Venezuela, para disfrutar de un viaje en autobús sin complicaciones. Con ByBus, podrás acceder a reservas rápidas y seguras, una amplia gama de rutas y opciones de pago flexibles. Simplifique su experiencia de viaje y deje de hacer largas colas. Descargue ByBus ahora mismo y descubra una manera cómoda y moderna para viajar por todo el país. ¡Su próximo destino se encuentra a solo un par de clics con ByBus!`,
 };
 
 export const customizable = {
   mainImage: All.Customizable,
   icon: "bx bx-star",
-  title: "fully customizable",
-  paragraph: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-  ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in
-  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum."`,
+  title: "Viaja mas fácil",
+  paragraph: `ByBus, la aplicación de venta de pasajes en Venezuela, es intuitiva y fácil de usar. Con una interfaz simple, usted será capaz de buscar y comprar boletos para diferentes destinos, fechas y horarios. Además, ofrece una gran variedad de formas de pago. Viajar nunca ha sido más fácil: descarga ByBus y reserva tus viajes en pocos pasos.`,
 };
 
 export const aboutus = {
   mainImage: All.About,
-  title: "testimonial",
-  question: "what our users say about us?",
-  subtitle: "the best Travel Trip app ever!",
-  paragraph: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute."`,
+  title: "Testimonios",
+  question: "Qué dicen los usuarios sobre nosotros",
+  subtitle: "¡Estoy muy contento por la experiencia que he tenido usando ByBus. La aplicación es increíblemente intuitiva y me ha hecho más fácil comprar boletos para mis viajes en bus. Puedo buscar diferentes destinos, escoger fechas y horas convenientes, y hacer el pago de forma segura. Recomendaría ByBus a todos los viajeros en Venezuela que están buscando comodidad y eficiencia en sus viajes!",
   usersImage: All.Users,
   userText: "Christopher Alvarez",
 };
 
 export const faq = {
   title: "faq",
-  subtitle: "Frequently asked questions",
+  subtitle: "Pregúntas frecuentes",
   questions: [
     {
       id: "question-1",
-      question: "Question One?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿Cómo funciona la aplicación de ventas de pasajes de ByBus?",
+      answer: `Nuestra aplicación le permite encontrar y reservar billetes de autobús con rapidez y comodidad. Simplemente introduzca los detalles de viaje y la aplicación mostrará las opciones disponibles para que pueda seleccionar la más conveniente.`,
       status: "yellow",
     },
     {
       id: "question-2",
-      question: "Question Two?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿Qué métodos de pago acepta la aplicación?",
+      answer: `Aceptamos diversos métodos de pago, como tarjetas de crédito, débito y opciones de pago en línea. Esto te brinda flexibilidad al momento de realizar tus compras de boletos.”`,
       status: "white",
     },
     {
       id: "question-3",
-      question: "Question Three?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿Es posible realizar cambios en la reserva después de la compra?",
+      answer: `Sí, en algunos casos puedes solicitar cambios en tu reserva, como modificar la fecha o el horario del viaje. Te recomendamos consultar nuestras políticas y contactar a nuestro equipo de atención al cliente para obtener más información sobre las opciones disponibles.`,
       status: "white",
     },
     {
       id: "question-4",
-      question: "Question Four?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿Cómo puedo obtener mi boleto una vez que lo haya comprado a través de la aplicación?",
+      answer: `Una vez completada la compra, recibirás un boleto electrónico en la aplicación. Este boleto estará disponible en tu cuenta y podrás acceder a él en cualquier momento.`,
       status: "yellow",
     },
     {
       id: "question-5",
-      question: "Question Five?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿La aplicación ofrece información actualizada sobre horarios y rutas de los autobuses?",
+      answer: `Sí, la aplicación se mantiene actualizada con la información más reciente sobre horarios y rutas de los autobuses. Podrás obtener detalles precisos sobre salidas, llegadas y cualquier cambio en los horarios programados.`,
       status: "yellow",
     },
     {
       id: "question-6",
-      question: "Question Six?",
-      answer: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.”`,
+      question: "¿Qué sucede si surge un problema durante el proceso de reserva o durante el viaje?",
+      answer: `Contamos con un equipo de atención al cliente disponible para ayudarte en caso de cualquier problema o consulta que puedas tener. Puedes comunicarte con nosotros a través de la aplicación o de nuestros canales de contacto proporcionados.`,
       status: "white",
     },
   ],
@@ -133,10 +120,10 @@ export const faq = {
 export const download = {
   mainImage: All.Download,
   backgroundImage: All.Background,
-  title: "ready to get started?",
-  subtitle: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u”`,
+  title: "¿Listo para comenzar?",
+  subtitle: `Descargue ahora y reserve sus boletos de autobús de forma instantánea. Tu próximo viaje está a solo un clic de distancia.`,
   button: {
-    title: "download app",
+    title: "Descarga",
     image: All.Google,
   },
 };
@@ -158,57 +145,57 @@ export const footer = {
     ],
   },
   links: {
-    title: "links",
+    title: "Enlaces",
     pages: [
       {
         id: "pages-1",
-        title: "home",
+        title: "Inicio",
         link: "/",
       },
       {
         id: "pages-2",
-        title: "about us",
+        title: "Nosotros",
         link: "/",
       },
       {
         id: "pages-3",
-        title: "bookings",
+        title: "Precios",
         link: "/",
       },
       {
         id: "pages-4",
-        title: "blog",
+        title: "Contáctanos",
         link: "/",
       },
     ],
   },
   legal: {
-    title: "legal",
+    title: "Políticas",
     pages: [
       {
         id: "pages-1",
-        title: "terms of use",
+        title: "Términos de uso",
         link: "/",
       },
       {
         id: "pages-2",
-        title: "privacy policy",
+        title: "Política de privacidad",
         link: "/",
       },
       {
         id: "pages-3",
-        title: "cookie policy",
+        title: "Cookies",
         link: "/",
       },
     ],
   },
   newsletter: {
-    title: "newsletter",
-    subtitle: "Stay up to date",
-    placeholder: "Your email",
-    button: "subscribe",
+    title: "Información",
+    subtitle: "Mantente informado",
+    placeholder: "Tu correo electrónico",
+    button: "Suscríbete",
   },
-  copy: 'Copyright 2023 ByBus all rights reserved'
+  copy: 'Copyright 2023 - ByBus conserva todos los derechos'
 };
 
 export const baseContact = {
