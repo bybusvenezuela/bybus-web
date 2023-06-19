@@ -1,7 +1,7 @@
 import * as All from "@/public";
 
 export const navbar = {
-  logo: All.Logo,
+  logo: "https://s3bybus220215-dev.s3.amazonaws.com/public/logo.png",
   menu: [
     {
       id: "home",

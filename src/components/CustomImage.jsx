@@ -22,8 +22,10 @@ const CustomImage = ({ path, alt = "", width, height, styled = {} }) => {
     return (
         <Image
             src={image}
-            width={width}
-            height={height}
+            fill
+            style={{
+                objectFit: "cover"
+            }}
             alt={alt}
         />
     )

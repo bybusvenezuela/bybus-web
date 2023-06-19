@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 's3bybus220215-dev.s3.us-east-1.amazonaws.com',
+        hostname: 's3bybus220215-dev.s3.amazonaws.com',
         port: '',
         pathname: '/public/**',
       },
