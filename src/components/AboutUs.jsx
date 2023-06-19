@@ -14,12 +14,12 @@ const AboutUs = () => {
         </div>
         <div className={styles.bot}>
           <div className={styles.left}>
-            <Image src={aboutus.mainImage} alt="" />
+            <Image src={aboutus.mainImage} alt="" width={1000} height={1000} />
           </div>
           <div className={styles.right}>
             <h3>{aboutus.subtitle}</h3>
             <p>{aboutus.paragraph}</p>
-            <Image src={aboutus.usersImage} alt="" />
+            <Image src={aboutus.usersImage} alt="" width={1000} height={1000} />
             <h4>{aboutus.userText}</h4>
           </div>
         </div>

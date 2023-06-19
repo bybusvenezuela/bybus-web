@@ -24,11 +24,11 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.bot}>
-            <Image src={home.stickImage} alt="" />
+            <Image src={home.stickImage} alt="" width={1000} height={1000}/>
           </div>
         </div>
         <div className={styles.right}>
-          <Image src={home.mainImage} alt="" />
+          <Image src={home.mainImage} alt="" width={1000} height={1000}/>
         </div>
       </div>
     </div>

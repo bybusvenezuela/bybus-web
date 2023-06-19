@@ -51,6 +51,8 @@
   height: 550px;
 }
 .right img {
+  width: 200px;
+    height: 40px;
     margin: 20px 0px;
 }
 @media screen and (max-width: 500px) {
