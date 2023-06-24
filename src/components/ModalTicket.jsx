@@ -52,8 +52,8 @@ export default function ModalTicket({ open, close }) {
                       label="Agency"
                       onChange={handleAgency}
                     >
-                      {agencies.map((item) => (
-                        <MenuItem value={item.value}>{item.agency}</MenuItem>
+                      {agencies.map((item, index) => (
+                        <MenuItem value={item.value} key={index}>{item.agency}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
