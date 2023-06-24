@@ -1,4 +1,4 @@
-import * as All from "../../public";
+import * as All from "@/public";
 
 export const navbar = {
   logo: `https://s3bybus220215-dev.s3.amazonaws.com/public/logo.png`,
@@ -210,21 +210,21 @@ export const baseContact = {
 
 export const cardContact = [
   {
-      id: 'card-1',
-      title: 'Email',
-      data: 'bybus@gmail.com',
-      icon: 'bx bx-mail-send',
+    id: 'card-1',
+    title: 'Email',
+    data: 'bybus@gmail.com',
+    icon: 'bx bx-mail-send',
   },
   {
-      id: 'card-2',
-      title: 'WhatsApp',
-      data: '+ 58 000 000 000',
-      icon: 'bx bxl-whatsapp',
+    id: 'card-2',
+    title: 'WhatsApp',
+    data: '+ 58 000 000 000',
+    icon: 'bx bxl-whatsapp',
   },
   {
-      id: 'card-3',
-      title: 'Twitter',
-      data: '@bybus',
-      icon: 'bx bxl-twitter',
+    id: 'card-3',
+    title: 'Twitter',
+    data: '@bybus',
+    icon: 'bx bxl-twitter',
   },
 ]

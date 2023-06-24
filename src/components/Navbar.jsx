@@ -3,7 +3,7 @@ import Image from "next/image";
 import { navbar } from "../constants";
 import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = ({ onHandleClick = () => { } }) => {
   return (
     <div className="container section">
       <div className={styles.navbar}>
@@ -11,7 +11,7 @@ const Navbar = () => {
           <Image src={navbar.logo} alt="" width={130} height={50} />
           <div className={styles.menu}>
             {navbar.menu.map((item) => (
-              <Link href={`${item.id}`} key={item.id}>
+              <Link href={`#${item.id}`} key={item.id}>
                 {item.title}
               </Link>
             ))}

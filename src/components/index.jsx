@@ -6,3 +6,4 @@ export { default as AboutUs } from './AboutUs';
 export { default as FAQ } from './FAQ';
 export { default as Download } from './Download';
 export { default as Footer } from './Footer';
+export { default as CustomImage } from './CustomImage';
