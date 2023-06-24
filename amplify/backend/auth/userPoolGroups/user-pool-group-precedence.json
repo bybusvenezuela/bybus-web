@@ -1,0 +1,22 @@
+[
+  {
+    "groupName": "SP",
+    "precedence": 1
+  },
+  {
+    "groupName": "admin",
+    "precedence": 2
+  },
+  {
+    "groupName": "agency",
+    "precedence": 3
+  },
+  {
+    "groupName": "office",
+    "precedence": 4
+  },
+  {
+    "groupName": "customer",
+    "precedence": 5
+  }
+]

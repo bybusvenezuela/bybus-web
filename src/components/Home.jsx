@@ -4,9 +4,9 @@ import Link from "next/link";
 import { home } from "@/constants";
 import styles from "@/styles/Home.module.css";
 
-const Home = () => {
+const Home = ({ homeRef }) => {
   return (
-    <div className="container section">
+    <div className="container section" id="home" ref={homeRef}>
       <div className={styles.content}>
         <div className={styles.left}>
           <div className={styles.top}>
@@ -24,11 +24,11 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.bot}>
-            <Image src={home.stickImage} alt="" width={1000} height={1000}/>
+            <Image src={home.stickImage} alt="" width={1000} height={1000} />
           </div>
         </div>
         <div className={styles.right}>
-          <Image src={home.mainImage} alt="" width={1000} height={1000}/>
+          <Image src={home.mainImage} alt="" width={1000} height={1000} />
         </div>
       </div>
     </div>

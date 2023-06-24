@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { footer } from "@/constants";
 import styles from "@/styles/Footer.module.css";
 import Image from "next/image";
-
+import { createEmailSusbcription } from '@/graphql/CustomMutations/Footer'
+import { getEmailSubscriptionbyEmail } from '@/graphql/CustomQueries/Footer'
+import { API } from "aws-amplify";
 const Footer = () => {
+  const [email, setEmail] = useState("")
   const { contact, links, legal, newsletter } = footer;
+
+  const onHandleSubscription = async () => {
+    try {
+      if (!email) return
+      console.log(email)
+      const byEmail = await API.graphql({
+        query: getEmailSubscriptionbyEmail,
+        authMode: "AWS_IAM",
+        variables: {
+          email: email
+        }
+      })
+      if (!byEmail.data) return setEmail("")
+      const result = await API.graphql({
+        query: createEmailSusbcription,
+        authMode: "AWS_IAM",
+        variables: {
+          input: {
+            email: email
+          }
+        }
+      })
+      if (result?.data) alert("Email registrado");
+      setEmail("");
+    } catch (error) {
+      console.error("ERROR AL SUSBCRIBIR CORREO: ", error);
+      alert("Error al subscribir correo")
+    }
+  }
   return (
     <div className="container section">
       <div className={styles.content}>
@@ -47,9 +79,10 @@ const Footer = () => {
                 type="text"
                 name=""
                 placeholder={newsletter.placeholder}
-                id=""
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <button>
+              <button onClick={onHandleSubscription}>
                 {newsletter.button}
               </button>
             </div>
