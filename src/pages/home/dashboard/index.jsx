@@ -98,7 +98,7 @@ const Dashboard = () => {
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Peticion de Subscricion de Agencias</h2>
+              <h2>Listado de Peticion de Subscripcion de Agencias</h2>
               <IconButton aria-label="refresh-agency" onClick={() => fetchAgencySubs()}>
                 <RefreshIcon />
               </IconButton>
