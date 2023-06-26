@@ -5,6 +5,9 @@ export const createEmailSusbcription = /* GraphQL */ `
   ) {
     createEmailSusbcription(input: $input, condition: $condition) {
       id
+      email
+      createdAt
+      updatedAt
     }
   }
 `;

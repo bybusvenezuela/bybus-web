@@ -1,6 +1,62 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getEmailSusbcription = /* GraphQL */ `
+  query GetEmailSusbcription($id: ID!) {
+    getEmailSusbcription(id: $id) {
+      id
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listEmailSusbcriptions = /* GraphQL */ `
+  query ListEmailSusbcriptions(
+    $filter: ModelEmailSusbcriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEmailSusbcriptions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getEmailSubscriptionbyEmail = /* GraphQL */ `
+  query GetEmailSubscriptionbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmailSusbcriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getEmailSubscriptionbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getAgencySubscription = /* GraphQL */ `
   query GetAgencySubscription($id: ID!) {
     getAgencySubscription(id: $id) {
@@ -99,62 +155,6 @@ export const getAgencySubscriptionbyEmail = /* GraphQL */ `
         subscriptionDate
         status
         scheduledDate
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getEmailSusbcription = /* GraphQL */ `
-  query GetEmailSusbcription($id: ID!) {
-    getEmailSusbcription(id: $id) {
-      id
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listEmailSusbcriptions = /* GraphQL */ `
-  query ListEmailSusbcriptions(
-    $filter: ModelEmailSusbcriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listEmailSusbcriptions(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        email
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getEmailSubscriptionbyEmail = /* GraphQL */ `
-  query GetEmailSubscriptionbyEmail(
-    $email: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelEmailSusbcriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getEmailSubscriptionbyEmail(
-      email: $email
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        email
         createdAt
         updatedAt
       }

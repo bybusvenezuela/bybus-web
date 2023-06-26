@@ -1,6 +1,45 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createEmailSusbcription = /* GraphQL */ `
+  mutation CreateEmailSusbcription(
+    $input: CreateEmailSusbcriptionInput!
+    $condition: ModelEmailSusbcriptionConditionInput
+  ) {
+    createEmailSusbcription(input: $input, condition: $condition) {
+      id
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateEmailSusbcription = /* GraphQL */ `
+  mutation UpdateEmailSusbcription(
+    $input: UpdateEmailSusbcriptionInput!
+    $condition: ModelEmailSusbcriptionConditionInput
+  ) {
+    updateEmailSusbcription(input: $input, condition: $condition) {
+      id
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteEmailSusbcription = /* GraphQL */ `
+  mutation DeleteEmailSusbcription(
+    $input: DeleteEmailSusbcriptionInput!
+    $condition: ModelEmailSusbcriptionConditionInput
+  ) {
+    deleteEmailSusbcription(input: $input, condition: $condition) {
+      id
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createAgencySubscription = /* GraphQL */ `
   mutation CreateAgencySubscription(
     $input: CreateAgencySubscriptionInput!
@@ -53,45 +92,6 @@ export const deleteAgencySubscription = /* GraphQL */ `
       subscriptionDate
       status
       scheduledDate
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createEmailSusbcription = /* GraphQL */ `
-  mutation CreateEmailSusbcription(
-    $input: CreateEmailSusbcriptionInput!
-    $condition: ModelEmailSusbcriptionConditionInput
-  ) {
-    createEmailSusbcription(input: $input, condition: $condition) {
-      id
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateEmailSusbcription = /* GraphQL */ `
-  mutation UpdateEmailSusbcription(
-    $input: UpdateEmailSusbcriptionInput!
-    $condition: ModelEmailSusbcriptionConditionInput
-  ) {
-    updateEmailSusbcription(input: $input, condition: $condition) {
-      id
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteEmailSusbcription = /* GraphQL */ `
-  mutation DeleteEmailSusbcription(
-    $input: DeleteEmailSusbcriptionInput!
-    $condition: ModelEmailSusbcriptionConditionInput
-  ) {
-    deleteEmailSusbcription(input: $input, condition: $condition) {
-      id
-      email
       createdAt
       updatedAt
     }

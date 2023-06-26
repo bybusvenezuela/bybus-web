@@ -16,7 +16,6 @@ export default function Main() {
   const homeRef = useRef(null);
   const contactRef = useRef(null);
 
-
   const onHandleClick = (section) => {
     console.log(section)
     console.log(contactRef)

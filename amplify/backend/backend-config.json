@@ -1,27 +1,27 @@
 {
   "api": {
-    "schemaGraphqlByBus": {
+    "bybusgraphql": {
       "dependsOn": [
         {
           "attributes": [
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusAuth"
         }
       ],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AWS_IAM"
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authbybusAuth"
+              }
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authbybus"
-            }
+            "authenticationType": "AWS_IAM"
           }
         }
       },
@@ -30,7 +30,7 @@
     }
   },
   "auth": {
-    "bybus": {
+    "bybusAuth": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -43,8 +43,8 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "NAME",
-          "EMAIL"
+          "EMAIL",
+          "NAME"
         ],
         "socialProviders": [],
         "usernameAttributes": [
@@ -67,7 +67,7 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusAuth"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -75,7 +75,7 @@
     }
   },
   "storage": {
-    "s3Bybus": {
+    "bybusS3": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

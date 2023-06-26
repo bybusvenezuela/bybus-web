@@ -16,8 +16,6 @@ export const getEmailSubscriptionbyEmail = /* GraphQL */ `
       items {
         id
         email
-        createdAt
-        updatedAt
       }
       nextToken
     }
