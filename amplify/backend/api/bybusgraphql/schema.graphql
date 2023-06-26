@@ -1,0 +1,30 @@
+type EmailSusbcription @model @auth(rules:[
+  {allow: public, provider: iam},
+  {allow: private, provider: iam},
+   {allow: groups, groups:["admin", "sp"]}
+]){
+  id: ID!
+  email: String! @index(name: "emailSubscriptionbyEmail", queryField: "getEmailSubscriptionbyEmail")
+}
+
+type AgencySubscription @model @auth(rules:[
+  {allow: public, provider: iam},
+  {allow: private, provider: iam},
+  {allow: groups, groups:["admin", "sp"]}
+]){
+  id: ID!
+  name: String!
+  rif: String! @index(name: "agencySubscriptionbyRif", queryField: "getAgencySubscriptionbyRif")
+  email: String! @index(name: "agencySubscriptionbyEmail", queryField: "getAgencySubscriptionbyEmail")
+  phone: String!
+  subscriptionDate: String 
+  status: SusbcriptionAgencyStatus @default(value: "PENDING")
+  scheduledDate: String 
+}
+
+enum SusbcriptionAgencyStatus{
+  PENDING
+  ACCEPTED
+  REJECTED
+  SCHEDULED
+}

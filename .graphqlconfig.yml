@@ -1,6 +1,6 @@
 projects:
-  schemaGraphqlByBus:
-    schemaPath: amplify/backend/api/schemaGraphqlByBus/build/schema.graphql
+  bybusgraphql:
+    schemaPath: amplify/backend/api/bybusgraphql/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:
@@ -13,3 +13,6 @@ projects:
         region: us-east-1
         apiId: null
         maxDepth: 4
+extensions:
+  amplify:
+    version: 3
