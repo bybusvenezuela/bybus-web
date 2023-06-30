@@ -18,6 +18,15 @@
       },
       "storage": {
         "bybusS3": {}
+      },
+      "function": {
+        "AdminQueriese70dfc87": {
+          "deploymentBucketName": "amplify-bybus-dev-180655-deployment",
+          "s3Key": "amplify-builds/AdminQueriese70dfc87-644141482b4d48416f45-build.zip"
+        }
+      },
+      "api": {
+        "bybusgraphql": {}
       }
     }
   }

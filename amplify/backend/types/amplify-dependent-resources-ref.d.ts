@@ -20,6 +20,15 @@ export type AmplifyDependentResourcesAttributes = {
       "spGroupRole": "string"
     }
   },
+  "function": {
+    "AdminQueriese70dfc87": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    }
+  },
   "storage": {
     "bybusS3": {
       "BucketName": "string",
