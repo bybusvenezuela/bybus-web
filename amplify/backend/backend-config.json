@@ -1,13 +1,13 @@
 {
   "api": {
-    "schemaGraphqlByBus": {
+    "bybusgraphql": {
       "dependsOn": [
         {
           "attributes": [
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusAuth"
         }
       ],
       "output": {
@@ -20,7 +20,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authbybus"
+              "userPoolId": "authbybusAuth"
             }
           }
         }
@@ -30,7 +30,7 @@
     }
   },
   "auth": {
-    "bybus": {
+    "bybusAuth": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -43,8 +43,8 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "NAME",
-          "EMAIL"
+          "EMAIL",
+          "NAME"
         ],
         "socialProviders": [],
         "usernameAttributes": [
@@ -67,15 +67,31 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusAuth"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "Cognito-UserPool-Groups"
     }
   },
+  "function": {
+    "AdminQueriese70dfc87": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusAuth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "storage": {
-    "s3Bybus": {
+    "bybusS3": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

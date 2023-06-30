@@ -1,12 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "schemaGraphqlByBus": {
+    "bybusgraphql": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string"
     }
   },
   "auth": {
-    "bybus": {
+    "bybusAuth": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -16,15 +16,21 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     },
     "userPoolGroups": {
-      "SPGroupRole": "string",
       "adminGroupRole": "string",
-      "agencyGroupRole": "string",
-      "customerGroupRole": "string",
-      "officeGroupRole": "string"
+      "spGroupRole": "string"
+    }
+  },
+  "function": {
+    "AdminQueriese70dfc87": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
     }
   },
   "storage": {
-    "s3Bybus": {
+    "bybusS3": {
       "BucketName": "string",
       "Region": "string"
     }

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { baseContact, buttons, cardContact } from "../constants/index";
 import styles from "@/styles/Contact.module.css";
-import { createAgencySubscription } from '@/graphql/CustomMutations/Contact'
+import { createAgencySubscription } from '@/graphql/mutations'
 import { API } from 'aws-amplify'
-import { getAgencySubscriptionbyEmail, getAgencySubscriptionbyRif } from "@/graphql/CustomQueries/Contact";
+import { getAgencySubscriptionbyEmail, getAgencySubscriptionbyRif } from "@/graphql/queries";
 const Contact = ({ contactRef }) => {
   const form = useRef();
   const [name, setName] = useState("");
@@ -31,7 +31,7 @@ const Contact = ({ contactRef }) => {
         }
       })
       const status = byRif?.data?.getAgencySubscriptionbyRif?.items[0]?.status;
-      console.log(status)
+      console.log("STATUS: ", byRif)
       if (status === "ACCEPTED") return alert(`Rif: ${rif}, ya registrado en nuestro sistema`)
       if (status === "PENDING" || status === "SCHEDULED") return alert(`Rif: ${rif}, ya tiene una solicitud pendiente`)
       if (status === "REJECTED") return alert(`Rif: ${rif}, Rechazado llamar a soporte`)
@@ -49,7 +49,6 @@ const Contact = ({ contactRef }) => {
       if (statusbyEmail === "PENDING" || status === "SCHEDULED") return alert(`Email: ${email}, ya tiene una solicitud pendiente`)
       if (statusbyEmail === "REJECTED") return alert(`Email: ${email}, Rechazado llamar a soporte`)
       // enviamos peticion
-
       await API.graphql({
         query: createAgencySubscription,
         authMode: "AWS_IAM",

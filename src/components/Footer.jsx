@@ -3,8 +3,8 @@ import Link from "next/link";
 import { footer } from "@/constants";
 import styles from "@/styles/Footer.module.css";
 import Image from "next/image";
-import { createEmailSusbcription } from '@/graphql/CustomMutations/Footer'
-import { getEmailSubscriptionbyEmail } from '@/graphql/CustomQueries/Footer'
+import { getEmailSubscriptionbyEmail } from '@/graphql/Custom/Queries/Footer'
+import { createEmailSusbcription } from '@/graphql/Custom/Mutations/Footer'
 import { API } from "aws-amplify";
 const Footer = () => {
   const [email, setEmail] = useState("")
@@ -80,7 +80,7 @@ const Footer = () => {
                 name=""
                 placeholder={newsletter.placeholder}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLocaleUpperCase())}
               />
               <button onClick={onHandleSubscription}>
                 {newsletter.button}
