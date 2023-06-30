@@ -1,0 +1,35 @@
+.content {
+  display: flex;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.navbar {
+  padding: 1rem;
+}
+
+.pages {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  margin-bottom: 1rem;
+}
+
+.title h2 {
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--black);
+}
