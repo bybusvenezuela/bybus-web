@@ -2,8 +2,9 @@ import * as React from "react";
 import Modal from "@mui/material/Modal";
 import { Button, TextField } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
+import { useState } from "react";
 
-export default function ModalAgencies({ open, close }) {
+export default function ModalOffice({ open, close }) {
   return (
     <div>
       <Modal

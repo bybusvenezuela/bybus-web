@@ -11,7 +11,7 @@ import {
 import styles from "@/styles/Modal.module.css";
 import { useState } from "react";
 
-export default function ModalTicket({ open, close }) {
+export default function ModalEmployee({ open, close }) {
   const [agency, setAgency] = useState("");
 
   const handleAgency = (event) => {

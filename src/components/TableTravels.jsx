@@ -62,7 +62,7 @@ const rows = [
 
 const TableTravels = () => {
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box sx={{ height: 500, width: 800 }}>
       <DataGrid
         rows={rows}
         columns={columns}

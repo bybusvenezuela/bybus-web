@@ -1,14 +1,14 @@
-import React from 'react'
 import Menu from "@/components/Menu";
+import React from "react";
 import styles from "@/styles/Home.module.css";
 
-const UserPanel = () => {
+const Office = () => {
   return (
     <div className={styles.content}>
       <Menu />
-      <div>UserPanel</div>
+      <div>Office</div>
     </div>
-  )
-}
+  );
+};
 
-export default UserPanel
+export default Office;
