@@ -75,7 +75,7 @@ export default function OrderDetailUpdateForm(props) {
   }, [idProp, orderDetailModelProp]);
   React.useEffect(resetStateValues, [orderDetailRecord]);
   const validations = {
-    amount: [],
+    amount: [{ type: "Required" }],
     paymentMethod: [],
     customerName: [],
     customerEmail: [],
@@ -162,7 +162,7 @@ export default function OrderDetailUpdateForm(props) {
     >
       <TextField
         label="Amount"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"

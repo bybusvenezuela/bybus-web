@@ -268,7 +268,7 @@ type OrderDetail
     ]
   ) {
   id: ID!
-  amount: Float
+  amount: Float!
   paymentMethod: String
   customerName: String
   customerEmail: String

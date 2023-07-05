@@ -36,13 +36,13 @@ const App = ({ Component, pageProps }) => (
         rel="stylesheet"
       ></link>
     </Head>
-    <UserProvider>
+    {/* <UserProvider> */}
       <MenuProvider>
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
         </ThemeProvider>
       </MenuProvider>
-    </UserProvider>
+    {/* </UserProvider> */}
   </>
 );
 

@@ -59,7 +59,7 @@ export default function OrderDetailCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    amount: [],
+    amount: [{ type: "Required" }],
     paymentMethod: [],
     customerName: [],
     customerEmail: [],
@@ -145,7 +145,7 @@ export default function OrderDetailCreateForm(props) {
     >
       <TextField
         label="Amount"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
