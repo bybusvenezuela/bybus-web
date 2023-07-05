@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Menu from "@/components/Menu";
 import styles from "@/styles/Dashboard.module.css";
 import TableAgencies from "@/components/TableAgencies";
@@ -9,13 +9,22 @@ import ModalOffice from "@/components/ModalOffice";
 import ModalTravel from "@/components/ModalTravel";
 import ModalEmployee from "@/components/ModalEmployee";
 import { useUser } from "@/context/UserContext";
+import { Auth, API } from "aws-amplify";
+import * as queries from "@/graphql/queries";
+import * as mutations from "@/graphql/mutations";
 
 const Dashboard = () => {
   const [office, setOffice] = useState(false)
   const [employee, setEmployee] = useState(false)
   const [travels, setTravels] = useState(false)
-  // const { user } = useUser();
-
+  const { user } = useUser();
+  const lista = async () => {
+    const agencies = await API.graphql({
+      query: queries.listAgencies,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    console.log(agencies)
+  };
   const openOffice = () => {
     setOffice(true)
   }
@@ -26,7 +35,8 @@ const Dashboard = () => {
     setTravels(true)
   }
   useEffect(() => {
-    // console.log(user)e
+    console.log(user)
+    lista()
   }, [])
   
   return (

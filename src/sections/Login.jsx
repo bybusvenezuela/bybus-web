@@ -16,6 +16,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { Auth } from 'aws-amplify'
+import { useUser } from "@/context/UserContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +29,8 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [userChangePwd, setUserChangePwd] = useState({});
   const [isLoading, setIsLoading] = useState(false)
+  const { updateUser } = useUser();
+
 
   useEffect(() => {
     clear();
@@ -54,6 +57,7 @@ const Login = () => {
         setPassword("");
         alert("POR FAVOR ACTUALIZAR CONTRASEÑA")
       }
+      updateUser(user)
     } catch (error) {
       console.error(error);
     }
