@@ -24,6 +24,7 @@ export default function OfficeUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    name: "",
     state: "",
     city: "",
     address: "",
@@ -31,6 +32,7 @@ export default function OfficeUpdateForm(props) {
     phone: "",
     owner: "",
   };
+  const [name, setName] = React.useState(initialValues.name);
   const [state, setState] = React.useState(initialValues.state);
   const [city, setCity] = React.useState(initialValues.city);
   const [address, setAddress] = React.useState(initialValues.address);
@@ -42,6 +44,7 @@ export default function OfficeUpdateForm(props) {
     const cleanValues = officeRecord
       ? { ...initialValues, ...officeRecord }
       : initialValues;
+    setName(cleanValues.name);
     setState(cleanValues.state);
     setCity(cleanValues.city);
     setAddress(cleanValues.address);
@@ -62,6 +65,7 @@ export default function OfficeUpdateForm(props) {
   }, [idProp, officeModelProp]);
   React.useEffect(resetStateValues, [officeRecord]);
   const validations = {
+    name: [],
     state: [],
     city: [],
     address: [],
@@ -95,6 +99,7 @@ export default function OfficeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          name,
           state,
           city,
           address,
@@ -148,6 +153,36 @@ export default function OfficeUpdateForm(props) {
       {...rest}
     >
       <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name: value,
+              state,
+              city,
+              address,
+              email,
+              phone,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="State"
         isRequired={false}
         isReadOnly={false}
@@ -156,6 +191,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state: value,
               city,
               address,
@@ -185,6 +221,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city: value,
               address,
@@ -214,6 +251,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address: value,
@@ -243,6 +281,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -272,6 +311,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -301,6 +341,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,

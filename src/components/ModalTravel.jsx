@@ -60,6 +60,7 @@ export default function ModalTravel({ open, close }) {
     { detination: "Terminal de Barquisimeto", value: 7 },
   ];
 
+  
   return (
     <div>
       <Modal
@@ -78,7 +79,7 @@ export default function ModalTravel({ open, close }) {
                 <div className={styles.input}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
-                      Agency
+                      Oficina
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"

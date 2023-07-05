@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
+import { UserProvider } from "@/context/UserContext";
 
 const theme = createTheme({
   palette: {
@@ -35,11 +36,13 @@ const App = ({ Component, pageProps }) => (
         rel="stylesheet"
       ></link>
     </Head>
-    <MenuProvider>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </MenuProvider>
+    <UserProvider>
+      <MenuProvider>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </MenuProvider>
+    </UserProvider>
   </>
 );
 

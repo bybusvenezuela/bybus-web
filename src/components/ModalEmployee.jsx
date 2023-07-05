@@ -38,13 +38,13 @@ export default function ModalEmployee({ open, close }) {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.title}>
-                <h2>Register a new agency</h2>
+                <h2>Registrar nuevo empleado</h2>
               </div>
               <div className={styles.inputs}>
                 <div className={styles.input}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
-                      Agency
+                      Oficina
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
@@ -61,14 +61,13 @@ export default function ModalEmployee({ open, close }) {
                 <div className={styles.input}>
                   <TextField
                     id="outlined-basic"
-                    label="Name ticket"
+                    label="Nombre"
                     variant="outlined"
                   />
                   <TextField
                     id="outlined-basic"
-                    label="Price"
+                    label="Tipo"
                     variant="outlined"
-                    type="number"
                   />
                 </div>
               </div>

@@ -82,6 +82,7 @@ type Office
   ) {
   id: ID!
   agencyID: ID @index(name: "byAgencyToOffice")
+  name: String
   state: String
   city: String
   address: String
@@ -151,6 +152,7 @@ type Transport
   serial: String
   type: String
   officeID: ID @index(name: "byOfficeToTransport")
+  bookings: [Booking] @hasMany(indexName: "byTransportToBooking", fields: ["id"])
   createdBy: ID
 }
 
@@ -168,6 +170,7 @@ type Booking
   code: String
   agencyID: ID! @index(name: "byAgencyToBooking")
   officeID: ID! @index(name: "byOfficeToBooking")
+  transport: ID! @index(name: "byTransportToBooking")
   customers: [Customer]
     @hasMany(indexName: "byBookingToCustomer", fields: ["id"])
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])

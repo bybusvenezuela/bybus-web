@@ -8,11 +8,14 @@ import Card from "@/components/Card";
 import ModalOffice from "@/components/ModalOffice";
 import ModalTravel from "@/components/ModalTravel";
 import ModalEmployee from "@/components/ModalEmployee";
+import { useUser } from "@/context/UserContext";
 
 const Dashboard = () => {
   const [office, setOffice] = useState(false)
   const [employee, setEmployee] = useState(false)
   const [travels, setTravels] = useState(false)
+  const { user } = useUser();
+
   const openOffice = () => {
     setOffice(true)
   }
@@ -22,6 +25,10 @@ const Dashboard = () => {
   const openTravels = () => {
     setTravels(true)
   }
+  useEffect(() => {
+    console.log(user)
+  }, [])
+  
   return (
     <div className={styles.content}>
       <Menu />
