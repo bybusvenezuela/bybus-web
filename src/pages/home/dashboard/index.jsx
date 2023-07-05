@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [office, setOffice] = useState(false)
   const [employee, setEmployee] = useState(false)
   const [travels, setTravels] = useState(false)
-  const { user } = useUser();
+  // const { user } = useUser();
 
   const openOffice = () => {
     setOffice(true)
@@ -26,7 +26,7 @@ const Dashboard = () => {
     setTravels(true)
   }
   useEffect(() => {
-    console.log(user)
+    // console.log(user)e
   }, [])
   
   return (

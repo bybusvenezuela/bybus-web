@@ -183,6 +183,7 @@ export const createOffice = /* GraphQL */ `
     createOffice(input: $input, condition: $condition) {
       id
       agencyID
+      name
       state
       city
       address
@@ -211,6 +212,7 @@ export const updateOffice = /* GraphQL */ `
     updateOffice(input: $input, condition: $condition) {
       id
       agencyID
+      name
       state
       city
       address
@@ -239,6 +241,7 @@ export const deleteOffice = /* GraphQL */ `
     deleteOffice(input: $input, condition: $condition) {
       id
       agencyID
+      name
       state
       city
       address
@@ -379,6 +382,9 @@ export const createTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -398,6 +404,9 @@ export const updateTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -417,6 +426,9 @@ export const deleteTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -434,6 +446,13 @@ export const createBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -458,6 +477,13 @@ export const updateBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -482,6 +508,13 @@ export const deleteBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -768,8 +801,10 @@ export const createOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -800,8 +835,10 @@ export const updateOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -832,8 +869,10 @@ export const deleteOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -886,6 +925,162 @@ export const deletePayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+    }
+  }
+`;
+export const createOrderDetailHistory = /* GraphQL */ `
+  mutation CreateOrderDetailHistory(
+    $input: CreateOrderDetailHistoryInput!
+    $condition: ModelOrderDetailHistoryConditionInput
+  ) {
+    createOrderDetailHistory(input: $input, condition: $condition) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateOrderDetailHistory = /* GraphQL */ `
+  mutation UpdateOrderDetailHistory(
+    $input: UpdateOrderDetailHistoryInput!
+    $condition: ModelOrderDetailHistoryConditionInput
+  ) {
+    updateOrderDetailHistory(input: $input, condition: $condition) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteOrderDetailHistory = /* GraphQL */ `
+  mutation DeleteOrderDetailHistory(
+    $input: DeleteOrderDetailHistoryInput!
+    $condition: ModelOrderDetailHistoryConditionInput
+  ) {
+    deleteOrderDetailHistory(input: $input, condition: $condition) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createWallet = /* GraphQL */ `
+  mutation CreateWallet(
+    $input: CreateWalletInput!
+    $condition: ModelWalletConditionInput
+  ) {
+    createWallet(input: $input, condition: $condition) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateWallet = /* GraphQL */ `
+  mutation UpdateWallet(
+    $input: UpdateWalletInput!
+    $condition: ModelWalletConditionInput
+  ) {
+    updateWallet(input: $input, condition: $condition) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteWallet = /* GraphQL */ `
+  mutation DeleteWallet(
+    $input: DeleteWalletInput!
+    $condition: ModelWalletConditionInput
+  ) {
+    deleteWallet(input: $input, condition: $condition) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
     }
   }
 `;

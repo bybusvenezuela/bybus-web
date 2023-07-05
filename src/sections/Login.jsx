@@ -53,7 +53,7 @@ const Login = () => {
       if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         setUserChangePwd(user);
         setIsNewPassword(true)
-        updateUser(user)
+        // updateUser(user)
         setPassword("");
         alert("POR FAVOR ACTUALIZAR CONTRASEÑA")
       }

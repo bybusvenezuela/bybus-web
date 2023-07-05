@@ -177,6 +177,7 @@ export const onCreateOffice = /* GraphQL */ `
     onCreateOffice(filter: $filter, owner: $owner) {
       id
       agencyID
+      name
       state
       city
       address
@@ -205,6 +206,7 @@ export const onUpdateOffice = /* GraphQL */ `
     onUpdateOffice(filter: $filter, owner: $owner) {
       id
       agencyID
+      name
       state
       city
       address
@@ -233,6 +235,7 @@ export const onDeleteOffice = /* GraphQL */ `
     onDeleteOffice(filter: $filter, owner: $owner) {
       id
       agencyID
+      name
       state
       city
       address
@@ -364,6 +367,9 @@ export const onCreateTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -383,6 +389,9 @@ export const onUpdateTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -402,6 +411,9 @@ export const onDeleteTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -419,6 +431,13 @@ export const onCreateBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -443,6 +462,13 @@ export const onUpdateBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -467,6 +493,13 @@ export const onDeleteBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -753,8 +786,10 @@ export const onCreateOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -785,8 +820,10 @@ export const onUpdateOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -817,8 +854,10 @@ export const onDeleteOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -871,6 +910,180 @@ export const onDeletePayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
+    }
+  }
+`;
+export const onCreateOrderDetailHistory = /* GraphQL */ `
+  subscription OnCreateOrderDetailHistory(
+    $filter: ModelSubscriptionOrderDetailHistoryFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onCreateOrderDetailHistory(
+      filter: $filter
+      owner: $owner
+      googleOwner: $googleOwner
+    ) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOrderDetailHistory = /* GraphQL */ `
+  subscription OnUpdateOrderDetailHistory(
+    $filter: ModelSubscriptionOrderDetailHistoryFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onUpdateOrderDetailHistory(
+      filter: $filter
+      owner: $owner
+      googleOwner: $googleOwner
+    ) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOrderDetailHistory = /* GraphQL */ `
+  subscription OnDeleteOrderDetailHistory(
+    $filter: ModelSubscriptionOrderDetailHistoryFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onDeleteOrderDetailHistory(
+      filter: $filter
+      owner: $owner
+      googleOwner: $googleOwner
+    ) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateWallet = /* GraphQL */ `
+  subscription OnCreateWallet(
+    $filter: ModelSubscriptionWalletFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onCreateWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateWallet = /* GraphQL */ `
+  subscription OnUpdateWallet(
+    $filter: ModelSubscriptionWalletFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onUpdateWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteWallet = /* GraphQL */ `
+  subscription OnDeleteWallet(
+    $filter: ModelSubscriptionWalletFilterInput
+    $owner: String
+    $googleOwner: String
+  ) {
+    onDeleteWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
     }
   }
 `;

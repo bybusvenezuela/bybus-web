@@ -219,6 +219,7 @@ export const getOffice = /* GraphQL */ `
     getOffice(id: $id) {
       id
       agencyID
+      name
       state
       city
       address
@@ -249,6 +250,7 @@ export const listOffices = /* GraphQL */ `
       items {
         id
         agencyID
+        name
         state
         city
         address
@@ -280,6 +282,7 @@ export const officesByAgencyID = /* GraphQL */ `
       items {
         id
         agencyID
+        name
         state
         city
         address
@@ -444,6 +447,9 @@ export const getTransport = /* GraphQL */ `
       serial
       type
       officeID
+      bookings {
+        nextToken
+      }
       createdBy
       createdAt
       updatedAt
@@ -512,6 +518,13 @@ export const getBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
+      customers {
+        nextToken
+      }
+      tickets {
+        nextToken
+      }
       departureDate
       arrivalDate
       estimatedTime
@@ -538,6 +551,7 @@ export const listBookings = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
         departureDate
         arrivalDate
         estimatedTime
@@ -574,6 +588,7 @@ export const bookingsByAgencyID = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
         departureDate
         arrivalDate
         estimatedTime
@@ -610,6 +625,44 @@ export const bookingsByOfficeID = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
+        departureDate
+        arrivalDate
+        estimatedTime
+        departureLoc
+        destinationLoc
+        stock
+        service
+        createdBy
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const bookingsByTransport = /* GraphQL */ `
+  query BookingsByTransport(
+    $transport: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    bookingsByTransport(
+      transport: $transport
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        code
+        agencyID
+        officeID
+        transport
         departureDate
         arrivalDate
         estimatedTime
@@ -882,8 +935,10 @@ export const getOrderDetail = /* GraphQL */ `
       orderTickets {
         nextToken
       }
+      walletID
       createdAt
       updatedAt
+      walletOrdersId
       owner
     }
   }
@@ -903,8 +958,43 @@ export const listOrderDetails = /* GraphQL */ `
         customerEmail
         isGuest
         paymentID
+        walletID
         createdAt
         updatedAt
+        walletOrdersId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const orderDetailsByWalletID = /* GraphQL */ `
+  query OrderDetailsByWalletID(
+    $walletID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelOrderDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    orderDetailsByWalletID(
+      walletID: $walletID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
         owner
       }
       nextToken
@@ -941,6 +1031,99 @@ export const listPayments = /* GraphQL */ `
         createdAt
         updatedAt
         owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getOrderDetailHistory = /* GraphQL */ `
+  query GetOrderDetailHistory($id: ID!) {
+    getOrderDetailHistory(id: $id) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        walletID
+        createdAt
+        updatedAt
+        walletOrdersId
+        owner
+      }
+      walletID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listOrderDetailHistories = /* GraphQL */ `
+  query ListOrderDetailHistories(
+    $filter: ModelOrderDetailHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrderDetailHistories(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        orderID
+        walletID
+        owner
+        googleOwner
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getWallet = /* GraphQL */ `
+  query GetWallet($id: ID!) {
+    getWallet(id: $id) {
+      userID
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        nextToken
+      }
+      owner
+      googleOwner
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listWallets = /* GraphQL */ `
+  query ListWallets(
+    $filter: ModelWalletFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWallets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        userID
+        email
+        status
+        notificationToken
+        previousBalance
+        owner
+        googleOwner
+        id
+        createdAt
+        updatedAt
       }
       nextToken
     }
