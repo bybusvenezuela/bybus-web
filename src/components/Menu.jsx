@@ -11,7 +11,7 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StoreIcon from "@mui/icons-material/Store";
 import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Image from "next/image";
@@ -63,151 +63,16 @@ const Menu = () => {
           }}
         >
           <ListItemIcon>
-            <DashboardIcon sx={{ color: selectedIndex === 0 ? 'white' : 'rgba(0, 0, 0, 0.54)' }}/>
+            <DashboardIcon
+              sx={{
+                color: selectedIndex === 0 ? "white" : "rgba(0, 0, 0, 0.54)",
+              }}
+            />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
-        <ListItemButton onClick={handleAgencies}>
-          <ListItemIcon>
-            <StoreIcon />
-          </ListItemIcon>
-          <ListItemText primary="Agencies" />
-          {openAgencies ? <ExpandLessIcon sx={{ color: 'rgba(0, 0, 0, 0.54)'}} /> : <ExpandMoreIcon sx={{ color: 'rgba(0, 0, 0, 0.54)'}}/>}
-        </ListItemButton>
-        <Collapse in={openAgencies} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Divider
-              sx={{ width: "93%", position: "relative", right: "-7%" }}
-            />
-
-            <ListItemButton
-              sx={{
-                pl: 4,
-                width: "95%",
-                position: "relative",
-                right: "-5%",
-                borderTopLeftRadius: "7px",
-                borderBottomLeftRadius: "7px",
-              }}
-              selected={selectedIndex === 1}
-              onClick={(e) => {
-                e.preventDefault;
-                router.push(`/home/agencies/panel`);
-                updateIndex(1);
-                console.log(selectedIndex);
-              }}
-            >
-              <ListItemText primary="Panel" />
-            </ListItemButton>
-            <Divider
-              sx={{ width: "93%", position: "relative", right: "-7%" }}
-            />
-            <ListItemButton
-              sx={{
-                pl: 4,
-                width: "95%",
-                position: "relative",
-                right: "-5%",
-                borderTopLeftRadius: "7px",
-                borderBottomLeftRadius: "7px",
-              }}
-              selected={selectedIndex === 2}
-              onClick={(e) => {
-                e.preventDefault;
-                router.push(`/home/agencies/list`);
-                updateIndex(2);
-                console.log(selectedIndex);
-              }}
-            >
-              <ListItemText primary="List" />
-            </ListItemButton>
-            <Divider
-              sx={{ width: "93%", position: "relative", right: "-7%" }}
-            />
-
-            <ListItemButton
-              sx={{
-                pl: 4,
-                width: "95%",
-                position: "relative",
-                right: "-5%",
-                borderTopLeftRadius: "7px",
-                borderBottomLeftRadius: "7px",
-              }}
-              selected={selectedIndex === 3}
-              onClick={(e) => {
-                e.preventDefault;
-                router.push(`/home/agencies/travels`);
-                updateIndex(3);
-                console.log(selectedIndex);
-              }}
-            >
-              <ListItemText primary="Travels" />
-            </ListItemButton>
-            <Divider
-              sx={{ width: "93%", position: "relative", right: "-7%" }}
-            />
-
-            <ListItemButton
-              sx={{
-                pl: 4,
-                width: "95%",
-                position: "relative",
-                right: "-5%",
-                borderTopLeftRadius: "7px",
-                borderBottomLeftRadius: "7px",
-              }}
-              selected={selectedIndex === 4}
-              onClick={(e) => {
-                e.preventDefault;
-                router.push(`/home/agencies/tickets`);
-                updateIndex(4);
-                console.log(selectedIndex);
-              }}
-            >
-              <ListItemText primary="Tickets" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-
-        <ListItemButton onClick={handleUsers}>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-          {openUsers ? <ExpandLessIcon sx={{ color: 'rgba(0, 0, 0, 0.54)'}}/> : <ExpandMoreIcon sx={{ color: 'rgba(0, 0, 0, 0.54)'}}/>}
-        </ListItemButton>
-        <Collapse in={openUsers} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Divider
-              sx={{ width: "93%", position: "relative", right: "-7%" }}
-            />
-
-            <ListItemButton
-              sx={{
-                pl: 4,
-                width: "95%",
-                position: "relative",
-                right: "-5%",
-                borderTopLeftRadius: "7px",
-                borderBottomLeftRadius: "7px",
-              }}
-              selected={selectedIndex === 5}
-              onClick={(e) => {
-                e.preventDefault;
-                router.push(`/home/users/panel`);
-                updateIndex(5);
-                console.log(selectedIndex);
-              }}
-            >
-              <ListItemText primary="Panel" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           sx={{ borderBottomLeftRadius: "7px", borderBottomRightRadius: "7px" }}
           selected={selectedIndex === 6}
@@ -219,14 +84,16 @@ const Menu = () => {
           }}
         >
           <ListItemIcon>
-            <SettingsIcon sx={{ color: selectedIndex === 6 ? 'white' : 'rgba(0, 0, 0, 0.54)' }}/>
+            <SettingsIcon
+              sx={{
+                color: selectedIndex === 6 ? "white" : "rgba(0, 0, 0, 0.54)",
+              }}
+            />
           </ListItemIcon>
           <ListItemText primary="Configuration" />
         </ListItemButton>
       </List>
-      <div className={styles.panel}>
-        
-      </div>
+      <div className={styles.panel}></div>
     </div>
   );
 };
