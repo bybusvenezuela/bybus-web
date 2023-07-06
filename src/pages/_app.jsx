@@ -71,8 +71,9 @@ const App = ({ Component, pageProps }) => {
       }
       const userGroups =
         user.signInUserSession.accessToken.payload["cognito:groups"];
+      console.log(userGroups);
 
-      if (userGroups.includes("admin") || userGroups.includes("sp")) {
+      if (userGroups.includes("agency")) {
         router.push({ pathname: `/home/dashboard` });
       } else {
         alert("USUARIO NO AUTORIZADO");

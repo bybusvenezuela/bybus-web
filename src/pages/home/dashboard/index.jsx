@@ -23,7 +23,7 @@ const Dashboard = () => {
       query: queries.listAgencies,
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    console.log(agencies)
+    console.log('ejele', agencies)
   };
   const openOffice = () => {
     setOffice(true)
