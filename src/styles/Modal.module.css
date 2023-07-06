@@ -35,7 +35,12 @@
 }
 .buttons {
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
+  gap: 1rem;
+}
+.button {
+  display: flex;
   gap: 1rem;
 }
 .title h2 {
@@ -53,4 +58,7 @@
 }
 .time input {
   width: 310px;
+}
+.textfield {
+  font-size: 12px;
 }
