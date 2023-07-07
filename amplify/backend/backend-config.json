@@ -1,5 +1,27 @@
 {
   "api": {
+    "AdminQueries": {
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusAuth"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "AdminQueriesb7cd86a4"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "bybusgraphql": {
       "dependsOn": [
         {
@@ -75,7 +97,35 @@
     }
   },
   "function": {
+    "AdminQueriesb7cd86a4": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusAuth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "AdminQueriese70dfc87": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusAuth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "adminCreateUserCognito": {
       "build": true,
       "dependsOn": [
         {
@@ -91,6 +141,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_AdminQueriesb7cd86a4_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesb7cd86a4"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueriesb7cd86a4_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesb7cd86a4"
+        }
+      ]
+    },
     "AMPLIFY_function_AdminQueriese70dfc87_deploymentBucketName": {
       "usedBy": [
         {
@@ -104,6 +170,22 @@
         {
           "category": "function",
           "resourceName": "AdminQueriese70dfc87"
+        }
+      ]
+    },
+    "AMPLIFY_function_adminCreateUserCognito_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminCreateUserCognito"
+        }
+      ]
+    },
+    "AMPLIFY_function_adminCreateUserCognito_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminCreateUserCognito"
         }
       ]
     }

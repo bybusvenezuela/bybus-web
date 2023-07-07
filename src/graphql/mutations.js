@@ -1,6 +1,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const registerAgencyUser = /* GraphQL */ `
+  mutation RegisterAgencyUser($input: RegisterUserInput!) {
+    registerAgencyUser(input: $input)
+  }
+`;
 export const createEmailSusbcription = /* GraphQL */ `
   mutation CreateEmailSusbcription(
     $input: CreateEmailSusbcriptionInput!
@@ -164,12 +169,16 @@ export const createAgency = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -251,12 +260,16 @@ export const updateAgency = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -338,12 +351,16 @@ export const deleteAgency = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -421,12 +438,16 @@ export const createOffice = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -504,12 +525,16 @@ export const updateOffice = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -587,12 +612,16 @@ export const deleteOffice = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -740,12 +769,16 @@ export const createTransport = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -786,12 +819,16 @@ export const updateTransport = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -832,12 +869,16 @@ export const deleteTransport = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -878,6 +919,7 @@ export const createBooking = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -886,6 +928,7 @@ export const createBooking = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -898,11 +941,29 @@ export const createBooking = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
           description
           url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      stops {
+        items {
+          id
+          bookingID
+          tickets {
+            nextToken
+          }
+          estimatedTime
+          destinationLoc
+          price
           owner
           createdAt
           updatedAt
@@ -915,6 +976,7 @@ export const createBooking = /* GraphQL */ `
       departureLoc
       destinationLoc
       stock
+      price
       service
       createdBy
       owner
@@ -948,6 +1010,7 @@ export const updateBooking = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -956,6 +1019,7 @@ export const updateBooking = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -968,11 +1032,29 @@ export const updateBooking = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
           description
           url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      stops {
+        items {
+          id
+          bookingID
+          tickets {
+            nextToken
+          }
+          estimatedTime
+          destinationLoc
+          price
           owner
           createdAt
           updatedAt
@@ -985,6 +1067,7 @@ export const updateBooking = /* GraphQL */ `
       departureLoc
       destinationLoc
       stock
+      price
       service
       createdBy
       owner
@@ -1018,6 +1101,7 @@ export const deleteBooking = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -1026,6 +1110,7 @@ export const deleteBooking = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -1038,11 +1123,29 @@ export const deleteBooking = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
           description
           url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      stops {
+        items {
+          id
+          bookingID
+          tickets {
+            nextToken
+          }
+          estimatedTime
+          destinationLoc
+          price
           owner
           createdAt
           updatedAt
@@ -1055,8 +1158,114 @@ export const deleteBooking = /* GraphQL */ `
       departureLoc
       destinationLoc
       stock
+      price
       service
       createdBy
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createStopBooking = /* GraphQL */ `
+  mutation CreateStopBooking(
+    $input: CreateStopBookingInput!
+    $condition: ModelStopBookingConditionInput
+  ) {
+    createStopBooking(input: $input, condition: $condition) {
+      id
+      bookingID
+      tickets {
+        items {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      estimatedTime
+      destinationLoc
+      price
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateStopBooking = /* GraphQL */ `
+  mutation UpdateStopBooking(
+    $input: UpdateStopBookingInput!
+    $condition: ModelStopBookingConditionInput
+  ) {
+    updateStopBooking(input: $input, condition: $condition) {
+      id
+      bookingID
+      tickets {
+        items {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      estimatedTime
+      destinationLoc
+      price
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteStopBooking = /* GraphQL */ `
+  mutation DeleteStopBooking(
+    $input: DeleteStopBookingInput!
+    $condition: ModelStopBookingConditionInput
+  ) {
+    deleteStopBooking(input: $input, condition: $condition) {
+      id
+      bookingID
+      tickets {
+        items {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      estimatedTime
+      destinationLoc
+      price
       owner
       createdAt
       updatedAt
@@ -1081,6 +1290,7 @@ export const createCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1089,6 +1299,7 @@ export const createCustomer = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1114,6 +1325,7 @@ export const updateCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1122,6 +1334,7 @@ export const updateCustomer = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1147,6 +1360,7 @@ export const deleteCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1155,6 +1369,7 @@ export const deleteCustomer = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1171,6 +1386,7 @@ export const createTicket = /* GraphQL */ `
       id
       code
       bookingID
+      stop
       customerID
       seating
       status
@@ -1179,6 +1395,7 @@ export const createTicket = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      stopBookingTicketsId
     }
   }
 `;
@@ -1191,6 +1408,7 @@ export const updateTicket = /* GraphQL */ `
       id
       code
       bookingID
+      stop
       customerID
       seating
       status
@@ -1199,6 +1417,7 @@ export const updateTicket = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      stopBookingTicketsId
     }
   }
 `;
@@ -1211,6 +1430,7 @@ export const deleteTicket = /* GraphQL */ `
       id
       code
       bookingID
+      stop
       customerID
       seating
       status
@@ -1219,6 +1439,7 @@ export const deleteTicket = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      stopBookingTicketsId
     }
   }
 `;
@@ -1235,6 +1456,7 @@ export const createOrderTicket = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1243,6 +1465,7 @@ export const createOrderTicket = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1264,6 +1487,7 @@ export const updateOrderTicket = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1272,6 +1496,7 @@ export const updateOrderTicket = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1293,6 +1518,7 @@ export const deleteOrderTicket = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1301,6 +1527,7 @@ export const deleteOrderTicket = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1341,6 +1568,7 @@ export const createOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -1349,6 +1577,7 @@ export const createOrderDetail = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -1397,6 +1626,7 @@ export const updateOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -1405,6 +1635,7 @@ export const updateOrderDetail = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -1453,6 +1684,7 @@ export const deleteOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -1461,6 +1693,7 @@ export const deleteOrderDetail = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt

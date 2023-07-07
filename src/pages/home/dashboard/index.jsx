@@ -13,11 +13,13 @@ import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
 import TableEmployees from "@/components/TableEmployees";
 import TableOffices from "@/components/TableOffices";
+import ModalTransport from "@/components/ModalTransport";
 
 const Dashboard = () => {
   const [office, setOffice] = useState(false);
   const [employee, setEmployee] = useState(false);
   const [travels, setTravels] = useState(false);
+  const [transport, setTransport] = useState(false);
   const [data, setData] = useState({});
   
   const Agency = async () => {
@@ -41,6 +43,9 @@ const Dashboard = () => {
   };
   const openTravels = () => {
     setTravels(true);
+  };
+  const openTransport = () => {
+    setTransport(true);
   };
   useEffect(() => {
     Agency();
@@ -67,6 +72,11 @@ const Dashboard = () => {
               onHandle={openTravels}
               icon={`bx bx-lock`}
             />
+            <Card
+              title={`Agregar un transporte`}
+              onHandle={openTransport}
+              icon={`bx bx-lock`}
+            />
           </div>
           <div className={styles.agencies}>
             <div className={styles.title}>
@@ -83,6 +93,7 @@ const Dashboard = () => {
           <ModalOffice open={office} close={() => setOffice(!office)} />
           <ModalEmployee offices={data?.officies?.items} open={employee} close={() => setEmployee(!employee)} />
           <ModalTravel open={travels} close={() => setTravels(!travels)} />
+          <ModalTransport offices={data?.officies?.items} open={transport} close={() => setTransport(!transport)} />
         </div>
       </div>
     </div>

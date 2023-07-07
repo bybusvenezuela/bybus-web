@@ -226,12 +226,16 @@ export const getAgency = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -314,6 +318,7 @@ export const listAgencies = /* GraphQL */ `
             departureLoc
             destinationLoc
             stock
+            price
             service
             createdBy
             owner
@@ -390,12 +395,16 @@ export const getOffice = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -472,6 +481,7 @@ export const listOffices = /* GraphQL */ `
             departureLoc
             destinationLoc
             stock
+            price
             service
             createdBy
             owner
@@ -558,6 +568,7 @@ export const officesByAgencyID = /* GraphQL */ `
             departureLoc
             destinationLoc
             stock
+            price
             service
             createdBy
             owner
@@ -738,12 +749,16 @@ export const getTransport = /* GraphQL */ `
           tickets {
             nextToken
           }
+          stops {
+            nextToken
+          }
           departureDate
           arrivalDate
           estimatedTime
           departureLoc
           destinationLoc
           stock
+          price
           service
           createdBy
           owner
@@ -786,6 +801,7 @@ export const listTransports = /* GraphQL */ `
             departureLoc
             destinationLoc
             stock
+            price
             service
             createdBy
             owner
@@ -838,6 +854,7 @@ export const transportsByOfficeID = /* GraphQL */ `
             departureLoc
             destinationLoc
             stock
+            price
             service
             createdBy
             owner
@@ -877,6 +894,7 @@ export const getBooking = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -885,6 +903,7 @@ export const getBooking = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt
@@ -897,11 +916,29 @@ export const getBooking = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
           description
           url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      stops {
+        items {
+          id
+          bookingID
+          tickets {
+            nextToken
+          }
+          estimatedTime
+          destinationLoc
+          price
           owner
           createdAt
           updatedAt
@@ -914,6 +951,7 @@ export const getBooking = /* GraphQL */ `
       departureLoc
       destinationLoc
       stock
+      price
       service
       createdBy
       owner
@@ -956,11 +994,26 @@ export const listBookings = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
             description
             url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        stops {
+          items {
+            id
+            bookingID
+            estimatedTime
+            destinationLoc
+            price
             owner
             createdAt
             updatedAt
@@ -973,6 +1026,7 @@ export const listBookings = /* GraphQL */ `
         departureLoc
         destinationLoc
         stock
+        price
         service
         createdBy
         owner
@@ -1025,11 +1079,26 @@ export const bookingsByAgencyID = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
             description
             url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        stops {
+          items {
+            id
+            bookingID
+            estimatedTime
+            destinationLoc
+            price
             owner
             createdAt
             updatedAt
@@ -1042,6 +1111,7 @@ export const bookingsByAgencyID = /* GraphQL */ `
         departureLoc
         destinationLoc
         stock
+        price
         service
         createdBy
         owner
@@ -1094,11 +1164,26 @@ export const bookingsByOfficeID = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
             description
             url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        stops {
+          items {
+            id
+            bookingID
+            estimatedTime
+            destinationLoc
+            price
             owner
             createdAt
             updatedAt
@@ -1111,6 +1196,7 @@ export const bookingsByOfficeID = /* GraphQL */ `
         departureLoc
         destinationLoc
         stock
+        price
         service
         createdBy
         owner
@@ -1163,11 +1249,26 @@ export const bookingsByTransport = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
             description
             url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        stops {
+          items {
+            id
+            bookingID
+            estimatedTime
+            destinationLoc
+            price
             owner
             createdAt
             updatedAt
@@ -1180,8 +1281,127 @@ export const bookingsByTransport = /* GraphQL */ `
         departureLoc
         destinationLoc
         stock
+        price
         service
         createdBy
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getStopBooking = /* GraphQL */ `
+  query GetStopBooking($id: ID!) {
+    getStopBooking(id: $id) {
+      id
+      bookingID
+      tickets {
+        items {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        nextToken
+      }
+      estimatedTime
+      destinationLoc
+      price
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listStopBookings = /* GraphQL */ `
+  query ListStopBookings(
+    $filter: ModelStopBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStopBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        bookingID
+        tickets {
+          items {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        estimatedTime
+        destinationLoc
+        price
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const stopBookingsByBookingID = /* GraphQL */ `
+  query StopBookingsByBookingID(
+    $bookingID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelStopBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    stopBookingsByBookingID(
+      bookingID: $bookingID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        bookingID
+        tickets {
+          items {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        estimatedTime
+        destinationLoc
+        price
         owner
         createdAt
         updatedAt
@@ -1205,6 +1425,7 @@ export const getCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1213,6 +1434,7 @@ export const getCustomer = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1240,6 +1462,7 @@ export const listCustomers = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1248,6 +1471,7 @@ export const listCustomers = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
         }
         owner
         createdAt
@@ -1285,6 +1509,7 @@ export const customersByBookingID = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1293,6 +1518,7 @@ export const customersByBookingID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
         }
         owner
         createdAt
@@ -1308,6 +1534,7 @@ export const getTicket = /* GraphQL */ `
       id
       code
       bookingID
+      stop
       customerID
       seating
       status
@@ -1316,6 +1543,7 @@ export const getTicket = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      stopBookingTicketsId
     }
   }
 `;
@@ -1330,6 +1558,7 @@ export const listTickets = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1338,6 +1567,7 @@ export const listTickets = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       nextToken
     }
@@ -1362,6 +1592,7 @@ export const ticketsByBookingID = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1370,6 +1601,41 @@ export const ticketsByBookingID = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
+      }
+      nextToken
+    }
+  }
+`;
+export const ticketsByStop = /* GraphQL */ `
+  query TicketsByStop(
+    $stop: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTicketFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ticketsByStop(
+      stop: $stop
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        code
+        bookingID
+        stop
+        customerID
+        seating
+        status
+        description
+        url
+        owner
+        createdAt
+        updatedAt
+        stopBookingTicketsId
       }
       nextToken
     }
@@ -1385,6 +1651,7 @@ export const getOrderTicket = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -1393,6 +1660,7 @@ export const getOrderTicket = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
       }
       owner
       createdAt
@@ -1416,6 +1684,7 @@ export const listOrderTickets = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1424,6 +1693,7 @@ export const listOrderTickets = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
         }
         owner
         createdAt
@@ -1457,6 +1727,7 @@ export const orderTicketsByOrderID = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1465,6 +1736,7 @@ export const orderTicketsByOrderID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
         }
         owner
         createdAt
@@ -1504,6 +1776,7 @@ export const getOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            stop
             customerID
             seating
             status
@@ -1512,6 +1785,7 @@ export const getOrderDetail = /* GraphQL */ `
             owner
             createdAt
             updatedAt
+            stopBookingTicketsId
           }
           owner
           createdAt

@@ -46,8 +46,8 @@ export default function ModalEmployee({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
         input: {
-          name: name,
-          phone: phone,
+          name: name.trim(),
+          phone: phone.trim(),
           type: type,
           agencyID: user.attributes.sub,
           officeID: office,

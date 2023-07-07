@@ -29,11 +29,11 @@ export default function ModalOffice({ open, close }) {
       variables: {
         input: {
           agencyID: user.attributes.sub,
-          name: name,
+          name: name.trim(),
           state: state,
           city: city,
-          address: address,
-          phone: phone,
+          address: address.trim(),
+          phone: phone.trim(),
         },
       },
     });

@@ -152,7 +152,8 @@ type Transport
   serial: String
   type: String
   officeID: ID @index(name: "byOfficeToTransport")
-  bookings: [Booking] @hasMany(indexName: "byTransportToBooking", fields: ["id"])
+  bookings: [Booking]
+    @hasMany(indexName: "byTransportToBooking", fields: ["id"])
   createdBy: ID
 }
 
@@ -174,14 +175,36 @@ type Booking
   customers: [Customer]
     @hasMany(indexName: "byBookingToCustomer", fields: ["id"])
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])
+  stops: [StopBooking]
+    @hasMany(indexName: "byBookingToStopBooking", fields: ["id"])
   departureDate: String
   arrivalDate: String
   estimatedTime: String
   departureLoc: String
   destinationLoc: String
   stock: Int
+  price: Float
   service: ServiceType @default(value: "GROUD")
   createdBy: ID
+  owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+type StopBooking
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: iam, operations: [read] }
+      { allow: private, provider: iam, operations: [read] }
+      { allow: owner }
+      { allow: groups, groups: ["sp"], operations: [read] }
+    ]
+  ) {
+  id: ID!
+  bookingID: ID! @index(name: "byBookingToStopBooking")
+  tickets: [Ticket] @hasMany(indexName: "byStopBookingToTicket")
+  estimatedTime: String
+  destinationLoc: String
+  price: Float
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
@@ -226,6 +249,7 @@ type Ticket
   id: ID!
   code: String
   bookingID: ID @index(name: "byBookingToTicket")
+  stop: ID @index(name: "byStopBookingToTicket")
   customerID: ID
   seating: String
   status: String
@@ -276,7 +300,7 @@ type OrderDetail
   paymentID: ID
   payment: Payment @hasOne(fields: ["paymentID"])
   orderTickets: [OrderTicket] @hasMany(indexName: "byOrderDetailToTicket")
-  walletID: ID @index(name:"byWalletToOrderDetail")
+  walletID: ID @index(name: "byWalletToOrderDetail")
 }
 
 type Payment
@@ -356,4 +380,14 @@ type Wallet
         { allow: owner, ownerField: "googleOwner", operations: [read, delete] }
       ]
     )
+}
+
+
+type Mutation {
+  registerAgencyUser(input: RegisterUserInput!): String @function(name: "adminCreateUserCognito-${env}")
+}
+
+input RegisterUserInput {
+  username: String!
+  password: String!
 }

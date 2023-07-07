@@ -48,7 +48,8 @@
     "hostedUI": false,
     "userPoolGroupList": [
       "sp",
-      "admin"
+      "admin",
+      "agency"
     ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

@@ -43,14 +43,71 @@
   font-size: 24px;
   line-height: 24px;
 }
-.datetime {
+
+.line {
+  height: 1px;
+  border-radius: 50%;
+  width: 100%;
+  margin: 2rem 0 0rem;
+  background-color: rgba(102, 101, 101, 0.363);
+}
+
+/* Travel */
+.contentTravel {
+  padding: 2rem;
+  background-color: var(--white);
+  height: 750px;
+  border-radius: 8px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3rem;
+  overflow-y: scroll;
+}
+.travel {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  width: 700px;
+}
+.departure, .arrival {
+  display: flex;
+  flex-direction: column;
   width: 700px;
   gap: 1.5rem;
 }
-.date input {
-  width: 275px;
+.departure p, .arrival p {
+  font-size: 20px;
+  padding-bottom: 1rem;
+  /* margin-left: 1rem; */
+  border-bottom: 1px solid rgba(102, 101, 101, 0.363);
 }
-.time input {
-  width: 310px;
+.form, .datetime {
+  display: flex;
+  gap: 1.5rem;
+}
+.date input {
+  width: 140px;
+
+}
+.timeStop input {
+  width: 100px;
+}
+
+.dateStop input {
+  width: 100px;
+
+}
+.stopContent {
+  display: flex;
+  flex-direction: column;
+}
+.stopForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.deleteStop {
+  margin-top: 1rem;
+  align-self: flex-end;
 }
