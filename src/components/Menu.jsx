@@ -59,7 +59,6 @@ const Menu = () => {
             e.preventDefault;
             router.push("/home/dashboard");
             updateIndex(0);
-            console.log(selectedIndex);
           }}
         >
           <ListItemIcon>
@@ -80,7 +79,6 @@ const Menu = () => {
             e.preventDefault;
             router.push("/home/office");
             updateIndex(1);
-            console.log(selectedIndex);
           }}
         >
           <ListItemIcon>
@@ -101,7 +99,6 @@ const Menu = () => {
             e.preventDefault;
             router.push("/home/employee");
             updateIndex(2);
-            console.log(selectedIndex);
           }}
         >
           <ListItemIcon>

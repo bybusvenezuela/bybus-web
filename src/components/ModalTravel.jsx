@@ -87,8 +87,8 @@ export default function ModalTravel({ open, close }) {
                       label="Agency"
                       onChange={handleAgency}
                     >
-                      {agencies.map((item) => (
-                        <MenuItem value={item.value}>{item.agency}</MenuItem>
+                      {agencies.map((item, index) => (
+                        <MenuItem value={item.value} key={index}>{item.agency}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -104,8 +104,8 @@ export default function ModalTravel({ open, close }) {
                       label="Departure"
                       onChange={handleDeparture}
                     >
-                      {departures.map((item) => (
-                        <MenuItem value={item.value}>{item.departure}</MenuItem>
+                      {departures.map((item, index) => (
+                        <MenuItem value={item.value} key={index}>{item.departure}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -119,8 +119,8 @@ export default function ModalTravel({ open, close }) {
                       label="Destination"
                       onChange={handleDestination}
                     >
-                      {destinations.map((item) => (
-                        <MenuItem value={item.value}>
+                      {destinations.map((item, index) => (
+                        <MenuItem value={item.value} key={index}>
                           {item.detination}
                         </MenuItem>
                       ))}

@@ -22,11 +22,14 @@ export default function ModalOffice({ open, close }) {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const onCreateOffice = async () => {
+    const user = await Auth.currentAuthenticatedUser();
     const office = await API.graphql({
       query: mutations.createOffice,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
         input: {
+          agencyID: user.attributes.sub,
+          name: name,
           state: state,
           city: city,
           address: address,
@@ -35,15 +38,18 @@ export default function ModalOffice({ open, close }) {
       },
     });
   };
+
+  const resetModal = () => {
+    setName('')
+    setState('')
+    setCity('')
+    setAddress('')
+    setPhone('')
+    close()
+  }
   useEffect(() => {
-    console.log({
-      name: name,
-      state: state,
-      city: city,
-      phone: phone,
-      address: address,
-    });
-  }, [phone]);
+
+  }, []);
 
   return (
     <div>
@@ -128,16 +134,19 @@ export default function ModalOffice({ open, close }) {
             </div>
 
             <div className={styles.buttons}>
-              <Button variant="contained" size="large">
-                Register
+              <Button variant="contained" size="large" onClick={() => {
+                onCreateOffice()
+                resetModal()
+              }}>
+                Registrar
               </Button>
               <Button
                 variant="contained"
                 size="large"
                 color="error"
-                onClick={close}
+                onClick={resetModal}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </div>
