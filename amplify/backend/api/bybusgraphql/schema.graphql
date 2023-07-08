@@ -148,7 +148,6 @@ type Transport
   ) {
   id: ID!
   model: String
-  brand: String
   serial: String
   type: String
   officeID: ID @index(name: "byOfficeToTransport")
@@ -169,6 +168,7 @@ type Booking
   ) {
   id: ID!
   code: String
+  # J000000000BARCAR0707202300
   agencyID: ID! @index(name: "byAgencyToBooking")
   officeID: ID! @index(name: "byOfficeToBooking")
   transport: ID! @index(name: "byTransportToBooking")
@@ -177,16 +177,20 @@ type Booking
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])
   stops: [StopBooking]
     @hasMany(indexName: "byBookingToStopBooking", fields: ["id"])
-  departureDate: String
-  arrivalDate: String
-  estimatedTime: String
-  departureLoc: String
-  destinationLoc: String
+  departure: DepartureArrivalStopFields
+  arrival: DepartureArrivalStopFields
   stock: Int
   price: Float
-  service: ServiceType @default(value: "GROUD")
   createdBy: ID
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+type DepartureArrivalStopFields{
+  time: AWSTime
+  date: AWSDate
+  city: String
+  state: String
+  address: String
 }
 
 type StopBooking
@@ -202,8 +206,7 @@ type StopBooking
   id: ID!
   bookingID: ID! @index(name: "byBookingToStopBooking")
   tickets: [Ticket] @hasMany(indexName: "byStopBookingToTicket")
-  estimatedTime: String
-  destinationLoc: String
+  arrival: DepartureArrivalStopFields
   price: Float
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
@@ -248,6 +251,7 @@ type Ticket
   ) {
   id: ID!
   code: String
+   # J000000000BARCAR0707202300-00
   bookingID: ID @index(name: "byBookingToTicket")
   stop: ID @index(name: "byStopBookingToTicket")
   customerID: ID
@@ -317,7 +321,7 @@ type Payment
     ]
   ) {
   id: ID!
-  refenrece: String
+  reference: String
   amount: Float
   metadata: AWSJSON
   wallet: ID
@@ -382,12 +386,16 @@ type Wallet
     )
 }
 
-
 type Mutation {
-  registerAgencyUser(input: RegisterUserInput!): String @function(name: "adminCreateUserCognito-${env}")
+  registerAgencyUser(input: RegisterUserInput!): String
+    @function(name: "adminCreateUserCognito-${env}")
 }
 
 input RegisterUserInput {
+  name: String!
   username: String!
   password: String!
+  rif: String!
+  phone: String
+  userType: String!
 }

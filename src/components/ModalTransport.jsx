@@ -30,7 +30,6 @@ export default function ModalTransport({ open, close, offices }) {
       variables: {
         input: {
           model: model.trim(),
-          brand: brand.trim(),
           serial: serial.trim(),
           type: type.trim(),
           officeID: office,
@@ -93,14 +92,8 @@ export default function ModalTransport({ open, close, offices }) {
                     label="Modelo"
                     variant="outlined"
                     value={model}
+                    fullWidth
                     onChange={(e) => setModel(e.target.value)}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="Marca"
-                    variant="outlined"
-                    value={brand}
-                    onChange={(e) => setBrand(e.target.value)}
                   />
                 </div>
                 <div className={styles.input}>

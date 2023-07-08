@@ -25,13 +25,11 @@ export default function TransportUpdateForm(props) {
   } = props;
   const initialValues = {
     model: "",
-    brand: "",
     serial: "",
     type: "",
     createdBy: "",
   };
   const [model, setModel] = React.useState(initialValues.model);
-  const [brand, setBrand] = React.useState(initialValues.brand);
   const [serial, setSerial] = React.useState(initialValues.serial);
   const [type, setType] = React.useState(initialValues.type);
   const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
@@ -41,7 +39,6 @@ export default function TransportUpdateForm(props) {
       ? { ...initialValues, ...transportRecord }
       : initialValues;
     setModel(cleanValues.model);
-    setBrand(cleanValues.brand);
     setSerial(cleanValues.serial);
     setType(cleanValues.type);
     setCreatedBy(cleanValues.createdBy);
@@ -61,7 +58,6 @@ export default function TransportUpdateForm(props) {
   React.useEffect(resetStateValues, [transportRecord]);
   const validations = {
     model: [],
-    brand: [],
     serial: [],
     type: [],
     createdBy: [],
@@ -93,7 +89,6 @@ export default function TransportUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           model,
-          brand,
           serial,
           type,
           createdBy,
@@ -153,7 +148,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model: value,
-              brand,
               serial,
               type,
               createdBy,
@@ -172,34 +166,6 @@ export default function TransportUpdateForm(props) {
         {...getOverrideProps(overrides, "model")}
       ></TextField>
       <TextField
-        label="Brand"
-        isRequired={false}
-        isReadOnly={false}
-        value={brand}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              model,
-              brand: value,
-              serial,
-              type,
-              createdBy,
-            };
-            const result = onChange(modelFields);
-            value = result?.brand ?? value;
-          }
-          if (errors.brand?.hasError) {
-            runValidationTasks("brand", value);
-          }
-          setBrand(value);
-        }}
-        onBlur={() => runValidationTasks("brand", brand)}
-        errorMessage={errors.brand?.errorMessage}
-        hasError={errors.brand?.hasError}
-        {...getOverrideProps(overrides, "brand")}
-      ></TextField>
-      <TextField
         label="Serial"
         isRequired={false}
         isReadOnly={false}
@@ -209,7 +175,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial: value,
               type,
               createdBy,
@@ -237,7 +202,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type: value,
               createdBy,
@@ -265,7 +229,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type,
               createdBy: value,

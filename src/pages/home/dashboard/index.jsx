@@ -31,7 +31,7 @@ const Dashboard = () => {
         userID: user.attributes.sub,
       },
     });
-    console.log(list.data.getAgency)
+    // console.log(list.data.getAgency.officies.items[0])
     setData(list.data.getAgency)
   };
 
@@ -51,7 +51,7 @@ const Dashboard = () => {
     Agency();
   }, [office, employee]);
 
-  return (
+  if (data) return (
     <div className={styles.content}>
       <Menu />
       <div className="container section">
@@ -82,18 +82,18 @@ const Dashboard = () => {
             <div className={styles.title}>
               <h2>Lista de Oficinas</h2>
             </div>
-            <TableOffices rows={data?.officies?.items}/>
+           {data?.employees?.items && <TableOffices rows={data?.officies?.items}/>}
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
               <h2>Lista de Empleados</h2>
             </div>
-            <TableEmployees rows={data?.employees?.items}/>
+            {data?.employees?.items && <TableEmployees rows={data?.employees?.items}/>}
           </div>
           <ModalOffice open={office} close={() => setOffice(!office)} />
-          <ModalEmployee offices={data?.officies?.items} open={employee} close={() => setEmployee(!employee)} />
-          <ModalTravel open={travels} close={() => setTravels(!travels)} />
-          <ModalTransport offices={data?.officies?.items} open={transport} close={() => setTransport(!transport)} />
+          {data?.officies?.items && <ModalEmployee offices={data?.officies?.items} open={employee} close={() => setEmployee(!employee)} />}
+          {data?.officies?.items[0] && <ModalTravel offices={data?.officies?.items[0]} open={travels} close={() => setTravels(!travels)} />}
+          {data?.officies?.items && <ModalTransport offices={data?.officies?.items} open={transport} close={() => setTransport(!transport)} />}
         </div>
       </div>
     </div>

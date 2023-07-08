@@ -172,14 +172,22 @@ export const createAgency = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -263,14 +271,22 @@ export const updateAgency = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -354,14 +370,22 @@ export const deleteAgency = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -411,7 +435,6 @@ export const createOffice = /* GraphQL */ `
         items {
           id
           model
-          brand
           serial
           type
           officeID
@@ -441,14 +464,22 @@ export const createOffice = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -498,7 +529,6 @@ export const updateOffice = /* GraphQL */ `
         items {
           id
           model
-          brand
           serial
           type
           officeID
@@ -528,14 +558,22 @@ export const updateOffice = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -585,7 +623,6 @@ export const deleteOffice = /* GraphQL */ `
         items {
           id
           model
-          brand
           serial
           type
           officeID
@@ -615,14 +652,22 @@ export const deleteOffice = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -752,7 +797,6 @@ export const createTransport = /* GraphQL */ `
     createTransport(input: $input, condition: $condition) {
       id
       model
-      brand
       serial
       type
       officeID
@@ -772,14 +816,22 @@ export const createTransport = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -802,7 +854,6 @@ export const updateTransport = /* GraphQL */ `
     updateTransport(input: $input, condition: $condition) {
       id
       model
-      brand
       serial
       type
       officeID
@@ -822,14 +873,22 @@ export const updateTransport = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -852,7 +911,6 @@ export const deleteTransport = /* GraphQL */ `
     deleteTransport(input: $input, condition: $condition) {
       id
       model
-      brand
       serial
       type
       officeID
@@ -872,14 +930,22 @@ export const deleteTransport = /* GraphQL */ `
           stops {
             nextToken
           }
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           stock
           price
-          service
           createdBy
           owner
           createdAt
@@ -961,8 +1027,13 @@ export const createBooking = /* GraphQL */ `
           tickets {
             nextToken
           }
-          estimatedTime
-          destinationLoc
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           price
           owner
           createdAt
@@ -970,14 +1041,22 @@ export const createBooking = /* GraphQL */ `
         }
         nextToken
       }
-      departureDate
-      arrivalDate
-      estimatedTime
-      departureLoc
-      destinationLoc
+      departure {
+        time
+        date
+        city
+        state
+        address
+      }
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       stock
       price
-      service
       createdBy
       owner
       createdAt
@@ -1052,8 +1131,13 @@ export const updateBooking = /* GraphQL */ `
           tickets {
             nextToken
           }
-          estimatedTime
-          destinationLoc
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           price
           owner
           createdAt
@@ -1061,14 +1145,22 @@ export const updateBooking = /* GraphQL */ `
         }
         nextToken
       }
-      departureDate
-      arrivalDate
-      estimatedTime
-      departureLoc
-      destinationLoc
+      departure {
+        time
+        date
+        city
+        state
+        address
+      }
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       stock
       price
-      service
       createdBy
       owner
       createdAt
@@ -1143,8 +1235,13 @@ export const deleteBooking = /* GraphQL */ `
           tickets {
             nextToken
           }
-          estimatedTime
-          destinationLoc
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
           price
           owner
           createdAt
@@ -1152,14 +1249,22 @@ export const deleteBooking = /* GraphQL */ `
         }
         nextToken
       }
-      departureDate
-      arrivalDate
-      estimatedTime
-      departureLoc
-      destinationLoc
+      departure {
+        time
+        date
+        city
+        state
+        address
+      }
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       stock
       price
-      service
       createdBy
       owner
       createdAt
@@ -1193,8 +1298,13 @@ export const createStopBooking = /* GraphQL */ `
         }
         nextToken
       }
-      estimatedTime
-      destinationLoc
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       price
       owner
       createdAt
@@ -1228,8 +1338,13 @@ export const updateStopBooking = /* GraphQL */ `
         }
         nextToken
       }
-      estimatedTime
-      destinationLoc
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       price
       owner
       createdAt
@@ -1263,8 +1378,13 @@ export const deleteStopBooking = /* GraphQL */ `
         }
         nextToken
       }
-      estimatedTime
-      destinationLoc
+      arrival {
+        time
+        date
+        city
+        state
+        address
+      }
       price
       owner
       createdAt
@@ -1551,7 +1671,7 @@ export const createOrderDetail = /* GraphQL */ `
       paymentID
       payment {
         id
-        refenrece
+        reference
         amount
         metadata
         wallet
@@ -1609,7 +1729,7 @@ export const updateOrderDetail = /* GraphQL */ `
       paymentID
       payment {
         id
-        refenrece
+        reference
         amount
         metadata
         wallet
@@ -1667,7 +1787,7 @@ export const deleteOrderDetail = /* GraphQL */ `
       paymentID
       payment {
         id
-        refenrece
+        reference
         amount
         metadata
         wallet
@@ -1717,7 +1837,7 @@ export const createPayment = /* GraphQL */ `
   ) {
     createPayment(input: $input, condition: $condition) {
       id
-      refenrece
+      reference
       amount
       metadata
       wallet
@@ -1734,7 +1854,7 @@ export const updatePayment = /* GraphQL */ `
   ) {
     updatePayment(input: $input, condition: $condition) {
       id
-      refenrece
+      reference
       amount
       metadata
       wallet
@@ -1751,7 +1871,7 @@ export const deletePayment = /* GraphQL */ `
   ) {
     deletePayment(input: $input, condition: $condition) {
       id
-      refenrece
+      reference
       amount
       metadata
       wallet
@@ -1779,7 +1899,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
         paymentID
         payment {
           id
-          refenrece
+          reference
           amount
           metadata
           wallet
@@ -1831,7 +1951,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
         paymentID
         payment {
           id
-          refenrece
+          reference
           amount
           metadata
           wallet
@@ -1883,7 +2003,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
         paymentID
         payment {
           id
-          refenrece
+          reference
           amount
           metadata
           wallet
@@ -1939,7 +2059,7 @@ export const createWallet = /* GraphQL */ `
           paymentID
           payment {
             id
-            refenrece
+            reference
             amount
             metadata
             wallet
@@ -1988,7 +2108,7 @@ export const updateWallet = /* GraphQL */ `
           paymentID
           payment {
             id
-            refenrece
+            reference
             amount
             metadata
             wallet
@@ -2037,7 +2157,7 @@ export const deleteWallet = /* GraphQL */ `
           paymentID
           payment {
             id
-            refenrece
+            reference
             amount
             metadata
             wallet

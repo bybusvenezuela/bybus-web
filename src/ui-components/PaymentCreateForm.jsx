@@ -29,25 +29,25 @@ export default function PaymentCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    refenrece: "",
+    reference: "",
     amount: "",
     metadata: "",
     wallet: "",
   };
-  const [refenrece, setRefenrece] = React.useState(initialValues.refenrece);
+  const [reference, setReference] = React.useState(initialValues.reference);
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [metadata, setMetadata] = React.useState(initialValues.metadata);
   const [wallet, setWallet] = React.useState(initialValues.wallet);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setRefenrece(initialValues.refenrece);
+    setReference(initialValues.reference);
     setAmount(initialValues.amount);
     setMetadata(initialValues.metadata);
     setWallet(initialValues.wallet);
     setErrors({});
   };
   const validations = {
-    refenrece: [],
+    reference: [],
     amount: [],
     metadata: [{ type: "JSON" }],
     wallet: [],
@@ -78,7 +78,7 @@ export default function PaymentCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          refenrece,
+          reference,
           amount,
           metadata,
           wallet,
@@ -128,31 +128,31 @@ export default function PaymentCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Refenrece"
+        label="Reference"
         isRequired={false}
         isReadOnly={false}
-        value={refenrece}
+        value={reference}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece: value,
+              reference: value,
               amount,
               metadata,
               wallet,
             };
             const result = onChange(modelFields);
-            value = result?.refenrece ?? value;
+            value = result?.reference ?? value;
           }
-          if (errors.refenrece?.hasError) {
-            runValidationTasks("refenrece", value);
+          if (errors.reference?.hasError) {
+            runValidationTasks("reference", value);
           }
-          setRefenrece(value);
+          setReference(value);
         }}
-        onBlur={() => runValidationTasks("refenrece", refenrece)}
-        errorMessage={errors.refenrece?.errorMessage}
-        hasError={errors.refenrece?.hasError}
-        {...getOverrideProps(overrides, "refenrece")}
+        onBlur={() => runValidationTasks("reference", reference)}
+        errorMessage={errors.reference?.errorMessage}
+        hasError={errors.reference?.hasError}
+        {...getOverrideProps(overrides, "reference")}
       ></TextField>
       <TextField
         label="Amount"
@@ -167,7 +167,7 @@ export default function PaymentCreateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount: value,
               metadata,
               wallet,
@@ -193,7 +193,7 @@ export default function PaymentCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata: value,
               wallet,
@@ -220,7 +220,7 @@ export default function PaymentCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata,
               wallet: value,

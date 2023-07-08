@@ -27,7 +27,7 @@
         },
         "adminCreateUserCognito": {
           "deploymentBucketName": "amplify-bybus-dev-180655-deployment",
-          "s3Key": "amplify-builds/adminCreateUserCognito-4c612b2f39686d543277-build.zip"
+          "s3Key": "amplify-builds/adminCreateUserCognito-786769324a6d30464555-build.zip"
         }
       },
       "storage": {
