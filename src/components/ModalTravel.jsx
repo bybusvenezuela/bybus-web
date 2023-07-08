@@ -22,10 +22,11 @@ import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
 
 export default function ModalTravel({ open, close, offices }) {
+  const [number, setNumber] = useState(1);
   const [stopQ, setStopQ] = useState([]);
-  const [stopParams, setStopParams] = useState([]);
   const [transport, setTransport] = useState("");
-  const [data, setData] = useState([]);
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [departure, setDeparture] = useState({
     city: "",
     state: "",
@@ -40,31 +41,13 @@ export default function ModalTravel({ open, close, offices }) {
     time: "",
     address: "",
   });
-  const Office = async () => {
-    const list = await API.graphql({
-      query: queries.getOffice,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        id: offices.id,
-      },
-    });
-    setData(list.data.getOffice);
-    setDeparture({
-      ...departure,
-      city: list.data.getOffice.city,
-      address: list.data.getOffice.address,
-      state: list.data.getOffice.state,
-    });
-  };
-
   const resetModal = () => {
     setStopQ([]);
     setDeparture({
-      state: "",
-      city: "",
-      date: "",
-      time: "",
-      address: "",
+      ...departure,
+      city: offices.city,
+      address: offices.address,
+      state: offices.state,
     });
     setArrival({
       state: "",
@@ -73,10 +56,86 @@ export default function ModalTravel({ open, close, offices }) {
       time: "",
       address: "",
     });
+    setTransport("");
+    setPrice("");
+    setQuantity("");
     close();
   };
+
+  const onCreateTravel = async () => {
+    const rif = await API.graphql({
+      query: queries.getAgency,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        userID: offices.agencyID,
+      },
+    });
+    const listCodeBookings = await API.graphql({
+      query: queries.listBookings,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+
+    const generateCode = (increment) => {
+      let codeBooking = `${rif.data.getAgency.rif}${offices.state.slice(
+        0,
+        3
+      )}${offices.city.slice(0, 3)}${departure.date.replaceAll("-", "")}${number
+        .toString()
+        .padStart(2, "0")}`;
+      return codeBooking;
+    };
+    const verifyCode = async (code) => {
+      let codeVerify = null;
+      let i = 0;
+      while (i < listCodeBookings.data.listBookings.items.length) {
+        i++;
+        let element = listCodeBookings.data.listBookings.items[i]?.code;
+        element === code ? setNumber(number + 1) : (codeVerify = code);
+      }
+      return codeVerify;
+    };
+
+    const codeTravel = generateCode(number);
+    const verifyCodeTravel = await verifyCode(codeTravel.toUpperCase());
+    const booking = await API.graphql({
+      query: mutations.createBooking,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        input: {
+          agencyID: offices.agencyID,
+          officeID: offices.id,
+          transport: transport,
+          code: verifyCodeTravel,
+          departure: {
+            time: departure.time,
+            date: departure.date,
+            city: departure.city,
+            state: departure.state,
+            address: departure.address.trim(),
+          },
+          arrival: {
+            time: arrival.time,
+            date: arrival.date,
+            city: arrival.city,
+            state: arrival.state,
+            address: arrival.address.trim(),
+          },
+          stock: quantity.trim(),
+          price: price.trim(),
+        },
+      },
+    });
+    console.log(booking);
+  };
+
   useEffect(() => {
-    Office();
+    setDeparture({
+      ...departure,
+      city: offices.city,
+      address: offices.address,
+      state: offices.state,
+    });
+    console.log(offices);
   }, []);
 
   if (offices)
@@ -142,7 +201,7 @@ export default function ModalTravel({ open, close, offices }) {
                         id="outlined-basic"
                         label="Direccion"
                         variant="outlined"
-                        value={departure.address ? departure.address : ""}
+                        value={departure.address}
                         disabled
                       />
                       <div className={styles.datetime}>
@@ -150,15 +209,9 @@ export default function ModalTravel({ open, close, offices }) {
                           <div className={styles.date}>
                             <DatePicker
                               onChange={(e) => {
-                                const options = {
-                                  year: "numeric",
-                                  month: "2-digit",
-                                  day: "2-digit",
-                                };
-                                let fecha = new Date(e).toLocaleDateString(
-                                  "zh-Hans-CN",
-                                  options
-                                );
+                                let fecha = new Date(e)
+                                  .toISOString()
+                                  .slice(0, 10);
                                 setDeparture({ ...departure, date: fecha });
                               }}
                             />
@@ -244,15 +297,9 @@ export default function ModalTravel({ open, close, offices }) {
                           <div className={styles.date}>
                             <DatePicker
                               onChange={(e) => {
-                                const options = {
-                                  year: "numeric",
-                                  month: "2-digit",
-                                  day: "2-digit",
-                                };
-                                let fecha = new Date(e).toLocaleDateString(
-                                  "zh-Hans-CN",
-                                  options
-                                );
+                                let fecha = new Date(e)
+                                  .toISOString()
+                                  .slice(0, 10);
                                 setArrival({ ...arrival, date: fecha });
                               }}
                             />
@@ -279,8 +326,8 @@ export default function ModalTravel({ open, close, offices }) {
                       </div>
                     </div>
                   </div>
-                  <div className={styles.line}></div>
-                  <div className={styles.input}>
+                  <p>Tickets</p>
+                  <div className={styles.inputTravel}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Transporte
@@ -302,105 +349,238 @@ export default function ModalTravel({ open, close, offices }) {
                       id="outlined-basic"
                       label="Precio"
                       variant="outlined"
+                      onChange={(e) => setPrice(e.target.value)}
+                      sx={{ width: 170 }}
                     />
                     <TextField
                       id="outlined-basic"
-                      label="Cantidad"
                       variant="outlined"
+                      label="Cantidad de puestos"
+                      onChange={(e) => setQuantity(e.target.value)}
+                      sx={{ width: 450 }}
                     />
                   </div>
-                  <div className={styles.line}></div>
-                  {/* <div className={styles.stop}>
-                  <div className={styles.stopBooking}>
-                    {stopQ && (
-                      <div className={styles.stopForm}>
-                        {stopQ.map((item, index) => (
-                          <div className={styles.stopContent} key={index}>
-                            <div className={styles.input}>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                  Estado
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  value={departure}
-                                  label="Departure"
-                                  onChange={(e) =>
-                                    setCityArrival(e.target.value)
-                                  }
-                                >
-                                  {venezuela.map((item, index) =>
-                                    stateArrival === item.estado
-                                      ? item.ciudades.map((city, index) => (
-                                          <MenuItem value={city} key={index}>
-                                            {city}
-                                          </MenuItem>
-                                        ))
-                                      : ""
-                                  )}
-                                </Select>
-                              </FormControl>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                  Ciudad
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  value={agency}
-                                  label="Agency"
-                                  onChange={handleAgency}
-                                >
-                                  {agencies.map((item, index) => (
-                                    <MenuItem value={item.value} key={index}>
-                                      {item.agency}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                              <div className={styles.datetime}>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDayjs}
-                                >
-                                  <div className={styles.dateStop}>
-                                    <DatePicker />
-                                  </div>
-                                  <div className={styles.timeStop}>
-                                    <MobileTimePicker
-                                      defaultValue={dayjs("2022-04-17T15:30")}
-                                    />
-                                  </div>
-                                </LocalizationProvider>
+                  <p>Paradas</p>
+                  <div className={styles.stop}>
+                    <div className={styles.stopBooking}>
+                      {stopQ && (
+                        <div className={styles.stopForm}>
+                          {stopQ.map((item, index) => (
+                            <div className={styles.stopContent} key={index}>
+                              <div className={styles.inputTravel}>
+                                <FormControl fullWidth>
+                                  <InputLabel id="demo-simple-select-label">
+                                    Estado
+                                  </InputLabel>
+                                  <Select
+                                    labelId="demo-simple-select-label"
+                                    value={item.state}
+                                    label="Estado"
+                                    onChange={(e) => {
+                                      const updateStop = stopQ.map(
+                                        (stop, stopIndex) => {
+                                          if (index === stopIndex) {
+                                            return {
+                                              ...stop,
+                                              state: e.target.value,
+                                            };
+                                          }
+                                          return stop;
+                                        }
+                                      );
+                                      setStopQ(updateStop);
+                                    }}
+                                  >
+                                    {venezuela.map((item, index) => (
+                                      <MenuItem value={item.estado} key={index}>
+                                        {item.estado}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                                <FormControl fullWidth>
+                                  <InputLabel id="demo-simple-select-label">
+                                    Ciudad
+                                  </InputLabel>
+                                  <Select
+                                    labelId="demo-simple-select-label"
+                                    value={item.city}
+                                    label="Ciudad"
+                                    onChange={(e) => {
+                                      const updateStop = stopQ.map(
+                                        (stop, stopIndex) => {
+                                          if (index === stopIndex) {
+                                            return {
+                                              ...stop,
+                                              city: e.target.value,
+                                            };
+                                          }
+                                          return stop;
+                                        }
+                                      );
+                                      setStopQ(updateStop);
+                                    }}
+                                  >
+                                    {venezuela.map((group, index) =>
+                                      item.state === group.estado
+                                        ? group.ciudades.map((city, index) => (
+                                            <MenuItem value={city} key={index}>
+                                              {city}
+                                            </MenuItem>
+                                          ))
+                                        : ""
+                                    )}
+                                  </Select>
+                                </FormControl>
+
+                                <div className={styles.datetime}>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <div className={styles.dateStop}>
+                                      <DatePicker
+                                        onChange={(e) => {
+                                          const options = {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                          };
+                                          let fecha = new Date(e)
+                                            .toISOString()
+                                            .slice(0, 10);
+                                          const updateStop = stopQ.map(
+                                            (stop, stopIndex) => {
+                                              if (index === stopIndex) {
+                                                return {
+                                                  ...stop,
+                                                  date: fecha,
+                                                };
+                                              }
+                                              return stop;
+                                            }
+                                          );
+                                          setStopQ(updateStop);
+                                        }}
+                                      />
+                                    </div>
+                                    <div className={styles.timeStop}>
+                                      <MobileTimePicker
+                                        defaultValue={dayjs("2022-04-17T15:30")}
+                                        onChange={(e) => {
+                                          const options = {
+                                            hour12: false,
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                            fractionalSecondDigits: 3,
+                                          };
+                                          let time = new Date(
+                                            e
+                                          ).toLocaleTimeString("en", options);
+                                          const updateStop = stopQ.map(
+                                            (stop, stopIndex) => {
+                                              if (index === stopIndex) {
+                                                return {
+                                                  ...stop,
+                                                  time: time,
+                                                };
+                                              }
+                                              return stop;
+                                            }
+                                          );
+                                          setStopQ(updateStop);
+                                        }}
+                                      />
+                                    </div>
+                                  </LocalizationProvider>
+                                </div>
                               </div>
+                              <div className={styles.inputTravelOther}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Direccion"
+                                  variant="outlined"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            address: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                  sx={{
+                                    width: 560,
+                                  }}
+                                />
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Precio del ticket de la parada"
+                                  variant="outlined"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            price: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                  sx={{
+                                    width: 315,
+                                  }}
+                                />
+                              </div>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<AddRoundedIcon />}
+                                onClick={() =>
+                                  setStopQ((e) => {
+                                    let nuevoArreglo = [...e];
+                                    nuevoArreglo.splice(index, 1);
+                                    return nuevoArreglo;
+                                  })
+                                }
+                                className={styles.deleteStop}
+                              >
+                                Eliminar
+                              </Button>
                             </div>
-                            <Button
-                              variant="contained"
-                              size="small"
-                              startIcon={<AddRoundedIcon />}
-                              onClick={() =>
-                                setStopQ((e) => {
-                                  let nuevoArreglo = [...e];
-                                  nuevoArreglo.splice(index, 1);
-                                  return nuevoArreglo;
-                                })
-                              }
-                              className={styles.deleteStop}
-                            >
-                              Eliminar
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      startIcon={<AddRoundedIcon />}
+                      onClick={() =>
+                        setStopQ([
+                          ...stopQ,
+                          {
+                            state: "",
+                            city: "",
+                            time: "",
+                            date: "",
+                            address: "",
+                            price: "",
+                          },
+                        ])
+                      }
+                    >
+                      Agregar una parada
+                    </Button>
                   </div>
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    startIcon={<AddRoundedIcon />}
-                    onClick={() => setStopQ([...stopQ, 1])}
-                  >
-                    Agregar una parada
-                  </Button>
-                </div> */}
                 </div>
               </div>
 
@@ -409,6 +589,7 @@ export default function ModalTravel({ open, close, offices }) {
                   variant="contained"
                   size="large"
                   onClick={() => {
+                    onCreateTravel();
                     resetModal();
                   }}
                 >

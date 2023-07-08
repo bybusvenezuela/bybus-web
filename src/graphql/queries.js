@@ -193,6 +193,10 @@ export const getAgency = /* GraphQL */ `
             nextToken
           }
           bookings {
+            items {
+              id
+              code
+            }
             nextToken
           }
           owner

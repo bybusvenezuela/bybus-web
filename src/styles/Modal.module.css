@@ -44,13 +44,6 @@
   line-height: 24px;
 }
 
-.line {
-  height: 1px;
-  border-radius: 50%;
-  width: 100%;
-  margin: 2rem 0 0rem;
-  background-color: rgba(102, 101, 101, 0.363);
-}
 
 /* Travel */
 .contentTravel {
@@ -65,21 +58,19 @@
   overflow-y: scroll;
 }
 .travel {
-  margin-top: 1rem;
   display: flex;
   gap: 1.5rem;
-  width: 700px;
+  width: 900px;
 }
 .departure, .arrival {
   display: flex;
   flex-direction: column;
-  width: 700px;
+  width: 900px;
   gap: 1.5rem;
 }
-.departure p, .arrival p {
+.inputs p {
   font-size: 20px;
-  padding-bottom: 1rem;
-  /* margin-left: 1rem; */
+  padding: 1rem 0rem;
   border-bottom: 1px solid rgba(102, 101, 101, 0.363);
 }
 .form, .datetime {
@@ -106,8 +97,21 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
 }
 .deleteStop {
   margin-top: 1rem;
   align-self: flex-end;
 }
+.inputTravelOther, .inputTravel {
+  display: flex;
+  width: 900px;
+  gap: 1.5rem;
+}
+.inputTravelOther {
+  margin-top: 1.5rem;
+}
+
+/* .inputStop input {
+  width: 350px;
+} */
