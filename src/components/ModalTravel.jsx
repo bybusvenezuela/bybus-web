@@ -76,10 +76,13 @@ export default function ModalTravel({ open, close, offices }) {
     });
 
     const generateCode = (increment) => {
-      let codeBooking = `${rif.data.getAgency.rif}${offices.state.slice(
+      let codeBooking = `${rif.data.getAgency.rif.replace(
+        "-",
+        ""
+      )}${offices.state.slice(0, 3)}${offices.city.slice(
         0,
         3
-      )}${offices.city.slice(0, 3)}${departure.date.replaceAll("-", "")}${number
+      )}${departure.date.replaceAll("-", "")}${number
         .toString()
         .padStart(2, "0")}`;
       return codeBooking;
@@ -125,7 +128,61 @@ export default function ModalTravel({ open, close, offices }) {
         },
       },
     });
-    console.log(booking);
+
+    
+    for (let i = 1; i <= booking.data.createBooking.stock; i++) {
+      const ticket = await API.graphql({
+        query: mutations.createTicket,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            code: `${booking.data.createBooking.code}-${i
+              .toString()
+              .padStart(2, "0")}-${booking.data.createBooking.id.slice(0, 5)}`,
+            bookingID: booking.data.createBooking.id,
+            status: "Active",
+          },
+        },
+      });
+    }
+
+    if (stopQ.length !== 0) {
+      for (let i = 0; i + 1 <= stopQ.length; i++) {
+        const stop = await API.graphql({
+          query: mutations.createStopBooking,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variables: {
+            input: {
+                bookingID: booking.data.createBooking.id,
+                arrival: {
+                  time: stopQ[i]?.time,
+                  date: stopQ[i]?.date,
+                  city: stopQ[i]?.city,
+                  state: stopQ[i]?.state,
+                  address: stopQ[i]?.address.trim(),
+                },
+                price: stopQ[i]?.price.trim(),
+            },
+          },
+        });
+        for (let i = 1; i <= booking.data.createBooking.stock; i++) {
+          const ticketStop = await API.graphql({
+            query: mutations.createTicket,
+            authMode: "AMAZON_COGNITO_USER_POOLS",
+            variables: {
+              input: {
+                stop: stop.data.createStopBooking.id,
+                code: `${booking.data.createBooking.code}-${i
+                  .toString()
+                  .padStart(2, "0")}-${stop.data.createStopBooking.id.slice(0, 5)}`,
+                bookingID: booking.data.createBooking.id,
+                status: "Active",
+              },
+            },
+          });
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -135,7 +192,7 @@ export default function ModalTravel({ open, close, offices }) {
       address: offices.address,
       state: offices.state,
     });
-    console.log(offices);
+    // console.log(offices);
   }, []);
 
   if (offices)

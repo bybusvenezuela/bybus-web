@@ -1023,6 +1023,13 @@ export const listBookings = /* GraphQL */ `
             id
             bookingID
             price
+            arrival {
+              time
+              date
+              city
+              state
+              address
+            }
             owner
             createdAt
             updatedAt
