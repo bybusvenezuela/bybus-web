@@ -1,3 +1,7 @@
+# type modal inputs
+
+###############################
+
 type EmailSusbcription
   @model
   @auth(
@@ -179,13 +183,14 @@ type Booking
     @hasMany(indexName: "byBookingToStopBooking", fields: ["id"])
   departure: DepartureArrivalStopFields
   arrival: DepartureArrivalStopFields
-  stock: Int
+  departureCity: String!
+  arrivalCity: String! 
   price: Float
   createdBy: ID
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
-type DepartureArrivalStopFields{
+type DepartureArrivalStopFields {
   time: AWSTime
   date: AWSDate
   city: String
@@ -232,7 +237,7 @@ type Customer
   name: String
   lastName: String
   ci: String
-  email: String
+  email: String @index(name: "userbyEmail", queryField: "getUserbyEmail")
   phone: String
   bookingID: ID @index(name: "byBookingToCustomer")
   ticketID: ID
@@ -251,7 +256,7 @@ type Ticket
   ) {
   id: ID!
   code: String
-   # J000000000BARCAR0707202300-00
+  # J000000000BARCAR0707202300-00
   bookingID: ID @index(name: "byBookingToTicket")
   stop: ID @index(name: "byStopBookingToTicket")
   customerID: ID
@@ -304,7 +309,7 @@ type OrderDetail
   paymentID: ID
   payment: Payment @hasOne(fields: ["paymentID"])
   orderTickets: [OrderTicket] @hasMany(indexName: "byOrderDetailToTicket")
-  walletID: ID @index(name: "byWalletToOrderDetail")
+  userID: ID @index(name: "byUserToOrderDetail")
 }
 
 type Payment
@@ -324,7 +329,7 @@ type Payment
   reference: String
   amount: Float
   metadata: AWSJSON
-  wallet: ID
+  userID: ID
 }
 type orderDetailHistory
   @model
@@ -338,7 +343,7 @@ type orderDetailHistory
   id: ID!
   orderID: ID
   order: OrderDetail @hasOne(fields: ["orderID"])
-  walletID: ID
+  userID: ID
   owner: String
     @auth(
       rules: [
@@ -355,7 +360,7 @@ type orderDetailHistory
     )
 }
 
-type Wallet
+type User
   @model
   @auth(
     rules: [
@@ -364,12 +369,13 @@ type Wallet
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
   ) {
-  userID: ID!
+  id: ID!
+  name: String!
   email: String
-  status: String
+  status: StatusUser
   notificationToken: String
   previousBalance: Float
-  orders: [OrderDetail] @hasMany(indexName: "byWalletToOrderDetail")
+  orders: [OrderDetail] @hasMany(indexName: "byUserToOrderDetail")
   owner: String
     @auth(
       rules: [
@@ -384,6 +390,10 @@ type Wallet
         { allow: owner, ownerField: "googleOwner", operations: [read, delete] }
       ]
     )
+}
+enum StatusUser {
+  ALLOWED
+  DENIED
 }
 
 type Mutation {
@@ -398,4 +408,15 @@ input RegisterUserInput {
   rif: String!
   phone: String
   userType: String!
+}
+
+type Todo @model @searchable @auth(rules: [{ allow: public, provider: iam }]) {
+  id: ID!
+  name: String!
+  type: TodoType
+}
+
+type TodoType{
+  city: String
+  state: String
 }

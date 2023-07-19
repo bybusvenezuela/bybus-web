@@ -8,7 +8,6 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: process.env.REGION });
 const cognito = new AWS.CognitoIdentityServiceProvider();
 const ses = new AWS.SES();
-
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */

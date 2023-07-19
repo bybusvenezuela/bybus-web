@@ -186,7 +186,8 @@ export const createAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -285,7 +286,8 @@ export const updateAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -384,7 +386,8 @@ export const deleteAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -478,7 +481,8 @@ export const createOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -572,7 +576,8 @@ export const updateOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -666,7 +671,8 @@ export const deleteOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -830,7 +836,8 @@ export const createTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -887,7 +894,8 @@ export const updateTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -944,7 +952,8 @@ export const deleteTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -1055,7 +1064,8 @@ export const createBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1159,7 +1169,8 @@ export const updateBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1263,7 +1274,8 @@ export const deleteBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1674,7 +1686,7 @@ export const createOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1706,10 +1718,10 @@ export const createOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1732,7 +1744,7 @@ export const updateOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1764,10 +1776,10 @@ export const updateOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1790,7 +1802,7 @@ export const deleteOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1822,10 +1834,10 @@ export const deleteOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1840,7 +1852,7 @@ export const createPayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1857,7 +1869,7 @@ export const updatePayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1874,7 +1886,7 @@ export const deletePayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1902,7 +1914,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1919,13 +1931,13 @@ export const createOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -1954,7 +1966,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1971,13 +1983,13 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -2006,7 +2018,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -2023,13 +2035,13 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -2037,13 +2049,14 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
     }
   }
 `;
-export const createWallet = /* GraphQL */ `
-  mutation CreateWallet(
-    $input: CreateWalletInput!
-    $condition: ModelWalletConditionInput
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createWallet(input: $input, condition: $condition) {
-      userID
+    createUser(input: $input, condition: $condition) {
+      id
+      name
       email
       status
       notificationToken
@@ -2062,7 +2075,7 @@ export const createWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2070,29 +2083,29 @@ export const createWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
-      id
       createdAt
       updatedAt
     }
   }
 `;
-export const updateWallet = /* GraphQL */ `
-  mutation UpdateWallet(
-    $input: UpdateWalletInput!
-    $condition: ModelWalletConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    updateWallet(input: $input, condition: $condition) {
-      userID
+    updateUser(input: $input, condition: $condition) {
+      id
+      name
       email
       status
       notificationToken
@@ -2111,7 +2124,7 @@ export const updateWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2119,29 +2132,29 @@ export const updateWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
-      id
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteWallet = /* GraphQL */ `
-  mutation DeleteWallet(
-    $input: DeleteWalletInput!
-    $condition: ModelWalletConditionInput
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    deleteWallet(input: $input, condition: $condition) {
-      userID
+    deleteUser(input: $input, condition: $condition) {
+      id
+      name
       email
       status
       notificationToken
@@ -2160,7 +2173,7 @@ export const deleteWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2168,17 +2181,67 @@ export const deleteWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTodo = /* GraphQL */ `
+  mutation CreateTodo(
+    $input: CreateTodoInput!
+    $condition: ModelTodoConditionInput
+  ) {
+    createTodo(input: $input, condition: $condition) {
       id
+      name
+      type {
+        city
+        state
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTodo = /* GraphQL */ `
+  mutation UpdateTodo(
+    $input: UpdateTodoInput!
+    $condition: ModelTodoConditionInput
+  ) {
+    updateTodo(input: $input, condition: $condition) {
+      id
+      name
+      type {
+        city
+        state
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTodo = /* GraphQL */ `
+  mutation DeleteTodo(
+    $input: DeleteTodoInput!
+    $condition: ModelTodoConditionInput
+  ) {
+    deleteTodo(input: $input, condition: $condition) {
+      id
+      name
+      type {
+        city
+        state
+      }
       createdAt
       updatedAt
     }

@@ -27,11 +27,14 @@
         },
         "adminCreateUserCognito": {
           "deploymentBucketName": "amplify-bybus-dev-180655-deployment",
-          "s3Key": "amplify-builds/adminCreateUserCognito-786769324a6d30464555-build.zip"
+          "s3Key": "amplify-builds/adminCreateUserCognito-71303648415a53316b57-build.zip"
         }
       },
       "storage": {
         "bybusS3": {}
+      },
+      "api": {
+        "bybusgraphql": {}
       }
     }
   }

@@ -184,19 +184,9 @@ export const getAgency = /* GraphQL */ `
             nextToken
           }
           transports {
-            items {
-              id
-              model
-              serial
-              type
-            }
             nextToken
           }
           bookings {
-            items {
-              id
-              code
-            }
             nextToken
           }
           owner
@@ -253,7 +243,8 @@ export const getAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -330,7 +321,8 @@ export const listAgencies = /* GraphQL */ `
             agencyID
             officeID
             transport
-            stock
+            departureCity
+            arrivalCity
             price
             createdBy
             owner
@@ -423,7 +415,8 @@ export const getOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -493,7 +486,8 @@ export const listOffices = /* GraphQL */ `
             agencyID
             officeID
             transport
-            stock
+            departureCity
+            arrivalCity
             price
             createdBy
             owner
@@ -573,7 +567,8 @@ export const officesByAgencyID = /* GraphQL */ `
             agencyID
             officeID
             transport
-            stock
+            departureCity
+            arrivalCity
             price
             createdBy
             owner
@@ -770,7 +765,8 @@ export const getTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -806,7 +802,8 @@ export const listTransports = /* GraphQL */ `
             agencyID
             officeID
             transport
-            stock
+            departureCity
+            arrivalCity
             price
             createdBy
             owner
@@ -852,7 +849,8 @@ export const transportsByOfficeID = /* GraphQL */ `
             agencyID
             officeID
             transport
-            stock
+            departureCity
+            arrivalCity
             price
             createdBy
             owner
@@ -962,7 +960,8 @@ export const getBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1023,13 +1022,6 @@ export const listBookings = /* GraphQL */ `
             id
             bookingID
             price
-            arrival {
-              time
-              date
-              city
-              state
-              address
-            }
             owner
             createdAt
             updatedAt
@@ -1050,7 +1042,8 @@ export const listBookings = /* GraphQL */ `
           state
           address
         }
-        stock
+        departureCity
+        arrivalCity
         price
         createdBy
         owner
@@ -1141,7 +1134,8 @@ export const bookingsByAgencyID = /* GraphQL */ `
           state
           address
         }
-        stock
+        departureCity
+        arrivalCity
         price
         createdBy
         owner
@@ -1232,7 +1226,8 @@ export const bookingsByOfficeID = /* GraphQL */ `
           state
           address
         }
-        stock
+        departureCity
+        arrivalCity
         price
         createdBy
         owner
@@ -1323,7 +1318,8 @@ export const bookingsByTransport = /* GraphQL */ `
           state
           address
         }
-        stock
+        departureCity
+        arrivalCity
         price
         createdBy
         owner
@@ -1506,6 +1502,53 @@ export const listCustomers = /* GraphQL */ `
     $nextToken: String
   ) {
     listCustomers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        lastName
+        ci
+        email
+        phone
+        bookingID
+        ticketID
+        ticket {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserbyEmail = /* GraphQL */ `
+  query GetUserbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCustomerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getUserbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         name
@@ -1819,7 +1862,7 @@ export const getOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1851,10 +1894,10 @@ export const getOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1879,7 +1922,7 @@ export const listOrderDetails = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1896,26 +1939,26 @@ export const listOrderDetails = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
       nextToken
     }
   }
 `;
-export const orderDetailsByWalletID = /* GraphQL */ `
-  query OrderDetailsByWalletID(
-    $walletID: ID!
+export const orderDetailsByUserID = /* GraphQL */ `
+  query OrderDetailsByUserID(
+    $userID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelOrderDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    orderDetailsByWalletID(
-      walletID: $walletID
+    orderDetailsByUserID(
+      userID: $userID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -1934,7 +1977,7 @@ export const orderDetailsByWalletID = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1951,10 +1994,10 @@ export const orderDetailsByWalletID = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
       nextToken
@@ -1968,7 +2011,7 @@ export const getPayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1987,7 +2030,7 @@ export const listPayments = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -2014,7 +2057,7 @@ export const getOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -2031,13 +2074,13 @@ export const getOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -2072,7 +2115,7 @@ export const listOrderDetailHistories = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2080,13 +2123,13 @@ export const listOrderDetailHistories = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
-        walletID
+        userID
         owner
         googleOwner
         createdAt
@@ -2096,10 +2139,11 @@ export const listOrderDetailHistories = /* GraphQL */ `
     }
   }
 `;
-export const getWallet = /* GraphQL */ `
-  query GetWallet($id: ID!) {
-    getWallet(id: $id) {
-      userID
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      name
       email
       status
       notificationToken
@@ -2118,7 +2162,7 @@ export const getWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2126,31 +2170,31 @@ export const getWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
-      id
       createdAt
       updatedAt
     }
   }
 `;
-export const listWallets = /* GraphQL */ `
-  query ListWallets(
-    $filter: ModelWalletFilterInput
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listWallets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        userID
+        id
+        name
         email
         status
         notificationToken
@@ -2164,21 +2208,101 @@ export const listWallets = /* GraphQL */ `
             customerEmail
             isGuest
             paymentID
-            walletID
+            userID
             createdAt
             updatedAt
-            walletOrdersId
+            userOrdersId
             owner
           }
           nextToken
         }
         owner
         googleOwner
-        id
         createdAt
         updatedAt
       }
       nextToken
+    }
+  }
+`;
+export const getTodo = /* GraphQL */ `
+  query GetTodo($id: ID!) {
+    getTodo(id: $id) {
+      id
+      name
+      type {
+        city
+        state
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTodos = /* GraphQL */ `
+  query ListTodos(
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        type {
+          city
+          state
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const searchTodos = /* GraphQL */ `
+  query SearchTodos(
+    $filter: SearchableTodoFilterInput
+    $sort: [SearchableTodoSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableTodoAggregationInput]
+  ) {
+    searchTodos(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        name
+        type {
+          city
+          state
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
     }
   }
 `;

@@ -175,7 +175,8 @@ export const onCreateAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -274,7 +275,8 @@ export const onUpdateAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -373,7 +375,8 @@ export const onDeleteAgency = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -467,7 +470,8 @@ export const onCreateOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -561,7 +565,8 @@ export const onUpdateOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -655,7 +660,8 @@ export const onDeleteOffice = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -810,7 +816,8 @@ export const onCreateTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -867,7 +874,8 @@ export const onUpdateTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -924,7 +932,8 @@ export const onDeleteTransport = /* GraphQL */ `
             state
             address
           }
-          stock
+          departureCity
+          arrivalCity
           price
           createdBy
           owner
@@ -1035,7 +1044,8 @@ export const onCreateBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1139,7 +1149,8 @@ export const onUpdateBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1243,7 +1254,8 @@ export const onDeleteBooking = /* GraphQL */ `
         state
         address
       }
-      stock
+      departureCity
+      arrivalCity
       price
       createdBy
       owner
@@ -1654,7 +1666,7 @@ export const onCreateOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1686,10 +1698,10 @@ export const onCreateOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1712,7 +1724,7 @@ export const onUpdateOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1744,10 +1756,10 @@ export const onUpdateOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1770,7 +1782,7 @@ export const onDeleteOrderDetail = /* GraphQL */ `
         reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
@@ -1802,10 +1814,10 @@ export const onDeleteOrderDetail = /* GraphQL */ `
         }
         nextToken
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
     }
   }
@@ -1820,7 +1832,7 @@ export const onCreatePayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1837,7 +1849,7 @@ export const onUpdatePayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1854,7 +1866,7 @@ export const onDeletePayment = /* GraphQL */ `
       reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
@@ -1887,7 +1899,7 @@ export const onCreateOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1904,13 +1916,13 @@ export const onCreateOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -1944,7 +1956,7 @@ export const onUpdateOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -1961,13 +1973,13 @@ export const onUpdateOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -2001,7 +2013,7 @@ export const onDeleteOrderDetailHistory = /* GraphQL */ `
           reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
@@ -2018,13 +2030,13 @@ export const onDeleteOrderDetailHistory = /* GraphQL */ `
           }
           nextToken
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
       }
-      walletID
+      userID
       owner
       googleOwner
       createdAt
@@ -2032,14 +2044,15 @@ export const onDeleteOrderDetailHistory = /* GraphQL */ `
     }
   }
 `;
-export const onCreateWallet = /* GraphQL */ `
-  subscription OnCreateWallet(
-    $filter: ModelSubscriptionWalletFilterInput
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser(
+    $filter: ModelSubscriptionUserFilterInput
     $owner: String
     $googleOwner: String
   ) {
-    onCreateWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
-      userID
+    onCreateUser(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      id
+      name
       email
       status
       notificationToken
@@ -2058,7 +2071,7 @@ export const onCreateWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2066,30 +2079,30 @@ export const onCreateWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
-      id
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateWallet = /* GraphQL */ `
-  subscription OnUpdateWallet(
-    $filter: ModelSubscriptionWalletFilterInput
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser(
+    $filter: ModelSubscriptionUserFilterInput
     $owner: String
     $googleOwner: String
   ) {
-    onUpdateWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
-      userID
+    onUpdateUser(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      id
+      name
       email
       status
       notificationToken
@@ -2108,7 +2121,7 @@ export const onUpdateWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2116,30 +2129,30 @@ export const onUpdateWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
-      id
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteWallet = /* GraphQL */ `
-  subscription OnDeleteWallet(
-    $filter: ModelSubscriptionWalletFilterInput
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser(
+    $filter: ModelSubscriptionUserFilterInput
     $owner: String
     $googleOwner: String
   ) {
-    onDeleteWallet(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
-      userID
+    onDeleteUser(filter: $filter, owner: $owner, googleOwner: $googleOwner) {
+      id
+      name
       email
       status
       notificationToken
@@ -2158,7 +2171,7 @@ export const onDeleteWallet = /* GraphQL */ `
             reference
             amount
             metadata
-            wallet
+            userID
             createdAt
             updatedAt
             owner
@@ -2166,17 +2179,58 @@ export const onDeleteWallet = /* GraphQL */ `
           orderTickets {
             nextToken
           }
-          walletID
+          userID
           createdAt
           updatedAt
-          walletOrdersId
+          userOrdersId
           owner
         }
         nextToken
       }
       owner
       googleOwner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTodo = /* GraphQL */ `
+  subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
+    onCreateTodo(filter: $filter) {
       id
+      name
+      type {
+        city
+        state
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTodo = /* GraphQL */ `
+  subscription OnUpdateTodo($filter: ModelSubscriptionTodoFilterInput) {
+    onUpdateTodo(filter: $filter) {
+      id
+      name
+      type {
+        city
+        state
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTodo = /* GraphQL */ `
+  subscription OnDeleteTodo($filter: ModelSubscriptionTodoFilterInput) {
+    onDeleteTodo(filter: $filter) {
+      id
+      name
+      type {
+        city
+        state
+      }
       createdAt
       updatedAt
     }

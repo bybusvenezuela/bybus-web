@@ -32,25 +32,25 @@ export default function PaymentCreateForm(props) {
     reference: "",
     amount: "",
     metadata: "",
-    wallet: "",
+    userID: "",
   };
   const [reference, setReference] = React.useState(initialValues.reference);
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [metadata, setMetadata] = React.useState(initialValues.metadata);
-  const [wallet, setWallet] = React.useState(initialValues.wallet);
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setReference(initialValues.reference);
     setAmount(initialValues.amount);
     setMetadata(initialValues.metadata);
-    setWallet(initialValues.wallet);
+    setUserID(initialValues.userID);
     setErrors({});
   };
   const validations = {
     reference: [],
     amount: [],
     metadata: [{ type: "JSON" }],
-    wallet: [],
+    userID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -81,7 +81,7 @@ export default function PaymentCreateForm(props) {
           reference,
           amount,
           metadata,
-          wallet,
+          userID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,7 +139,7 @@ export default function PaymentCreateForm(props) {
               reference: value,
               amount,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.reference ?? value;
@@ -170,7 +170,7 @@ export default function PaymentCreateForm(props) {
               reference,
               amount: value,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.amount ?? value;
@@ -196,7 +196,7 @@ export default function PaymentCreateForm(props) {
               reference,
               amount,
               metadata: value,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.metadata ?? value;
@@ -212,10 +212,10 @@ export default function PaymentCreateForm(props) {
         {...getOverrideProps(overrides, "metadata")}
       ></TextAreaField>
       <TextField
-        label="Wallet"
+        label="User id"
         isRequired={false}
         isReadOnly={false}
-        value={wallet}
+        value={userID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -223,20 +223,20 @@ export default function PaymentCreateForm(props) {
               reference,
               amount,
               metadata,
-              wallet: value,
+              userID: value,
             };
             const result = onChange(modelFields);
-            value = result?.wallet ?? value;
+            value = result?.userID ?? value;
           }
-          if (errors.wallet?.hasError) {
-            runValidationTasks("wallet", value);
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
           }
-          setWallet(value);
+          setUserID(value);
         }}
-        onBlur={() => runValidationTasks("wallet", wallet)}
-        errorMessage={errors.wallet?.errorMessage}
-        hasError={errors.wallet?.hasError}
-        {...getOverrideProps(overrides, "wallet")}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

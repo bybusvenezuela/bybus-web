@@ -16,13 +16,13 @@ export declare type PaymentCreateFormInputValues = {
     reference?: string;
     amount?: number;
     metadata?: string;
-    wallet?: string;
+    userID?: string;
 };
 export declare type PaymentCreateFormValidationValues = {
     reference?: ValidationFunction<string>;
     amount?: ValidationFunction<number>;
     metadata?: ValidationFunction<string>;
-    wallet?: ValidationFunction<string>;
+    userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PaymentCreateFormOverridesProps = {
@@ -30,7 +30,7 @@ export declare type PaymentCreateFormOverridesProps = {
     reference?: PrimitiveOverrideProps<TextFieldProps>;
     amount?: PrimitiveOverrideProps<TextFieldProps>;
     metadata?: PrimitiveOverrideProps<TextAreaFieldProps>;
-    wallet?: PrimitiveOverrideProps<TextFieldProps>;
+    userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PaymentCreateFormProps = React.PropsWithChildren<{
     overrides?: PaymentCreateFormOverridesProps | undefined | null;

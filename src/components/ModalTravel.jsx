@@ -123,6 +123,8 @@ export default function ModalTravel({ open, close, offices }) {
             state: arrival.state,
             address: arrival.address.trim(),
           },
+          departureCity: departure.city,
+          arrivalCity: arrival.city,
           stock: quantity.trim(),
           price: price.trim(),
         },
