@@ -32,7 +32,7 @@ export default function TodoCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -108,7 +108,7 @@ export default function TodoCreateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={name}
         onChange={(e) => {

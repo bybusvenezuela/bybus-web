@@ -75,7 +75,7 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
 
-    const generateCode = (increment) => {
+    const generateCode = () => {
       let codeBooking = `${rif.data.getAgency.rif.replace(
         "-",
         ""
@@ -100,6 +100,7 @@ export default function ModalTravel({ open, close, offices }) {
 
     const codeTravel = generateCode(number);
     const verifyCodeTravel = await verifyCode(codeTravel.toUpperCase());
+    console.log(verifyCodeTravel)
     const booking = await API.graphql({
       query: mutations.createBooking,
       authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -130,7 +131,7 @@ export default function ModalTravel({ open, close, offices }) {
         },
       },
     });
-
+    console.log(booking)
     
     for (let i = 1; i <= booking.data.createBooking.stock; i++) {
       const ticket = await API.graphql({
@@ -397,9 +398,9 @@ export default function ModalTravel({ open, close, offices }) {
                         label="Transporte"
                         onChange={(e) => setTransport(e.target.value)}
                       >
-                        {offices.transports.items.map((item, index) => (
-                          <MenuItem value={item.id} key={index}>
-                            {item.model} - {item.serial} - {item.type}
+                        {offices?.transports?.items?.map((item, index) => (
+                          <MenuItem value={item?.id} key={index}>
+                            {item?.model} - {item?.serial} - {item?.type}
                           </MenuItem>
                         ))}
                       </Select>

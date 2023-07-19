@@ -185,6 +185,7 @@ type Booking
   arrival: DepartureArrivalStopFields
   departureCity: String!
   arrivalCity: String! 
+  stock: Float
   price: Float
   createdBy: ID
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
@@ -412,11 +413,11 @@ input RegisterUserInput {
 
 type Todo @model @searchable @auth(rules: [{ allow: public, provider: iam }]) {
   id: ID!
-  name: String!
-  type: TodoType
+  name: String
+  type: TodoType 
 }
 
-type TodoType{
+type TodoType {
   city: String
   state: String
 }

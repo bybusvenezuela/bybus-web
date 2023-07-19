@@ -184,6 +184,13 @@ export const getAgency = /* GraphQL */ `
             nextToken
           }
           transports {
+            items {
+              id
+              model
+              serial
+              type
+              officeID
+            }
             nextToken
           }
           bookings {
@@ -245,6 +252,7 @@ export const getAgency = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -323,6 +331,7 @@ export const listAgencies = /* GraphQL */ `
             transport
             departureCity
             arrivalCity
+            stock
             price
             createdBy
             owner
@@ -417,6 +426,7 @@ export const getOffice = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -488,6 +498,7 @@ export const listOffices = /* GraphQL */ `
             transport
             departureCity
             arrivalCity
+            stock
             price
             createdBy
             owner
@@ -569,6 +580,7 @@ export const officesByAgencyID = /* GraphQL */ `
             transport
             departureCity
             arrivalCity
+            stock
             price
             createdBy
             owner
@@ -767,6 +779,7 @@ export const getTransport = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -804,6 +817,7 @@ export const listTransports = /* GraphQL */ `
             transport
             departureCity
             arrivalCity
+            stock
             price
             createdBy
             owner
@@ -851,6 +865,7 @@ export const transportsByOfficeID = /* GraphQL */ `
             transport
             departureCity
             arrivalCity
+            stock
             price
             createdBy
             owner
@@ -962,6 +977,7 @@ export const getBooking = /* GraphQL */ `
       }
       departureCity
       arrivalCity
+      stock
       price
       createdBy
       owner
@@ -1044,6 +1060,7 @@ export const listBookings = /* GraphQL */ `
         }
         departureCity
         arrivalCity
+        stock
         price
         createdBy
         owner
@@ -1136,6 +1153,7 @@ export const bookingsByAgencyID = /* GraphQL */ `
         }
         departureCity
         arrivalCity
+        stock
         price
         createdBy
         owner
@@ -1228,6 +1246,7 @@ export const bookingsByOfficeID = /* GraphQL */ `
         }
         departureCity
         arrivalCity
+        stock
         price
         createdBy
         owner
@@ -1320,6 +1339,7 @@ export const bookingsByTransport = /* GraphQL */ `
         }
         departureCity
         arrivalCity
+        stock
         price
         createdBy
         owner

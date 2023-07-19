@@ -47,7 +47,7 @@ export default function TodoUpdateForm(props) {
   }, [idProp, todoModelProp]);
   React.useEffect(resetStateValues, [todoRecord]);
   const validations = {
-    name: [{ type: "Required" }],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -124,7 +124,7 @@ export default function TodoUpdateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={name}
         onChange={(e) => {

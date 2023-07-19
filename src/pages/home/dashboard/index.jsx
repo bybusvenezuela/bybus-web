@@ -28,16 +28,17 @@ const Dashboard = () => {
       query: queries.getAgency,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
-        userID: user.attributes.sub,
+        userID: user?.attributes?.sub,
       },
     });
     const listBook = await API.graphql({
       query: queries.listBookings,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
-        agencyID: list.data.getAgency.id,
+        agencyID: list?.data?.getAgency?.id,
       },
     });
+    console.log(listBook)
     setData(list.data.getAgency)
   };
 

@@ -177,6 +177,7 @@ export const onCreateAgency = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -277,6 +278,7 @@ export const onUpdateAgency = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -377,6 +379,7 @@ export const onDeleteAgency = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -472,6 +475,7 @@ export const onCreateOffice = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -567,6 +571,7 @@ export const onUpdateOffice = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -662,6 +667,7 @@ export const onDeleteOffice = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -818,6 +824,7 @@ export const onCreateTransport = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -876,6 +883,7 @@ export const onUpdateTransport = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -934,6 +942,7 @@ export const onDeleteTransport = /* GraphQL */ `
           }
           departureCity
           arrivalCity
+          stock
           price
           createdBy
           owner
@@ -1046,6 +1055,7 @@ export const onCreateBooking = /* GraphQL */ `
       }
       departureCity
       arrivalCity
+      stock
       price
       createdBy
       owner
@@ -1151,6 +1161,7 @@ export const onUpdateBooking = /* GraphQL */ `
       }
       departureCity
       arrivalCity
+      stock
       price
       createdBy
       owner
@@ -1256,6 +1267,7 @@ export const onDeleteBooking = /* GraphQL */ `
       }
       departureCity
       arrivalCity
+      stock
       price
       createdBy
       owner
