@@ -1,18 +1,25 @@
 import React, { useRef, useState } from "react";
 import { baseContact, buttons, cardContact } from "../constants/index";
 import styles from "@/styles/Contact.module.css";
-import { createAgencySubscription } from '@/graphql/mutations'
-import { API } from 'aws-amplify'
-import { getAgencySubscriptionbyEmail, getAgencySubscriptionbyRif } from "@/graphql/queries";
+import { createAgencySubscription } from "@/graphql/mutations";
+import { CircularProgress, Button } from "@mui/material";
+import { API } from "aws-amplify";
+import {
+  getAgencySubscriptionbyEmail,
+  getAgencySubscriptionbyRif,
+} from "@/graphql/queries";
 const Contact = ({ contactRef }) => {
   const form = useRef();
   const [name, setName] = useState("");
   const [rif, setRif] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const sendEmail = async (e) => {
     e.preventDefault();
-    if (!name, !rif, !email, !phone) return alert("FORMULARIO: CAMPOS VACIOS")
+    if ((!name, !rif, !email, !phone))
+      return alert("FORMULARIO: CAMPOS VACIOS");
+    setLoading(true);
     try {
       const params = {
         input: {
@@ -20,54 +27,73 @@ const Contact = ({ contactRef }) => {
           rif,
           email,
           phone,
-        }
-      }
+        },
+      };
       // verificamos si el rif ya existe
       const byRif = await API.graphql({
         query: getAgencySubscriptionbyRif,
         authMode: "AWS_IAM",
         variables: {
-          "rif": rif
-        }
-      })
-      const status = byRif?.data?.getAgencySubscriptionbyRif?.items[0]?.status;
-      console.log("STATUS: ", byRif)
-      if (status === "ACCEPTED") return alert(`Rif: ${rif}, ya registrado en nuestro sistema`)
-      if (status === "PENDING" || status === "SCHEDULED") return alert(`Rif: ${rif}, ya tiene una solicitud pendiente`)
-      if (status === "REJECTED") return alert(`Rif: ${rif}, Rechazado llamar a soporte`)
-
-      // verificamos si el email ya existe 
+          rif: rif,
+        },
+      });
+      // si existe condicionamos
+      if (byRif?.data?.getAgencySubscriptionbyRif?.items.length > 0) {
+        const status =
+          byRif?.data?.getAgencySubscriptionbyRif?.items[0]?.status;
+        if (status === "ACCEPTED")
+          return alert(`Rif: ${rif}, ya registrado en nuestro sistema`);
+        if (status === "PENDING" || status === "SCHEDULED")
+          return alert(`Rif: ${rif}, ya tiene una solicitud pendiente`);
+        if (status === "REJECTED")
+          return alert(`Rif: ${rif}, Rechazado llamar a soporte`);
+      }
+      // verificamos si el email ya existe
       const byEmail = await API.graphql({
         query: getAgencySubscriptionbyEmail,
         authMode: "AWS_IAM",
         variables: {
-          email: email
-        }
-      })
-      const statusbyEmail = byEmail?.data?.getAgencySubscriptionbyEmail?.items[0]?.status
-      if (statusbyEmail === "ACCEPTED") return alert(`Email: ${email}, ya registrado en nuestro sistema`)
-      if (statusbyEmail === "PENDING" || status === "SCHEDULED") return alert(`Email: ${email}, ya tiene una solicitud pendiente`)
-      if (statusbyEmail === "REJECTED") return alert(`Email: ${email}, Rechazado llamar a soporte`)
+          email: email,
+        },
+      });
+
+      //si existe email vemos el porque
+      if (byEmail?.data?.getAgencySubscriptionbyEmail?.items.length > 0) {
+        const statusbyEmail =
+          byEmail?.data?.getAgencySubscriptionbyEmail?.items[0]?.status;
+        if (statusbyEmail === "ACCEPTED")
+          return alert(`Email: ${email}, ya registrado en nuestro sistema`);
+        if (statusbyEmail === "PENDING" || statusbyEmail === "SCHEDULED")
+          return alert(`Email: ${email}, ya tiene una solicitud pendiente`);
+        if (statusbyEmail === "REJECTED")
+          return alert(`Email: ${email}, Rechazado llamar a soporte`);
+      }
+      // de no existe email o rif enviamsop petciion
       // enviamos peticion
       await API.graphql({
         query: createAgencySubscription,
         authMode: "AWS_IAM",
-        variables: params
+        variables: params,
       });
-      alert("FORMULARIO ENVIADO")
+      alert(
+        "FORMULARIO ENVIADO",
+        "En las proximas horas Bybus Se comunicara con ustdes"
+      );
       clean();
     } catch (error) {
-      alert("ERROR AL ENVIAR FORMUALRIO")
+      setLoading(false);
+      alert("ERROR AL ENVIAR FORMUALRIO");
       console.error("ERROR AL ENVIAR FORMUALRIO: ", error);
     }
+    setLoading(false);
   };
 
   const clean = () => {
-    setName("")
-    setRif("")
-    setEmail("")
-    setPhone("")
-  }
+    setName("");
+    setRif("");
+    setEmail("");
+    setPhone("");
+  };
   return (
     <div className="section container" ref={contactRef} id="contact-us">
       <div className={styles.sectionTitle}>
@@ -94,6 +120,7 @@ const Contact = ({ contactRef }) => {
               placeholder={`BYBUS C.A`}
               value={name}
               onChange={(e) => setName(e.target.value.toUpperCase())}
+              maxLength={250}
             />
           </div>
           <div className={styles.field}>
@@ -101,9 +128,11 @@ const Contact = ({ contactRef }) => {
             <input
               type="text"
               className={styles.input}
-              placeholder="J-XXXXXXXX"
+              placeholder="JXXXXXXXX"
               value={rif}
               onChange={(e) => setRif(e.target.value.toUpperCase())}
+              maxLength={10}
+              minLength={10}
             />
           </div>
           <div className={styles.field}>
@@ -113,7 +142,9 @@ const Contact = ({ contactRef }) => {
               className={styles.input}
               placeholder="ejemplo@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value.toUpperCase())}
+              onChange={(e) => setEmail(e.target.value)}
+              maxLength={255}
+              minLength={10}
             />
           </div>
 
@@ -125,10 +156,18 @@ const Contact = ({ contactRef }) => {
               placeholder="+58 00 0000 000"
               value={phone}
               onChange={(e) => setPhone(e.target.value.toUpperCase())}
+              maxLength={100}
             />
           </div>
 
-          <button className={styles.button}>Enviar</button>
+          <Button
+            className={styles.button}
+            style={{ color: "black" }}
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? <CircularProgress /> : "Enviar"}
+          </Button>
         </form>
       </div>
     </div>
