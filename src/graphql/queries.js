@@ -1,277 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getEmailSusbcription = /* GraphQL */ `
-  query GetEmailSusbcription($id: ID!) {
-    getEmailSusbcription(id: $id) {
-      id
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listEmailSusbcriptions = /* GraphQL */ `
-  query ListEmailSusbcriptions(
-    $filter: ModelEmailSusbcriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listEmailSusbcriptions(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        email
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getEmailSubscriptionbyEmail = /* GraphQL */ `
-  query GetEmailSubscriptionbyEmail(
-    $email: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelEmailSusbcriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getEmailSubscriptionbyEmail(
-      email: $email
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        email
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getAgencySubscription = /* GraphQL */ `
-  query GetAgencySubscription($id: ID!) {
-    getAgencySubscription(id: $id) {
-      id
-      name
-      rif
-      email
-      phone
-      subscriptionDate
-      status
-      scheduledDate
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listAgencySubscriptions = /* GraphQL */ `
-  query ListAgencySubscriptions(
-    $filter: ModelAgencySubscriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAgencySubscriptions(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        rif
-        email
-        phone
-        subscriptionDate
-        status
-        scheduledDate
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getAgencySubscriptionbyRif = /* GraphQL */ `
-  query GetAgencySubscriptionbyRif(
-    $rif: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAgencySubscriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getAgencySubscriptionbyRif(
-      rif: $rif
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        rif
-        email
-        phone
-        subscriptionDate
-        status
-        scheduledDate
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getAgencySubscriptionbyEmail = /* GraphQL */ `
-  query GetAgencySubscriptionbyEmail(
-    $email: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAgencySubscriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getAgencySubscriptionbyEmail(
-      email: $email
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        rif
-        email
-        phone
-        subscriptionDate
-        status
-        scheduledDate
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getAgency = /* GraphQL */ `
-  query GetAgency($userID: ID!) {
-    getAgency(userID: $userID) {
-      userID
-      name
-      rif
-      email
-      phone
-      officies {
-        items {
-          id
-          agencyID
-          state
-          city
-          address
-          email
-          phone
-          owner
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      employees {
-        items {
-          id
-          name
-          email
-          phone
-          ping
-          type
-          agencyID
-          officeID
-          permissions
-          owner
-          lastConnection
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      bookings {
-        items {
-          id
-          code
-          agencyID
-          officeID
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
-          stock
-          service
-          createdBy
-          owner
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listAgencies = /* GraphQL */ `
-  query ListAgencies(
-    $userID: ID
-    $filter: ModelAgencyFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listAgencies(
-      userID: $userID
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        userID
-        name
-        rif
-        email
-        phone
-        officies {
-          nextToken
-        }
-        employees {
-          nextToken
-        }
-        bookings {
-          nextToken
-        }
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getOffice = /* GraphQL */ `
   query GetOffice($id: ID!) {
     getOffice(id: $id) {
       id
       agencyID
+      name
       state
       city
       address
@@ -292,14 +27,15 @@ export const getOffice = /* GraphQL */ `
           lastConnection
           createdAt
           updatedAt
+          __typename
         }
         nextToken
+        __typename
       }
       transports {
         items {
           id
           model
-          brand
           serial
           type
           officeID
@@ -307,8 +43,10 @@ export const getOffice = /* GraphQL */ `
           createdAt
           updatedAt
           owner
+          __typename
         }
         nextToken
+        __typename
       }
       bookings {
         items {
@@ -316,23 +54,22 @@ export const getOffice = /* GraphQL */ `
           code
           agencyID
           officeID
-          departureDate
-          arrivalDate
-          estimatedTime
-          departureLoc
-          destinationLoc
+          transport
           stock
-          service
+          price
           createdBy
           owner
           createdAt
           updatedAt
+          __typename
         }
         nextToken
+        __typename
       }
       owner
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -346,6 +83,7 @@ export const listOffices = /* GraphQL */ `
       items {
         id
         agencyID
+        name
         state
         city
         address
@@ -353,58 +91,23 @@ export const listOffices = /* GraphQL */ `
         phone
         employees {
           nextToken
+          __typename
         }
         transports {
           nextToken
+          __typename
         }
         bookings {
           nextToken
+          __typename
         }
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
-    }
-  }
-`;
-export const officesByAgencyID = /* GraphQL */ `
-  query OfficesByAgencyID(
-    $agencyID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelOfficeFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    officesByAgencyID(
-      agencyID: $agencyID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        agencyID
-        state
-        city
-        address
-        email
-        phone
-        employees {
-          nextToken
-        }
-        transports {
-          nextToken
-        }
-        bookings {
-          nextToken
-        }
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
+      __typename
     }
   }
 `;
@@ -416,6 +119,7 @@ export const getState = /* GraphQL */ `
       cities
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -432,8 +136,10 @@ export const listStates = /* GraphQL */ `
         cities
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -453,6 +159,7 @@ export const getEmployee = /* GraphQL */ `
       lastConnection
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -477,8 +184,268 @@ export const listEmployees = /* GraphQL */ `
         lastConnection
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const getTransport = /* GraphQL */ `
+  query GetTransport($id: ID!) {
+    getTransport(id: $id) {
+      id
+      model
+      serial
+      type
+      officeID
+      bookings {
+        items {
+          id
+          code
+          agencyID
+          officeID
+          transport
+          stock
+          price
+          createdBy
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdBy
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listTransports = /* GraphQL */ `
+  query ListTransports(
+    $filter: ModelTransportFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTransports(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        model
+        serial
+        type
+        officeID
+        bookings {
+          nextToken
+          __typename
+        }
+        createdBy
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getOrderDetailHistory = /* GraphQL */ `
+  query GetOrderDetailHistory($id: ID!) {
+    getOrderDetailHistory(id: $id) {
+      id
+      orderID
+      order {
+        id
+        amount
+        paymentMethod
+        customerName
+        customerEmail
+        isGuest
+        paymentID
+        payment {
+          id
+          reference
+          amount
+          metadata
+          userID
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        orderTickets {
+          nextToken
+          __typename
+        }
+        userID
+        createdAt
+        updatedAt
+        userOrdersId
+        owner
+        __typename
+      }
+      userID
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listOrderDetailHistories = /* GraphQL */ `
+  query ListOrderDetailHistories(
+    $filter: ModelOrderDetailHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrderDetailHistories(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        orderID
+        order {
+          id
+          amount
+          paymentMethod
+          customerName
+          customerEmail
+          isGuest
+          paymentID
+          userID
+          createdAt
+          updatedAt
+          userOrdersId
+          owner
+          __typename
+        }
+        userID
+        owner
+        googleOwner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      name
+      email
+      status
+      notificationToken
+      previousBalance
+      orders {
+        items {
+          id
+          amount
+          paymentMethod
+          customerName
+          customerEmail
+          isGuest
+          paymentID
+          userID
+          createdAt
+          updatedAt
+          userOrdersId
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      owner
+      googleOwner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        email
+        status
+        notificationToken
+        previousBalance
+        orders {
+          nextToken
+          __typename
+        }
+        owner
+        googleOwner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const officesByAgencyID = /* GraphQL */ `
+  query OfficesByAgencyID(
+    $agencyID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelOfficeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    officesByAgencyID(
+      agencyID: $agencyID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        agencyID
+        name
+        state
+        city
+        address
+        email
+        phone
+        employees {
+          nextToken
+          __typename
+        }
+        transports {
+          nextToken
+          __typename
+        }
+        bookings {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -511,8 +478,10 @@ export const employeesByAgencyID = /* GraphQL */ `
         lastConnection
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -545,47 +514,10 @@ export const employeesByOfficeID = /* GraphQL */ `
         lastConnection
         createdAt
         updatedAt
+        __typename
       }
       nextToken
-    }
-  }
-`;
-export const getTransport = /* GraphQL */ `
-  query GetTransport($id: ID!) {
-    getTransport(id: $id) {
-      id
-      model
-      brand
-      serial
-      type
-      officeID
-      createdBy
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listTransports = /* GraphQL */ `
-  query ListTransports(
-    $filter: ModelTransportFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTransports(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        model
-        brand
-        serial
-        type
-        officeID
-        createdBy
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
+      __typename
     }
   }
 `;
@@ -607,16 +539,308 @@ export const transportsByOfficeID = /* GraphQL */ `
       items {
         id
         model
-        brand
         serial
         type
         officeID
+        bookings {
+          nextToken
+          __typename
+        }
         createdBy
         createdAt
         updatedAt
         owner
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const getEmailSusbcription = /* GraphQL */ `
+  query GetEmailSusbcription($id: ID!) {
+    getEmailSusbcription(id: $id) {
+      id
+      email
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listEmailSusbcriptions = /* GraphQL */ `
+  query ListEmailSusbcriptions(
+    $filter: ModelEmailSusbcriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEmailSusbcriptions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getEmailSubscriptionbyEmail = /* GraphQL */ `
+  query GetEmailSubscriptionbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmailSusbcriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getEmailSubscriptionbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgencySubscription = /* GraphQL */ `
+  query GetAgencySubscription($id: ID!) {
+    getAgencySubscription(id: $id) {
+      id
+      name
+      rif
+      email
+      phone
+      subscriptionDate
+      status
+      scheduledDate
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listAgencySubscriptions = /* GraphQL */ `
+  query ListAgencySubscriptions(
+    $filter: ModelAgencySubscriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAgencySubscriptions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        rif
+        email
+        phone
+        subscriptionDate
+        status
+        scheduledDate
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgencySubscriptionbyRif = /* GraphQL */ `
+  query GetAgencySubscriptionbyRif(
+    $rif: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAgencySubscriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getAgencySubscriptionbyRif(
+      rif: $rif
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        rif
+        email
+        phone
+        subscriptionDate
+        status
+        scheduledDate
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgencySubscriptionbyEmail = /* GraphQL */ `
+  query GetAgencySubscriptionbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAgencySubscriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getAgencySubscriptionbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        rif
+        email
+        phone
+        subscriptionDate
+        status
+        scheduledDate
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgency = /* GraphQL */ `
+  query GetAgency($userID: ID!) {
+    getAgency(userID: $userID) {
+      userID
+      name
+      rif
+      email
+      phone
+      officies {
+        items {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      employees {
+        items {
+          id
+          name
+          email
+          phone
+          ping
+          type
+          agencyID
+          officeID
+          permissions
+          owner
+          lastConnection
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      bookings {
+        items {
+          id
+          code
+          agencyID
+          officeID
+          transport
+          stock
+          price
+          createdBy
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listAgencies = /* GraphQL */ `
+  query ListAgencies(
+    $userID: ID
+    $filter: ModelAgencyFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listAgencies(
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        userID
+        name
+        rif
+        email
+        phone
+        officies {
+          nextToken
+          __typename
+        }
+        employees {
+          nextToken
+          __typename
+        }
+        bookings {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -627,6 +851,7 @@ export const getBooking = /* GraphQL */ `
       code
       agencyID
       officeID
+      transport
       customers {
         items {
           id
@@ -640,14 +865,17 @@ export const getBooking = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          __typename
         }
         nextToken
+        __typename
       }
       tickets {
         items {
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -656,20 +884,48 @@ export const getBooking = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
+          __typename
         }
         nextToken
+        __typename
       }
-      departureDate
-      arrivalDate
-      estimatedTime
-      departureLoc
-      destinationLoc
+      stops {
+        items {
+          id
+          bookingID
+          price
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      departure {
+        time
+        date
+        city
+        state
+        address
+        __typename
+      }
+      arrival {
+        time
+        date
+        city
+        state
+        address
+        __typename
+      }
       stock
-      service
+      price
       createdBy
       owner
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -685,25 +941,45 @@ export const listBookings = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
         customers {
           nextToken
+          __typename
         }
         tickets {
           nextToken
+          __typename
         }
-        departureDate
-        arrivalDate
-        estimatedTime
-        departureLoc
-        destinationLoc
+        stops {
+          nextToken
+          __typename
+        }
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
         stock
-        service
+        price
         createdBy
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -727,25 +1003,45 @@ export const bookingsByAgencyID = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
         customers {
           nextToken
+          __typename
         }
         tickets {
           nextToken
+          __typename
         }
-        departureDate
-        arrivalDate
-        estimatedTime
-        departureLoc
-        destinationLoc
+        stops {
+          nextToken
+          __typename
+        }
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
         stock
-        service
+        price
         createdBy
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -769,25 +1065,222 @@ export const bookingsByOfficeID = /* GraphQL */ `
         code
         agencyID
         officeID
+        transport
         customers {
           nextToken
+          __typename
         }
         tickets {
           nextToken
+          __typename
         }
-        departureDate
-        arrivalDate
-        estimatedTime
-        departureLoc
-        destinationLoc
+        stops {
+          nextToken
+          __typename
+        }
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
         stock
-        service
+        price
         createdBy
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const bookingsByTransport = /* GraphQL */ `
+  query BookingsByTransport(
+    $transport: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    bookingsByTransport(
+      transport: $transport
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        code
+        agencyID
+        officeID
+        transport
+        customers {
+          nextToken
+          __typename
+        }
+        tickets {
+          nextToken
+          __typename
+        }
+        stops {
+          nextToken
+          __typename
+        }
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        stock
+        price
+        createdBy
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getStopBooking = /* GraphQL */ `
+  query GetStopBooking($id: ID!) {
+    getStopBooking(id: $id) {
+      id
+      bookingID
+      tickets {
+        items {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      arrival {
+        time
+        date
+        city
+        state
+        address
+        __typename
+      }
+      price
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listStopBookings = /* GraphQL */ `
+  query ListStopBookings(
+    $filter: ModelStopBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStopBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        bookingID
+        tickets {
+          nextToken
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        price
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const stopBookingsByBookingID = /* GraphQL */ `
+  query StopBookingsByBookingID(
+    $bookingID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelStopBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    stopBookingsByBookingID(
+      bookingID: $bookingID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        bookingID
+        tickets {
+          nextToken
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        price
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -806,6 +1299,7 @@ export const getCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -814,10 +1308,13 @@ export const getCustomer = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
+        __typename
       }
       owner
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -841,6 +1338,7 @@ export const listCustomers = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -849,12 +1347,66 @@ export const listCustomers = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
+          __typename
         }
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const getUserbyEmail = /* GraphQL */ `
+  query GetUserbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCustomerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getUserbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        lastName
+        ci
+        email
+        phone
+        bookingID
+        ticketID
+        ticket {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -886,6 +1438,7 @@ export const customersByBookingID = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -894,12 +1447,16 @@ export const customersByBookingID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
+          __typename
         }
         owner
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -909,6 +1466,7 @@ export const getTicket = /* GraphQL */ `
       id
       code
       bookingID
+      stop
       customerID
       seating
       status
@@ -917,6 +1475,8 @@ export const getTicket = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      stopBookingTicketsId
+      __typename
     }
   }
 `;
@@ -931,6 +1491,7 @@ export const listTickets = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -939,8 +1500,11 @@ export const listTickets = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -963,6 +1527,7 @@ export const ticketsByBookingID = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -971,8 +1536,47 @@ export const ticketsByBookingID = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const ticketsByStop = /* GraphQL */ `
+  query TicketsByStop(
+    $stop: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTicketFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ticketsByStop(
+      stop: $stop
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        code
+        bookingID
+        stop
+        customerID
+        seating
+        status
+        description
+        url
+        owner
+        createdAt
+        updatedAt
+        stopBookingTicketsId
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -986,6 +1590,7 @@ export const getOrderTicket = /* GraphQL */ `
         id
         code
         bookingID
+        stop
         customerID
         seating
         status
@@ -994,11 +1599,14 @@ export const getOrderTicket = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        stopBookingTicketsId
+        __typename
       }
       owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
+      __typename
     }
   }
 `;
@@ -1017,6 +1625,7 @@ export const listOrderTickets = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1025,13 +1634,17 @@ export const listOrderTickets = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
+          __typename
         }
         owner
         createdAt
         updatedAt
         orderDetailOrderTicketsId
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -1058,6 +1671,7 @@ export const orderTicketsByOrderID = /* GraphQL */ `
           id
           code
           bookingID
+          stop
           customerID
           seating
           status
@@ -1066,13 +1680,17 @@ export const orderTicketsByOrderID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+          stopBookingTicketsId
+          __typename
         }
         owner
         createdAt
         updatedAt
         orderDetailOrderTicketsId
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -1088,13 +1706,14 @@ export const getOrderDetail = /* GraphQL */ `
       paymentID
       payment {
         id
-        refenrece
+        reference
         amount
         metadata
-        wallet
+        userID
         createdAt
         updatedAt
         owner
+        __typename
       }
       orderTickets {
         items {
@@ -1105,14 +1724,17 @@ export const getOrderDetail = /* GraphQL */ `
           createdAt
           updatedAt
           orderDetailOrderTicketsId
+          __typename
         }
         nextToken
+        __typename
       }
-      walletID
+      userID
       createdAt
       updatedAt
-      walletOrdersId
+      userOrdersId
       owner
+      __typename
     }
   }
 `;
@@ -1133,37 +1755,41 @@ export const listOrderDetails = /* GraphQL */ `
         paymentID
         payment {
           id
-          refenrece
+          reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
+          __typename
         }
         orderTickets {
           nextToken
+          __typename
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
-export const orderDetailsByWalletID = /* GraphQL */ `
-  query OrderDetailsByWalletID(
-    $walletID: ID!
+export const orderDetailsByUserID = /* GraphQL */ `
+  query OrderDetailsByUserID(
+    $userID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelOrderDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    orderDetailsByWalletID(
-      walletID: $walletID
+    orderDetailsByUserID(
+      userID: $userID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -1179,24 +1805,28 @@ export const orderDetailsByWalletID = /* GraphQL */ `
         paymentID
         payment {
           id
-          refenrece
+          reference
           amount
           metadata
-          wallet
+          userID
           createdAt
           updatedAt
           owner
+          __typename
         }
         orderTickets {
           nextToken
+          __typename
         }
-        walletID
+        userID
         createdAt
         updatedAt
-        walletOrdersId
+        userOrdersId
         owner
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -1204,13 +1834,14 @@ export const getPayment = /* GraphQL */ `
   query GetPayment($id: ID!) {
     getPayment(id: $id) {
       id
-      refenrece
+      reference
       amount
       metadata
-      wallet
+      userID
       createdAt
       updatedAt
       owner
+      __typename
     }
   }
 `;
@@ -1223,152 +1854,17 @@ export const listPayments = /* GraphQL */ `
     listPayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        refenrece
+        reference
         amount
         metadata
-        wallet
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getOrderDetailHistory = /* GraphQL */ `
-  query GetOrderDetailHistory($id: ID!) {
-    getOrderDetailHistory(id: $id) {
-      id
-      orderID
-      order {
-        id
-        amount
-        paymentMethod
-        customerName
-        customerEmail
-        isGuest
-        paymentID
-        payment {
-          id
-          refenrece
-          amount
-          metadata
-          wallet
-          createdAt
-          updatedAt
-          owner
-        }
-        orderTickets {
-          nextToken
-        }
-        walletID
-        createdAt
-        updatedAt
-        walletOrdersId
-        owner
-      }
-      walletID
-      owner
-      googleOwner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listOrderDetailHistories = /* GraphQL */ `
-  query ListOrderDetailHistories(
-    $filter: ModelOrderDetailHistoryFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listOrderDetailHistories(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        orderID
-        order {
-          id
-          amount
-          paymentMethod
-          customerName
-          customerEmail
-          isGuest
-          paymentID
-          walletID
-          createdAt
-          updatedAt
-          walletOrdersId
-          owner
-        }
-        walletID
-        owner
-        googleOwner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getWallet = /* GraphQL */ `
-  query GetWallet($id: ID!) {
-    getWallet(id: $id) {
-      userID
-      email
-      status
-      notificationToken
-      previousBalance
-      orders {
-        items {
-          id
-          amount
-          paymentMethod
-          customerName
-          customerEmail
-          isGuest
-          paymentID
-          walletID
-          createdAt
-          updatedAt
-          walletOrdersId
-          owner
-        }
-        nextToken
-      }
-      owner
-      googleOwner
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listWallets = /* GraphQL */ `
-  query ListWallets(
-    $filter: ModelWalletFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listWallets(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
         userID
-        email
-        status
-        notificationToken
-        previousBalance
-        orders {
-          nextToken
-        }
-        owner
-        googleOwner
-        id
         createdAt
         updatedAt
+        owner
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;

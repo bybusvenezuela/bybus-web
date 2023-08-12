@@ -19,28 +19,67 @@ export default function ModalAgencies({ open, close, data }) {
     setPhone("");
     close();
   };
-  const fetchAgency = async () => {
+
+  const generateRandomString = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let randomString = "";
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+  };
+
+  const onHandleRegister = async () => {
+    setIsloading(true);
     try {
-      const result = await API.graphql({
-        query: createAgency,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
+      const temporaryPassword = generateRandomString();
+      console.log(temporaryPassword);
+      // registrar agencia
+      const response = await API.graphql({
+        query: mutations.registerAgencyUser,
         variables: {
           input: {
-            userID: data.id,
-            name: name ? name : data.name,
-            rif: rif ? rif : data.rif,
-            email: email ? email : data.email,
-            phone: phone ? phone : data.phone,
+            username: email.trim().toLowerCase(),
+            name: name.trim().toUpperCase(),
+            password: temporaryPassword,
+            rif: rif.trim(),
+            phone: phone,
+            userType: "agency",
           },
         },
       });
-      console.log(result)
+      console.log("RESPONSE: ", response);
+      // cambiamos
     } catch (error) {
-      console.error("error", error);
+      console.error("ERROR AL REGISTAR AGENCIA: ", error);
+      setIsloading(false);
     }
+    setIsloading(false);
   };
-  useEffect(() => {
-  }, []);
+
+  const addUserToGroup = async (username = "") => {
+    if (username === "") return;
+    let apiName = "AdminQueries";
+    let path = "/addUserToGroup";
+    let myInit = {
+      body: {
+        username: username,
+        groupname: "agency",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${(await Auth.currentSession())
+          .getAccessToken()
+          .getJwtToken()}`,
+      },
+    };
+    const response = await API.post(apiName, path, myInit);
+    console.log(response);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
