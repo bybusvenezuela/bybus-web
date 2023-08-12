@@ -8,10 +8,16 @@ import ModalAgencies from "./ModalAgencies";
 import { setRevalidateHeaders } from "next/dist/server/send-payload";
 
 const TableEmailSubs = ({ rows }) => {
-  const [open, setOpen] = useState(false)
-  const [data, setData] = useState({})
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
+    {
+      field: "status",
+      headerName: "Estado",
+      width: 150,
+      editable: true,
+    },
     {
       field: "name",
       headerName: "Nombre",
@@ -37,13 +43,19 @@ const TableEmailSubs = ({ rows }) => {
       renderCell: (params) => {
         return (
           <div>
-            <IconButton aria-label="delete-agency-subs" onClick={() => {
-              setOpen(!open)
-              setData(params.row)
-              }}>
+            <IconButton
+              aria-label="delete-agency-subs"
+              onClick={() => {
+                setOpen(!open);
+                setData(params.row);
+              }}
+            >
               <AddBusinessIcon />
             </IconButton>
-            <IconButton aria-label="delete-agency-subs" onClick={() => console.log(params)}>
+            <IconButton
+              aria-label="delete-agency-subs"
+              onClick={() => console.log(params)}
+            >
               <DeleteIcon />
             </IconButton>
           </div>
@@ -71,7 +83,14 @@ const TableEmailSubs = ({ rows }) => {
           slots={{ toolbar: GridToolbar }}
         />
       </Box>
-      <ModalAgencies data={data} open={open} close={() => setOpen(!open)} />
+      <ModalAgencies
+        data={data}
+        open={open}
+        close={() => {
+          setOpen(!open);
+          setData({});
+        }}
+      />
     </div>
   );
 };
