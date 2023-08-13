@@ -32,7 +32,7 @@ const useUserManagement = () => {
     router.push(`/auth/profiles`);
   };
 
-  const signOut = () => {
+  const userSignOut = () => {
     setUserAuth(null);
     router.push(`/auth/login`);
   };
@@ -46,6 +46,7 @@ const useUserManagement = () => {
         undefined
       ) {
         await Auth.signOut();
+        router.push({ pathname: `/auth/login` });
         alert("USUARIO NO AUTORIZADO");
         return;
       }
@@ -55,15 +56,16 @@ const useUserManagement = () => {
       if (userGroups.includes("agency")) {
         router.push({ pathname: `/auth/profiles` });
       } else {
-        alert("USUARIO NO AUTORIZADO");
         await Auth.signOut();
+        router.push({ pathname: `/auth/login` });
+        alert("USUARIO NO AUTORIZADO");
       }
     } catch (error) {
       console.error("Error: ", error);
     }
   };
 
-  return { checkUser, userSignIn };
+  return { checkUser, userSignIn, userSignOut };
 };
 
 export default useUserManagement;

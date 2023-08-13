@@ -54,9 +54,8 @@ const App = ({ Component, pageProps }) => (
 );
 
 const ConfigureMain = () => {
-  const { checkUser, userSignIn } = useUserManagement();
+  const { checkUser, userSignIn, userSignOut } = useUserManagement();
   useEffect(() => {
-    console.log("HOLA");
     // crear subscripcion
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
       console.log("HUB: ", event);
@@ -65,7 +64,7 @@ const ConfigureMain = () => {
           userSignIn(data);
           break;
         case "signOut":
-          // userSignOut();
+          userSignOut();
           break;
         case "confirmSignUp":
           break;
