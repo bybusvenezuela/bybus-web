@@ -1,9 +1,16 @@
+import React, { useEffect } from "react";
 import Menu from "@/components/Menu";
 import "@/styles/globals.css";
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
-
+import { RecoilEnv, RecoilRoot } from "recoil";
+// amplify
+import { Amplify, Hub, Auth } from "aws-amplify";
+import awsExports from "@/aws-exports";
+// hooks
+import { useUserManagement } from "@/hooks";
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const theme = createTheme({
   palette: {
     primary: {
@@ -24,7 +31,7 @@ const theme = createTheme({
     fontWeightMedium: 500,
   },
 });
-
+Amplify.configure({ ...awsExports, ssr: true });
 const App = ({ Component, pageProps }) => (
   <>
     <Head>
@@ -36,11 +43,40 @@ const App = ({ Component, pageProps }) => (
       ></link>
     </Head>
     <MenuProvider>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <RecoilRoot>
+        <ConfigureMain />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </RecoilRoot>
     </MenuProvider>
   </>
 );
 
+const ConfigureMain = () => {
+  const { checkUser, userSignIn } = useUserManagement();
+  useEffect(() => {
+    console.log("HOLA");
+    // crear subscripcion
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      console.log("HUB: ", event);
+      switch (event) {
+        case "signIn":
+          userSignIn(data);
+          break;
+        case "signOut":
+          // userSignOut();
+          break;
+        case "confirmSignUp":
+          break;
+        case "autoSignIn":
+          break;
+        case "updateUserAttributes":
+          break;
+      }
+    });
+    checkUser();
+    return unsubscribe;
+  }, []);
+};
 export default App;
