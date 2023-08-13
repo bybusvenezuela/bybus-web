@@ -7,6 +7,7 @@ const useUserManagement = () => {
   const router = useRouter();
   const [userAUth, setUserAuth] = useRecoilState(userAuthenticated);
   const checkUser = async () => {
+    Auth.signOut();
     try {
       const result = await Auth.currentAuthenticatedUser();
       console.log(result);

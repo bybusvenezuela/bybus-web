@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { login } from "@/constants";
@@ -28,16 +28,23 @@ const Login = () => {
   const [userChangePwd, setUserChangePwd] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    clear();
+  }, []);
+  useEffect(() => {
+    if (isNewPassword) setPassword("");
+  }, [isNewPassword]);
+
   const onHandleSubmit = async () => {
     setIsLoading(true);
     try {
       const user = await Auth.signIn(email, password);
-      // if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-      //   setUserChangePwd(user);
-      //   setIsNewPassword(true);
-      //   setPassword("");
-      //   alert("POR FAVOR ACTUALIZAR CONTRASEÑA");
-      // }
+      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        setUserChangePwd(user);
+        setIsNewPassword(true);
+        setPassword("");
+        alert("POR FAVOR ACTUALIZAR CONTRASEÑA");
+      }
     } catch (error) {
       console.error(error);
     }
