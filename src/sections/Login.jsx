@@ -46,7 +46,8 @@ const Login = () => {
         alert("POR FAVOR ACTUALIZAR CONTRASEÑA");
       }
     } catch (error) {
-      console.error(error);
+      const { message } = new Error(error);
+      console.error(message);
     }
     setIsLoading(false);
   };

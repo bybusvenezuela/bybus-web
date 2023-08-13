@@ -7,9 +7,9 @@ const useUserManagement = () => {
   const router = useRouter();
   const [userAUth, setUserAuth] = useRecoilState(userAuthenticated);
   const checkUser = async () => {
-    Auth.signOut();
     try {
       const result = await Auth.currentAuthenticatedUser();
+      checkAttrGroups();
       console.log(result);
       router.push(`/auth/profiles`);
     } catch (error) {
@@ -28,7 +28,39 @@ const useUserManagement = () => {
 
   const userSignIn = (data) => {
     setUserAuth(data);
+    checkAttrGroups();
     router.push(`/auth/profiles`);
+  };
+
+  const signOut = () => {
+    setUserAuth(null);
+    router.push(`/auth/login`);
+  };
+
+  const checkAttrGroups = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+
+      if (
+        user?.signInUserSession.accessToken.payload["cognito:groups"] ===
+        undefined
+      ) {
+        await Auth.signOut();
+        alert("USUARIO NO AUTORIZADO");
+        return;
+      }
+      const userGroups =
+        user.signInUserSession.accessToken.payload["cognito:groups"];
+
+      if (userGroups.includes("agency")) {
+        router.push({ pathname: `/auth/profiles` });
+      } else {
+        alert("USUARIO NO AUTORIZADO");
+        await Auth.signOut();
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   return { checkUser, userSignIn };
