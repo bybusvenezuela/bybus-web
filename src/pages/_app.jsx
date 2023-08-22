@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
 import { RecoilEnv, RecoilRoot } from "recoil";
 // amplify
-import { Amplify, Hub, Auth } from "aws-amplify";
+import { Amplify, Hub } from "aws-amplify";
 import awsExports from "@/aws-exports";
 // hooks
 import { useUserManagement } from "@/hooks";
@@ -32,26 +32,30 @@ const theme = createTheme({
   },
 });
 Amplify.configure({ ...awsExports, ssr: true });
-const App = ({ Component, pageProps }) => (
-  <>
-    <Head>
-      <title>ByBus</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link
-        href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-        rel="stylesheet"
-      ></link>
-    </Head>
-    <MenuProvider>
+const App = ({ Component, pageProps }) => {
+  return (
+    <>
+      <Head>
+        <title>ByBus</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+          rel="stylesheet"
+        ></link>
+      </Head>
       <RecoilRoot>
-        <ConfigureMain />
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <MenuProvider>
+          <ThemeProvider theme={theme}>
+            <RecoilRoot>
+              <ConfigureMain />
+              <Component {...pageProps} />
+            </RecoilRoot>
+          </ThemeProvider>
+        </MenuProvider>
       </RecoilRoot>
-    </MenuProvider>
-  </>
-);
+    </>
+  );
+};
 
 const ConfigureMain = () => {
   const { checkUser, userSignIn, userSignOut } = useUserManagement();

@@ -1,15 +1,16 @@
 import React from "react";
 import { Auth } from "aws-amplify";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userAuthenticated } from "@/atoms";
 import { useRouter } from "next/router";
 const useUserManagement = () => {
   const router = useRouter();
-  const [userAUth, setUserAuth] = useRecoilState(userAuthenticated);
+  const setUserAuth = useSetRecoilState(userAuthenticated);
   const checkUser = async () => {
     try {
       const result = await Auth.currentAuthenticatedUser();
-      checkAttrGroups();
+      setUserAuth(result);
+      // checkAttrGroups();
       console.log(result);
       router.push(`/auth/profiles`);
     } catch (error) {
@@ -27,8 +28,8 @@ const useUserManagement = () => {
   };
 
   const userSignIn = (data) => {
-    setUserAuth(data);
-    checkAttrGroups();
+    // setUserAuth(data);
+    // checkAttrGroups();
     router.push(`/auth/profiles`);
   };
 
