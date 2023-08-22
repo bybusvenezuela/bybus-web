@@ -6,6 +6,174 @@ export const registerAgencyUser = /* GraphQL */ `
     registerAgencyUser(input: $input)
   }
 `;
+export const deleteAgency = /* GraphQL */ `
+  mutation DeleteAgency(
+    $input: DeleteAgencyInput!
+    $condition: ModelAgencyConditionInput
+  ) {
+    deleteAgency(input: $input, condition: $condition) {
+      id
+      cognitoID
+      name
+      rif
+      email
+      phone
+      officies {
+        items {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      employees {
+        items {
+          id
+          name
+          email
+          phone
+          ping
+          type
+          agencyID
+          officeID
+          permissions
+          owner
+          lastConnection
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      bookings {
+        items {
+          id
+          code
+          agencyID
+          officeID
+          transport
+          stock
+          price
+          createdBy
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteCustomer = /* GraphQL */ `
+  mutation DeleteCustomer(
+    $input: DeleteCustomerInput!
+    $condition: ModelCustomerConditionInput
+  ) {
+    deleteCustomer(input: $input, condition: $condition) {
+      id
+      name
+      lastName
+      ci
+      email
+      phone
+      bookingID
+      ticketID
+      ticket {
+        id
+        code
+        bookingID
+        stop
+        customerID
+        seating
+        status
+        description
+        url
+        owner
+        createdAt
+        updatedAt
+        stopBookingTicketsId
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTicket = /* GraphQL */ `
+  mutation DeleteTicket(
+    $input: DeleteTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    deleteTicket(input: $input, condition: $condition) {
+      id
+      code
+      bookingID
+      stop
+      customerID
+      seating
+      status
+      description
+      url
+      owner
+      createdAt
+      updatedAt
+      stopBookingTicketsId
+      __typename
+    }
+  }
+`;
+export const deleteOrderTicket = /* GraphQL */ `
+  mutation DeleteOrderTicket(
+    $input: DeleteOrderTicketInput!
+    $condition: ModelOrderTicketConditionInput
+  ) {
+    deleteOrderTicket(input: $input, condition: $condition) {
+      id
+      orderID
+      ticketID
+      ticket {
+        id
+        code
+        bookingID
+        stop
+        customerID
+        seating
+        status
+        description
+        url
+        owner
+        createdAt
+        updatedAt
+        stopBookingTicketsId
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      orderDetailOrderTicketsId
+      __typename
+    }
+  }
+`;
 export const createEmailSusbcription = /* GraphQL */ `
   mutation CreateEmailSusbcription(
     $input: CreateEmailSusbcriptionInput!
@@ -189,81 +357,6 @@ export const updateAgency = /* GraphQL */ `
     $condition: ModelAgencyConditionInput
   ) {
     updateAgency(input: $input, condition: $condition) {
-      id
-      cognitoID
-      name
-      rif
-      email
-      phone
-      officies {
-        items {
-          id
-          agencyID
-          name
-          state
-          city
-          address
-          email
-          phone
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      employees {
-        items {
-          id
-          name
-          email
-          phone
-          ping
-          type
-          agencyID
-          officeID
-          permissions
-          owner
-          lastConnection
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      bookings {
-        items {
-          id
-          code
-          agencyID
-          officeID
-          transport
-          stock
-          price
-          createdBy
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteAgency = /* GraphQL */ `
-  mutation DeleteAgency(
-    $input: DeleteAgencyInput!
-    $condition: ModelAgencyConditionInput
-  ) {
-    deleteAgency(input: $input, condition: $condition) {
       id
       cognitoID
       name
@@ -1253,43 +1346,6 @@ export const updateCustomer = /* GraphQL */ `
     }
   }
 `;
-export const deleteCustomer = /* GraphQL */ `
-  mutation DeleteCustomer(
-    $input: DeleteCustomerInput!
-    $condition: ModelCustomerConditionInput
-  ) {
-    deleteCustomer(input: $input, condition: $condition) {
-      id
-      name
-      lastName
-      ci
-      email
-      phone
-      bookingID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const createTicket = /* GraphQL */ `
   mutation CreateTicket(
     $input: CreateTicketInput!
@@ -1319,29 +1375,6 @@ export const updateTicket = /* GraphQL */ `
     $condition: ModelTicketConditionInput
   ) {
     updateTicket(input: $input, condition: $condition) {
-      id
-      code
-      bookingID
-      stop
-      customerID
-      seating
-      status
-      description
-      url
-      owner
-      createdAt
-      updatedAt
-      stopBookingTicketsId
-      __typename
-    }
-  }
-`;
-export const deleteTicket = /* GraphQL */ `
-  mutation DeleteTicket(
-    $input: DeleteTicketInput!
-    $condition: ModelTicketConditionInput
-  ) {
-    deleteTicket(input: $input, condition: $condition) {
       id
       code
       bookingID
@@ -1398,39 +1431,6 @@ export const updateOrderTicket = /* GraphQL */ `
     $condition: ModelOrderTicketConditionInput
   ) {
     updateOrderTicket(input: $input, condition: $condition) {
-      id
-      orderID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      orderDetailOrderTicketsId
-      __typename
-    }
-  }
-`;
-export const deleteOrderTicket = /* GraphQL */ `
-  mutation DeleteOrderTicket(
-    $input: DeleteOrderTicketInput!
-    $condition: ModelOrderTicketConditionInput
-  ) {
-    deleteOrderTicket(input: $input, condition: $condition) {
       id
       orderID
       ticketID
