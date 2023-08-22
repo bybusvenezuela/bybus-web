@@ -1,7 +1,3 @@
-# type modal inputs
-
-###############################
-
 type EmailSusbcription
   @model
   @auth(
@@ -55,25 +51,42 @@ enum SusbcriptionAgencyStatus {
 
 type Agency
   @model
-  @auth(
-    rules: [
-      { allow: owner, operations: [read, update] }
-      { allow: private, provider: iam, operations: [read] }
-      { allow: public, provider: iam, operations: [read] }
-      { allow: groups, groups: ["sp"], operations: [read, update] }
-    ]
-  ) {
-  userID: ID! @primaryKey
+  @auth(rules: [{ allow: owner, operations: [read, update] }]) {
+  id: ID
+  cognitoID: ID
   name: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
   rif: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
   email: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
   phone: String
-  officies: [Office] @hasMany(indexName: "byAgencyToOffice", fields: ["userID"])
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  officies: [Office] @hasMany(indexName: "byAgencyToOffice", fields: ["id"])
   employees: [Employee]
-    @hasMany(indexName: "byAgencyToEmployee", fields: ["userID"])
-  bookings: [Booking]
-    @hasMany(indexName: "byAgencyToBooking", fields: ["userID"])
-  owner: String @auth(rules: [{ allow: owner, operations: [read] }])
+    @hasMany(indexName: "byAgencyToEmployee", fields: ["id"])
+  bookings: [Booking] @hasMany(indexName: "byAgencyToBooking", fields: ["id"])
+  owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
 type Office
@@ -172,7 +185,6 @@ type Booking
   ) {
   id: ID!
   code: String
-  # J000000000BARCAR0707202300
   agencyID: ID! @index(name: "byAgencyToBooking")
   officeID: ID! @index(name: "byOfficeToBooking")
   transport: ID! @index(name: "byTransportToBooking")
@@ -183,9 +195,7 @@ type Booking
     @hasMany(indexName: "byBookingToStopBooking", fields: ["id"])
   departure: DepartureArrivalStopFields
   arrival: DepartureArrivalStopFields
-  departureCity: String!
-  arrivalCity: String! 
-  stock: Float
+  stock: Int
   price: Float
   createdBy: ID
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
@@ -399,25 +409,13 @@ enum StatusUser {
 
 type Mutation {
   registerAgencyUser(input: RegisterUserInput!): String
-    @function(name: "adminCreateUserCognito-${env}")
+    @function(name: "adminRegisterAgency-${env}")
 }
 
 input RegisterUserInput {
   name: String!
   username: String!
-  password: String!
   rif: String!
-  phone: String
-  userType: String!
-}
-
-type Todo @model @searchable @auth(rules: [{ allow: public, provider: iam }]) {
-  id: ID!
-  name: String
-  type: TodoType 
-}
-
-type TodoType {
-  city: String
-  state: String
+  phone: String!
+  agencySubsTableID: String!
 }

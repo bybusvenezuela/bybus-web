@@ -35,7 +35,7 @@ yarn-error.log*
 next-env.d.ts
 
 #amplify-do-not-edit-begin
-amplify/*
+amplify/**
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
@@ -55,5 +55,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
-/amplify
 #amplify-do-not-edit-end
