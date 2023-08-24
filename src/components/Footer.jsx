@@ -3,41 +3,41 @@ import Link from "next/link";
 import { footer } from "@/constants";
 import styles from "@/styles/Footer.module.css";
 import Image from "next/image";
-import { getEmailSubscriptionbyEmail } from '@/graphql/Custom/Queries/Footer'
-import { createEmailSusbcription } from '@/graphql/Custom/Mutations/Footer'
+import { getEmailSubscriptionbyEmail } from "@/graphql/queries";
+import { createEmailSusbcription } from "@/graphql/mutations";
 import { API } from "aws-amplify";
 const Footer = () => {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
   const { contact, links, legal, newsletter } = footer;
 
   const onHandleSubscription = async () => {
     try {
-      if (!email) return
-      console.log(email)
+      if (!email) return;
+      console.log(email);
       const byEmail = await API.graphql({
         query: getEmailSubscriptionbyEmail,
         authMode: "AWS_IAM",
         variables: {
-          email: email
-        }
-      })
-      if (!byEmail.data) return setEmail("")
+          email: email,
+        },
+      });
+      if (!byEmail.data) return setEmail("");
       const result = await API.graphql({
         query: createEmailSusbcription,
         authMode: "AWS_IAM",
         variables: {
           input: {
-            email: email
-          }
-        }
-      })
+            email: email,
+          },
+        },
+      });
       if (result?.data) alert("Email registrado");
       setEmail("");
     } catch (error) {
       console.error("ERROR AL SUSBCRIBIR CORREO: ", error);
-      alert("Error al subscribir correo")
+      alert("Error al subscribir correo");
     }
-  }
+  };
   return (
     <div className="container section">
       <div className={styles.content}>

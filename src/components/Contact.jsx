@@ -5,8 +5,8 @@ import { createAgencySubscription } from "@/graphql/mutations";
 import { CircularProgress, Button } from "@mui/material";
 import { API } from "aws-amplify";
 import {
-  getAgencySubscriptionbyEmail,
   getAgencySubscriptionbyRif,
+  getAgencySubscriptionbyEmail,
 } from "@/graphql/queries";
 const Contact = ({ contactRef }) => {
   const form = useRef();
@@ -19,16 +19,17 @@ const Contact = ({ contactRef }) => {
     e.preventDefault();
     if ((!name, !rif, !email, !phone))
       return alert("FORMULARIO: CAMPOS VACIOS");
+    const params = {
+      input: {
+        name,
+        rif,
+        email,
+        phone,
+      },
+    };
+    console.log(params);
     setLoading(true);
     try {
-      const params = {
-        input: {
-          name,
-          rif,
-          email,
-          phone,
-        },
-      };
       // verificamos si el rif ya existe
       const byRif = await API.graphql({
         query: getAgencySubscriptionbyRif,
@@ -37,6 +38,7 @@ const Contact = ({ contactRef }) => {
           rif: rif,
         },
       });
+      console.log(byRif);
       // si existe condicionamos
       if (byRif?.data?.getAgencySubscriptionbyRif?.items.length > 0) {
         const status =
