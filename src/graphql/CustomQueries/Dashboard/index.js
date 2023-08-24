@@ -47,3 +47,9 @@ export const listAgencySubscriptions = /* GraphQL */ `
     }
   }
 `;
+
+export const example = /* GraphQL */ `
+  query Example {
+    example
+  }
+`;
