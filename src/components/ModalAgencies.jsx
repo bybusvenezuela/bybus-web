@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
-import { API, Storage } from "aws-amplify";
-import { registerAgencyUser } from "@/graphql/CustomMutations/dashboard";
-import { example } from "@/graphql/CustomQueries/Dashboard";
+import { API, graphqlOperation } from "aws-amplify";
+import { echo, listAgencySubscriptions } from "@/graphql/queries";
 
 export default function ModalAgencies({ open, close, data }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -54,11 +53,12 @@ export default function ModalAgencies({ open, close, data }) {
       phone: phone,
       agencySubsTableID: tableID,
     };
-
-    const ejele = await API.graphql({
-      query: example,
-    });
-    console.log(ejele);
+    API.graphql({
+      query: echo,
+      variables:{
+        msg:"ejele"
+      }
+    }).then((r) => console.log(r));
     return;
     // setIsLoading(true);
     // try {

@@ -8,7 +8,7 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusauth"
         },
         {
           "attributes": [
@@ -16,20 +16,20 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "AdminQueriesf7851c9b"
+          "resourceName": "AdminQueriesa733e602"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
-    "bybusGraphql": {
+    "bybusgraphql": {
       "dependsOn": [
         {
           "attributes": [
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusauth"
         }
       ],
       "output": {
@@ -38,7 +38,7 @@
             {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
-                "userPoolId": "authbybus"
+                "userPoolId": "authbybusauth"
               }
             }
           ],
@@ -52,7 +52,7 @@
     }
   },
   "auth": {
-    "bybus": {
+    "bybusauth": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -89,7 +89,7 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusauth"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -97,7 +97,7 @@
     }
   },
   "function": {
-    "AdminQueriesf7851c9b": {
+    "AdminQueriesa733e602": {
       "build": true,
       "dependsOn": [
         {
@@ -105,29 +105,51 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybus"
+          "resourceName": "bybusauth"
         }
       ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "echofunction": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_AdminQueriesf7851c9b_deploymentBucketName": {
+    "AMPLIFY_function_AdminQueriesa733e602_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesf7851c9b"
+          "resourceName": "AdminQueriesa733e602"
         }
       ]
     },
-    "AMPLIFY_function_AdminQueriesf7851c9b_s3Key": {
+    "AMPLIFY_function_AdminQueriesa733e602_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesf7851c9b"
+          "resourceName": "AdminQueriesa733e602"
+        }
+      ]
+    },
+    "AMPLIFY_function_echofunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "echofunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_echofunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "echofunction"
         }
       ]
     }
-  }
+  },
+  "storage": {}
 }

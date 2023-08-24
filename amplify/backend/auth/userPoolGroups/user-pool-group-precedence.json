@@ -2,5 +2,13 @@
   {
     "groupName": "sp",
     "precedence": 1
+  },
+  {
+    "groupName": "admin",
+    "precedence": 2
+  },
+  {
+    "groupName": "agency",
+    "precedence": 3
   }
 ]

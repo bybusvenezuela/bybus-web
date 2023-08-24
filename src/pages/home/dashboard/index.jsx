@@ -13,7 +13,7 @@ import { Auth, API } from "aws-amplify";
 import {
   listEmailSusbcriptions,
   listAgencySubscriptions,
-} from "@/graphql/CustomQueries/Dashboard";
+} from "@/graphql/queries";
 
 const Dashboard = () => {
   const [emailSubs, setEmailSubs] = useState([]);

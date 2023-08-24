@@ -13,18 +13,22 @@
     },
     "categories": {
       "auth": {
-        "bybus": {},
+        "bybusauth": {},
         "userPoolGroups": {}
       },
-      "api": {
-        "bybusGraphql": {},
-        "AdminQueries": {}
-      },
       "function": {
-        "AdminQueriesf7851c9b": {
+        "AdminQueriesa733e602": {
           "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
-          "s3Key": "amplify-builds/AdminQueriesf7851c9b-666439653373374f3976-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesa733e602-666439653373374f3976-build.zip"
+        },
+        "echofunction": {
+          "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
+          "s3Key": "amplify-builds/echofunction-764251777267697a7036-build.zip"
         }
+      },
+      "api": {
+        "AdminQueries": {},
+        "bybusgraphql": {}
       }
     }
   }

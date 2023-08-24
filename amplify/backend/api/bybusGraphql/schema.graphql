@@ -2,9 +2,9 @@ type EmailSusbcription
   @model
   @auth(
     rules: [
-      { allow: public, provider: iam, operations: [create, update] }
-      { allow: private, provider: iam, operations: [create, update] }
-      { allow: groups, groups: ["sp"] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
     ]
   ) {
   id: ID!
@@ -19,9 +19,9 @@ type AgencySubscription
   @model
   @auth(
     rules: [
-      { allow: public, provider: iam, operations: [create, update] }
-      { allow: private, provider: iam, operations: [create, update] }
-      { allow: groups, groups: ["sp"] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
     ]
   ) {
   id: ID!
@@ -49,12 +49,43 @@ enum SusbcriptionAgencyStatus {
   SCHEDULED
 }
 
-type Agency @model @auth(rules: [{ allow: owner }]) {
+type Agency
+  @model
+  @auth(rules: [{ allow: owner, operations: [read, update] }]) {
   id: ID
   cognitoID: ID
-  name: String @auth(rules: [{ allow: owner }])
-  rif: String @auth(rules: [{ allow: owner }])
-  email: String @auth(rules: [{ allow: owner }])
-  phone: String @auth(rules: [{ allow: owner }])
+  name: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  rif: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  email: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  phone: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+
+type Query {
+  echo(msg: String): String @function(name: "echofunction-${env}")
 }

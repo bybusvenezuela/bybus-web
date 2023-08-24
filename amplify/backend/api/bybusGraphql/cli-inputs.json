@@ -1,7 +1,7 @@
 {
   "version": 1,
   "serviceConfiguration": {
-    "apiName": "bybusGraphql",
+    "apiName": "bybusgraphql",
     "serviceName": "AppSync",
     "defaultAuthType": {
       "mode": "AWS_IAM"
@@ -9,7 +9,7 @@
     "additionalAuthTypes": [
       {
         "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authbybus"
+        "cognitoUserPoolId": "authbybusauth"
       }
     ]
   }

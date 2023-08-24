@@ -1,13 +1,13 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.1.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.3.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "env": {
       "Type": "String"
     },
-    "authbybusUserPoolId": {
+    "authbybusauthUserPoolId": {
       "Type": "String",
-      "Default": "authbybusUserPoolId"
+      "Default": "authbybusauthUserPoolId"
     },
     "deploymentBucketName": {
       "Type": "String"
@@ -38,12 +38,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesf7851c9b",
+            "AdminQueriesa733e602",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesf7851c9b",
+                  "AdminQueriesa733e602",
                   "-",
                   {
                     "Ref": "env"
@@ -60,7 +60,7 @@
             },
             "GROUP": "sp",
             "USERPOOL": {
-              "Ref": "authbybusUserPoolId"
+              "Ref": "authbybusauthUserPoolId"
             }
           }
         },
@@ -88,12 +88,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesf7851c9bLambdaRole",
+            "AdminQueriesa733e602LambdaRole",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesf7851c9bLambdaRole",
+                  "AdminQueriesa733e602LambdaRole",
                   "-",
                   {
                     "Ref": "env"
@@ -189,7 +189,7 @@
                     },
                     ":userpool/",
                     {
-                      "Ref": "authbybusUserPoolId"
+                      "Ref": "authbybusauthUserPoolId"
                     }
                   ]
                 ]
