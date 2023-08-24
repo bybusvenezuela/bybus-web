@@ -1,0 +1,15 @@
+{
+  "resourceName": "bybuss3",
+  "policyUUID": "90cc3f05",
+  "bucketName": "bybuss3",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE"
+}

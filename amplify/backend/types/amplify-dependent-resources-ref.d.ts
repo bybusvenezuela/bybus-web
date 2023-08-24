@@ -41,5 +41,11 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     }
+  },
+  "storage": {
+    "bybuss3": {
+      "BucketName": "string",
+      "Region": "string"
+    }
   }
 }
