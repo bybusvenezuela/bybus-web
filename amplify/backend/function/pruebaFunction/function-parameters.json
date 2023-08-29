@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "api": {
+      "bybusgraphql": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "auth": {
+      "bybusauth": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "AgencySubscription:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Agency:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

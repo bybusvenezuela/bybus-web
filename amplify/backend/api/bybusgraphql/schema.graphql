@@ -1,0 +1,99 @@
+type EmailSusbcription
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
+    ]
+  ) {
+  id: ID!
+  email: String!
+    @index(
+      name: "emailSubscriptionbyEmail"
+      queryField: "getEmailSubscriptionbyEmail"
+    )
+}
+
+type AgencySubscription
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  rif: String!
+    @index(
+      name: "agencySubscriptionbyRif"
+      queryField: "getAgencySubscriptionbyRif"
+    )
+  email: String!
+    @index(
+      name: "agencySubscriptionbyEmail"
+      queryField: "getAgencySubscriptionbyEmail"
+    )
+  phone: String!
+  subscriptionDate: String
+  status: SusbcriptionAgencyStatus @default(value: "PENDING")
+  scheduledDate: String
+}
+
+enum SusbcriptionAgencyStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  SCHEDULED
+}
+
+type Agency
+  @model
+  @auth(rules: [{ allow: owner, operations: [read, update] }]) {
+  id: ID
+  cognitoID: ID
+  name: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  rif: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  email: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  phone: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
+  owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+type Mutation {
+  registerAgencyAdmin(input: RegisterUserInput!): String
+    @function(name: "adminCreateAgency-${env}")
+}
+
+input RegisterUserInput {
+  name: String!
+  username: String!
+  rif: String!
+  phone: String!
+  agencySubsTableID: String!
+}
