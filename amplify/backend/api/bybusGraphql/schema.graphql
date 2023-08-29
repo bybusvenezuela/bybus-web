@@ -85,7 +85,23 @@ type Agency
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
-
 type Query {
-  echo(msg: String): String @function(name: "echofunction-${env}")
+  echo(msg: String): String
+    @function(name: "echofunction-${env}")
+    @auth(rules: [{ allow: groups, groups: ["sp"] }])
+
+  prueba: String @function(name: "pruebaFunction-${env}")
+}
+
+type Mutation {
+  registerAgencyAdmin(input: RegisterUserInput!): String
+    @function(name: "adminCreateAgency-${env}")
+}
+
+input RegisterUserInput {
+  name: String!
+  username: String!
+  rif: String!
+  phone: String!
+  agencySubsTableID: String!
 }

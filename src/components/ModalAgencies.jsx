@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
-import { API, graphqlOperation } from "aws-amplify";
-import { echo, listAgencySubscriptions } from "@/graphql/queries";
-
+import { API } from "aws-amplify";
+import { echo, prueba } from "@/graphql/queries";
+import { registerAgencyAdmin } from "@/graphql/mutations";
 export default function ModalAgencies({ open, close, data }) {
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(true);
@@ -53,31 +53,24 @@ export default function ModalAgencies({ open, close, data }) {
       phone: phone,
       agencySubsTableID: tableID,
     };
-    API.graphql({
-      query: echo,
-      variables:{
-        msg:"ejele"
-      }
-    }).then((r) => console.log(r));
-    return;
-    // setIsLoading(true);
-    // try {
-    //   const temporaryPassword = generateRandomString();
-    //   console.log(temporaryPassword);
-    //   // registrar agencia
-    //   const response = await API.graphql({
-    //     query: registerAgencyUser,
-    //     variables: {
-    //       input: params,
-    //     },
-    //   });
-    //   console.log("RESPONSE: ", response);
-    //   // cambiamos
-    // } catch (error) {
-    //   console.error("ERROR AL REGISTAR AGENCIA: ", error);
-    //   setIsLoading(false);
-    // }
-    // reset();
+
+    setIsLoading(true);
+    try {
+      // registrar agencia
+      const response = await API.graphql({
+        query: registerAgencyAdmin,
+        variables: {
+          input: params,
+        },
+      });
+
+      console.log("RESPONSE: ", response);
+      // cambiamos
+    } catch (error) {
+      console.error("ERROR AL REGISTAR AGENCIA: ", error);
+      setIsLoading(false);
+    }
+    reset();
   };
 
   const addUserToGroup = async (username = "") => {

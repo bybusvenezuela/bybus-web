@@ -36,14 +36,14 @@
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-              "userPoolConfig": {
-                "userPoolId": "authbybusauth"
-              }
+              "authenticationType": "AWS_IAM"
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authbybusauth"
+            }
           }
         }
       },
@@ -111,8 +111,52 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "adminCreateAgency": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusauth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "echofunction": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pruebaFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybusauth"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -134,6 +178,22 @@
         }
       ]
     },
+    "AMPLIFY_function_adminCreateAgency_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminCreateAgency"
+        }
+      ]
+    },
+    "AMPLIFY_function_adminCreateAgency_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "adminCreateAgency"
+        }
+      ]
+    },
     "AMPLIFY_function_echofunction_deploymentBucketName": {
       "usedBy": [
         {
@@ -147,6 +207,22 @@
         {
           "category": "function",
           "resourceName": "echofunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_pruebaFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pruebaFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_pruebaFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pruebaFunction"
         }
       ]
     }

@@ -19,19 +19,27 @@
       "function": {
         "AdminQueriesa733e602": {
           "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
-          "s3Key": "amplify-builds/AdminQueriesa733e602-666439653373374f3976-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesa733e602-4c485032462f33554d79-build.zip"
         },
         "echofunction": {
           "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
-          "s3Key": "amplify-builds/echofunction-764251777267697a7036-build.zip"
+          "s3Key": "amplify-builds/echofunction-4e5a446a724a346a6a6f-build.zip"
+        },
+        "pruebaFunction": {
+          "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
+          "s3Key": "amplify-builds/pruebaFunction-614551643655514d7165-build.zip"
+        },
+        "adminCreateAgency": {
+          "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
+          "s3Key": "amplify-builds/adminCreateAgency-7862696a6d4473634730-build.zip"
         }
+      },
+      "storage": {
+        "bybuss3": {}
       },
       "api": {
         "AdminQueries": {},
         "bybusgraphql": {}
-      },
-      "storage": {
-        "bybuss3": {}
       }
     }
   }
