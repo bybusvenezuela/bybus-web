@@ -1,27 +1,5 @@
 {
   "api": {
-    "AdminQueries": {
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "bybusauth"
-        },
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "AdminQueriesa733e602"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
     "bybusgraphql": {
       "dependsOn": [
         {
@@ -29,21 +7,21 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybusauth"
+          "resourceName": "bybus"
         }
       ],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AWS_IAM"
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authbybus"
+              }
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authbybusauth"
-            }
+            "authenticationType": "AWS_IAM"
           }
         }
       },
@@ -52,7 +30,7 @@
     }
   },
   "auth": {
-    "bybusauth": {
+    "bybus": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -89,7 +67,7 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybusauth"
+          "resourceName": "bybus"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -97,7 +75,7 @@
     }
   },
   "function": {
-    "AdminQueriesa733e602": {
+    "adminCreateAgency": {
       "build": true,
       "dependsOn": [
         {
@@ -105,15 +83,8 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "bybusauth"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "adminCreateAgency": {
-      "build": true,
-      "dependsOn": [
+          "resourceName": "bybus"
+        },
         {
           "attributes": [
             "GraphQLAPIIdOutput",
@@ -121,37 +92,13 @@
           ],
           "category": "api",
           "resourceName": "bybusgraphql"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "bybusauth"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
-  "hosting": {},
   "parameters": {
-    "AMPLIFY_function_AdminQueriesa733e602_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueriesa733e602"
-        }
-      ]
-    },
-    "AMPLIFY_function_AdminQueriesa733e602_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueriesa733e602"
-        }
-      ]
-    },
     "AMPLIFY_function_adminCreateAgency_deploymentBucketName": {
       "usedBy": [
         {
@@ -170,7 +117,7 @@
     }
   },
   "storage": {
-    "bybuss3": {
+    "s3bybus": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

@@ -1,17 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "AdminQueries": {
-      "ApiId": "string",
-      "ApiName": "string",
-      "RootUrl": "string"
-    },
     "bybusgraphql": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string"
     }
   },
   "auth": {
-    "bybusauth": {
+    "bybus": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -27,13 +22,6 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "AdminQueriesa733e602": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
-    },
     "adminCreateAgency": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -43,7 +31,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
-    "bybuss3": {
+    "s3bybus": {
       "BucketName": "string",
       "Region": "string"
     }
