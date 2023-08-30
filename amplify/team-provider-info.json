@@ -36,6 +36,12 @@
       },
       "storage": {
         "bybuss3": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d6859wzvybsck",
+          "type": "cicd"
+        }
       }
     }
   }
