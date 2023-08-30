@@ -1,7 +1,7 @@
 {
-  "resourceName": "bybuss3",
-  "policyUUID": "90cc3f05",
-  "bucketName": "bybuss3",
+  "resourceName": "s3bybus",
+  "policyUUID": "4685208b",
+  "bucketName": "s3bybus",
   "storageAccess": "authAndGuest",
   "guestAccess": [
     "READ"

@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 import { API } from "aws-amplify";
-import { echo, prueba } from "@/graphql/queries";
 import { registerAgencyAdmin } from "@/graphql/mutations";
 export default function ModalAgencies({ open, close, data }) {
   const [isLoading, setIsLoading] = useState(false);
