@@ -36,10 +36,6 @@
       },
       "storage": {
         "bybuss3": {}
-      },
-      "api": {
-        "AdminQueries": {},
-        "bybusgraphql": {}
       }
     }
   }
