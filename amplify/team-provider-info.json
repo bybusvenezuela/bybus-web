@@ -24,24 +24,14 @@
         "adminCreateAgency": {
           "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
           "s3Key": "amplify-builds/adminCreateAgency-7862696a6d4473634730-build.zip"
-        },
-        "echofunction": {
-          "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
-          "s3Key": "amplify-builds/echofunction-4e5a446a724a346a6a6f-build.zip"
-        },
-        "pruebaFunction": {
-          "deploymentBucketName": "amplify-bybus-dev-163504-deployment",
-          "s3Key": "amplify-builds/pruebaFunction-614551643655514d7165-build.zip"
         }
       },
       "storage": {
         "bybuss3": {}
       },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d6859wzvybsck",
-          "type": "cicd"
-        }
+      "api": {
+        "AdminQueries": {},
+        "bybusgraphql": {}
       }
     }
   }

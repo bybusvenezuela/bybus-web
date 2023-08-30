@@ -132,41 +132,9 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "echofunction": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "pruebaFunction": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ],
-          "category": "api",
-          "resourceName": "bybusgraphql"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "bybusauth"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
     }
   },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "type": "cicd"
-    }
-  },
+  "hosting": {},
   "parameters": {
     "AMPLIFY_function_AdminQueriesa733e602_deploymentBucketName": {
       "usedBy": [
@@ -197,54 +165,6 @@
         {
           "category": "function",
           "resourceName": "adminCreateAgency"
-        }
-      ]
-    },
-    "AMPLIFY_function_echofunction_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "echofunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_echofunction_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "echofunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_pruebaFunction_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "pruebaFunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_pruebaFunction_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "pruebaFunction"
-        }
-      ]
-    },
-    "AMPLIFY_hosting_amplifyhosting_appId": {
-      "usedBy": [
-        {
-          "category": "hosting",
-          "resourceName": "amplifyhosting"
-        }
-      ]
-    },
-    "AMPLIFY_hosting_amplifyhosting_type": {
-      "usedBy": [
-        {
-          "category": "hosting",
-          "resourceName": "amplifyhosting"
         }
       ]
     }
