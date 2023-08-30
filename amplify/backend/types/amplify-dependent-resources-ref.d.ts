@@ -22,7 +22,14 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "adminCreateAgency": {
+    "bybus508ffe57": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "createAgencyAdmin": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
