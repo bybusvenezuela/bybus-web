@@ -58,6 +58,7 @@ export default function ModalAgencies({ open, close, data }) {
       // registrar agencia
       const response = await API.graphql({
         query: registerAgencyAdmin,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: params,
         },

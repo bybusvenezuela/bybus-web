@@ -160,3 +160,8 @@ export const updateAgency = /* GraphQL */ `
     }
   }
 `;
+export const registerAgencyAdmin = /* GraphQL */ `
+  mutation RegisterAgencyAdmin($input: RegisterUserInput!) {
+    registerAgencyAdmin(input: $input)
+  }
+`;

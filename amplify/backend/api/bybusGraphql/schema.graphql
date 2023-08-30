@@ -85,10 +85,11 @@ type Agency
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
-# type Mutation {
-#   registerAgencyAdmin(input: RegisterUserInput!): String
-#     @function(name: "adminCreateAgency-${env}")
-# }
+type Mutation {
+  registerAgencyAdmin(input: RegisterUserInput!): String
+    @function(name: "createAgencyAdmin-${env}")
+    @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
+}
 
 input RegisterUserInput {
   name: String!

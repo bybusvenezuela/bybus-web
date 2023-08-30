@@ -13,26 +13,6 @@
         "Query",
         "Mutation"
       ]
-    },
-    "storage": {
-      "EmailSusbcription:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
-      "AgencySubscription:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
-      "Agency:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ]
     }
   },
   "lambdaLayers": []
