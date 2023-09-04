@@ -229,6 +229,8 @@ export const getAgency = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -383,6 +385,8 @@ export const getOffice = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -652,6 +656,8 @@ export const getTransport = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -794,6 +800,8 @@ export const getBooking = /* GraphQL */ `
         nextToken
         __typename
       }
+      departureCity
+      arrivalCity
       departure {
         time
         date
@@ -845,6 +853,8 @@ export const listBookings = /* GraphQL */ `
           nextToken
           __typename
         }
+        departureCity
+        arrivalCity
         departure {
           time
           date
@@ -907,6 +917,8 @@ export const bookingsByAgencyID = /* GraphQL */ `
           nextToken
           __typename
         }
+        departureCity
+        arrivalCity
         departure {
           time
           date
@@ -969,6 +981,8 @@ export const bookingsByOfficeID = /* GraphQL */ `
           nextToken
           __typename
         }
+        departureCity
+        arrivalCity
         departure {
           time
           date
@@ -1031,6 +1045,8 @@ export const bookingsByTransport = /* GraphQL */ `
           nextToken
           __typename
         }
+        departureCity
+        arrivalCity
         departure {
           time
           date

@@ -8,15 +8,44 @@ export const getAgency = /* GraphQL */ `
       rif
       email
       phone
+
       officies {
         items {
           id
+          agencyID
           name
           state
           city
           address
           email
           phone
+          transports {
+            items {
+              id
+              model
+              serial
+              type
+              officeID
+            }
+          }
+        }
+      }
+      employees {
+        items {
+          id
+          name
+          email
+          phone
+          pin
+          type
+          agencyID
+          officeID
+          permissions
+          owner
+          lastConnection
+          createdAt
+          updatedAt
+          __typename
         }
       }
       __typename

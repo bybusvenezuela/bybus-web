@@ -59,6 +59,8 @@ export const deleteAgency = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -330,6 +332,8 @@ export const createAgency = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -406,6 +410,8 @@ export const updateAgency = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -481,6 +487,8 @@ export const createOffice = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -556,6 +564,8 @@ export const updateOffice = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -631,6 +641,8 @@ export const deleteOffice = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -781,6 +793,8 @@ export const createTransport = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -818,6 +832,8 @@ export const updateTransport = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -855,6 +871,8 @@ export const deleteTransport = /* GraphQL */ `
           agencyID
           officeID
           transport
+          departureCity
+          arrivalCity
           stock
           price
           createdBy
@@ -936,6 +954,8 @@ export const createBooking = /* GraphQL */ `
         nextToken
         __typename
       }
+      departureCity
+      arrivalCity
       departure {
         time
         date
@@ -1024,6 +1044,8 @@ export const updateBooking = /* GraphQL */ `
         nextToken
         __typename
       }
+      departureCity
+      arrivalCity
       departure {
         time
         date
@@ -1112,6 +1134,8 @@ export const deleteBooking = /* GraphQL */ `
         nextToken
         __typename
       }
+      departureCity
+      arrivalCity
       departure {
         time
         date

@@ -201,6 +201,8 @@ type Booking
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])
   stops: [StopBooking]
     @hasMany(indexName: "byBookingToStopBooking", fields: ["id"])
+  departureCity: String!
+  arrivalCity: String!
   departure: DepartureArrivalStopFields
   arrival: DepartureArrivalStopFields
   stock: Int

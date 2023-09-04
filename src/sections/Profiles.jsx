@@ -34,7 +34,7 @@ const Profiles = ({ error }) => {
   useEffect(() => {
     if (userAuth) fetchEmployees();
   }, [userAuth]);
-
+  console.log(userAuth);
   const fetchEmployees = async () => {
     try {
       console.log(userAuth);
@@ -65,10 +65,10 @@ const Profiles = ({ error }) => {
     saveToLocalStorage();
     switch (params.rol) {
       case "owner":
-        if (!agency.pin) setFirsTime(true);
+        if (!agency?.pin) setFirsTime(true);
         break;
       case "employee":
-        if (!params.data.pin) setFirsTime(true);
+        if (!params?.data.pin) setFirsTime(true);
         break;
       default:
         break;

@@ -20,24 +20,23 @@ const Dashboard = ({ dataResult, userType }) => {
   const [travels, setTravels] = useState(false);
   const [transport, setTransport] = useState(false);
   const [data, setData] = useState({});
-
   const Agency = async () => {
     const user = await Auth.currentAuthenticatedUser({});
-    // const list = await API.graphql({
-    //   query: queries.getAgency,
-    //   authMode: "AMAZON_COGNITO_USER_POOLS",
-    //   variables: {
-    //     id: user?.attributes?.["custom:agencyID"],
-    //   },
-    // });
-    // setData(list.data.getAgency);
-    setData(null);
+    const list = await API.graphql({
+      query: queries.getAgency,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        id: user?.attributes?.["custom:agencyID"],
+      },
+    });
+    setData(list.data.getAgency);
   };
 
   const openOffice = () => {
     setOffice(true);
   };
   const openEmployee = () => {
+    console.log("Ejele");
     setEmployee(true);
   };
   const openTravels = () => {
@@ -85,7 +84,7 @@ const Dashboard = ({ dataResult, userType }) => {
             <div className={styles.title}>
               <h2>Lista de Oficinas</h2>
             </div>
-            {data?.employees?.items && (
+            {data?.officies?.items && (
               <TableOffices rows={data?.officies?.items} />
             )}
           </div>
