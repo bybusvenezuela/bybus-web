@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/Menu.module.css";
 import {
   List,
@@ -18,12 +18,14 @@ import Image from "next/image";
 import { menu } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
+import { Auth } from "aws-amplify";
 
 const Menu = () => {
   const { updateIndex, selectedIndex } = useMenu();
   const router = useRouter();
   const [openAgencies, setOpenAgencies] = useState(true);
   const [openUsers, setOpenUsers] = useState(true);
+  const [userAuth, setUserAuth] = useState(null);
 
   const handleAgencies = () => {
     setOpenAgencies(!openAgencies);
@@ -32,86 +34,113 @@ const Menu = () => {
     setOpenUsers(!openUsers);
   };
 
+  useEffect(() => {
+    console.log("para caragr");
+    fetchUser();
+  }, []);
+
+  const fetchUser = async () => {
+    await Auth.currentAuthenticatedUser().then((r) => setUserAuth(r));
+  };
   return (
     <div className={styles.menu}>
       <div className={styles.logo}>
         <Image src={menu.image} alt="" />
       </div>
-      <List
-        sx={{
-          width: "100%",
-          padding: 0,
-          border: "1px solid rgba(0, 0, 0, 0.14)",
-          borderRadius: "8px",
-          color: "#1e1e1e",
-          "&& .Mui-selected, && .Mui-selected:hover": {
-            bgcolor: "#1e1e1e",
-            color: "#fff",
-          },
-        }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-      >
-        <ListItemButton
-          sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 0}
-          onClick={(e) => {
-            e.preventDefault;
-            router.push("/home/dashboard");
-            updateIndex(0);
+      {userAuth && (
+        <List
+          sx={{
+            width: "100%",
+            padding: 0,
+            border: "1px solid rgba(0, 0, 0, 0.14)",
+            borderRadius: "8px",
+            color: "#1e1e1e",
+            "&& .Mui-selected, && .Mui-selected:hover": {
+              bgcolor: "#1e1e1e",
+              color: "#fff",
+            },
           }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
         >
-          <ListItemIcon>
-            <DashboardIcon
-              sx={{
-                color: selectedIndex === 0 ? "white" : "rgba(0, 0, 0, 0.54)",
-              }}
-            />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+          <ListItemButton
+            sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 0}
+            onClick={(e) => {
+              e.preventDefault;
+              router.push("/home/dashboard");
+              updateIndex(0);
+            }}
+          >
+            <ListItemIcon>
+              <DashboardIcon
+                sx={{
+                  color: selectedIndex === 0 ? "white" : "rgba(0, 0, 0, 0.54)",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
+          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
-        <ListItemButton
-          // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 1}
-          onClick={(e) => {
-            e.preventDefault;
-            router.push("/home/office");
-            updateIndex(1);
-          }}
-        >
-          <ListItemIcon>
-            <DashboardIcon
-              sx={{
-                color: selectedIndex === 1 ? "white" : "rgba(0, 0, 0, 0.54)",
-              }}
-            />
-          </ListItemIcon>
-          <ListItemText primary="Office" />
-        </ListItemButton>
-        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+          <ListItemButton
+            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 1}
+            onClick={(e) => {
+              e.preventDefault;
+              router.push("/home/office");
+              updateIndex(1);
+            }}
+          >
+            <ListItemIcon>
+              <DashboardIcon
+                sx={{
+                  color: selectedIndex === 1 ? "white" : "rgba(0, 0, 0, 0.54)",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Office" />
+          </ListItemButton>
+          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
-        <ListItemButton
-          // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 2}
-          onClick={(e) => {
-            e.preventDefault;
-            router.push("/home/employee");
-            updateIndex(2);
-          }}
-        >
-          <ListItemIcon>
-            <DashboardIcon
-              sx={{
-                color: selectedIndex === 2 ? "white" : "rgba(0, 0, 0, 0.54)",
-              }}
-            />
-          </ListItemIcon>
-          <ListItemText primary="Employee" />
-        </ListItemButton>
-        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-      </List>
+          <ListItemButton
+            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 2}
+            onClick={(e) => {
+              e.preventDefault;
+              router.push("/home/employee");
+              updateIndex(2);
+            }}
+          >
+            <ListItemIcon>
+              <DashboardIcon
+                sx={{
+                  color: selectedIndex === 2 ? "white" : "rgba(0, 0, 0, 0.54)",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Employee" />
+          </ListItemButton>
+          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+          <ListItemButton
+            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 2}
+            onClick={(e) => {
+              Auth.signOut();
+            }}
+          >
+            <ListItemIcon>
+              <DashboardIcon
+                sx={{
+                  color: selectedIndex === 2 ? "white" : "rgba(0, 0, 0, 0.54)",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Cerrar Sesion" />
+          </ListItemButton>
+        </List>
+      )}
+
       <div className={styles.panel}></div>
     </div>
   );

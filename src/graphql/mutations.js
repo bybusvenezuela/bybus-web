@@ -1,11 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const registerAgencyUser = /* GraphQL */ `
-  mutation RegisterAgencyUser($input: RegisterUserInput!) {
-    registerAgencyUser(input: $input)
-  }
-`;
 export const deleteAgency = /* GraphQL */ `
   mutation DeleteAgency(
     $input: DeleteAgencyInput!
@@ -14,6 +9,7 @@ export const deleteAgency = /* GraphQL */ `
     deleteAgency(input: $input, condition: $condition) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -42,7 +38,7 @@ export const deleteAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -284,6 +280,7 @@ export const createAgency = /* GraphQL */ `
     createAgency(input: $input, condition: $condition) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -312,7 +309,7 @@ export const createAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -359,6 +356,7 @@ export const updateAgency = /* GraphQL */ `
     updateAgency(input: $input, condition: $condition) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -387,7 +385,7 @@ export const updateAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -446,7 +444,7 @@ export const createOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -521,7 +519,7 @@ export const updateOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -596,7 +594,7 @@ export const deleteOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -706,7 +704,7 @@ export const createEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -729,7 +727,7 @@ export const updateEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -752,7 +750,7 @@ export const deleteEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -1909,5 +1907,10 @@ export const deleteUser = /* GraphQL */ `
       updatedAt
       __typename
     }
+  }
+`;
+export const registerAgencyAdmin = /* GraphQL */ `
+  mutation RegisterAgencyAdmin($input: RegisterUserInput!) {
+    registerAgencyAdmin(input: $input)
   }
 `;

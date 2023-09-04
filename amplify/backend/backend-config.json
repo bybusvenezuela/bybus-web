@@ -75,7 +75,13 @@
     }
   },
   "function": {
-    "adminRegisterAgency": {
+    "bybus508ffe57": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "createAgencyAdmin": {
       "build": true,
       "dependsOn": [
         {
@@ -92,13 +98,6 @@
           ],
           "category": "api",
           "resourceName": "bybusgraphql"
-        },
-        {
-          "attributes": [
-            "BucketName"
-          ],
-          "category": "storage",
-          "resourceName": "storagebybus"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -106,25 +105,41 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_adminRegisterAgency_deploymentBucketName": {
+    "AMPLIFY_function_bybus508ffe57_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "adminRegisterAgency"
+          "resourceName": "bybus508ffe57"
         }
       ]
     },
-    "AMPLIFY_function_adminRegisterAgency_s3Key": {
+    "AMPLIFY_function_bybus508ffe57_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "adminRegisterAgency"
+          "resourceName": "bybus508ffe57"
+        }
+      ]
+    },
+    "AMPLIFY_function_createAgencyAdmin_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAgencyAdmin"
+        }
+      ]
+    },
+    "AMPLIFY_function_createAgencyAdmin_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAgencyAdmin"
         }
       ]
     }
   },
   "storage": {
-    "storagebybus": {
+    "s3bybus": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

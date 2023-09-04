@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { OrderDetail } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getOrderDetail } from "../graphql/queries";
+import { updateOrderDetail } from "../graphql/mutations";
 export default function OrderDetailUpdateForm(props) {
   const {
     id: idProp,
@@ -67,7 +68,12 @@ export default function OrderDetailUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(OrderDetail, idProp)
+        ? (
+            await API.graphql({
+              query: getOrderDetail,
+              variables: { id: idProp },
+            })
+          )?.data?.getOrderDetail
         : orderDetailModelProp;
       setOrderDetailRecord(record);
     };
@@ -109,11 +115,11 @@ export default function OrderDetailUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           amount,
-          paymentMethod,
-          customerName,
-          customerEmail,
-          isGuest,
-          userID,
+          paymentMethod: paymentMethod ?? null,
+          customerName: customerName ?? null,
+          customerEmail: customerEmail ?? null,
+          isGuest: isGuest ?? null,
+          userID: userID ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,21 +145,26 @@ export default function OrderDetailUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            OrderDetail.copyOf(orderDetailRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateOrderDetail,
+            variables: {
+              input: {
+                id: orderDetailRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

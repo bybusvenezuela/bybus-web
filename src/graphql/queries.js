@@ -179,6 +179,7 @@ export const getAgency = /* GraphQL */ `
     getAgency(id: $id) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -207,7 +208,7 @@ export const getAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -256,6 +257,52 @@ export const listAgencies = /* GraphQL */ `
       items {
         id
         cognitoID
+        pin
+        name
+        rif
+        email
+        phone
+        officies {
+          nextToken
+          __typename
+        }
+        employees {
+          nextToken
+          __typename
+        }
+        bookings {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgencyByEmail = /* GraphQL */ `
+  query GetAgencyByEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAgencyFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getAgencyByEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        cognitoID
+        pin
         name
         rif
         email
@@ -299,7 +346,7 @@ export const getOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -477,7 +524,7 @@ export const getEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -502,7 +549,7 @@ export const listEmployees = /* GraphQL */ `
         name
         email
         phone
-        ping
+        pin
         type
         agencyID
         officeID
@@ -538,7 +585,7 @@ export const employeesByAgencyID = /* GraphQL */ `
         name
         email
         phone
-        ping
+        pin
         type
         agencyID
         officeID
@@ -574,7 +621,7 @@ export const employeesByOfficeID = /* GraphQL */ `
         name
         email
         phone
-        ping
+        pin
         type
         agencyID
         officeID

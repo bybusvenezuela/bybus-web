@@ -13,7 +13,8 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AgencyCreateFormInputValues = {
-    userID?: string;
+    cognitoID?: string;
+    pin?: string;
     name?: string;
     rif?: string;
     email?: string;
@@ -21,7 +22,8 @@ export declare type AgencyCreateFormInputValues = {
     owner?: string;
 };
 export declare type AgencyCreateFormValidationValues = {
-    userID?: ValidationFunction<string>;
+    cognitoID?: ValidationFunction<string>;
+    pin?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
     rif?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
@@ -31,7 +33,8 @@ export declare type AgencyCreateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AgencyCreateFormOverridesProps = {
     AgencyCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    userID?: PrimitiveOverrideProps<TextFieldProps>;
+    cognitoID?: PrimitiveOverrideProps<TextFieldProps>;
+    pin?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     rif?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;

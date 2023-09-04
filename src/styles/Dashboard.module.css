@@ -9,10 +9,18 @@
 .navbar {
   padding: 1rem;
 }
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: baseline;
+  padding-top: 1rem;
+}
 .pages {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 80%;
 }
 .title {
   padding: 1rem;

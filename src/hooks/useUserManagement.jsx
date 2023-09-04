@@ -1,22 +1,20 @@
-import React from "react";
 import { Auth } from "aws-amplify";
-import { useSetRecoilState } from "recoil";
-import { userAuthenticated } from "@/atoms";
 import { useRouter } from "next/router";
+import { useUser } from "@/context/UserContext";
 const useUserManagement = () => {
+  const { userAuth, setUserAuth } = useUser();
   const router = useRouter();
-  const setUserAuth = useSetRecoilState(userAuthenticated);
+
   const checkUser = async () => {
     try {
       const result = await Auth.currentAuthenticatedUser();
       setUserAuth(result);
-      // checkAttrGroups();
-      console.log(result);
-      router.push(`/auth/profiles`);
+      console.log("confirmo");
+      checkAttrGroups();
     } catch (error) {
+      setUserAuth(null);
       const { message } = new Error(error);
       console.error(message);
-      // router.push({ pathname: `/` })
       switch (message) {
         case "The user is not authenticated":
           router.push({ pathname: `/auth/login` });
@@ -28,8 +26,9 @@ const useUserManagement = () => {
   };
 
   const userSignIn = (data) => {
-    // setUserAuth(data);
-    // checkAttrGroups();
+    setUserAuth(data);
+    const isSignIn = true;
+    checkAttrGroups(isSignIn);
     router.push(`/auth/profiles`);
   };
 
@@ -38,7 +37,7 @@ const useUserManagement = () => {
     router.push(`/auth/login`);
   };
 
-  const checkAttrGroups = async () => {
+  const checkAttrGroups = async (isSignIn) => {
     try {
       const user = await Auth.currentAuthenticatedUser();
 
@@ -55,7 +54,8 @@ const useUserManagement = () => {
         user.signInUserSession.accessToken.payload["cognito:groups"];
 
       if (userGroups.includes("agency")) {
-        router.push({ pathname: `/auth/profiles` });
+        console.log("SI ES AGENCIA");
+        if (isSignIn) router.push({ pathname: `/auth/profiles` });
       } else {
         await Auth.signOut();
         router.push({ pathname: `/auth/login` });
@@ -63,6 +63,8 @@ const useUserManagement = () => {
       }
     } catch (error) {
       console.error("Error: ", error);
+      await Auth.signOut();
+      router.push({ pathname: `/auth/login` });
     }
   };
 

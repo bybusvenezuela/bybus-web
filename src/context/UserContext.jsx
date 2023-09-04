@@ -5,14 +5,13 @@ export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({});
-  const updateUser = (action) => setUser(action);
-  useEffect(() => {
-  }, []);
+  const [userAuth, setUserAuth] = useState(null);
+  const [profileAuth, setProfileAuth] = useState(null);
+  // useEffect(() => {}, []);
 
   return (
     <UserContext.Provider
-      value={{ updateUser, user }}
+      value={{ userAuth, setUserAuth, profileAuth, setProfileAuth }}
     >
       {children}
     </UserContext.Provider>

@@ -22,7 +22,14 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "adminRegisterAgency": {
+    "bybus508ffe57": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "createAgencyAdmin": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
@@ -31,7 +38,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
-    "storagebybus": {
+    "s3bybus": {
       "BucketName": "string",
       "Region": "string"
     }

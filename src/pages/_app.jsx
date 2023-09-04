@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import Menu from "@/components/Menu";
 import "@/styles/globals.css";
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
+import { UserProvider } from "@/context/UserContext";
 import { RecoilEnv, RecoilRoot } from "recoil";
 // amplify
 import { Amplify, Hub } from "aws-amplify";
@@ -45,12 +46,12 @@ const App = ({ Component, pageProps }) => {
       </Head>
       <RecoilRoot>
         <MenuProvider>
-          <ThemeProvider theme={theme}>
-            <RecoilRoot>
+          <UserProvider>
+            <ThemeProvider theme={theme}>
               <ConfigureMain />
               <Component {...pageProps} />
-            </RecoilRoot>
-          </ThemeProvider>
+            </ThemeProvider>
+          </UserProvider>
         </MenuProvider>
       </RecoilRoot>
     </>
@@ -82,4 +83,5 @@ const ConfigureMain = () => {
     return unsubscribe;
   }, []);
 };
+
 export default App;

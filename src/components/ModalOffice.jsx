@@ -7,12 +7,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  CircularProgress,
 } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 // amplify
 import { Auth, API } from "aws-amplify";
-import * as queries from "@/graphql/queries";
-import * as mutations from "@/graphql/mutations";
+import * as mutations from "@/graphql/custom/mutations/office";
 import { venezuela } from "@/constants";
 
 export default function ModalOffice({ open, close }) {
@@ -21,35 +21,46 @@ export default function ModalOffice({ open, close }) {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const onCreateOffice = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    const office = await API.graphql({
-      query: mutations.createOffice,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        input: {
-          agencyID: user.attributes.sub,
-          name: name.trim(),
-          state: state,
-          city: city,
-          address: address.trim(),
-          phone: phone.trim(),
+    setIsLoading(true);
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      await API.graphql({
+        query: mutations.createOffice,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            agencyID: user.attributes["custom:agencyID"],
+            name: name.trim(),
+            state: state,
+            city: city,
+            address: address.trim(),
+            phone: phone.trim(),
+            email: email.trim(),
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      const { message } = new Error(error);
+      console.error0("Error al crear oficina: ", message);
+      setIsLoading(false);
+    }
+    setIsLoading(false);
+    resetModal();
   };
 
   const resetModal = () => {
-    setName('')
-    setState('')
-    setCity('')
-    setAddress('')
-    setPhone('')
-    close()
-  }
-  useEffect(() => {
-
-  }, []);
+    setName("");
+    setState("");
+    setCity("");
+    setAddress("");
+    setPhone("");
+    setEmail("");
+    close();
+  };
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -72,6 +83,13 @@ export default function ModalOffice({ open, close }) {
                   variant="outlined"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Correo Electronico"
+                  variant="outlined"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className={styles.input}>
                   <FormControl fullWidth>
@@ -134,10 +152,7 @@ export default function ModalOffice({ open, close }) {
             </div>
 
             <div className={styles.buttons}>
-              <Button variant="contained" size="large" onClick={() => {
-                onCreateOffice()
-                resetModal()
-              }}>
+              <Button variant="contained" size="large" onClick={onCreateOffice}>
                 Registrar
               </Button>
               <Button

@@ -105,6 +105,7 @@ export const onCreateAgency = /* GraphQL */ `
     onCreateAgency(filter: $filter, owner: $owner) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -133,7 +134,7 @@ export const onCreateAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -180,6 +181,7 @@ export const onUpdateAgency = /* GraphQL */ `
     onUpdateAgency(filter: $filter, owner: $owner) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -208,7 +210,7 @@ export const onUpdateAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -255,6 +257,7 @@ export const onDeleteAgency = /* GraphQL */ `
     onDeleteAgency(filter: $filter, owner: $owner) {
       id
       cognitoID
+      pin
       name
       rif
       email
@@ -283,7 +286,7 @@ export const onDeleteAgency = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -342,7 +345,7 @@ export const onCreateOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -417,7 +420,7 @@ export const onUpdateOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -492,7 +495,7 @@ export const onDeleteOffice = /* GraphQL */ `
           name
           email
           phone
-          ping
+          pin
           type
           agencyID
           officeID
@@ -593,7 +596,7 @@ export const onCreateEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -616,7 +619,7 @@ export const onUpdateEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID
@@ -639,7 +642,7 @@ export const onDeleteEmployee = /* GraphQL */ `
       name
       email
       phone
-      ping
+      pin
       type
       agencyID
       officeID

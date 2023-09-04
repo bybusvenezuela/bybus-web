@@ -54,6 +54,13 @@ type Agency
   @auth(rules: [{ allow: owner, operations: [read, update] }]) {
   id: ID
   cognitoID: ID
+  pin: String
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+      ]
+    )
   name: String
     @auth(
       rules: [
@@ -69,6 +76,7 @@ type Agency
       ]
     )
   email: String
+    @index(name: "agencyByEmail", queryField: "getAgencyByEmail")
     @auth(
       rules: [
         { allow: owner }
@@ -131,7 +139,7 @@ type Employee
   name: String
   email: String
   phone: String
-  ping: String
+  pin: String
   type: EmployeeType @default(value: "OWNER")
   agencyID: ID @index(name: "byAgencyToEmployee")
   officeID: ID @index(name: "byOfficeToEmployee")
@@ -408,8 +416,9 @@ enum StatusUser {
 }
 
 type Mutation {
-  registerAgencyUser(input: RegisterUserInput!): String
-    @function(name: "adminRegisterAgency-${env}")
+  registerAgencyAdmin(input: RegisterUserInput!): String
+    @function(name: "createAgencyAdmin-${env}")
+    @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
 }
 
 input RegisterUserInput {
