@@ -273,6 +273,7 @@ type Ticket
     rules: [
       { allow: owner }
       { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, provider: iam, operations: [create, read] }
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
   ) {
@@ -294,6 +295,7 @@ type OrderTicket
   @auth(
     rules: [
       { allow: owner }
+      { allow: private, provider: iam, operations: [create, read] }
       { allow: public, provider: iam, operations: [create, read] }
       {
         allow: groups
@@ -315,6 +317,7 @@ type OrderDetail
     rules: [
       { allow: owner }
       { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, provider: iam, operations: [create, read] }
       {
         allow: groups
         groups: ["sp", "admin", "agency", "office"]
@@ -347,6 +350,7 @@ type Payment
   @auth(
     rules: [
       { allow: owner }
+      { allow: private, provider: iam, operations: [create, read] }
       { allow: public, provider: iam, operations: [create, read] }
       {
         allow: groups
