@@ -14,9 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { OrderDetail } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createOrderDetail } from "../graphql/mutations";
 export default function OrderDetailCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -34,7 +34,7 @@ export default function OrderDetailCreateForm(props) {
     customerName: "",
     customerEmail: "",
     isGuest: false,
-    walletID: "",
+    userID: "",
   };
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [paymentMethod, setPaymentMethod] = React.useState(
@@ -47,7 +47,7 @@ export default function OrderDetailCreateForm(props) {
     initialValues.customerEmail
   );
   const [isGuest, setIsGuest] = React.useState(initialValues.isGuest);
-  const [walletID, setWalletID] = React.useState(initialValues.walletID);
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setAmount(initialValues.amount);
@@ -55,16 +55,16 @@ export default function OrderDetailCreateForm(props) {
     setCustomerName(initialValues.customerName);
     setCustomerEmail(initialValues.customerEmail);
     setIsGuest(initialValues.isGuest);
-    setWalletID(initialValues.walletID);
+    setUserID(initialValues.userID);
     setErrors({});
   };
   const validations = {
-    amount: [],
+    amount: [{ type: "Required" }],
     paymentMethod: [],
     customerName: [],
     customerEmail: [],
     isGuest: [],
-    walletID: [],
+    userID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -97,7 +97,7 @@ export default function OrderDetailCreateForm(props) {
           customerName,
           customerEmail,
           isGuest,
-          walletID,
+          userID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -123,11 +123,18 @@ export default function OrderDetailCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new OrderDetail(modelFields));
+          await API.graphql({
+            query: createOrderDetail,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -136,7 +143,8 @@ export default function OrderDetailCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -145,7 +153,7 @@ export default function OrderDetailCreateForm(props) {
     >
       <TextField
         label="Amount"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -161,7 +169,7 @@ export default function OrderDetailCreateForm(props) {
               customerName,
               customerEmail,
               isGuest,
-              walletID,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.amount ?? value;
@@ -190,7 +198,7 @@ export default function OrderDetailCreateForm(props) {
               customerName,
               customerEmail,
               isGuest,
-              walletID,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.paymentMethod ?? value;
@@ -219,7 +227,7 @@ export default function OrderDetailCreateForm(props) {
               customerName: value,
               customerEmail,
               isGuest,
-              walletID,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.customerName ?? value;
@@ -248,7 +256,7 @@ export default function OrderDetailCreateForm(props) {
               customerName,
               customerEmail: value,
               isGuest,
-              walletID,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.customerEmail ?? value;
@@ -277,7 +285,7 @@ export default function OrderDetailCreateForm(props) {
               customerName,
               customerEmail,
               isGuest: value,
-              walletID,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.isGuest ?? value;
@@ -293,10 +301,10 @@ export default function OrderDetailCreateForm(props) {
         {...getOverrideProps(overrides, "isGuest")}
       ></SwitchField>
       <TextField
-        label="Wallet id"
+        label="User id"
         isRequired={false}
         isReadOnly={false}
-        value={walletID}
+        value={userID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -306,20 +314,20 @@ export default function OrderDetailCreateForm(props) {
               customerName,
               customerEmail,
               isGuest,
-              walletID: value,
+              userID: value,
             };
             const result = onChange(modelFields);
-            value = result?.walletID ?? value;
+            value = result?.userID ?? value;
           }
-          if (errors.walletID?.hasError) {
-            runValidationTasks("walletID", value);
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
           }
-          setWalletID(value);
+          setUserID(value);
         }}
-        onBlur={() => runValidationTasks("walletID", walletID)}
-        errorMessage={errors.walletID?.errorMessage}
-        hasError={errors.walletID?.hasError}
-        {...getOverrideProps(overrides, "walletID")}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

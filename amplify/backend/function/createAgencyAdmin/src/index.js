@@ -20,6 +20,7 @@ import { default as fetch, Request } from "node-fetch";
 
 // configuraicons de end point
 const GRAPHQL_ENDPOINT = process.env.API_BYBUSGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
+const COGNITO_USERPOOL = process.env.AUTH_BYBUS_USERPOOLID;
 const AWS_REGION = process.env.AWS_REGION || "us-east-1";
 const { Sha256 } = crypto;
 /************************************ */
@@ -101,8 +102,8 @@ export const handler = async (event) => {
     return JSON.stringify({ message: "Error al crear Usuario en Cognito" });
   // envaimos un mensaje al correo
   await SEND_EMAIL(username, responseAgency.claveTemporal);
-  // creamos el usuario en dynamodb
-  const result = await CUSTOM_API_GRAPHQL(createAgency, {
+  // // creamos el usuario en dynamodb
+  await CUSTOM_API_GRAPHQL(createAgency, {
     input: {
       cognitoID: responseAgency.response.User.Username,
       name: name,
@@ -112,7 +113,7 @@ export const handler = async (event) => {
       owner: responseAgency.response.User.Username,
     },
   });
-  // cambiamos el stado de PENDING A ACCEPTED
+  // // cambiamos el stado de PENDING A ACCEPTED
   await CUSTOM_API_GRAPHQL(updateAgencySubscription, {
     input: {
       id: agencySubsTableID,
@@ -126,9 +127,9 @@ const createAgencyCognito = async (attr) => {
   const { username, rif, phone, name } = attr;
   const claveTemporal = generarClaveTemporal(12);
   console.log("CLAVE TEMP: ", claveTemporal);
-  console.log("AUTH ID: ", process.env.AUTH_BYBUSAUTH_USERPOOLID);
+  console.log("AUTH ID: ", COGNITO_USERPOOL);
   const params = {
-    UserPoolId: process.env.AUTH_BYBUSAUTH_USERPOOLID, // Reemplaza con el ID de tu User Pool
+    UserPoolId: COGNITO_USERPOOL, // Reemplaza con el ID de tu User Pool
     Username: username,
     TemporaryPassword: claveTemporal,
     MessageAction: "SUPPRESS", // Evita el envío de código de confirmación
@@ -168,7 +169,7 @@ const createAgencyCognito = async (attr) => {
     const response = await cognito.send(command);
     const paramsGroup = {
       GroupName: "agency",
-      UserPoolId: process.env.AUTH_BYBUSAUTH_USERPOOLID,
+      UserPoolId: COGNITO_USERPOOL,
       Username: response.User.Username,
     };
     const command2 = new AdminAddUserToGroupCommand(paramsGroup);
@@ -177,7 +178,7 @@ const createAgencyCognito = async (attr) => {
     return { response, claveTemporal };
   } catch (error) {
     console.log("Error al crear Agency: ", error);
-    return null;
+    return { response: null };
   }
 };
 

@@ -6,14 +6,22 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { createOffice } from "../graphql/mutations";
-export default function OfficeCreateForm(props) {
+import { getUser } from "../graphql/queries";
+import { updateUser } from "../graphql/mutations";
+export default function UserUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    user: userModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,39 +32,64 @@ export default function OfficeCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    state: "",
-    city: "",
-    address: "",
     email: "",
-    phone: "",
+    status: "",
+    notificationToken: "",
+    previousBalance: "",
     owner: "",
+    googleOwner: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [state, setState] = React.useState(initialValues.state);
-  const [city, setCity] = React.useState(initialValues.city);
-  const [address, setAddress] = React.useState(initialValues.address);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [phone, setPhone] = React.useState(initialValues.phone);
+  const [status, setStatus] = React.useState(initialValues.status);
+  const [notificationToken, setNotificationToken] = React.useState(
+    initialValues.notificationToken
+  );
+  const [previousBalance, setPreviousBalance] = React.useState(
+    initialValues.previousBalance
+  );
   const [owner, setOwner] = React.useState(initialValues.owner);
+  const [googleOwner, setGoogleOwner] = React.useState(
+    initialValues.googleOwner
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setState(initialValues.state);
-    setCity(initialValues.city);
-    setAddress(initialValues.address);
-    setEmail(initialValues.email);
-    setPhone(initialValues.phone);
-    setOwner(initialValues.owner);
+    const cleanValues = userRecord
+      ? { ...initialValues, ...userRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setEmail(cleanValues.email);
+    setStatus(cleanValues.status);
+    setNotificationToken(cleanValues.notificationToken);
+    setPreviousBalance(cleanValues.previousBalance);
+    setOwner(cleanValues.owner);
+    setGoogleOwner(cleanValues.googleOwner);
     setErrors({});
   };
+  const [userRecord, setUserRecord] = React.useState(userModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await API.graphql({
+              query: getUser,
+              variables: { id: idProp },
+            })
+          )?.data?.getUser
+        : userModelProp;
+      setUserRecord(record);
+    };
+    queryData();
+  }, [idProp, userModelProp]);
+  React.useEffect(resetStateValues, [userRecord]);
   const validations = {
-    name: [],
-    state: [],
-    city: [],
-    address: [],
+    name: [{ type: "Required" }],
     email: [],
-    phone: [],
+    status: [],
+    notificationToken: [],
+    previousBalance: [],
     owner: [],
+    googleOwner: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,12 +118,12 @@ export default function OfficeCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          state,
-          city,
-          address,
-          email,
-          phone,
-          owner,
+          email: email ?? null,
+          status: status ?? null,
+          notificationToken: notificationToken ?? null,
+          previousBalance: previousBalance ?? null,
+          owner: owner ?? null,
+          googleOwner: googleOwner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -121,18 +154,16 @@ export default function OfficeCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createOffice,
+            query: updateUser,
             variables: {
               input: {
+                id: userRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -141,12 +172,12 @@ export default function OfficeCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "OfficeCreateForm")}
+      {...getOverrideProps(overrides, "UserUpdateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -154,12 +185,12 @@ export default function OfficeCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              state,
-              city,
-              address,
               email,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -175,96 +206,6 @@ export default function OfficeCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="State"
-        isRequired={false}
-        isReadOnly={false}
-        value={state}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              state: value,
-              city,
-              address,
-              email,
-              phone,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.state ?? value;
-          }
-          if (errors.state?.hasError) {
-            runValidationTasks("state", value);
-          }
-          setState(value);
-        }}
-        onBlur={() => runValidationTasks("state", state)}
-        errorMessage={errors.state?.errorMessage}
-        hasError={errors.state?.hasError}
-        {...getOverrideProps(overrides, "state")}
-      ></TextField>
-      <TextField
-        label="City"
-        isRequired={false}
-        isReadOnly={false}
-        value={city}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              state,
-              city: value,
-              address,
-              email,
-              phone,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.city ?? value;
-          }
-          if (errors.city?.hasError) {
-            runValidationTasks("city", value);
-          }
-          setCity(value);
-        }}
-        onBlur={() => runValidationTasks("city", city)}
-        errorMessage={errors.city?.errorMessage}
-        hasError={errors.city?.hasError}
-        {...getOverrideProps(overrides, "city")}
-      ></TextField>
-      <TextField
-        label="Address"
-        isRequired={false}
-        isReadOnly={false}
-        value={address}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              state,
-              city,
-              address: value,
-              email,
-              phone,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.address ?? value;
-          }
-          if (errors.address?.hasError) {
-            runValidationTasks("address", value);
-          }
-          setAddress(value);
-        }}
-        onBlur={() => runValidationTasks("address", address)}
-        errorMessage={errors.address?.errorMessage}
-        hasError={errors.address?.hasError}
-        {...getOverrideProps(overrides, "address")}
-      ></TextField>
-      <TextField
         label="Email"
         isRequired={false}
         isReadOnly={false}
@@ -274,12 +215,12 @@ export default function OfficeCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              state,
-              city,
-              address,
               email: value,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -294,35 +235,112 @@ export default function OfficeCreateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
-      <TextField
-        label="Phone"
-        isRequired={false}
-        isReadOnly={false}
-        value={phone}
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              state,
-              city,
-              address,
               email,
-              phone: value,
+              status: value,
+              notificationToken,
+              previousBalance,
               owner,
+              googleOwner,
             };
             const result = onChange(modelFields);
-            value = result?.phone ?? value;
+            value = result?.status ?? value;
           }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
           }
-          setPhone(value);
+          setStatus(value);
         }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Allowed"
+          value="ALLOWED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Denied"
+          value="DENIED"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Notification token"
+        isRequired={false}
+        isReadOnly={false}
+        value={notificationToken}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              status,
+              notificationToken: value,
+              previousBalance,
+              owner,
+              googleOwner,
+            };
+            const result = onChange(modelFields);
+            value = result?.notificationToken ?? value;
+          }
+          if (errors.notificationToken?.hasError) {
+            runValidationTasks("notificationToken", value);
+          }
+          setNotificationToken(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("notificationToken", notificationToken)
+        }
+        errorMessage={errors.notificationToken?.errorMessage}
+        hasError={errors.notificationToken?.hasError}
+        {...getOverrideProps(overrides, "notificationToken")}
+      ></TextField>
+      <TextField
+        label="Previous balance"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={previousBalance}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              status,
+              notificationToken,
+              previousBalance: value,
+              owner,
+              googleOwner,
+            };
+            const result = onChange(modelFields);
+            value = result?.previousBalance ?? value;
+          }
+          if (errors.previousBalance?.hasError) {
+            runValidationTasks("previousBalance", value);
+          }
+          setPreviousBalance(value);
+        }}
+        onBlur={() => runValidationTasks("previousBalance", previousBalance)}
+        errorMessage={errors.previousBalance?.errorMessage}
+        hasError={errors.previousBalance?.hasError}
+        {...getOverrideProps(overrides, "previousBalance")}
       ></TextField>
       <TextField
         label="Owner"
@@ -334,12 +352,12 @@ export default function OfficeCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              state,
-              city,
-              address,
               email,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner: value,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.owner ?? value;
@@ -354,18 +372,49 @@ export default function OfficeCreateForm(props) {
         hasError={errors.owner?.hasError}
         {...getOverrideProps(overrides, "owner")}
       ></TextField>
+      <TextField
+        label="Google owner"
+        isRequired={false}
+        isReadOnly={false}
+        value={googleOwner}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              status,
+              notificationToken,
+              previousBalance,
+              owner,
+              googleOwner: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.googleOwner ?? value;
+          }
+          if (errors.googleOwner?.hasError) {
+            runValidationTasks("googleOwner", value);
+          }
+          setGoogleOwner(value);
+        }}
+        onBlur={() => runValidationTasks("googleOwner", googleOwner)}
+        errorMessage={errors.googleOwner?.errorMessage}
+        hasError={errors.googleOwner?.hasError}
+        {...getOverrideProps(overrides, "googleOwner")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || userModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -375,7 +424,10 @@ export default function OfficeCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || userModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

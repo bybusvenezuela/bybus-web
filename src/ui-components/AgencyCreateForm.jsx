@@ -8,9 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Agency } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createAgency } from "../graphql/mutations";
 export default function AgencyCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -23,14 +23,16 @@ export default function AgencyCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    userID: "",
+    cognitoID: "",
+    pin: "",
     name: "",
     rif: "",
     email: "",
     phone: "",
     owner: "",
   };
-  const [userID, setUserID] = React.useState(initialValues.userID);
+  const [cognitoID, setCognitoID] = React.useState(initialValues.cognitoID);
+  const [pin, setPin] = React.useState(initialValues.pin);
   const [name, setName] = React.useState(initialValues.name);
   const [rif, setRif] = React.useState(initialValues.rif);
   const [email, setEmail] = React.useState(initialValues.email);
@@ -38,7 +40,8 @@ export default function AgencyCreateForm(props) {
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setUserID(initialValues.userID);
+    setCognitoID(initialValues.cognitoID);
+    setPin(initialValues.pin);
     setName(initialValues.name);
     setRif(initialValues.rif);
     setEmail(initialValues.email);
@@ -47,7 +50,8 @@ export default function AgencyCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    userID: [{ type: "Required" }],
+    cognitoID: [],
+    pin: [],
     name: [],
     rif: [],
     email: [],
@@ -80,7 +84,8 @@ export default function AgencyCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          userID,
+          cognitoID,
+          pin,
           name,
           rif,
           email,
@@ -111,11 +116,18 @@ export default function AgencyCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Agency(modelFields));
+          await API.graphql({
+            query: createAgency,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -124,7 +136,8 @@ export default function AgencyCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -132,15 +145,16 @@ export default function AgencyCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="User id"
-        isRequired={true}
+        label="Cognito id"
+        isRequired={false}
         isReadOnly={false}
-        value={userID}
+        value={cognitoID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID: value,
+              cognitoID: value,
+              pin,
               name,
               rif,
               email,
@@ -148,17 +162,47 @@ export default function AgencyCreateForm(props) {
               owner,
             };
             const result = onChange(modelFields);
-            value = result?.userID ?? value;
+            value = result?.cognitoID ?? value;
           }
-          if (errors.userID?.hasError) {
-            runValidationTasks("userID", value);
+          if (errors.cognitoID?.hasError) {
+            runValidationTasks("cognitoID", value);
           }
-          setUserID(value);
+          setCognitoID(value);
         }}
-        onBlur={() => runValidationTasks("userID", userID)}
-        errorMessage={errors.userID?.errorMessage}
-        hasError={errors.userID?.hasError}
-        {...getOverrideProps(overrides, "userID")}
+        onBlur={() => runValidationTasks("cognitoID", cognitoID)}
+        errorMessage={errors.cognitoID?.errorMessage}
+        hasError={errors.cognitoID?.hasError}
+        {...getOverrideProps(overrides, "cognitoID")}
+      ></TextField>
+      <TextField
+        label="Pin"
+        isRequired={false}
+        isReadOnly={false}
+        value={pin}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin: value,
+              name,
+              rif,
+              email,
+              phone,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.pin ?? value;
+          }
+          if (errors.pin?.hasError) {
+            runValidationTasks("pin", value);
+          }
+          setPin(value);
+        }}
+        onBlur={() => runValidationTasks("pin", pin)}
+        errorMessage={errors.pin?.errorMessage}
+        hasError={errors.pin?.hasError}
+        {...getOverrideProps(overrides, "pin")}
       ></TextField>
       <TextField
         label="Name"
@@ -169,7 +213,8 @@ export default function AgencyCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name: value,
               rif,
               email,
@@ -198,7 +243,8 @@ export default function AgencyCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif: value,
               email,
@@ -227,7 +273,8 @@ export default function AgencyCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email: value,
@@ -256,7 +303,8 @@ export default function AgencyCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email,
@@ -285,7 +333,8 @@ export default function AgencyCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email,

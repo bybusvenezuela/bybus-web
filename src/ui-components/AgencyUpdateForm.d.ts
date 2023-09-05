@@ -7,14 +7,14 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Agency } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AgencyUpdateFormInputValues = {
-    userID?: string;
+    cognitoID?: string;
+    pin?: string;
     name?: string;
     rif?: string;
     email?: string;
@@ -22,7 +22,8 @@ export declare type AgencyUpdateFormInputValues = {
     owner?: string;
 };
 export declare type AgencyUpdateFormValidationValues = {
-    userID?: ValidationFunction<string>;
+    cognitoID?: ValidationFunction<string>;
+    pin?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
     rif?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
@@ -32,7 +33,8 @@ export declare type AgencyUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AgencyUpdateFormOverridesProps = {
     AgencyUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    userID?: PrimitiveOverrideProps<TextFieldProps>;
+    cognitoID?: PrimitiveOverrideProps<TextFieldProps>;
+    pin?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     rif?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
@@ -42,8 +44,8 @@ export declare type AgencyUpdateFormOverridesProps = {
 export declare type AgencyUpdateFormProps = React.PropsWithChildren<{
     overrides?: AgencyUpdateFormOverridesProps | undefined | null;
 } & {
-    userID?: string;
-    agency?: Agency;
+    id?: string;
+    agency?: any;
     onSubmit?: (fields: AgencyUpdateFormInputValues) => AgencyUpdateFormInputValues;
     onSuccess?: (fields: AgencyUpdateFormInputValues) => void;
     onError?: (fields: AgencyUpdateFormInputValues, errorMessage: string) => void;

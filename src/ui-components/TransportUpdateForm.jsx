@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Transport } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getTransport } from "../graphql/queries";
+import { updateTransport } from "../graphql/mutations";
 export default function TransportUpdateForm(props) {
   const {
     id: idProp,
@@ -25,13 +26,11 @@ export default function TransportUpdateForm(props) {
   } = props;
   const initialValues = {
     model: "",
-    brand: "",
     serial: "",
     type: "",
     createdBy: "",
   };
   const [model, setModel] = React.useState(initialValues.model);
-  const [brand, setBrand] = React.useState(initialValues.brand);
   const [serial, setSerial] = React.useState(initialValues.serial);
   const [type, setType] = React.useState(initialValues.type);
   const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
@@ -41,7 +40,6 @@ export default function TransportUpdateForm(props) {
       ? { ...initialValues, ...transportRecord }
       : initialValues;
     setModel(cleanValues.model);
-    setBrand(cleanValues.brand);
     setSerial(cleanValues.serial);
     setType(cleanValues.type);
     setCreatedBy(cleanValues.createdBy);
@@ -52,7 +50,12 @@ export default function TransportUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Transport, idProp)
+        ? (
+            await API.graphql({
+              query: getTransport,
+              variables: { id: idProp },
+            })
+          )?.data?.getTransport
         : transportModelProp;
       setTransportRecord(record);
     };
@@ -61,7 +64,6 @@ export default function TransportUpdateForm(props) {
   React.useEffect(resetStateValues, [transportRecord]);
   const validations = {
     model: [],
-    brand: [],
     serial: [],
     type: [],
     createdBy: [],
@@ -92,11 +94,10 @@ export default function TransportUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          model,
-          brand,
-          serial,
-          type,
-          createdBy,
+          model: model ?? null,
+          serial: serial ?? null,
+          type: type ?? null,
+          createdBy: createdBy ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -122,21 +123,26 @@ export default function TransportUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Transport.copyOf(transportRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateTransport,
+            variables: {
+              input: {
+                id: transportRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -153,7 +159,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model: value,
-              brand,
               serial,
               type,
               createdBy,
@@ -172,34 +177,6 @@ export default function TransportUpdateForm(props) {
         {...getOverrideProps(overrides, "model")}
       ></TextField>
       <TextField
-        label="Brand"
-        isRequired={false}
-        isReadOnly={false}
-        value={brand}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              model,
-              brand: value,
-              serial,
-              type,
-              createdBy,
-            };
-            const result = onChange(modelFields);
-            value = result?.brand ?? value;
-          }
-          if (errors.brand?.hasError) {
-            runValidationTasks("brand", value);
-          }
-          setBrand(value);
-        }}
-        onBlur={() => runValidationTasks("brand", brand)}
-        errorMessage={errors.brand?.errorMessage}
-        hasError={errors.brand?.hasError}
-        {...getOverrideProps(overrides, "brand")}
-      ></TextField>
-      <TextField
         label="Serial"
         isRequired={false}
         isReadOnly={false}
@@ -209,7 +186,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial: value,
               type,
               createdBy,
@@ -237,7 +213,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type: value,
               createdBy,
@@ -265,7 +240,6 @@ export default function TransportUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type,
               createdBy: value,

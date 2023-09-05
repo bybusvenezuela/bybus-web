@@ -13,6 +13,7 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type OfficeCreateFormInputValues = {
+    name?: string;
     state?: string;
     city?: string;
     address?: string;
@@ -21,6 +22,7 @@ export declare type OfficeCreateFormInputValues = {
     owner?: string;
 };
 export declare type OfficeCreateFormValidationValues = {
+    name?: ValidationFunction<string>;
     state?: ValidationFunction<string>;
     city?: ValidationFunction<string>;
     address?: ValidationFunction<string>;
@@ -31,6 +33,7 @@ export declare type OfficeCreateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OfficeCreateFormOverridesProps = {
     OfficeCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
     state?: PrimitiveOverrideProps<TextFieldProps>;
     city?: PrimitiveOverrideProps<TextFieldProps>;
     address?: PrimitiveOverrideProps<TextFieldProps>;

@@ -14,9 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Payment } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createPayment } from "../graphql/mutations";
 export default function PaymentCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -29,28 +29,28 @@ export default function PaymentCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    refenrece: "",
+    reference: "",
     amount: "",
     metadata: "",
-    wallet: "",
+    userID: "",
   };
-  const [refenrece, setRefenrece] = React.useState(initialValues.refenrece);
+  const [reference, setReference] = React.useState(initialValues.reference);
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [metadata, setMetadata] = React.useState(initialValues.metadata);
-  const [wallet, setWallet] = React.useState(initialValues.wallet);
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setRefenrece(initialValues.refenrece);
+    setReference(initialValues.reference);
     setAmount(initialValues.amount);
     setMetadata(initialValues.metadata);
-    setWallet(initialValues.wallet);
+    setUserID(initialValues.userID);
     setErrors({});
   };
   const validations = {
-    refenrece: [],
+    reference: [],
     amount: [],
     metadata: [{ type: "JSON" }],
-    wallet: [],
+    userID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,10 +78,10 @@ export default function PaymentCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          refenrece,
+          reference,
           amount,
           metadata,
-          wallet,
+          userID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -107,11 +107,18 @@ export default function PaymentCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Payment(modelFields));
+          await API.graphql({
+            query: createPayment,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -120,7 +127,8 @@ export default function PaymentCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -128,31 +136,31 @@ export default function PaymentCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Refenrece"
+        label="Reference"
         isRequired={false}
         isReadOnly={false}
-        value={refenrece}
+        value={reference}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece: value,
+              reference: value,
               amount,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
-            value = result?.refenrece ?? value;
+            value = result?.reference ?? value;
           }
-          if (errors.refenrece?.hasError) {
-            runValidationTasks("refenrece", value);
+          if (errors.reference?.hasError) {
+            runValidationTasks("reference", value);
           }
-          setRefenrece(value);
+          setReference(value);
         }}
-        onBlur={() => runValidationTasks("refenrece", refenrece)}
-        errorMessage={errors.refenrece?.errorMessage}
-        hasError={errors.refenrece?.hasError}
-        {...getOverrideProps(overrides, "refenrece")}
+        onBlur={() => runValidationTasks("reference", reference)}
+        errorMessage={errors.reference?.errorMessage}
+        hasError={errors.reference?.hasError}
+        {...getOverrideProps(overrides, "reference")}
       ></TextField>
       <TextField
         label="Amount"
@@ -167,10 +175,10 @@ export default function PaymentCreateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount: value,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.amount ?? value;
@@ -193,10 +201,10 @@ export default function PaymentCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata: value,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.metadata ?? value;
@@ -212,31 +220,31 @@ export default function PaymentCreateForm(props) {
         {...getOverrideProps(overrides, "metadata")}
       ></TextAreaField>
       <TextField
-        label="Wallet"
+        label="User id"
         isRequired={false}
         isReadOnly={false}
-        value={wallet}
+        value={userID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata,
-              wallet: value,
+              userID: value,
             };
             const result = onChange(modelFields);
-            value = result?.wallet ?? value;
+            value = result?.userID ?? value;
           }
-          if (errors.wallet?.hasError) {
-            runValidationTasks("wallet", value);
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
           }
-          setWallet(value);
+          setUserID(value);
         }}
-        onBlur={() => runValidationTasks("wallet", wallet)}
-        errorMessage={errors.wallet?.errorMessage}
-        hasError={errors.wallet?.hasError}
-        {...getOverrideProps(overrides, "wallet")}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

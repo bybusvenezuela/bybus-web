@@ -18,7 +18,7 @@ export declare type OrderDetailCreateFormInputValues = {
     customerName?: string;
     customerEmail?: string;
     isGuest?: boolean;
-    walletID?: string;
+    userID?: string;
 };
 export declare type OrderDetailCreateFormValidationValues = {
     amount?: ValidationFunction<number>;
@@ -26,7 +26,7 @@ export declare type OrderDetailCreateFormValidationValues = {
     customerName?: ValidationFunction<string>;
     customerEmail?: ValidationFunction<string>;
     isGuest?: ValidationFunction<boolean>;
-    walletID?: ValidationFunction<string>;
+    userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OrderDetailCreateFormOverridesProps = {
@@ -36,7 +36,7 @@ export declare type OrderDetailCreateFormOverridesProps = {
     customerName?: PrimitiveOverrideProps<TextFieldProps>;
     customerEmail?: PrimitiveOverrideProps<TextFieldProps>;
     isGuest?: PrimitiveOverrideProps<SwitchFieldProps>;
-    walletID?: PrimitiveOverrideProps<TextFieldProps>;
+    userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrderDetailCreateFormProps = React.PropsWithChildren<{
     overrides?: OrderDetailCreateFormOverridesProps | undefined | null;
