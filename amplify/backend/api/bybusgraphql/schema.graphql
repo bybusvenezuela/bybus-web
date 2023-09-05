@@ -246,6 +246,7 @@ type Customer
   @auth(
     rules: [
       { allow: owner }
+      { allow: private, provider: iam, operations: [read] }
       { allow: public, provider: iam, operations: [create, read] }
       {
         allow: groups
