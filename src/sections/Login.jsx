@@ -76,7 +76,7 @@ const Login = () => {
       <div className={styles.content}>
         <div className={styles.title}>
           <Image src={login.image} alt=" " />
-          <h2>- Panel Administrativo </h2>
+          <h2>- Agencias </h2>
         </div>
         <div className={styles.inputs}>
           {isNewPassword && <h3>- Por Favor Actualiza Contraseña</h3>}
