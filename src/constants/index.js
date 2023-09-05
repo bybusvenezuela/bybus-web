@@ -1,7 +1,7 @@
 import * as All from "@/public";
 
 export const navbar = {
-  logo: `http://assets.bybusvenezuela.com/public/logo.png`,
+  logo: `https://d3ii53iqsdavsa.cloudfront.net/public/logo.png`,
   menu: [
     {
       id: "home",
@@ -28,8 +28,8 @@ export const navbar = {
 };
 
 export const home = {
-  mainImage: `http://assets.bybusvenezuela.com/public/home-main.png`,
-  stickImage: `http://assets.bybusvenezuela.com/public/home-stick.png`,
+  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-main.png`,
+  stickImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-stick.png`,
   title: "make the best decisions for your trip",
   subtitle:
     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u”',
@@ -50,7 +50,7 @@ export const home = {
 };
 
 export const advantages = {
-  mainImage: `http://assets.bybusvenezuela.com/public/advantages.png`,
+  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/advantages.png`,
   title: "Ventajas",
   question: "¿Por qué escoger ByBus?",
   icon: "bx bx-bell",
@@ -59,18 +59,18 @@ export const advantages = {
 };
 
 export const customizable = {
-  mainImage: `http://assets.bybusvenezuela.com/public/customizable.png`,
+  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/customizable.png`,
   icon: "bx bx-star",
   title: "Viaja mas fácil",
   paragraph: `ByBus, la aplicación de venta de pasajes en Venezuela, es intuitiva y fácil de usar. Con una interfaz simple, usted será capaz de buscar y comprar boletos para diferentes destinos, fechas y horarios. Además, ofrece una gran variedad de formas de pago. Viajar nunca ha sido más fácil: descarga ByBus y reserva tus viajes en pocos pasos.`,
 };
 
 export const aboutus = {
-  mainImage: `http://assets.bybusvenezuela.com/public/about.png`,
+  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/about.png`,
   title: "Testimonios",
   question: "Qué dicen los usuarios sobre nosotros",
   subtitle: "¡Estoy muy contento por la experiencia que he tenido usando ByBus. La aplicación es increíblemente intuitiva y me ha hecho más fácil comprar boletos para mis viajes en bus. Puedo buscar diferentes destinos, escoger fechas y horas convenientes, y hacer el pago de forma segura. Recomendaría ByBus a todos los viajeros en Venezuela que están buscando comodidad y eficiencia en sus viajes!",
-  usersImage: `http://assets.bybusvenezuela.com/public/users.png`,
+  usersImage: `https://d3ii53iqsdavsa.cloudfront.net/public/users.png`,
   userText: "Christopher Alvarez",
 };
 
@@ -118,19 +118,19 @@ export const faq = {
 };
 
 export const download = {
-  mainImage: `http://assets.bybusvenezuela.com/public/download.png`,
-  backgroundImage: `http://assets.bybusvenezuela.com/public/background.png`,
+  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/download.png`,
+  backgroundImage: `https://d3ii53iqsdavsa.cloudfront.net/public/background.png`,
   title: "¿Listo para comenzar?",
   subtitle: `Descargue ahora y reserve sus boletos de autobús de forma instantánea. Tu próximo viaje está a solo un clic de distancia.`,
   button: {
     title: "Descarga",
-    image: `http://assets.bybusvenezuela.com/public/google.png`,
+    image: `https://d3ii53iqsdavsa.cloudfront.net/public/google.png`,
   },
 };
 
 export const footer = {
   contact: {
-    logo: `http://assets.bybusvenezuela.com/public/footerLogo.png`,
+    logo: `https://d3ii53iqsdavsa.cloudfront.net/public/footerLogo.png`,
     info: [
       {
         id: "info-1",

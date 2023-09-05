@@ -325,6 +325,8 @@ type OrderDetail
   id: ID!
   amount: Float!
   paymentMethod: String
+  documentType: DocumentType
+  customerDocument: String
   customerName: String
   customerEmail: String
   isGuest: Boolean
@@ -332,6 +334,11 @@ type OrderDetail
   payment: Payment @hasOne(fields: ["paymentID"])
   orderTickets: [OrderTicket] @hasMany(indexName: "byOrderDetailToTicket")
   userID: ID @index(name: "byUserToOrderDetail")
+}
+enum DocumentType {
+  V
+  E
+  P
 }
 
 type Payment
