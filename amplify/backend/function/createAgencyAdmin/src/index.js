@@ -102,7 +102,7 @@ export const handler = async (event) => {
   // envaimos un mensaje al correo
   await SEND_EMAIL(username, responseAgency.claveTemporal);
   // creamos el usuario en dynamodb
-  await CUSTOM_API_GRAPHQL(createAgency, {
+  const result = await CUSTOM_API_GRAPHQL(createAgency, {
     input: {
       cognitoID: responseAgency.response.User.Username,
       name: name,
