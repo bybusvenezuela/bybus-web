@@ -48,7 +48,9 @@ const TableEmailSubs = ({ rows }) => {
               onClick={() => {
                 setOpen(!open);
                 setData(params.row);
+                console.log(params);
               }}
+              disabled={params.row.status === "ACCEPTED" ? true : false}
             >
               <AddBusinessIcon />
             </IconButton>
