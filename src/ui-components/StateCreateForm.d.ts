@@ -1,0 +1,39 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
+import * as React from "react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+export declare type ValidationResponse = {
+    hasError: boolean;
+    errorMessage?: string;
+};
+export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
+export declare type StateCreateFormInputValues = {
+    name?: string;
+    cities?: string[];
+};
+export declare type StateCreateFormValidationValues = {
+    name?: ValidationFunction<string>;
+    cities?: ValidationFunction<string>;
+};
+export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
+export declare type StateCreateFormOverridesProps = {
+    StateCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    cities?: PrimitiveOverrideProps<TextFieldProps>;
+} & EscapeHatchProps;
+export declare type StateCreateFormProps = React.PropsWithChildren<{
+    overrides?: StateCreateFormOverridesProps | undefined | null;
+} & {
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: StateCreateFormInputValues) => StateCreateFormInputValues;
+    onSuccess?: (fields: StateCreateFormInputValues) => void;
+    onError?: (fields: StateCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: StateCreateFormInputValues) => StateCreateFormInputValues;
+    onValidate?: StateCreateFormValidationValues;
+} & React.CSSProperties>;
+export default function StateCreateForm(props: StateCreateFormProps): React.ReactElement;
