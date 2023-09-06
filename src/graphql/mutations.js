@@ -1507,6 +1507,7 @@ export const createOrderDetail = /* GraphQL */ `
         owner
         __typename
       }
+      bookingID
       orderTickets {
         items {
           id
@@ -1557,6 +1558,7 @@ export const updateOrderDetail = /* GraphQL */ `
         owner
         __typename
       }
+      bookingID
       orderTickets {
         items {
           id
@@ -1607,6 +1609,7 @@ export const deleteOrderDetail = /* GraphQL */ `
         owner
         __typename
       }
+      bookingID
       orderTickets {
         items {
           id
@@ -1714,6 +1717,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
           owner
           __typename
         }
+        bookingID
         orderTickets {
           nextToken
           __typename
@@ -1764,6 +1768,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           owner
           __typename
         }
+        bookingID
         orderTickets {
           nextToken
           __typename
@@ -1814,6 +1819,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           owner
           __typename
         }
+        bookingID
         orderTickets {
           nextToken
           __typename
@@ -1858,6 +1864,7 @@ export const createUser = /* GraphQL */ `
           total
           isGuest
           paymentID
+          bookingID
           userID
           createdAt
           updatedAt
@@ -1900,6 +1907,7 @@ export const updateUser = /* GraphQL */ `
           total
           isGuest
           paymentID
+          bookingID
           userID
           createdAt
           updatedAt
@@ -1942,6 +1950,7 @@ export const deleteUser = /* GraphQL */ `
           total
           isGuest
           paymentID
+          bookingID
           userID
           createdAt
           updatedAt
