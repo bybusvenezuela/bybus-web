@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Office } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getOffice } from "../graphql/queries";
+import { updateOffice } from "../graphql/mutations";
 export default function OfficeUpdateForm(props) {
   const {
     id: idProp,
@@ -24,6 +25,7 @@ export default function OfficeUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    name: "",
     state: "",
     city: "",
     address: "",
@@ -31,6 +33,7 @@ export default function OfficeUpdateForm(props) {
     phone: "",
     owner: "",
   };
+  const [name, setName] = React.useState(initialValues.name);
   const [state, setState] = React.useState(initialValues.state);
   const [city, setCity] = React.useState(initialValues.city);
   const [address, setAddress] = React.useState(initialValues.address);
@@ -42,6 +45,7 @@ export default function OfficeUpdateForm(props) {
     const cleanValues = officeRecord
       ? { ...initialValues, ...officeRecord }
       : initialValues;
+    setName(cleanValues.name);
     setState(cleanValues.state);
     setCity(cleanValues.city);
     setAddress(cleanValues.address);
@@ -54,7 +58,12 @@ export default function OfficeUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Office, idProp)
+        ? (
+            await API.graphql({
+              query: getOffice,
+              variables: { id: idProp },
+            })
+          )?.data?.getOffice
         : officeModelProp;
       setOfficeRecord(record);
     };
@@ -62,6 +71,7 @@ export default function OfficeUpdateForm(props) {
   }, [idProp, officeModelProp]);
   React.useEffect(resetStateValues, [officeRecord]);
   const validations = {
+    name: [],
     state: [],
     city: [],
     address: [],
@@ -95,12 +105,13 @@ export default function OfficeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          state,
-          city,
-          address,
-          email,
-          phone,
-          owner,
+          name: name ?? null,
+          state: state ?? null,
+          city: city ?? null,
+          address: address ?? null,
+          email: email ?? null,
+          phone: phone ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -126,27 +137,62 @@ export default function OfficeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Office.copyOf(officeRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateOffice,
+            variables: {
+              input: {
+                id: officeRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
       {...getOverrideProps(overrides, "OfficeUpdateForm")}
       {...rest}
     >
+      <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name: value,
+              state,
+              city,
+              address,
+              email,
+              phone,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
       <TextField
         label="State"
         isRequired={false}
@@ -156,6 +202,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state: value,
               city,
               address,
@@ -185,6 +232,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city: value,
               address,
@@ -214,6 +262,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address: value,
@@ -243,6 +292,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -272,6 +322,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -301,6 +352,7 @@ export default function OfficeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,

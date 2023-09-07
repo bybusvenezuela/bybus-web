@@ -7,13 +7,13 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Office } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type OfficeUpdateFormInputValues = {
+    name?: string;
     state?: string;
     city?: string;
     address?: string;
@@ -22,6 +22,7 @@ export declare type OfficeUpdateFormInputValues = {
     owner?: string;
 };
 export declare type OfficeUpdateFormValidationValues = {
+    name?: ValidationFunction<string>;
     state?: ValidationFunction<string>;
     city?: ValidationFunction<string>;
     address?: ValidationFunction<string>;
@@ -32,6 +33,7 @@ export declare type OfficeUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OfficeUpdateFormOverridesProps = {
     OfficeUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
     state?: PrimitiveOverrideProps<TextFieldProps>;
     city?: PrimitiveOverrideProps<TextFieldProps>;
     address?: PrimitiveOverrideProps<TextFieldProps>;
@@ -43,7 +45,7 @@ export declare type OfficeUpdateFormProps = React.PropsWithChildren<{
     overrides?: OfficeUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    office?: Office;
+    office?: any;
     onSubmit?: (fields: OfficeUpdateFormInputValues) => OfficeUpdateFormInputValues;
     onSuccess?: (fields: OfficeUpdateFormInputValues) => void;
     onError?: (fields: OfficeUpdateFormInputValues, errorMessage: string) => void;

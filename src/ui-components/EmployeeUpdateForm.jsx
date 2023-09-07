@@ -20,9 +20,10 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Employee } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getEmployee } from "../graphql/queries";
+import { updateEmployee } from "../graphql/mutations";
 function ArrayField({
   items = [],
   onChange,
@@ -35,6 +36,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -58,6 +60,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -167,12 +170,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -197,7 +195,7 @@ export default function EmployeeUpdateForm(props) {
     name: "",
     email: "",
     phone: "",
-    ping: "",
+    pin: "",
     type: "",
     permissions: [],
     owner: "",
@@ -206,7 +204,7 @@ export default function EmployeeUpdateForm(props) {
   const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
-  const [ping, setPing] = React.useState(initialValues.ping);
+  const [pin, setPin] = React.useState(initialValues.pin);
   const [type, setType] = React.useState(initialValues.type);
   const [permissions, setPermissions] = React.useState(
     initialValues.permissions
@@ -223,7 +221,7 @@ export default function EmployeeUpdateForm(props) {
     setName(cleanValues.name);
     setEmail(cleanValues.email);
     setPhone(cleanValues.phone);
-    setPing(cleanValues.ping);
+    setPin(cleanValues.pin);
     setType(cleanValues.type);
     setPermissions(cleanValues.permissions ?? []);
     setCurrentPermissionsValue("");
@@ -235,7 +233,12 @@ export default function EmployeeUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Employee, idProp)
+        ? (
+            await API.graphql({
+              query: getEmployee,
+              variables: { id: idProp },
+            })
+          )?.data?.getEmployee
         : employeeModelProp;
       setEmployeeRecord(record);
     };
@@ -262,7 +265,7 @@ export default function EmployeeUpdateForm(props) {
     name: [],
     email: [],
     phone: [],
-    ping: [],
+    pin: [],
     type: [],
     permissions: [],
     owner: [],
@@ -294,14 +297,14 @@ export default function EmployeeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          email,
-          phone,
-          ping,
-          type,
-          permissions,
-          owner,
-          lastConnection,
+          name: name ?? null,
+          email: email ?? null,
+          phone: phone ?? null,
+          pin: pin ?? null,
+          type: type ?? null,
+          permissions: permissions ?? null,
+          owner: owner ?? null,
+          lastConnection: lastConnection ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -327,21 +330,26 @@ export default function EmployeeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Employee.copyOf(employeeRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateEmployee,
+            variables: {
+              input: {
+                id: employeeRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -360,7 +368,7 @@ export default function EmployeeUpdateForm(props) {
               name: value,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -391,7 +399,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email: value,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -422,7 +430,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone: value,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -442,10 +450,10 @@ export default function EmployeeUpdateForm(props) {
         {...getOverrideProps(overrides, "phone")}
       ></TextField>
       <TextField
-        label="Ping"
+        label="Pin"
         isRequired={false}
         isReadOnly={false}
-        value={ping}
+        value={pin}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -453,24 +461,24 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone,
-              ping: value,
+              pin: value,
               type,
               permissions,
               owner,
               lastConnection,
             };
             const result = onChange(modelFields);
-            value = result?.ping ?? value;
+            value = result?.pin ?? value;
           }
-          if (errors.ping?.hasError) {
-            runValidationTasks("ping", value);
+          if (errors.pin?.hasError) {
+            runValidationTasks("pin", value);
           }
-          setPing(value);
+          setPin(value);
         }}
-        onBlur={() => runValidationTasks("ping", ping)}
-        errorMessage={errors.ping?.errorMessage}
-        hasError={errors.ping?.hasError}
-        {...getOverrideProps(overrides, "ping")}
+        onBlur={() => runValidationTasks("pin", pin)}
+        errorMessage={errors.pin?.errorMessage}
+        hasError={errors.pin?.hasError}
+        {...getOverrideProps(overrides, "pin")}
       ></TextField>
       <SelectField
         label="Type"
@@ -484,7 +492,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type: value,
               permissions,
               owner,
@@ -527,7 +535,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions: values,
               owner,
@@ -543,6 +551,9 @@ export default function EmployeeUpdateForm(props) {
         label={"Permissions"}
         items={permissions}
         hasError={errors?.permissions?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("permissions", currentPermissionsValue)
+        }
         errorMessage={errors?.permissions?.errorMessage}
         getBadgeText={getDisplayValue.permissions}
         setFieldValue={setCurrentPermissionsValue}
@@ -614,7 +625,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner: value,
@@ -645,7 +656,7 @@ export default function EmployeeUpdateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,

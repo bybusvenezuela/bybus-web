@@ -7,37 +7,36 @@
 import * as React from "react";
 import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Payment } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PaymentUpdateFormInputValues = {
-    refenrece?: string;
+    reference?: string;
     amount?: number;
     metadata?: string;
-    wallet?: string;
+    userID?: string;
 };
 export declare type PaymentUpdateFormValidationValues = {
-    refenrece?: ValidationFunction<string>;
+    reference?: ValidationFunction<string>;
     amount?: ValidationFunction<number>;
     metadata?: ValidationFunction<string>;
-    wallet?: ValidationFunction<string>;
+    userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PaymentUpdateFormOverridesProps = {
     PaymentUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    refenrece?: PrimitiveOverrideProps<TextFieldProps>;
+    reference?: PrimitiveOverrideProps<TextFieldProps>;
     amount?: PrimitiveOverrideProps<TextFieldProps>;
     metadata?: PrimitiveOverrideProps<TextAreaFieldProps>;
-    wallet?: PrimitiveOverrideProps<TextFieldProps>;
+    userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PaymentUpdateFormProps = React.PropsWithChildren<{
     overrides?: PaymentUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    payment?: Payment;
+    payment?: any;
     onSubmit?: (fields: PaymentUpdateFormInputValues) => PaymentUpdateFormInputValues;
     onSuccess?: (fields: PaymentUpdateFormInputValues) => void;
     onError?: (fields: PaymentUpdateFormInputValues, errorMessage: string) => void;

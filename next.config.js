@@ -5,13 +5,13 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 's3bybus220215-dev.s3.amazonaws.com',
-        port: '',
-        pathname: '/public/**',
+        protocol: "http",
+        hostname: "assets.bybusvenezuela.com",
+        port: "",
+        pathname: "/public/**",
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
