@@ -18,7 +18,7 @@ const Contact = ({ contactRef }) => {
   const sendEmail = async (e) => {
     e.preventDefault();
     if ((!name, !rif, !email, !phone))
-      return alert("FORMULARIO: CAMPOS VACIOS");
+      return alert("Formulario: campos vacios");
     const params = {
       input: {
         name,
@@ -44,11 +44,11 @@ const Contact = ({ contactRef }) => {
         const status =
           byRif?.data?.getAgencySubscriptionbyRif?.items[0]?.status;
         if (status === "ACCEPTED")
-          return alert(`Rif: ${rif}, ya registrado en nuestro sistema`);
+          return alert(`RIF: ${rif}. ya esta registrado en nuestro sistema`);
         if (status === "PENDING" || status === "SCHEDULED")
-          return alert(`Rif: ${rif}, ya tiene una solicitud pendiente`);
+          return alert(`RIF: ${rif}. ya tiene una solicitud pendiente`);
         if (status === "REJECTED")
-          return alert(`Rif: ${rif}, Rechazado llamar a soporte`);
+          return alert(`RIF: ${rif}. rechazado, llamar a soporte`);
       }
       // verificamos si el email ya existe
       const byEmail = await API.graphql({
@@ -64,11 +64,11 @@ const Contact = ({ contactRef }) => {
         const statusbyEmail =
           byEmail?.data?.getAgencySubscriptionbyEmail?.items[0]?.status;
         if (statusbyEmail === "ACCEPTED")
-          return alert(`Email: ${email}, ya registrado en nuestro sistema`);
+          return alert(`Correo electronico: ${email}. ya esta registrado en nuestro sistema`);
         if (statusbyEmail === "PENDING" || statusbyEmail === "SCHEDULED")
-          return alert(`Email: ${email}, ya tiene una solicitud pendiente`);
+          return alert(`Correo electronico: ${email}. ya tiene una solicitud pendiente`);
         if (statusbyEmail === "REJECTED")
-          return alert(`Email: ${email}, Rechazado llamar a soporte`);
+          return alert(`Correo electronico: ${email}. rechazado, llamar a soporte`);
       }
       // de no existe email o rif enviamsop petciion
       // enviamos peticion
@@ -78,13 +78,13 @@ const Contact = ({ contactRef }) => {
         variables: params,
       });
       alert(
-        "FORMULARIO ENVIADO",
-        "En las proximas horas Bybus Se comunicara con ustdes"
+        "Formulario enviado",
+        "ByBus se comunicara con usted lo mas pronto posible"
       );
       clean();
     } catch (error) {
       setLoading(false);
-      alert("ERROR AL ENVIAR FORMUALRIO");
+      alert("Error al enviar el formulario");
       console.error("ERROR AL ENVIAR FORMUALRIO: ", error);
     }
     setLoading(false);
@@ -126,7 +126,7 @@ const Contact = ({ contactRef }) => {
             />
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>Rif</label>
+            <label className={styles.label}>RIF</label>
             <input
               type="text"
               className={styles.input}
@@ -138,7 +138,7 @@ const Contact = ({ contactRef }) => {
             />
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>correo electrónico</label>
+            <label className={styles.label}>Correo electrónico</label>
             <input
               type="email"
               className={styles.input}

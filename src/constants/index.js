@@ -211,7 +211,7 @@ export const baseContact = {
 export const cardContact = [
   {
     id: 'card-1',
-    title: 'Email',
+    title: 'Correo electronico',
     data: 'bybus@gmail.com',
     icon: 'bx bx-mail-send',
   },

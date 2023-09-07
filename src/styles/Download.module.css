@@ -16,14 +16,14 @@
   padding: 3rem;
 }
 .left h2 {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 48px;
   line-height: 48px;
-  text-transform: capitalize;
+  text-transform: initial;
   color: var(--white);
 }
 .left p {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 18px;
   line-height: 28px;
   /* text-transform: capitalize; */
@@ -41,7 +41,7 @@
 }
 .button p {
   margin: 0;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 18px;
   line-height: 28px;
   text-transform: capitalize;

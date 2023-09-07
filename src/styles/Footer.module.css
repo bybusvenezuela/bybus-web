@@ -29,16 +29,19 @@
   color: var(--yellow);
 }
 .contact p {
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   line-height: 26px;
   color: var(--black);
+  text-transform: initial;
+
 }
 .links h2,
 .legal h2,
 .newsletter h2 {
   font-weight: 600;
-  font-size: 32px;
+  letter-spacing: -0.5px;
+  font-size: 24px;
   line-height: 42px;
   text-transform: capitalize;
 }
@@ -50,10 +53,10 @@
 }
 .linksContent a,
 .legalContent a {
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: initial;
   color: var(--black);
 }
 .input {
@@ -100,7 +103,7 @@
 }
 
 .bot p {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 26px;
   text-align: center;

@@ -21,18 +21,21 @@
   margin-bottom: 10px;
 }
 .question {
-  font-weight: 800;
+  letter-spacing: -1.2px;
+  font-weight: 700;
   font-size: 48px;
   line-height: 48px;
-  text-transform: capitalize;
+  text-transform: initial;
   color: var(--black);
 }
 .paragraph {
-  font-weight: 600;
+  letter-spacing: -0.5px;
+  font-weight: 500;
   font-size: 18px;
-  line-height: 28px;
+  line-height: 32px;
   color: var(--black);
   opacity: 0.5;
+  text-align: justify;
 }
 .subtitle {
   display: flex;
@@ -41,6 +44,7 @@
 
 }
 .subtitle p {
+  letter-spacing: -0.5px;
   font-weight: 700;
   font-size: 24px;
   line-height: 28px;

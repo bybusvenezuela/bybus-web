@@ -5,12 +5,15 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--yellow);
+  margin-bottom: 10px;
 }
 .title h2 {
-  font-weight: 800;
+  letter-spacing: -1.2px;
+  font-weight: 700;
   font-size: 48px;
   line-height: 48px;
-  text-transform: capitalize;
+  text-transform: initial;
+  color: var(--black);
   width: 60%;
 }
 .questions {
@@ -23,16 +26,17 @@
     padding: 1.5rem;
 }
 .question h3 {
-  font-weight: 700;
-  font-size: 20px;
+  letter-spacing: -0.5px;
+  text-transform: initial;
+  font-weight: 600;
+  font-size: 22px;
   line-height: 28px;
-  text-transform: capitalize;
 }
 .question p {
   margin-top: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 28px;
   text-align: justify;
 }
 @media screen and (max-width: 500px) {
