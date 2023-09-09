@@ -213,14 +213,14 @@ export const baseContact = {
 export const cardContact = [
   {
     id: 'card-1',
-    title: 'Correo electronico',
-    data: 'bybus@gmail.com',
+    title: 'Email',
+    data: 'soporte@bybusvenezuela.com',
     icon: 'bx bx-mail-send',
   },
   {
     id: 'card-2',
     title: 'WhatsApp',
-    data: '+ 58 000 000 000',
+    data: '+ 58 426-5523463',
     icon: 'bx bxl-whatsapp',
   },
   {

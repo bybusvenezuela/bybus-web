@@ -161,15 +161,18 @@ const Contact = ({ contactRef }) => {
               maxLength={100}
             />
           </div>
+            <div className={styles.send}>
 
           <Button
             className={styles.button}
-            style={{ color: "black" }}
+            style={{ color: "white" }}
             type="submit"
             disabled={isLoading}
           >
             {isLoading ? <CircularProgress /> : "Enviar"}
           </Button>
+          </div>
+
         </form>
       </div>
     </div>
