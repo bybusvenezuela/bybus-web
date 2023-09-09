@@ -8,7 +8,7 @@ const Navbar = ({ onHandleClick = () => { } }) => {
     <div className="container section">
       <div className={styles.navbar}>
         <div className={styles.left}>
-          <Image src={navbar.logo} alt="" width={130} height={50} />
+          <Image src={navbar.logo} alt="" width={0} height={0} className={styles.logo}/>
           <div className={styles.menu}>
             {navbar.menu.map((item) => (
               <Link href={`#${item.id}`} key={item.id}>
@@ -21,6 +21,8 @@ const Navbar = ({ onHandleClick = () => { } }) => {
           <Link href="/" key={navbar.button.id} className={styles.button}>
             <p>{navbar.button.title}</p>
             <Image src={navbar.button.logo} alt="" />
+            <div className={styles.line}></div>
+            <Image src={navbar.button.apple} alt="" />
           </Link>
         </div>
       </div>

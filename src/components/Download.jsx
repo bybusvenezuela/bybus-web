@@ -18,7 +18,9 @@ const Download = () => {
             <p>{download.subtitle}</p>
             <div className={styles.button}>
               <p>{download.button.title}</p>
-              <Image src={download.button.image} alt="" width={1000} height={1000} />
+              <Image className={styles.google} src={download.button.image} alt="" width={1000} height={1000} />
+              <div className={styles.line}></div>
+              <Image className={styles.apple} src={download.button.apple} alt="" width={1000} height={1000} />
             </div>
           </div>
           <div className={styles.right}>

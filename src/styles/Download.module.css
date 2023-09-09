@@ -47,13 +47,23 @@
   text-transform: capitalize;
   color: var(--black);
 }
-.button img {
+.google {
   width: 25px;
   height: 25px;
 }
 .right img {
   width: 350px;
   height: 350px;
+}
+.apple {
+  width: 25px;
+  height: 30px;
+}
+.line {
+  width: 1px;
+  height: 20px;
+  border-radius: 8px;
+  background-color: black;
 }
 @media screen and (max-width: 500px) {
   .content {
@@ -79,7 +89,11 @@
     font-size: 15px;
     line-height: 28px;
   }
-  .button img {
+  .apple {
+    width: 21px;
+    height: 25px;
+  }
+  .google {
     width: 20px;
     height: 20px;
   }

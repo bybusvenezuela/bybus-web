@@ -23,6 +23,7 @@ export const navbar = {
   button: {
     id: "donwload",
     logo: All.Google,
+    apple: All.Apple,
     title: "Descárgalo",
   },
 };
@@ -30,20 +31,20 @@ export const navbar = {
 export const home = {
   mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-main.png`,
   stickImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-stick.png`,
-  title: "make the best decisions for your trip",
+  title: "Toma las mejores decisiones para tu viaje",
   subtitle:
     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u”',
   buttons: {
     one: {
       id: "one-btn",
-      title: "Empieza ya",
+      title: "Descargala ahora",
       link: "/",
       icon: "bx bxs-chevrons-right",
     },
     two: {
       id: "two-btn",
       title: "Tutorial",
-      link: "/",
+      link: "https://youtu.be/lI3xbzsdD3k",
       icon: "bx bx-play-circle",
     },
   },
@@ -62,7 +63,7 @@ export const customizable = {
   mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/customizable.png`,
   icon: "bx bx-star",
   title: "Viaja mas fácil",
-  paragraph: `ByBus, la aplicación de venta de pasajes en Venezuela, es intuitiva y fácil de usar. Con una interfaz simple, usted será capaz de buscar y comprar boletos para diferentes destinos, fechas y horarios. Además, ofrece una gran variedad de formas de pago. Viajar nunca ha sido más fácil: descarga ByBus y reserva tus viajes en pocos pasos.`,
+  paragraph: `ByBus, la aplicación de venta de pasajes en Venezuela, es intuitiva y fácil de usar. Con una interfaz simple, usted será capaz de buscar y comprar boletos para diferentes destinos, fechas y horarios. Además, ofrece una gran variedad de formas de pago. Viajar nunca ha sido tan fácil: descarga ByBus y reserva tus viajes en pocos pasos.`,
 };
 
 export const aboutus = {
@@ -125,6 +126,7 @@ export const download = {
   button: {
     title: "Descarga",
     image: `https://d3ii53iqsdavsa.cloudfront.net/public/google.png`,
+    apple: All.AppleBlack
   },
 };
 

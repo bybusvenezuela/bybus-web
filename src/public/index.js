@@ -9,3 +9,5 @@ export { default as About } from './about.png';
 export { default as Download } from './download.png';
 export { default as Background } from './background.png';
 export { default as FooterLogo } from './footerLogo.png';
+export { default as Apple } from './apple.png';
+export { default as AppleBlack } from './apple_black.png';

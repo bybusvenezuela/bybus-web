@@ -45,6 +45,10 @@
   justify-content: space-between;
   gap: 1rem;
 }
+.logo {
+  width: 130px;
+  height: 50px;
+}
 .button p {
   font-weight: 600;
   line-height: 28px;
@@ -52,8 +56,14 @@
   color: var(--white);
 }
 .button img {
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 25px;
+}
+.line {
+  width: 1.5px;
+  height: 25px;
+  background-color: white;
+  border-radius: 5px;
 }
 @media screen and (max-width: 500px) {
   .menu {
@@ -69,5 +79,9 @@
   .button img {
     width: 18px;
     height: 18px;
+  }
+  .logo {
+    width: 90px;
+    height: 36px;
   }
 }

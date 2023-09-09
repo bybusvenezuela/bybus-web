@@ -17,7 +17,7 @@ const Home = ({ homeRef }) => {
                 <p>{home.buttons.one.title}</p>
                 <i className={home.buttons.one.icon}></i>
               </Link>
-              <Link href={home.buttons.two.link} className={styles.buttonVideo}>
+              <Link href={home.buttons.two.link} className={styles.buttonVideo} target='_blank' >
                 <i className={home.buttons.two.icon}></i>
                 <p>{home.buttons.two.title}</p>
               </Link>
