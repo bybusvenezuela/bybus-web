@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const FAQ = () => {
   return (
-    <div className="container section">
+    <div className="container section" id="questions">
       <div className={styles.content}>
         <div className={styles.title}>
           <p>{faq.title}</p>

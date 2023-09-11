@@ -100,13 +100,13 @@
   padding-top: 3rem;
   border-top: 1px solid var(--gray);
   width: 100%;
+  text-align: center;
 }
 
 .bot p {
   font-weight: 500;
   font-size: 16px;
   line-height: 26px;
-  text-align: center;
   color: var(--black);
 }
 @media screen and (max-width: 500px) {

@@ -43,7 +43,7 @@ const Footer = () => {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.contact}>
-            <Image src={contact.logo} alt="" width={85} height={28} />
+            <Image src={contact.logo} alt="" width={40} height={40} />
             {contact.info.map((item) => (
               <div key={item.id}>
                 <i className={item.icon}></i>
@@ -54,8 +54,8 @@ const Footer = () => {
           <div className={styles.links}>
             <h2>{links.title}</h2>
             <div className={styles.linksContent}>
-              {links.pages.map((item) => (
-                <Link href={`${item.link}`} key={item.id}>
+              {links.pages.map((item, index) => (
+                <Link href={`#${item.id}`} key={item.index}>
                   {item.title}
                 </Link>
               ))}
@@ -65,7 +65,7 @@ const Footer = () => {
             <h2>{legal.title}</h2>
             <div className={styles.legalContent}>
               {legal.pages.map((item) => (
-                <Link href={`${item.link}`} key={item.id}>
+                <Link href={`${item.link}`} key={item.id} target='_blank' >
                   {item.title}
                 </Link>
               ))}
@@ -89,7 +89,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.bot}>
-          <p>{footer.copy}</p>
+          <p>Copyright <i class='bx bx-copyright'></i> 2023 - ByBus conserva todos los derechos.</p>
         </div>
       </div>
     </div>

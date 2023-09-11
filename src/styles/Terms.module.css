@@ -1,0 +1,13 @@
+.container {
+    padding: 20px;
+}
+
+.title {
+    color: var(--yellow)
+}
+
+.content {
+    text-align: justify;
+    margin-top: 10px;
+    line-height: 20px;
+}

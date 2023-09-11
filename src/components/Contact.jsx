@@ -163,14 +163,15 @@ const Contact = ({ contactRef }) => {
           </div>
             <div className={styles.send}>
 
-          <Button
+            <input type="submit" value="Enviar" className={styles.button} />
+          {/* <input
             className={styles.button}
             style={{ color: "white" }}
             type="submit"
             disabled={isLoading}
           >
             {isLoading ? <CircularProgress /> : "Enviar"}
-          </Button>
+          </input> */}
           </div>
 
         </form>

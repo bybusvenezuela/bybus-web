@@ -45,9 +45,18 @@
   justify-content: space-between;
   gap: 1rem;
 }
+.logoContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .logo {
-  width: 130px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+}
+.logoContent p {
+  margin-left: 5px;
+  font-weight: 700;
 }
 .button p {
   font-weight: 600;
@@ -55,9 +64,13 @@
   text-transform: capitalize;
   color: var(--white);
 }
-.button img {
+.google {
   width: 22px;
   height: 25px;
+}
+.apple {
+  width: 22px;
+  height: 28px;
 }
 .line {
   width: 1.5px;
@@ -76,12 +89,16 @@
   .button p {
     font-size: 14px;
   }
-  .button img {
+  .google {
     width: 18px;
     height: 18px;
   }
+  .apple {
+    width: 18px;
+    height: 20.5px;
+  }
   .logo {
-    width: 90px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 }
