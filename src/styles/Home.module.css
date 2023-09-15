@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5rem;
 }
 .left {
   flex: 1;
@@ -15,7 +16,7 @@
   font-size: 56px;
   line-height: 64px;
   text-transform: initial;
-  color: var(--black);
+  color: var(--blueDeep);
 }
 .subtitle {
   font-family: var(--font);
@@ -23,7 +24,7 @@
   font-size: 16px;
   line-height: 28px;
   text-transform: initial;
-  color: var(--black);
+  color: var(--blueDeep);
   /* opacity: 0.8; */
   margin: 1rem 0;
 }
@@ -36,10 +37,16 @@
 }
 .right {
   flex: 1;
+  position: relative;
+  /* border: 1px solid black; */
 }
 .right img {
-  width: 500px;
-  height: 600px;
+  position: absolute;
+  width: 1000px;
+  height: 450px;
+  top: -215px;
+  left: -240px;
+  z-index: -1;
 }
 .buttons {
     display: inline-flex;
@@ -53,12 +60,12 @@
   border-radius: 8px;
 }
 .buttonGet {
-  background-color: var(--black);
+  background-color: var(--blueDark);
   color: var(--white);
 }
 .buttonVideo {
     background-color: var(--white);
-    color: var(--black);
+    color: var(--blueDark);
   }
 .buttonGet p, .buttonVideo p {
   font-family: var(--font);

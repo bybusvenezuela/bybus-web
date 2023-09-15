@@ -18,9 +18,9 @@
   left: 0;
   width: 100%;
   /* height: 100%; */
-  border: 1px solid var(--black);
+  border: 1px solid var(--blueDeep);
   background: none;
-  color: var(--black);
+  color: var(--blueDeep);
   outline: none;
   border-radius: 0.75rem;
   padding: 1.5rem;
@@ -41,11 +41,11 @@
   background-color: var(--white);
   z-index: 10;
   font-weight: 800;
-  color: var(--yellow);
+  color: var(--blueMain);
   text-transform: uppercase;
 }
 .card {
-  background-color: var(--yellow);
+  background-color: var(--blueMain);
   /* border: 2px solid var(--black); */
   border-radius: 0.35rem;
   text-align: center;
@@ -91,7 +91,7 @@
   color: white;
   text-transform: uppercase;
   cursor: pointer;
-  background-color: var(--black);
+  background-color: var(--blueDark);
 }
 .sectionTitle {
   margin-bottom: 4rem;
@@ -102,7 +102,7 @@
   line-height: 28px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--yellow);
+  color: var(--blueDeep);
   margin-bottom: 10px;
 }
 .title {
@@ -111,7 +111,7 @@
   font-size: 48px;
   line-height: 48px;
   text-transform: initial;
-  color: var(--black);
+  color: var(--blueDeep);
 }
 @media screen and (max-width: 500px) {
   .contact {

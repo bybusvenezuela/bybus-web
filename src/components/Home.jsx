@@ -24,7 +24,7 @@ const Home = ({ homeRef }) => {
             </div>
           </div>
           <div className={styles.bot}>
-            <Image src={home.stickImage} alt="" width={1000} height={1000} />
+            {/* <Image src={home.stickImage} alt="" width={1000} height={1000} /> */}
           </div>
         </div>
         <div className={styles.right}>

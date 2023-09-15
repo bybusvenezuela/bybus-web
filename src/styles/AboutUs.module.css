@@ -11,7 +11,7 @@
   text-align: center;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--yellow);
+  color: var(--blueMain);
 }
 .top h2 {
   letter-spacing: -1.2px;
@@ -19,7 +19,7 @@
   font-size: 48px;
   line-height: 48px;
   text-transform: initial;
-  color: var(--black);
+  color: var(--blueDeep);
   text-align: center;
 }
 .bot {
@@ -32,7 +32,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 38px;
-  color: var(--black);
+  color: var(--blueDeep);
   opacity: 0.5;
   text-align: justify;
 }

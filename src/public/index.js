@@ -1,4 +1,4 @@
-export { default as Logo } from './logo.png';
+export { default as Logo } from './ByBus.svg';
 export { default as Google } from './google.png';
 export { default as HomeMain } from './home-main.png';
 export { default as HomeStick } from './home-stick.png';
@@ -11,3 +11,4 @@ export { default as Background } from './background.png';
 export { default as FooterLogo } from './footerLogo.png';
 export { default as Apple } from './apple.png';
 export { default as AppleBlack } from './apple_black.png';
+export { default as Fondo } from './fondo.png';

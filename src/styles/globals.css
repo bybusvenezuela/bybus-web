@@ -8,9 +8,12 @@
 
   /* Colors */
   --white: #FFFFFF;
-  --yellow: #FFCE48;
-  --black: #100E0E;
-  --gray: #8F877F;
+  --blueMain: #00B4D8;
+  --blueDeep: #0077B6;
+  --blueSoft: #90E0EF;
+  --gray: #CAF0F8;
+  --black: #1F1F1F;
+  --blueDark: #03045E;
 
 }
 .swiper-pagination-bullet-active {
@@ -46,7 +49,7 @@ ul {
 }
 
 .section {
-  padding: 2rem 3rem;
+  padding: 1rem 2rem;
 }
 .section_two {
   padding: 0rem 3rem;
@@ -56,11 +59,11 @@ ul {
   position: relative;
 }
 .yellow {
-  background-color: var(--yellow);
+  background-color: var(--blueMain);
   border-radius: 12px;
 }
 .yellow p, .yellow h3 {
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .icon-social {

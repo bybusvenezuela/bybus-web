@@ -4,7 +4,7 @@
   line-height: 28px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--yellow);
+  color: var(--blueMain);
   margin-bottom: 10px;
 }
 .title h2 {
@@ -13,7 +13,7 @@
   font-size: 48px;
   line-height: 48px;
   text-transform: initial;
-  color: var(--black);
+  color: var(--blueDeep);
   width: 60%;
 }
 .questions {
@@ -31,6 +31,7 @@
   font-weight: 600;
   font-size: 22px;
   line-height: 28px;
+  color: var(--blueDeep);
 }
 .question p {
   margin-top: 1rem;
@@ -38,7 +39,9 @@
   font-size: 16px;
   line-height: 28px;
   text-align: justify;
+  color: var(--blueDeep);
 }
+
 @media screen and (max-width: 500px) {
   .title p {
     font-size: 16px;

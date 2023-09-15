@@ -43,7 +43,7 @@ export default function Main() {
       <Advantages />
       <Customizable />
       {/* About Us */}
-      <AboutUs />
+      {/* <AboutUs /> */}
       {/* FAQ */}
       <FAQ />
       {/* Donwload */}

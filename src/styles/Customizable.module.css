@@ -5,6 +5,9 @@
 }
 .right {
   width: 60vw;
+  background-color: var(--gray);
+  padding: 20px;
+  border-radius: 12px;
 }
 .left img {
   width: 450px;
@@ -15,8 +18,7 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 32px;
-  color: var(--black);
-  opacity: 0.5;
+  color: var(--blueDeep);
   text-align: justify;
 }
 .title {
@@ -30,11 +32,12 @@
   font-size: 24px;
   line-height: 28px;
   text-transform: capitalize;
+  color: var(--blueMain);
 }
 .icon {
   height: 35px;
   width: 35px;
-  background-color: var(--yellow);
+  background-color: var(--blueMain);
   display: flex;
   align-items: center;
   justify-content: center;

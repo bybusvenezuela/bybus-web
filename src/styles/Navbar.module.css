@@ -25,7 +25,7 @@
   gap: 1rem;
 }
 .menu a {
-  color: var(--black);
+  color: var(--blueDeep);
   font-weight: 600;
   font-size: 16px;
   line-height: 26px;
@@ -33,12 +33,12 @@
   transition: all 0.3s ease-out;
 }
 .menu a:hover {
-  color: var(--yellow);
+  color: var(--blueDeep);
 }
 
 .button {
   padding: 1rem 2rem;
-  background-color: var(--black);
+  background-color: var(--blueDark);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -51,8 +51,8 @@
   justify-content: space-between;
 }
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 150px;
+  height: 150px;
 }
 .logoContent p {
   margin-left: 5px;

@@ -16,7 +16,7 @@ const Navbar = ({ onHandleClick = () => {} }) => {
               height={0}
               className={styles.logo}
             />
-            <p>ByBus</p>
+            {/* <p>ByBus</p> */}
           </div>
 
           <div className={styles.menu}>

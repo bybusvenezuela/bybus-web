@@ -43,7 +43,7 @@ const Footer = () => {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.contact}>
-            <Image src={contact.logo} alt="" width={40} height={40} />
+            {/* <Image src={contact.logo} alt="" width={150} height={100} /> */}
             {contact.info.map((item) => (
               <div key={item.id}>
                 <i className={item.icon}></i>

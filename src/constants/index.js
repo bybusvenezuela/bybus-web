@@ -9,7 +9,7 @@ export const navbar = {
       title: "Inicio",
     },
     {
-      id: "about-us",
+      id: "advantages",
       title: "Nosotros",
     },
     {
@@ -30,9 +30,9 @@ export const navbar = {
 };
 
 export const home = {
-  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-main.png`,
+  mainImage: All.Fondo,
   stickImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-stick.png`,
-  title: "Toma las mejores decisiones para tu viaje",
+  title: "Viaja con ByBus por toda Venezuela",
   subtitle:
     '¡Con nuestra emocionante nueva app de transporte en Venezuela, descubre una forma más fácil y conveniente de moverte! Olvídate de las largas horas de espera y los viajes incómodos. ¡Descarga ByBus y disfruta de nuevas experiencias de viajes que traemos para ti!',
   buttons: {
@@ -161,7 +161,7 @@ export const footer = {
         title: "Inicio",
       },
       {
-        id: "about-us",
+        id: "advantages",
         title: "Nosotros",
       },
       {
