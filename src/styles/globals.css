@@ -68,7 +68,7 @@ ul {
 
 .icon-social {
   font-size: 2rem;
-  color: var(--black);
+  color: var(--white);
 }
 @media screen and (max-width:500px) {
   .container {
@@ -85,6 +85,6 @@ ul {
   }
   .icon-social {
     font-size: 1.5rem;
-    color: var(--black);
+    color: var(--white);
   }
 }

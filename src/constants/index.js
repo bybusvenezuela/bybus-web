@@ -52,7 +52,7 @@ export const home = {
 };
 
 export const advantages = {
-  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/advantages.png`,
+  mainImage: All.Advantages,
   title: "Ventajas",
   question: "¿Por qué escoger ByBus?",
   icon: "bx bx-bell",
@@ -61,7 +61,7 @@ export const advantages = {
 };
 
 export const customizable = {
-  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/customizable.png`,
+  mainImage: All.About,
   icon: "bx bx-star",
   title: "Viaja mas fácil",
   paragraph: `ByBus, la aplicación de venta de pasajes en Venezuela, es intuitiva y fácil de usar. Con una interfaz simple, usted será capaz de buscar y comprar boletos para diferentes destinos, fechas y horarios. Además, ofrece una gran variedad de formas de pago. Viajar nunca ha sido tan fácil: descarga ByBus y reserva tus viajes en pocos pasos.`,
@@ -125,14 +125,14 @@ export const faq = {
 };
 
 export const download = {
-  mainImage: `https://d3ii53iqsdavsa.cloudfront.net/public/download.png`,
-  backgroundImage: `https://d3ii53iqsdavsa.cloudfront.net/public/background.png`,
+  mainImage: All.Welcome,
+  secondImage: All.Profile,
   title: "¿Listo para comenzar?",
   subtitle: `Descargue ahora y reserve sus boletos de autobús de forma instantánea. Tu próximo viaje está a solo un clic de distancia.`,
   button: {
     title: "Descarga",
     image: `https://d3ii53iqsdavsa.cloudfront.net/public/google.png`,
-    apple: All.AppleBlack,
+    apple: All.Apple,
   },
 };
 

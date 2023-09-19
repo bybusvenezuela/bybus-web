@@ -10,8 +10,9 @@
   border-radius: 12px;
 }
 .left img {
-  width: 450px;
+  width: 550px;
   height: 450px;
+  object-fit: cover;
 }
 .paragraph {
   letter-spacing: -0.5px;

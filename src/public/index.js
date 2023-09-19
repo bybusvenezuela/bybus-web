@@ -12,3 +12,5 @@ export { default as FooterLogo } from './footerLogo.png';
 export { default as Apple } from './apple.png';
 export { default as AppleBlack } from './apple_black.png';
 export { default as Fondo } from './fondo.png';
+export { default as Welcome } from './welcome.png';
+export { default as Profile } from './profile.png';

@@ -49,8 +49,8 @@
   z-index: -1;
 }
 .buttons {
-    display: inline-flex;
-    gap: 1rem;
+  display: inline-flex;
+  gap: 1rem;
 }
 .buttonGet,
 .buttonVideo {
@@ -64,10 +64,11 @@
   color: var(--white);
 }
 .buttonVideo {
-    background-color: var(--white);
-    color: var(--blueDark);
-  }
-.buttonGet p, .buttonVideo p {
+  background-color: var(--white);
+  color: var(--blueDark);
+}
+.buttonGet p,
+.buttonVideo p {
   font-family: var(--font);
   font-weight: 600;
   font-size: 14px;
@@ -75,12 +76,12 @@
   text-transform: initial;
 }
 .buttonGet i {
-    margin-left: 5px;
-    font-size: 20px;
+  margin-left: 5px;
+  font-size: 20px;
 }
 .buttonVideo i {
-    margin-right: 5px;
-    font-size: 25px;
+  margin-right: 5px;
+  font-size: 25px;
 }
 @media screen and (max-width: 500px) {
   .content {
@@ -98,15 +99,20 @@
     display: none;
   }
   .right img {
-    margin-top: 4rem;
-    margin-bottom: -2rem;
-    width: 350px;
-    height: 400px;
+    /* margin-top: 10rem; */
+    /* margin-bottom: -2rem; */
+    width: 600px;
+    height: 310px;
+    position: absolute;
+    top: -215px;
+    left: -340px;
+    z-index: -1;
   }
   .buttons {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-}
+    margin-bottom: 15rem;
+  }
 }

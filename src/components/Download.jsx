@@ -8,10 +8,6 @@ const Download = () => {
   return (
     <div className="container section">
       <div className={styles.background}>
-        <div className={styles.backgroundImage}>
-          <Image src={download.backgroundImage} alt="" width={1000} height={1000} />
-        </div>
-
         <div className={styles.content}>
           <div className={styles.left}>
             <h2>{download.title}</h2>
@@ -24,7 +20,8 @@ const Download = () => {
             </div>
           </div>
           <div className={styles.right}>
-            <Image src={download.mainImage} alt="" width={1000} height={1000} />
+            <Image src={download.mainImage} alt="" width={1000} height={1000} className={styles.mainImage}/>
+            <Image src={download.secondImage} alt="" width={1000} height={1000} className={styles.secondImage}/>
           </div>
         </div>
       </div>
