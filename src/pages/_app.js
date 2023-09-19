@@ -8,7 +8,7 @@ Amplify.configure({ ...awsExports, ssr: true });
 const App = ({ Component, pageProps }) => (
   <>
     <Head>
-      <title>BYBUS VENEZUELA</title>
+      <title>ByBus</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link
         href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
