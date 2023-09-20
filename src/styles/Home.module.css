@@ -41,11 +41,11 @@
   /* border: 1px solid black; */
 }
 .right img {
-  position: absolute;
-  width: 1000px;
-  height: 450px;
-  top: -215px;
-  left: -240px;
+  /* position: absolute; */
+  width: 700px;
+  height: 400px;
+  /* top: -215px; */
+  /* left: -240px; */
   z-index: -1;
 }
 .buttons {

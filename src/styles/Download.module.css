@@ -52,20 +52,26 @@
   width: 600px;
   height: 500px;
 }
-.mainImage, .secondImage {
+.mainImage {
   width: 550px;
   height: 450px;
   object-fit: cover;
 }
 .mainImage {
+  width: 500px;
+  height: 350px;
   position: absolute;
   z-index: 2;
-  right: -4rem;
+  right: -3rem;
+  top: 3rem;
 }
 .secondImage {
+  width: 450px;
+  height: 350px;
   position: absolute;
   z-index: 1;
-  right: -10rem;
+  right: -6rem;
+  top: 5rem;
 }
 .apple {
   width: 25px;
@@ -90,20 +96,23 @@
     font-size: 16px;
     line-height: 24px;
   }
-  .mainImage, .secondImage {
-    width: 550px;
-    height: 450px;
-    object-fit: cover;
-  }
+
   .mainImage {
+    width: 500px;
+    height: 350px;
     position: absolute;
     z-index: 2;
-    right: 4rem;
+    right: 5rem;
+    object-fit: contain;
   }
   .secondImage {
     position: absolute;
     z-index: 1;
-    right: -2rem;
+    right: 5rem;
+    /* object-fit: cover; */
+    width: 380px;
+    height: 300px;
+    top: 6rem;
   }
   .button {
     padding: 1rem;

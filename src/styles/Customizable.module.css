@@ -75,5 +75,10 @@
   .subtitle p {
     font-size: 18px;
   }
-
+  .left img {
+    width: 450px;
+    height: 350px;
+    object-fit: cover;
+    margin: 3rem 0;
+  }
 }
