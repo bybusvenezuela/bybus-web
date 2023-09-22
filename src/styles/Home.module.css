@@ -6,17 +6,30 @@
 }
 .left {
   flex: 1;
+  position: relative;
+  z-index: 5;
 }
 .right {
   flex: 1;
 }
-.title {
+.titleTop {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 150px;
+}
+.title, .titleSecond {
   font-family: var(--font);
   font-weight: 800;
-  font-size: 56px;
+  font-size: 52px;
   line-height: 64px;
   text-transform: initial;
   color: var(--blueDeep);
+  position: absolute;
+  width: 1200px;
+}
+.titleSecond {
+  top: 4rem;
 }
 .subtitle {
   font-family: var(--font);
@@ -114,5 +127,12 @@
     justify-content: center;
     gap: 1rem;
     margin-bottom: 15rem;
+  }
+}
+@media screen and (min-width:1400px) {
+  .right img {
+    width: 800px;
+    height: 400px;
+    z-index: -1;
   }
 }

@@ -1,7 +1,7 @@
 .background {
   position: relative;
   z-index: 1;
-  background-color: var(--blueMain);
+  background-color: var(--blueSoft);
   border-radius: 12px;
 }
 .content {
@@ -14,14 +14,14 @@
   font-size: 48px;
   line-height: 48px;
   text-transform: initial;
-  color: var(--white);
+  color: var(--blueDeep);
 }
 .left p {
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
   /* text-transform: capitalize; */
-  color: var(--white);
+  color: var(--blueDark);
   margin: 1rem 0;
 }
 .button {

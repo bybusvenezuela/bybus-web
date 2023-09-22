@@ -10,7 +10,10 @@ const Home = ({ homeRef }) => {
       <div className={styles.content}>
         <div className={styles.left}>
           <div className={styles.top}>
+            <div className={styles.titleTop}>
             <h2 className={styles.title}>{home.title}</h2>
+            <h2 className={styles.titleSecond}>{home.titleSecond}</h2>
+            </div>
             <p className={styles.subtitle}>{home.subtitle}</p>
             <div className={styles.buttons}>
               <Link href={home.buttons.one.link} className={styles.buttonGet}>

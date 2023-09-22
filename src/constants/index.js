@@ -32,7 +32,8 @@ export const navbar = {
 export const home = {
   mainImage: All.Fondo,
   stickImage: `https://d3ii53iqsdavsa.cloudfront.net/public/home-stick.png`,
-  title: "Viaja con ByBus por toda Venezuela",
+  title: "Viaja con ByBus",
+  titleSecond: "por toda Venezuela",
   subtitle:
     '¡Con nuestra emocionante nueva app de transporte en Venezuela, descubre una forma más fácil y conveniente de moverte! Olvídate de las largas horas de espera y los viajes incómodos. ¡Descarga ByBus y disfruta de nuevas experiencias de viajes que traemos para ti!',
   buttons: {
