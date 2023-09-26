@@ -1,50 +1,30 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Button, Stack } from '@mui/material';
-import { Auth, API } from "aws-amplify";
-import * as queries from "@/graphql/queries";
+import React from "react";
+import Box from "@mui/material/Box";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
-const TableOffices = ({rows}) => {
-
+const TableOffices = ({ rows }) => {
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
     {
       field: "name",
-      headerName: "Agency",
-      width: 150,
-      editable: true,
+      headerName: "Nombre",
+      width: 200,
     },
     {
       field: "state",
-      headerName: "State",
-      width: 100,
-      editable: true,
+      headerName: "Estado",
+      width: 200,
     },
     {
       field: "city",
-      headerName: "City",
-      width: 100,
-      editable: true,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      width: 100,
-      editable: true,
-    },
-    {
-      field: "phone",
-      headerName: "Phone",
-      width: 100,
-      editable: true,
+      headerName: "Ciudad",
+      width: 200,
     },
   ];
-  
+
   return (
     <Box sx={{ height: 500, width: 800 }}>
       <DataGrid
-        rows={rows ? rows : ''}
+        rows={rows ? rows : ""}
         columns={columns}
         initialState={{
           pagination: {
@@ -54,13 +34,12 @@ const TableOffices = ({rows}) => {
           },
         }}
         pageSizeOptions={[10]}
-        checkboxSelection
-        disableRowSelectionOnClick
+        disableRowSelectionOnClick={true}
         slots={{ toolbar: GridToolbar }}
         loading={rows ? false : true}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default TableOffices
+export default TableOffices;

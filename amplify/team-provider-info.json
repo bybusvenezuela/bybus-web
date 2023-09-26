@@ -23,7 +23,7 @@
         },
         "createAgencyAdmin": {
           "deploymentBucketName": "amplify-bybus-dev-171204-deployment",
-          "s3Key": "amplify-builds/createAgencyAdmin-49587a4d362b2f4c4b34-build.zip"
+          "s3Key": "amplify-builds/createAgencyAdmin-5a58424d746e75655646-build.zip"
         }
       },
       "storage": {

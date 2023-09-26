@@ -1,6 +1,9 @@
-export const getAgency = /* GraphQL */ `
-  query GetAgency($id: ID!) {
-    getAgency(id: $id) {
+export const onUpdateAgency = /* GraphQL */ `
+  subscription OnUpdateAgency(
+    $filter: ModelSubscriptionAgencyFilterInput
+    $owner: String
+  ) {
+    onUpdateAgency(filter: $filter, owner: $owner) {
       id
       cognitoID
       pin
@@ -8,10 +11,6 @@ export const getAgency = /* GraphQL */ `
       rif
       email
       phone
-      owner
-      createdAt
-      updatedAt
-      __typename
       officies {
         items {
           id
@@ -40,12 +39,6 @@ export const getAgency = /* GraphQL */ `
           type
           agencyID
           officeID
-          office {
-            id
-            name
-            state
-            city
-          }
           permissions
           owner
           lastConnection
@@ -56,38 +49,29 @@ export const getAgency = /* GraphQL */ `
         nextToken
         __typename
       }
-    }
-  }
-`;
-
-export const getEmployee = /* GraphQL */ `
-  query GetEmployee($id: ID!) {
-    getEmployee(id: $id) {
-      id
-      name
-      email
-      phone
-      pin
-      type
-      agencyID
-      officeID
-      office {
-        id
-        agencyID
-        name
-        state
-        city
-        address
-        transports {
-          items {
-            id
-            model
-            serial
-            type
-          }
+      bookings {
+        items {
+          id
+          code
+          agencyID
+          officeID
+          transport
+          departureCity
+          arrivalCity
+          stock
+          price
+          createdBy
+          owner
+          createdAt
+          updatedAt
+          __typename
         }
+        nextToken
+        __typename
       }
-      permissions
+      owner
+      createdAt
+      updatedAt
       __typename
     }
   }

@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -15,17 +15,25 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type OrderDetailUpdateFormInputValues = {
     amount?: number;
     paymentMethod?: string;
+    documentType?: string;
+    customerDocument?: string;
     customerName?: string;
     customerEmail?: string;
+    total?: number;
     isGuest?: boolean;
+    bookingID?: string;
     userID?: string;
 };
 export declare type OrderDetailUpdateFormValidationValues = {
     amount?: ValidationFunction<number>;
     paymentMethod?: ValidationFunction<string>;
+    documentType?: ValidationFunction<string>;
+    customerDocument?: ValidationFunction<string>;
     customerName?: ValidationFunction<string>;
     customerEmail?: ValidationFunction<string>;
+    total?: ValidationFunction<number>;
     isGuest?: ValidationFunction<boolean>;
+    bookingID?: ValidationFunction<string>;
     userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -33,9 +41,13 @@ export declare type OrderDetailUpdateFormOverridesProps = {
     OrderDetailUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     amount?: PrimitiveOverrideProps<TextFieldProps>;
     paymentMethod?: PrimitiveOverrideProps<TextFieldProps>;
+    documentType?: PrimitiveOverrideProps<SelectFieldProps>;
+    customerDocument?: PrimitiveOverrideProps<TextFieldProps>;
     customerName?: PrimitiveOverrideProps<TextFieldProps>;
     customerEmail?: PrimitiveOverrideProps<TextFieldProps>;
+    total?: PrimitiveOverrideProps<TextFieldProps>;
     isGuest?: PrimitiveOverrideProps<SwitchFieldProps>;
+    bookingID?: PrimitiveOverrideProps<TextFieldProps>;
     userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrderDetailUpdateFormProps = React.PropsWithChildren<{

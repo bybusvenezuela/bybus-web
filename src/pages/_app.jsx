@@ -44,16 +44,14 @@ const App = ({ Component, pageProps }) => {
           rel="stylesheet"
         ></link>
       </Head>
-      <RecoilRoot>
+      <UserProvider>
         <MenuProvider>
-          <UserProvider>
-            <ThemeProvider theme={theme}>
-              <ConfigureMain />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </UserProvider>
+          <ThemeProvider theme={theme}>
+            <ConfigureMain />
+            <Component {...pageProps} />
+          </ThemeProvider>
         </MenuProvider>
-      </RecoilRoot>
+      </UserProvider>
     </>
   );
 };

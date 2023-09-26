@@ -2,19 +2,17 @@ import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import { useUser } from "@/context/UserContext";
 const useUserManagement = () => {
-  const { userAuth, setUserAuth } = useUser();
+  const { setTokenUser } = useUser();
   const router = useRouter();
 
   const checkUser = async () => {
     try {
       const result = await Auth.currentAuthenticatedUser();
-      setUserAuth(result);
-      console.log("confirmo");
+      setTokenUser(result);
       checkAttrGroups();
     } catch (error) {
-      setUserAuth(null);
+      setTokenUser(null);
       const { message } = new Error(error);
-      console.error(message);
       switch (message) {
         case "The user is not authenticated":
           router.push({ pathname: `/auth/login` });
@@ -25,15 +23,17 @@ const useUserManagement = () => {
     }
   };
 
-  const userSignIn = (data) => {
-    setUserAuth(data);
+  const userSignIn = async (data) => {
+    const result = await Auth.currentAuthenticatedUser();
+    setTokenUser(result);
+    console.log("REVISAR ESTE: ", data);
     const isSignIn = true;
     checkAttrGroups(isSignIn);
     router.push(`/auth/profiles`);
   };
 
   const userSignOut = () => {
-    setUserAuth(null);
+    setTokenUser(null);
     router.push(`/auth/login`);
   };
 
@@ -54,7 +54,6 @@ const useUserManagement = () => {
         user.signInUserSession.accessToken.payload["cognito:groups"];
 
       if (userGroups.includes("agency")) {
-        console.log("SI ES AGENCIA");
         if (isSignIn) router.push({ pathname: `/auth/profiles` });
       } else {
         await Auth.signOut();
@@ -62,7 +61,6 @@ const useUserManagement = () => {
         alert("USUARIO NO AUTORIZADO");
       }
     } catch (error) {
-      console.error("Error: ", error);
       await Auth.signOut();
       router.push({ pathname: `/auth/login` });
     }

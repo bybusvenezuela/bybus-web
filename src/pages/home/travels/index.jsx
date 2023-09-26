@@ -2,13 +2,13 @@ import Menu from "@/components/Menu";
 import React from "react";
 import styles from "@/styles/Home.module.css";
 
-const Home = () => {
+const Travels = () => {
   return (
     <div className={styles.content}>
       <Menu />
-      <div>Home</div>
+      <div>Travels</div>
     </div>
   );
 };
 
-export default Home;
+export default Travels;

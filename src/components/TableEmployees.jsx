@@ -7,39 +7,53 @@ import * as queries from "@/graphql/queries";
 
 const TableEmployees = ({ rows }) => {
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "agencyID", headerName: "Agency", width: 100 },
-    { field: "officeID", headerName: "Office", width: 100 },
     {
       field: "name",
-      headerName: "Name",
-      width: 150,
-      editable: true,
+      headerName: "Nombre",
+      width: 200,
     },
     {
       field: "type",
-      headerName: "Type",
-      width: 100,
-      editable: true,
+      headerName: "Rol",
+      width: 200,
+      valueGetter: (params) => {
+        return params.row.type === "OFFICE"
+          ? "OFICINISTA"
+          : params.row.type === "COLLECTOR"
+          ? "COLECTOR"
+          : params.row.type;
+      },
     },
     {
-      field: "permissions",
-      headerName: "Permissions",
-      width: 100,
-      editable: true,
+      field: "office",
+      headerName: "Oficina",
+      width: 200,
+      valueGetter: (params) => {
+        return params?.row?.office?.name;
+      },
     },
     {
-      field: "phone",
-      headerName: "Phone",
-      width: 100,
-      editable: true,
+      field: "office1",
+      headerName: "Estado",
+      width: 200,
+      valueGetter: (params) => {
+        return params?.row?.office?.state;
+      },
+    },
+    {
+      field: "office2",
+      headerName: "Ciudad",
+      width: 200,
+      valueGetter: (params) => {
+        return params?.row?.office?.city;
+      },
     },
   ];
 
   return (
     <Box sx={{ height: 500, width: 800 }}>
       <DataGrid
-        rows={rows ? rows : ''}
+        rows={rows ? rows : ""}
         columns={columns}
         initialState={{
           pagination: {
@@ -49,8 +63,7 @@ const TableEmployees = ({ rows }) => {
           },
         }}
         pageSizeOptions={[10]}
-        checkboxSelection
-        disableRowSelectionOnClick
+        disableRowSelectionOnClick={true}
         loading={rows ? false : true}
         slots={{ toolbar: GridToolbar }}
       />

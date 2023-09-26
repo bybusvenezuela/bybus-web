@@ -61,7 +61,7 @@ export default function ModalTravel({ open, close, offices }) {
     setQuantity("");
     close();
   };
-  console.log(offices);
+  console.log("EL OFFICE DE EL MODAL: ", offices);
 
   const onCreateTravel = async () => {
     const rif = await API.graphql({
@@ -128,7 +128,7 @@ export default function ModalTravel({ open, close, offices }) {
         price: price.trim(),
       },
     });
-    
+
     const booking = await API.graphql({
       query: mutations.createBooking,
       authMode: "AMAZON_COGNITO_USER_POOLS",

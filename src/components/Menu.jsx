@@ -9,6 +9,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import StoreIcon from "@mui/icons-material/Store";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -17,15 +18,18 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Image from "next/image";
 import { menu } from "@/constants";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useMenu } from "@/context/MenuContext";
 import { Auth } from "aws-amplify";
+import { useUser } from "@/context/UserContext";
+
 
 const Menu = () => {
+  const { userAuth, profileAuth, setTokenProfile, setTokenUser } = useUser();
   const { updateIndex, selectedIndex } = useMenu();
   const router = useRouter();
   const [openAgencies, setOpenAgencies] = useState(true);
   const [openUsers, setOpenUsers] = useState(true);
-  const [userAuth, setUserAuth] = useState(null);
 
   const handleAgencies = () => {
     setOpenAgencies(!openAgencies);
@@ -33,21 +37,26 @@ const Menu = () => {
   const handleUsers = () => {
     setOpenUsers(!openUsers);
   };
+  console.log(profileAuth);
 
-  useEffect(() => {
-    console.log("para caragr");
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
-    await Auth.currentAuthenticatedUser().then((r) => setUserAuth(r));
-  };
   return (
-    <div className={styles.menu}>
-      <div className={styles.logo}>
-        <Image src={menu.image} alt="" />
-      </div>
-      {userAuth && (
+    userAuth && (
+      <div className={styles.menu}>
+        <div className={styles.logo}>
+          <Image src={menu.image} alt="" />
+        </div>
+
+        <Link href="/auth/profiles">
+          <ArrowBackIcon
+            sx={{
+              color: selectedIndex === 0 ? "black" : "rgba(0, 0, 0, 0.54)",
+            }}
+          />
+          {profileAuth?.rol === "owner"
+            ? "Administrador"
+            : profileAuth?.rol === "employee" && profileAuth?.data?.name}
+        </Link>
+
         <List
           sx={{
             width: "100%",
@@ -68,7 +77,9 @@ const Menu = () => {
             selected={selectedIndex === 0}
             onClick={(e) => {
               e.preventDefault;
-              router.push("/home/dashboard");
+              router.push(
+                `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}`
+              );
               updateIndex(0);
             }}
           >
@@ -79,53 +90,42 @@ const Menu = () => {
                 }}
               />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Panel de control" />
           </ListItemButton>
           <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
-          <ListItemButton
-            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-            selected={selectedIndex === 1}
-            onClick={(e) => {
-              e.preventDefault;
-              router.push("/home/office");
-              updateIndex(1);
-            }}
-          >
-            <ListItemIcon>
-              <DashboardIcon
-                sx={{
-                  color: selectedIndex === 1 ? "white" : "rgba(0, 0, 0, 0.54)",
+          {profileAuth?.rol === "owner" && (
+            <>
+              <ListItemButton
+                // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+                selected={selectedIndex === 1}
+                onClick={(e) => {
+                  e.preventDefault;
+                  router.push(
+                    `/home/travels?type=${profileAuth?.rol}&id=${profileAuth?.id}`
+                  );
+                  updateIndex(1);
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Office" />
-          </ListItemButton>
-          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-
+              >
+                <ListItemIcon>
+                  <DashboardIcon
+                    sx={{
+                      color:
+                        selectedIndex === 1 ? "white" : "rgba(0, 0, 0, 0.54)",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Viajes" />
+              </ListItemButton>
+              <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+            </>
+          )}
           <ListItemButton
             // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
             selected={selectedIndex === 2}
             onClick={(e) => {
-              e.preventDefault;
-              router.push("/home/employee");
-              updateIndex(2);
-            }}
-          >
-            <ListItemIcon>
-              <DashboardIcon
-                sx={{
-                  color: selectedIndex === 2 ? "white" : "rgba(0, 0, 0, 0.54)",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Employee" />
-          </ListItemButton>
-          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-          <ListItemButton
-            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-            selected={selectedIndex === 2}
-            onClick={(e) => {
+              setTokenProfile(null);
+              setTokenUser(null);
               Auth.signOut();
             }}
           >
@@ -139,10 +139,10 @@ const Menu = () => {
             <ListItemText primary="Cerrar Sesion" />
           </ListItemButton>
         </List>
-      )}
 
-      <div className={styles.panel}></div>
-    </div>
+        <div className={styles.panel}></div>
+      </div>
+    )
   );
 };
 
