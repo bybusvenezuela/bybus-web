@@ -6,14 +6,22 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Wallet } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
-export default function WalletCreateForm(props) {
+import { API } from "aws-amplify";
+import { getUser } from "../graphql/queries";
+import { updateUser } from "../graphql/mutations";
+export default function UserUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    user: userModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -23,7 +31,7 @@ export default function WalletCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    userID: "",
+    name: "",
     email: "",
     status: "",
     notificationToken: "",
@@ -31,7 +39,7 @@ export default function WalletCreateForm(props) {
     owner: "",
     googleOwner: "",
   };
-  const [userID, setUserID] = React.useState(initialValues.userID);
+  const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
   const [status, setStatus] = React.useState(initialValues.status);
   const [notificationToken, setNotificationToken] = React.useState(
@@ -46,17 +54,36 @@ export default function WalletCreateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setUserID(initialValues.userID);
-    setEmail(initialValues.email);
-    setStatus(initialValues.status);
-    setNotificationToken(initialValues.notificationToken);
-    setPreviousBalance(initialValues.previousBalance);
-    setOwner(initialValues.owner);
-    setGoogleOwner(initialValues.googleOwner);
+    const cleanValues = userRecord
+      ? { ...initialValues, ...userRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setEmail(cleanValues.email);
+    setStatus(cleanValues.status);
+    setNotificationToken(cleanValues.notificationToken);
+    setPreviousBalance(cleanValues.previousBalance);
+    setOwner(cleanValues.owner);
+    setGoogleOwner(cleanValues.googleOwner);
     setErrors({});
   };
+  const [userRecord, setUserRecord] = React.useState(userModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await API.graphql({
+              query: getUser,
+              variables: { id: idProp },
+            })
+          )?.data?.getUser
+        : userModelProp;
+      setUserRecord(record);
+    };
+    queryData();
+  }, [idProp, userModelProp]);
+  React.useEffect(resetStateValues, [userRecord]);
   const validations = {
-    userID: [{ type: "Required" }],
+    name: [{ type: "Required" }],
     email: [],
     status: [],
     notificationToken: [],
@@ -90,13 +117,13 @@ export default function WalletCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          userID,
-          email,
-          status,
-          notificationToken,
-          previousBalance,
-          owner,
-          googleOwner,
+          name,
+          email: email ?? null,
+          status: status ?? null,
+          notificationToken: notificationToken ?? null,
+          previousBalance: previousBalance ?? null,
+          owner: owner ?? null,
+          googleOwner: googleOwner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -122,36 +149,42 @@ export default function WalletCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Wallet(modelFields));
+          await API.graphql({
+            query: updateUser,
+            variables: {
+              input: {
+                id: userRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
-          if (clearOnSuccess) {
-            resetStateValues();
-          }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
-      {...getOverrideProps(overrides, "WalletCreateForm")}
+      {...getOverrideProps(overrides, "UserUpdateForm")}
       {...rest}
     >
       <TextField
-        label="User id"
+        label="Name"
         isRequired={true}
         isReadOnly={false}
-        value={userID}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID: value,
+              name: value,
               email,
               status,
               notificationToken,
@@ -160,17 +193,17 @@ export default function WalletCreateForm(props) {
               googleOwner,
             };
             const result = onChange(modelFields);
-            value = result?.userID ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.userID?.hasError) {
-            runValidationTasks("userID", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setUserID(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("userID", userID)}
-        errorMessage={errors.userID?.errorMessage}
-        hasError={errors.userID?.hasError}
-        {...getOverrideProps(overrides, "userID")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
         label="Email"
@@ -181,7 +214,7 @@ export default function WalletCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email: value,
               status,
               notificationToken,
@@ -202,16 +235,16 @@ export default function WalletCreateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
-      <TextField
+      <SelectField
         label="Status"
-        isRequired={false}
-        isReadOnly={false}
+        placeholder="Please select an option"
+        isDisabled={false}
         value={status}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email,
               status: value,
               notificationToken,
@@ -231,7 +264,18 @@ export default function WalletCreateForm(props) {
         errorMessage={errors.status?.errorMessage}
         hasError={errors.status?.hasError}
         {...getOverrideProps(overrides, "status")}
-      ></TextField>
+      >
+        <option
+          children="Allowed"
+          value="ALLOWED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Denied"
+          value="DENIED"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
       <TextField
         label="Notification token"
         isRequired={false}
@@ -241,7 +285,7 @@ export default function WalletCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email,
               status,
               notificationToken: value,
@@ -277,7 +321,7 @@ export default function WalletCreateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email,
               status,
               notificationToken,
@@ -307,7 +351,7 @@ export default function WalletCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email,
               status,
               notificationToken,
@@ -337,7 +381,7 @@ export default function WalletCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              name,
               email,
               status,
               notificationToken,
@@ -363,13 +407,14 @@ export default function WalletCreateForm(props) {
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || userModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -379,7 +424,10 @@ export default function WalletCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || userModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

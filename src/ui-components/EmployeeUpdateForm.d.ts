@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Employee } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -17,7 +16,7 @@ export declare type EmployeeUpdateFormInputValues = {
     name?: string;
     email?: string;
     phone?: string;
-    ping?: string;
+    pin?: string;
     type?: string;
     permissions?: string[];
     owner?: string;
@@ -27,7 +26,7 @@ export declare type EmployeeUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
-    ping?: ValidationFunction<string>;
+    pin?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     permissions?: ValidationFunction<string>;
     owner?: ValidationFunction<string>;
@@ -39,7 +38,7 @@ export declare type EmployeeUpdateFormOverridesProps = {
     name?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
-    ping?: PrimitiveOverrideProps<TextFieldProps>;
+    pin?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<SelectFieldProps>;
     permissions?: PrimitiveOverrideProps<SelectFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
@@ -49,7 +48,7 @@ export declare type EmployeeUpdateFormProps = React.PropsWithChildren<{
     overrides?: EmployeeUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    employee?: Employee;
+    employee?: any;
     onSubmit?: (fields: EmployeeUpdateFormInputValues) => EmployeeUpdateFormInputValues;
     onSuccess?: (fields: EmployeeUpdateFormInputValues) => void;
     onError?: (fields: EmployeeUpdateFormInputValues, errorMessage: string) => void;

@@ -20,9 +20,9 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Employee } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createEmployee } from "../graphql/mutations";
 function ArrayField({
   items = [],
   onChange,
@@ -35,6 +35,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -58,6 +59,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -167,12 +169,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -196,7 +193,7 @@ export default function EmployeeCreateForm(props) {
     name: "",
     email: "",
     phone: "",
-    ping: "",
+    pin: "",
     type: "",
     permissions: [],
     owner: "",
@@ -205,7 +202,7 @@ export default function EmployeeCreateForm(props) {
   const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
-  const [ping, setPing] = React.useState(initialValues.ping);
+  const [pin, setPin] = React.useState(initialValues.pin);
   const [type, setType] = React.useState(initialValues.type);
   const [permissions, setPermissions] = React.useState(
     initialValues.permissions
@@ -219,7 +216,7 @@ export default function EmployeeCreateForm(props) {
     setName(initialValues.name);
     setEmail(initialValues.email);
     setPhone(initialValues.phone);
-    setPing(initialValues.ping);
+    setPin(initialValues.pin);
     setType(initialValues.type);
     setPermissions(initialValues.permissions);
     setCurrentPermissionsValue("");
@@ -247,7 +244,7 @@ export default function EmployeeCreateForm(props) {
     name: [],
     email: [],
     phone: [],
-    ping: [],
+    pin: [],
     type: [],
     permissions: [],
     owner: [],
@@ -282,7 +279,7 @@ export default function EmployeeCreateForm(props) {
           name,
           email,
           phone,
-          ping,
+          pin,
           type,
           permissions,
           owner,
@@ -312,11 +309,18 @@ export default function EmployeeCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Employee(modelFields));
+          await API.graphql({
+            query: createEmployee,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -325,7 +329,8 @@ export default function EmployeeCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -344,7 +349,7 @@ export default function EmployeeCreateForm(props) {
               name: value,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -375,7 +380,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email: value,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -406,7 +411,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone: value,
-              ping,
+              pin,
               type,
               permissions,
               owner,
@@ -426,10 +431,10 @@ export default function EmployeeCreateForm(props) {
         {...getOverrideProps(overrides, "phone")}
       ></TextField>
       <TextField
-        label="Ping"
+        label="Pin"
         isRequired={false}
         isReadOnly={false}
-        value={ping}
+        value={pin}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -437,24 +442,24 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone,
-              ping: value,
+              pin: value,
               type,
               permissions,
               owner,
               lastConnection,
             };
             const result = onChange(modelFields);
-            value = result?.ping ?? value;
+            value = result?.pin ?? value;
           }
-          if (errors.ping?.hasError) {
-            runValidationTasks("ping", value);
+          if (errors.pin?.hasError) {
+            runValidationTasks("pin", value);
           }
-          setPing(value);
+          setPin(value);
         }}
-        onBlur={() => runValidationTasks("ping", ping)}
-        errorMessage={errors.ping?.errorMessage}
-        hasError={errors.ping?.hasError}
-        {...getOverrideProps(overrides, "ping")}
+        onBlur={() => runValidationTasks("pin", pin)}
+        errorMessage={errors.pin?.errorMessage}
+        hasError={errors.pin?.hasError}
+        {...getOverrideProps(overrides, "pin")}
       ></TextField>
       <SelectField
         label="Type"
@@ -468,7 +473,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type: value,
               permissions,
               owner,
@@ -511,7 +516,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions: values,
               owner,
@@ -527,6 +532,9 @@ export default function EmployeeCreateForm(props) {
         label={"Permissions"}
         items={permissions}
         hasError={errors?.permissions?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("permissions", currentPermissionsValue)
+        }
         errorMessage={errors?.permissions?.errorMessage}
         getBadgeText={getDisplayValue.permissions}
         setFieldValue={setCurrentPermissionsValue}
@@ -598,7 +606,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner: value,
@@ -629,7 +637,7 @@ export default function EmployeeCreateForm(props) {
               name,
               email,
               phone,
-              ping,
+              pin,
               type,
               permissions,
               owner,

@@ -14,14 +14,12 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TransportCreateFormInputValues = {
     model?: string;
-    brand?: string;
     serial?: string;
     type?: string;
     createdBy?: string;
 };
 export declare type TransportCreateFormValidationValues = {
     model?: ValidationFunction<string>;
-    brand?: ValidationFunction<string>;
     serial?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     createdBy?: ValidationFunction<string>;
@@ -30,7 +28,6 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type TransportCreateFormOverridesProps = {
     TransportCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     model?: PrimitiveOverrideProps<TextFieldProps>;
-    brand?: PrimitiveOverrideProps<TextFieldProps>;
     serial?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     createdBy?: PrimitiveOverrideProps<TextFieldProps>;

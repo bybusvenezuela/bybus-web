@@ -13,24 +13,24 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PaymentCreateFormInputValues = {
-    refenrece?: string;
+    reference?: string;
     amount?: number;
     metadata?: string;
-    wallet?: string;
+    userID?: string;
 };
 export declare type PaymentCreateFormValidationValues = {
-    refenrece?: ValidationFunction<string>;
+    reference?: ValidationFunction<string>;
     amount?: ValidationFunction<number>;
     metadata?: ValidationFunction<string>;
-    wallet?: ValidationFunction<string>;
+    userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PaymentCreateFormOverridesProps = {
     PaymentCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    refenrece?: PrimitiveOverrideProps<TextFieldProps>;
+    reference?: PrimitiveOverrideProps<TextFieldProps>;
     amount?: PrimitiveOverrideProps<TextFieldProps>;
     metadata?: PrimitiveOverrideProps<TextAreaFieldProps>;
-    wallet?: PrimitiveOverrideProps<TextFieldProps>;
+    userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PaymentCreateFormProps = React.PropsWithChildren<{
     overrides?: PaymentCreateFormOverridesProps | undefined | null;

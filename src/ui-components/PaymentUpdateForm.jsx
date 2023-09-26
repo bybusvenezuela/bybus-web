@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Payment } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getPayment } from "../graphql/queries";
+import { updatePayment } from "../graphql/mutations";
 export default function PaymentUpdateForm(props) {
   const {
     id: idProp,
@@ -30,35 +31,40 @@ export default function PaymentUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    refenrece: "",
+    reference: "",
     amount: "",
     metadata: "",
-    wallet: "",
+    userID: "",
   };
-  const [refenrece, setRefenrece] = React.useState(initialValues.refenrece);
+  const [reference, setReference] = React.useState(initialValues.reference);
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [metadata, setMetadata] = React.useState(initialValues.metadata);
-  const [wallet, setWallet] = React.useState(initialValues.wallet);
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = paymentRecord
       ? { ...initialValues, ...paymentRecord }
       : initialValues;
-    setRefenrece(cleanValues.refenrece);
+    setReference(cleanValues.reference);
     setAmount(cleanValues.amount);
     setMetadata(
-      typeof cleanValues.metadata === "string"
+      typeof cleanValues.metadata === "string" || cleanValues.metadata === null
         ? cleanValues.metadata
         : JSON.stringify(cleanValues.metadata)
     );
-    setWallet(cleanValues.wallet);
+    setUserID(cleanValues.userID);
     setErrors({});
   };
   const [paymentRecord, setPaymentRecord] = React.useState(paymentModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Payment, idProp)
+        ? (
+            await API.graphql({
+              query: getPayment,
+              variables: { id: idProp },
+            })
+          )?.data?.getPayment
         : paymentModelProp;
       setPaymentRecord(record);
     };
@@ -66,10 +72,10 @@ export default function PaymentUpdateForm(props) {
   }, [idProp, paymentModelProp]);
   React.useEffect(resetStateValues, [paymentRecord]);
   const validations = {
-    refenrece: [],
+    reference: [],
     amount: [],
     metadata: [{ type: "JSON" }],
-    wallet: [],
+    userID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -97,10 +103,10 @@ export default function PaymentUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          refenrece,
-          amount,
-          metadata,
-          wallet,
+          reference: reference ?? null,
+          amount: amount ?? null,
+          metadata: metadata ?? null,
+          userID: userID ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -126,21 +132,26 @@ export default function PaymentUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Payment.copyOf(paymentRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updatePayment,
+            variables: {
+              input: {
+                id: paymentRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -148,31 +159,31 @@ export default function PaymentUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Refenrece"
+        label="Reference"
         isRequired={false}
         isReadOnly={false}
-        value={refenrece}
+        value={reference}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece: value,
+              reference: value,
               amount,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
-            value = result?.refenrece ?? value;
+            value = result?.reference ?? value;
           }
-          if (errors.refenrece?.hasError) {
-            runValidationTasks("refenrece", value);
+          if (errors.reference?.hasError) {
+            runValidationTasks("reference", value);
           }
-          setRefenrece(value);
+          setReference(value);
         }}
-        onBlur={() => runValidationTasks("refenrece", refenrece)}
-        errorMessage={errors.refenrece?.errorMessage}
-        hasError={errors.refenrece?.hasError}
-        {...getOverrideProps(overrides, "refenrece")}
+        onBlur={() => runValidationTasks("reference", reference)}
+        errorMessage={errors.reference?.errorMessage}
+        hasError={errors.reference?.hasError}
+        {...getOverrideProps(overrides, "reference")}
       ></TextField>
       <TextField
         label="Amount"
@@ -187,10 +198,10 @@ export default function PaymentUpdateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount: value,
               metadata,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.amount ?? value;
@@ -214,10 +225,10 @@ export default function PaymentUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata: value,
-              wallet,
+              userID,
             };
             const result = onChange(modelFields);
             value = result?.metadata ?? value;
@@ -233,31 +244,31 @@ export default function PaymentUpdateForm(props) {
         {...getOverrideProps(overrides, "metadata")}
       ></TextAreaField>
       <TextField
-        label="Wallet"
+        label="User id"
         isRequired={false}
         isReadOnly={false}
-        value={wallet}
+        value={userID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              refenrece,
+              reference,
               amount,
               metadata,
-              wallet: value,
+              userID: value,
             };
             const result = onChange(modelFields);
-            value = result?.wallet ?? value;
+            value = result?.userID ?? value;
           }
-          if (errors.wallet?.hasError) {
-            runValidationTasks("wallet", value);
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
           }
-          setWallet(value);
+          setUserID(value);
         }}
-        onBlur={() => runValidationTasks("wallet", wallet)}
-        errorMessage={errors.wallet?.errorMessage}
-        hasError={errors.wallet?.hasError}
-        {...getOverrideProps(overrides, "wallet")}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -6,15 +6,20 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Employe } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
-export default function EmployeUpdateForm(props) {
+import { API } from "aws-amplify";
+import { createUser } from "../graphql/mutations";
+export default function UserCreateForm(props) {
   const {
-    userID: userIDProp,
-    employe: employeModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -24,52 +29,46 @@ export default function EmployeUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    userID: "",
     name: "",
     email: "",
-    phone: "",
+    status: "",
+    notificationToken: "",
+    previousBalance: "",
     owner: "",
-    officeOwner: "",
+    googleOwner: "",
   };
-  const [userID, setUserID] = React.useState(initialValues.userID);
   const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [phone, setPhone] = React.useState(initialValues.phone);
+  const [status, setStatus] = React.useState(initialValues.status);
+  const [notificationToken, setNotificationToken] = React.useState(
+    initialValues.notificationToken
+  );
+  const [previousBalance, setPreviousBalance] = React.useState(
+    initialValues.previousBalance
+  );
   const [owner, setOwner] = React.useState(initialValues.owner);
-  const [officeOwner, setOfficeOwner] = React.useState(
-    initialValues.officeOwner
+  const [googleOwner, setGoogleOwner] = React.useState(
+    initialValues.googleOwner
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = employeRecord
-      ? { ...initialValues, ...employeRecord }
-      : initialValues;
-    setUserID(cleanValues.userID);
-    setName(cleanValues.name);
-    setEmail(cleanValues.email);
-    setPhone(cleanValues.phone);
-    setOwner(cleanValues.owner);
-    setOfficeOwner(cleanValues.officeOwner);
+    setName(initialValues.name);
+    setEmail(initialValues.email);
+    setStatus(initialValues.status);
+    setNotificationToken(initialValues.notificationToken);
+    setPreviousBalance(initialValues.previousBalance);
+    setOwner(initialValues.owner);
+    setGoogleOwner(initialValues.googleOwner);
     setErrors({});
   };
-  const [employeRecord, setEmployeRecord] = React.useState(employeModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = userIDProp
-        ? await DataStore.query(Employe, userIDProp)
-        : employeModelProp;
-      setEmployeRecord(record);
-    };
-    queryData();
-  }, [userIDProp, employeModelProp]);
-  React.useEffect(resetStateValues, [employeRecord]);
   const validations = {
-    userID: [{ type: "Required" }],
-    name: [],
+    name: [{ type: "Required" }],
     email: [],
-    phone: [],
+    status: [],
+    notificationToken: [],
+    previousBalance: [],
     owner: [],
-    officeOwner: [],
+    googleOwner: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -97,12 +96,13 @@ export default function EmployeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          userID,
           name,
           email,
-          phone,
+          status,
+          notificationToken,
+          previousBalance,
           owner,
-          officeOwner,
+          googleOwner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -128,71 +128,50 @@ export default function EmployeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Employe.copyOf(employeRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: createUser,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
+          if (clearOnSuccess) {
+            resetStateValues();
+          }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
-      {...getOverrideProps(overrides, "EmployeUpdateForm")}
+      {...getOverrideProps(overrides, "UserCreateForm")}
       {...rest}
     >
       <TextField
-        label="User id"
-        isRequired={true}
-        isReadOnly={true}
-        value={userID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              userID: value,
-              name,
-              email,
-              phone,
-              owner,
-              officeOwner,
-            };
-            const result = onChange(modelFields);
-            value = result?.userID ?? value;
-          }
-          if (errors.userID?.hasError) {
-            runValidationTasks("userID", value);
-          }
-          setUserID(value);
-        }}
-        onBlur={() => runValidationTasks("userID", userID)}
-        errorMessage={errors.userID?.errorMessage}
-        hasError={errors.userID?.hasError}
-        {...getOverrideProps(overrides, "userID")}
-      ></TextField>
-      <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
               name: value,
               email,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner,
-              officeOwner,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -216,12 +195,13 @@ export default function EmployeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
               name,
               email: value,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner,
-              officeOwner,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -236,34 +216,112 @@ export default function EmployeUpdateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
-      <TextField
-        label="Phone"
-        isRequired={false}
-        isReadOnly={false}
-        value={phone}
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
               name,
               email,
-              phone: value,
+              status: value,
+              notificationToken,
+              previousBalance,
               owner,
-              officeOwner,
+              googleOwner,
             };
             const result = onChange(modelFields);
-            value = result?.phone ?? value;
+            value = result?.status ?? value;
           }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
           }
-          setPhone(value);
+          setStatus(value);
         }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Allowed"
+          value="ALLOWED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Denied"
+          value="DENIED"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Notification token"
+        isRequired={false}
+        isReadOnly={false}
+        value={notificationToken}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              status,
+              notificationToken: value,
+              previousBalance,
+              owner,
+              googleOwner,
+            };
+            const result = onChange(modelFields);
+            value = result?.notificationToken ?? value;
+          }
+          if (errors.notificationToken?.hasError) {
+            runValidationTasks("notificationToken", value);
+          }
+          setNotificationToken(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("notificationToken", notificationToken)
+        }
+        errorMessage={errors.notificationToken?.errorMessage}
+        hasError={errors.notificationToken?.hasError}
+        {...getOverrideProps(overrides, "notificationToken")}
+      ></TextField>
+      <TextField
+        label="Previous balance"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={previousBalance}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              status,
+              notificationToken,
+              previousBalance: value,
+              owner,
+              googleOwner,
+            };
+            const result = onChange(modelFields);
+            value = result?.previousBalance ?? value;
+          }
+          if (errors.previousBalance?.hasError) {
+            runValidationTasks("previousBalance", value);
+          }
+          setPreviousBalance(value);
+        }}
+        onBlur={() => runValidationTasks("previousBalance", previousBalance)}
+        errorMessage={errors.previousBalance?.errorMessage}
+        hasError={errors.previousBalance?.hasError}
+        {...getOverrideProps(overrides, "previousBalance")}
       ></TextField>
       <TextField
         label="Owner"
@@ -274,12 +332,13 @@ export default function EmployeUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
               name,
               email,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner: value,
-              officeOwner,
+              googleOwner,
             };
             const result = onChange(modelFields);
             value = result?.owner ?? value;
@@ -295,47 +354,47 @@ export default function EmployeUpdateForm(props) {
         {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <TextField
-        label="Office owner"
+        label="Google owner"
         isRequired={false}
         isReadOnly={false}
-        value={officeOwner}
+        value={googleOwner}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
               name,
               email,
-              phone,
+              status,
+              notificationToken,
+              previousBalance,
               owner,
-              officeOwner: value,
+              googleOwner: value,
             };
             const result = onChange(modelFields);
-            value = result?.officeOwner ?? value;
+            value = result?.googleOwner ?? value;
           }
-          if (errors.officeOwner?.hasError) {
-            runValidationTasks("officeOwner", value);
+          if (errors.googleOwner?.hasError) {
+            runValidationTasks("googleOwner", value);
           }
-          setOfficeOwner(value);
+          setGoogleOwner(value);
         }}
-        onBlur={() => runValidationTasks("officeOwner", officeOwner)}
-        errorMessage={errors.officeOwner?.errorMessage}
-        hasError={errors.officeOwner?.hasError}
-        {...getOverrideProps(overrides, "officeOwner")}
+        onBlur={() => runValidationTasks("googleOwner", googleOwner)}
+        errorMessage={errors.googleOwner?.errorMessage}
+        hasError={errors.googleOwner?.hasError}
+        {...getOverrideProps(overrides, "googleOwner")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(userIDProp || employeModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -345,10 +404,7 @@ export default function EmployeUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(userIDProp || employeModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -8,9 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Office } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createOffice } from "../graphql/mutations";
 export default function OfficeCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -23,6 +23,7 @@ export default function OfficeCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    name: "",
     state: "",
     city: "",
     address: "",
@@ -30,6 +31,7 @@ export default function OfficeCreateForm(props) {
     phone: "",
     owner: "",
   };
+  const [name, setName] = React.useState(initialValues.name);
   const [state, setState] = React.useState(initialValues.state);
   const [city, setCity] = React.useState(initialValues.city);
   const [address, setAddress] = React.useState(initialValues.address);
@@ -38,6 +40,7 @@ export default function OfficeCreateForm(props) {
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setName(initialValues.name);
     setState(initialValues.state);
     setCity(initialValues.city);
     setAddress(initialValues.address);
@@ -47,6 +50,7 @@ export default function OfficeCreateForm(props) {
     setErrors({});
   };
   const validations = {
+    name: [],
     state: [],
     city: [],
     address: [],
@@ -80,6 +84,7 @@ export default function OfficeCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          name,
           state,
           city,
           address,
@@ -111,11 +116,18 @@ export default function OfficeCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Office(modelFields));
+          await API.graphql({
+            query: createOffice,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -124,13 +136,44 @@ export default function OfficeCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
       {...getOverrideProps(overrides, "OfficeCreateForm")}
       {...rest}
     >
+      <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name: value,
+              state,
+              city,
+              address,
+              email,
+              phone,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
       <TextField
         label="State"
         isRequired={false}
@@ -140,6 +183,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state: value,
               city,
               address,
@@ -169,6 +213,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city: value,
               address,
@@ -198,6 +243,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address: value,
@@ -227,6 +273,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -256,6 +303,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,
@@ -285,6 +333,7 @@ export default function OfficeCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              name,
               state,
               city,
               address,

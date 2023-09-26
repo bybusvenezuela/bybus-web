@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Transport } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -15,14 +14,12 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TransportUpdateFormInputValues = {
     model?: string;
-    brand?: string;
     serial?: string;
     type?: string;
     createdBy?: string;
 };
 export declare type TransportUpdateFormValidationValues = {
     model?: ValidationFunction<string>;
-    brand?: ValidationFunction<string>;
     serial?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     createdBy?: ValidationFunction<string>;
@@ -31,7 +28,6 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type TransportUpdateFormOverridesProps = {
     TransportUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     model?: PrimitiveOverrideProps<TextFieldProps>;
-    brand?: PrimitiveOverrideProps<TextFieldProps>;
     serial?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     createdBy?: PrimitiveOverrideProps<TextFieldProps>;
@@ -40,7 +36,7 @@ export declare type TransportUpdateFormProps = React.PropsWithChildren<{
     overrides?: TransportUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    transport?: Transport;
+    transport?: any;
     onSubmit?: (fields: TransportUpdateFormInputValues) => TransportUpdateFormInputValues;
     onSuccess?: (fields: TransportUpdateFormInputValues) => void;
     onError?: (fields: TransportUpdateFormInputValues, errorMessage: string) => void;

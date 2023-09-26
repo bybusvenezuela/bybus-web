@@ -5,16 +5,15 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Wallet } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type WalletUpdateFormInputValues = {
-    userID?: string;
+export declare type UserUpdateFormInputValues = {
+    name?: string;
     email?: string;
     status?: string;
     notificationToken?: string;
@@ -22,8 +21,8 @@ export declare type WalletUpdateFormInputValues = {
     owner?: string;
     googleOwner?: string;
 };
-export declare type WalletUpdateFormValidationValues = {
-    userID?: ValidationFunction<string>;
+export declare type UserUpdateFormValidationValues = {
+    name?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
     notificationToken?: ValidationFunction<string>;
@@ -32,25 +31,25 @@ export declare type WalletUpdateFormValidationValues = {
     googleOwner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type WalletUpdateFormOverridesProps = {
-    WalletUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    userID?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type UserUpdateFormOverridesProps = {
+    UserUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
-    status?: PrimitiveOverrideProps<TextFieldProps>;
+    status?: PrimitiveOverrideProps<SelectFieldProps>;
     notificationToken?: PrimitiveOverrideProps<TextFieldProps>;
     previousBalance?: PrimitiveOverrideProps<TextFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
     googleOwner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type WalletUpdateFormProps = React.PropsWithChildren<{
-    overrides?: WalletUpdateFormOverridesProps | undefined | null;
+export declare type UserUpdateFormProps = React.PropsWithChildren<{
+    overrides?: UserUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    wallet?: Wallet;
-    onSubmit?: (fields: WalletUpdateFormInputValues) => WalletUpdateFormInputValues;
-    onSuccess?: (fields: WalletUpdateFormInputValues) => void;
-    onError?: (fields: WalletUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: WalletUpdateFormInputValues) => WalletUpdateFormInputValues;
-    onValidate?: WalletUpdateFormValidationValues;
+    user?: any;
+    onSubmit?: (fields: UserUpdateFormInputValues) => UserUpdateFormInputValues;
+    onSuccess?: (fields: UserUpdateFormInputValues) => void;
+    onError?: (fields: UserUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: UserUpdateFormInputValues) => UserUpdateFormInputValues;
+    onValidate?: UserUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function WalletUpdateForm(props: WalletUpdateFormProps): React.ReactElement;
+export default function UserUpdateForm(props: UserUpdateFormProps): React.ReactElement;

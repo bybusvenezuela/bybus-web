@@ -8,9 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Transport } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { createTransport } from "../graphql/mutations";
 export default function TransportCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -24,20 +24,17 @@ export default function TransportCreateForm(props) {
   } = props;
   const initialValues = {
     model: "",
-    brand: "",
     serial: "",
     type: "",
     createdBy: "",
   };
   const [model, setModel] = React.useState(initialValues.model);
-  const [brand, setBrand] = React.useState(initialValues.brand);
   const [serial, setSerial] = React.useState(initialValues.serial);
   const [type, setType] = React.useState(initialValues.type);
   const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setModel(initialValues.model);
-    setBrand(initialValues.brand);
     setSerial(initialValues.serial);
     setType(initialValues.type);
     setCreatedBy(initialValues.createdBy);
@@ -45,7 +42,6 @@ export default function TransportCreateForm(props) {
   };
   const validations = {
     model: [],
-    brand: [],
     serial: [],
     type: [],
     createdBy: [],
@@ -77,7 +73,6 @@ export default function TransportCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           model,
-          brand,
           serial,
           type,
           createdBy,
@@ -106,11 +101,18 @@ export default function TransportCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new Transport(modelFields));
+          await API.graphql({
+            query: createTransport,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -119,7 +121,8 @@ export default function TransportCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -136,7 +139,6 @@ export default function TransportCreateForm(props) {
           if (onChange) {
             const modelFields = {
               model: value,
-              brand,
               serial,
               type,
               createdBy,
@@ -155,34 +157,6 @@ export default function TransportCreateForm(props) {
         {...getOverrideProps(overrides, "model")}
       ></TextField>
       <TextField
-        label="Brand"
-        isRequired={false}
-        isReadOnly={false}
-        value={brand}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              model,
-              brand: value,
-              serial,
-              type,
-              createdBy,
-            };
-            const result = onChange(modelFields);
-            value = result?.brand ?? value;
-          }
-          if (errors.brand?.hasError) {
-            runValidationTasks("brand", value);
-          }
-          setBrand(value);
-        }}
-        onBlur={() => runValidationTasks("brand", brand)}
-        errorMessage={errors.brand?.errorMessage}
-        hasError={errors.brand?.hasError}
-        {...getOverrideProps(overrides, "brand")}
-      ></TextField>
-      <TextField
         label="Serial"
         isRequired={false}
         isReadOnly={false}
@@ -192,7 +166,6 @@ export default function TransportCreateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial: value,
               type,
               createdBy,
@@ -220,7 +193,6 @@ export default function TransportCreateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type: value,
               createdBy,
@@ -248,7 +220,6 @@ export default function TransportCreateForm(props) {
           if (onChange) {
             const modelFields = {
               model,
-              brand,
               serial,
               type,
               createdBy: value,

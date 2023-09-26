@@ -1,46 +1,99 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
-import { API, Storage } from "aws-amplify";
-import { createAgency } from "@/graphql/CustomMutations";
-
+import { API } from "aws-amplify";
+import { registerAgencyAdmin } from "@/graphql/mutations";
 export default function ModalAgencies({ open, close, data }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(true);
-  const [name, setName] = useState(data.name);
-  const [email, setEmail] = useState(data.email);
-  const [rif, setRif] = useState(data.rif);
-  const [phone, setPhone] = useState(data.phone);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rif, setRif] = useState("");
+  const [tableID, setTableID] = useState("");
+  const [phone, setPhone] = useState("");
+
   const reset = () => {
     setEdit(true);
     setName("");
     setEmail("");
     setRif("");
     setPhone("");
+    setTableID("");
+    setIsLoading(false);
     close();
   };
-  const fetchAgency = async () => {
+  useEffect(() => {
+    if (open) {
+      setName(data.name);
+      setEmail(data.email);
+      setRif(data.rif);
+      setPhone(data.phone);
+      setTableID(data.id);
+    }
+  }, [data]);
+
+  const generateRandomString = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let randomString = "";
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+  };
+
+  const onHandleRegister = async () => {
+    const params = {
+      username: email,
+      name: name,
+      rif: rif,
+      phone: phone,
+      agencySubsTableID: tableID,
+    };
+
+    setIsLoading(true);
     try {
-      const result = await API.graphql({
-        query: createAgency,
+      // registrar agencia
+      const response = await API.graphql({
+        query: registerAgencyAdmin,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
-          input: {
-            userID: data.id,
-            name: name ? name : data.name,
-            rif: rif ? rif : data.rif,
-            email: email ? email : data.email,
-            phone: phone ? phone : data.phone,
-          },
+          input: params,
         },
       });
-      console.log(result)
+
+      console.log("RESPONSE: ", response);
+      // cambiamos
     } catch (error) {
-      console.error("error", error);
+      console.error("ERROR AL REGISTAR AGENCIA: ", error);
+      setIsLoading(false);
     }
+    reset();
   };
-  useEffect(() => {
-  }, []);
+
+  const addUserToGroup = async (username = "") => {
+    if (username === "") return;
+    let apiName = "AdminQueries";
+    let path = "/addUserToGroup";
+    let myInit = {
+      body: {
+        username: username,
+        groupname: "agency",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${(await Auth.currentSession())
+          .getAccessToken()
+          .getJwtToken()}`,
+      },
+    };
+    const response = await API.post(apiName, path, myInit);
+    console.log(response);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -106,14 +159,20 @@ export default function ModalAgencies({ open, close, data }) {
 
             <div className={styles.buttons}>
               <div className={styles.button}>
-                <Button variant="contained" size="large" onClick={fetchAgency}>
-                  Registrar
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={onHandleRegister}
+                  disabled={isLoading}
+                >
+                  {isLoading ? <CircularProgress /> : "REGISTRAR"}
                 </Button>
                 <Button
                   variant="contained"
                   size="large"
                   color="error"
                   onClick={reset}
+                  disabled={isLoading}
                 >
                   Cancelar
                 </Button>
@@ -125,6 +184,7 @@ export default function ModalAgencies({ open, close, data }) {
                   size="large"
                   color="warning"
                   onClick={() => setEdit(!edit)}
+                  disabled={isLoading}
                 >
                   Editar
                 </Button>

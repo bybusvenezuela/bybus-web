@@ -16,7 +16,7 @@ export declare type EmployeeCreateFormInputValues = {
     name?: string;
     email?: string;
     phone?: string;
-    ping?: string;
+    pin?: string;
     type?: string;
     permissions?: string[];
     owner?: string;
@@ -26,7 +26,7 @@ export declare type EmployeeCreateFormValidationValues = {
     name?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
-    ping?: ValidationFunction<string>;
+    pin?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     permissions?: ValidationFunction<string>;
     owner?: ValidationFunction<string>;
@@ -38,7 +38,7 @@ export declare type EmployeeCreateFormOverridesProps = {
     name?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
-    ping?: PrimitiveOverrideProps<TextFieldProps>;
+    pin?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<SelectFieldProps>;
     permissions?: PrimitiveOverrideProps<SelectFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
