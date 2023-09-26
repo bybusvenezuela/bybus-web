@@ -8,12 +8,13 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Agency } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getAgency } from "../graphql/queries";
+import { updateAgency } from "../graphql/mutations";
 export default function AgencyUpdateForm(props) {
   const {
-    userID: userIDProp,
+    id: idProp,
     agency: agencyModelProp,
     onSuccess,
     onError,
@@ -24,14 +25,16 @@ export default function AgencyUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    userID: "",
+    cognitoID: "",
+    pin: "",
     name: "",
     rif: "",
     email: "",
     phone: "",
     owner: "",
   };
-  const [userID, setUserID] = React.useState(initialValues.userID);
+  const [cognitoID, setCognitoID] = React.useState(initialValues.cognitoID);
+  const [pin, setPin] = React.useState(initialValues.pin);
   const [name, setName] = React.useState(initialValues.name);
   const [rif, setRif] = React.useState(initialValues.rif);
   const [email, setEmail] = React.useState(initialValues.email);
@@ -42,7 +45,8 @@ export default function AgencyUpdateForm(props) {
     const cleanValues = agencyRecord
       ? { ...initialValues, ...agencyRecord }
       : initialValues;
-    setUserID(cleanValues.userID);
+    setCognitoID(cleanValues.cognitoID);
+    setPin(cleanValues.pin);
     setName(cleanValues.name);
     setRif(cleanValues.rif);
     setEmail(cleanValues.email);
@@ -53,16 +57,22 @@ export default function AgencyUpdateForm(props) {
   const [agencyRecord, setAgencyRecord] = React.useState(agencyModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = userIDProp
-        ? await DataStore.query(Agency, userIDProp)
+      const record = idProp
+        ? (
+            await API.graphql({
+              query: getAgency,
+              variables: { id: idProp },
+            })
+          )?.data?.getAgency
         : agencyModelProp;
       setAgencyRecord(record);
     };
     queryData();
-  }, [userIDProp, agencyModelProp]);
+  }, [idProp, agencyModelProp]);
   React.useEffect(resetStateValues, [agencyRecord]);
   const validations = {
-    userID: [{ type: "Required" }],
+    cognitoID: [],
+    pin: [],
     name: [],
     rif: [],
     email: [],
@@ -95,12 +105,13 @@ export default function AgencyUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          userID,
-          name,
-          rif,
-          email,
-          phone,
-          owner,
+          cognitoID: cognitoID ?? null,
+          pin: pin ?? null,
+          name: name ?? null,
+          rif: rif ?? null,
+          email: email ?? null,
+          phone: phone ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -126,21 +137,26 @@ export default function AgencyUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Agency.copyOf(agencyRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateAgency,
+            variables: {
+              input: {
+                id: agencyRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -148,15 +164,16 @@ export default function AgencyUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="User id"
-        isRequired={true}
-        isReadOnly={true}
-        value={userID}
+        label="Cognito id"
+        isRequired={false}
+        isReadOnly={false}
+        value={cognitoID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID: value,
+              cognitoID: value,
+              pin,
               name,
               rif,
               email,
@@ -164,17 +181,47 @@ export default function AgencyUpdateForm(props) {
               owner,
             };
             const result = onChange(modelFields);
-            value = result?.userID ?? value;
+            value = result?.cognitoID ?? value;
           }
-          if (errors.userID?.hasError) {
-            runValidationTasks("userID", value);
+          if (errors.cognitoID?.hasError) {
+            runValidationTasks("cognitoID", value);
           }
-          setUserID(value);
+          setCognitoID(value);
         }}
-        onBlur={() => runValidationTasks("userID", userID)}
-        errorMessage={errors.userID?.errorMessage}
-        hasError={errors.userID?.hasError}
-        {...getOverrideProps(overrides, "userID")}
+        onBlur={() => runValidationTasks("cognitoID", cognitoID)}
+        errorMessage={errors.cognitoID?.errorMessage}
+        hasError={errors.cognitoID?.hasError}
+        {...getOverrideProps(overrides, "cognitoID")}
+      ></TextField>
+      <TextField
+        label="Pin"
+        isRequired={false}
+        isReadOnly={false}
+        value={pin}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin: value,
+              name,
+              rif,
+              email,
+              phone,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.pin ?? value;
+          }
+          if (errors.pin?.hasError) {
+            runValidationTasks("pin", value);
+          }
+          setPin(value);
+        }}
+        onBlur={() => runValidationTasks("pin", pin)}
+        errorMessage={errors.pin?.errorMessage}
+        hasError={errors.pin?.hasError}
+        {...getOverrideProps(overrides, "pin")}
       ></TextField>
       <TextField
         label="Name"
@@ -185,7 +232,8 @@ export default function AgencyUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name: value,
               rif,
               email,
@@ -214,7 +262,8 @@ export default function AgencyUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif: value,
               email,
@@ -243,7 +292,8 @@ export default function AgencyUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email: value,
@@ -272,7 +322,8 @@ export default function AgencyUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email,
@@ -301,7 +352,8 @@ export default function AgencyUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              userID,
+              cognitoID,
+              pin,
               name,
               rif,
               email,
@@ -332,7 +384,7 @@ export default function AgencyUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(userIDProp || agencyModelProp)}
+          isDisabled={!(idProp || agencyModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -344,7 +396,7 @@ export default function AgencyUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(userIDProp || agencyModelProp) ||
+              !(idProp || agencyModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

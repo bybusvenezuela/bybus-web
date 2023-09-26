@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import Menu from "@/components/Menu";
 import "@/styles/globals.css";
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
-// AMplify
-import { Amplify, Auth, Hub } from "aws-amplify";
-import awsExports from "@/aws-exports";
-// router
-import { useRouter } from "next/router";
 import { UserProvider } from "@/context/UserContext";
-
+import { RecoilEnv, RecoilRoot } from "recoil";
+// amplify
+import { Amplify, Hub } from "aws-amplify";
+import awsExports from "@/aws-exports";
+// hooks
+import { useUserManagement } from "@/hooks";
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,56 +34,6 @@ const theme = createTheme({
 });
 Amplify.configure({ ...awsExports, ssr: true });
 const App = ({ Component, pageProps }) => {
-  const [isUserAuth, setIsUserAuth] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    // crear subscripcion
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      console.log("HUB: ", event);
-      switch (event) {
-        case "signIn":
-          checkUser();
-          break;
-        case "signIn_failure":
-          break;
-        case "signOut":
-          router.push({ pathname: `/` });
-          break;
-        default:
-          break;
-      }
-    });
-    checkUser();
-    return unsubscribe;
-  }, []);
-
-  const checkUser = async () => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-
-      if (
-        user?.signInUserSession.accessToken.payload["cognito:groups"] ===
-        undefined
-      ) {
-        await Auth.signOut();
-        alert("USUARIO NO AUTORIZADO");
-        return;
-      }
-      const userGroups =
-        user.signInUserSession.accessToken.payload["cognito:groups"];
-      console.log(userGroups);
-
-      if (userGroups.includes("agency")) {
-        router.push({ pathname: `/home/dashboard` });
-      } else {
-        alert("USUARIO NO AUTORIZADO");
-        await Auth.signOut();
-      }
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  };
   return (
     <>
       <Head>
@@ -96,12 +47,39 @@ const App = ({ Component, pageProps }) => {
       <UserProvider>
         <MenuProvider>
           <ThemeProvider theme={theme}>
+            <ConfigureMain />
             <Component {...pageProps} />
           </ThemeProvider>
         </MenuProvider>
       </UserProvider>
     </>
   );
+};
+
+const ConfigureMain = () => {
+  const { checkUser, userSignIn, userSignOut } = useUserManagement();
+  useEffect(() => {
+    // crear subscripcion
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      console.log("HUB: ", event);
+      switch (event) {
+        case "signIn":
+          userSignIn(data);
+          break;
+        case "signOut":
+          userSignOut();
+          break;
+        case "confirmSignUp":
+          break;
+        case "autoSignIn":
+          break;
+        case "updateUserAttributes":
+          break;
+      }
+    });
+    checkUser();
+    return unsubscribe;
+  }, []);
 };
 
 export default App;

@@ -10,13 +10,15 @@ import {
   Button,
   Flex,
   Grid,
+  SelectField,
   SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { OrderDetail } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { API } from "aws-amplify";
+import { getOrderDetail } from "../graphql/queries";
+import { updateOrderDetail } from "../graphql/mutations";
 export default function OrderDetailUpdateForm(props) {
   const {
     id: idProp,
@@ -32,14 +34,24 @@ export default function OrderDetailUpdateForm(props) {
   const initialValues = {
     amount: "",
     paymentMethod: "",
+    documentType: "",
+    customerDocument: "",
     customerName: "",
     customerEmail: "",
+    total: "",
     isGuest: false,
+    bookingID: "",
     userID: "",
   };
   const [amount, setAmount] = React.useState(initialValues.amount);
   const [paymentMethod, setPaymentMethod] = React.useState(
     initialValues.paymentMethod
+  );
+  const [documentType, setDocumentType] = React.useState(
+    initialValues.documentType
+  );
+  const [customerDocument, setCustomerDocument] = React.useState(
+    initialValues.customerDocument
   );
   const [customerName, setCustomerName] = React.useState(
     initialValues.customerName
@@ -47,7 +59,9 @@ export default function OrderDetailUpdateForm(props) {
   const [customerEmail, setCustomerEmail] = React.useState(
     initialValues.customerEmail
   );
+  const [total, setTotal] = React.useState(initialValues.total);
   const [isGuest, setIsGuest] = React.useState(initialValues.isGuest);
+  const [bookingID, setBookingID] = React.useState(initialValues.bookingID);
   const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -56,9 +70,13 @@ export default function OrderDetailUpdateForm(props) {
       : initialValues;
     setAmount(cleanValues.amount);
     setPaymentMethod(cleanValues.paymentMethod);
+    setDocumentType(cleanValues.documentType);
+    setCustomerDocument(cleanValues.customerDocument);
     setCustomerName(cleanValues.customerName);
     setCustomerEmail(cleanValues.customerEmail);
+    setTotal(cleanValues.total);
     setIsGuest(cleanValues.isGuest);
+    setBookingID(cleanValues.bookingID);
     setUserID(cleanValues.userID);
     setErrors({});
   };
@@ -67,7 +85,12 @@ export default function OrderDetailUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(OrderDetail, idProp)
+        ? (
+            await API.graphql({
+              query: getOrderDetail,
+              variables: { id: idProp },
+            })
+          )?.data?.getOrderDetail
         : orderDetailModelProp;
       setOrderDetailRecord(record);
     };
@@ -77,9 +100,13 @@ export default function OrderDetailUpdateForm(props) {
   const validations = {
     amount: [{ type: "Required" }],
     paymentMethod: [],
+    documentType: [],
+    customerDocument: [],
     customerName: [],
     customerEmail: [],
+    total: [],
     isGuest: [],
+    bookingID: [],
     userID: [],
   };
   const runValidationTasks = async (
@@ -109,11 +136,15 @@ export default function OrderDetailUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           amount,
-          paymentMethod,
-          customerName,
-          customerEmail,
-          isGuest,
-          userID,
+          paymentMethod: paymentMethod ?? null,
+          documentType: documentType ?? null,
+          customerDocument: customerDocument ?? null,
+          customerName: customerName ?? null,
+          customerEmail: customerEmail ?? null,
+          total: total ?? null,
+          isGuest: isGuest ?? null,
+          bookingID: bookingID ?? null,
+          userID: userID ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,21 +170,26 @@ export default function OrderDetailUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            OrderDetail.copyOf(orderDetailRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateOrderDetail,
+            variables: {
+              input: {
+                id: orderDetailRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -175,9 +211,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount: value,
               paymentMethod,
+              documentType,
+              customerDocument,
               customerName,
               customerEmail,
+              total,
               isGuest,
+              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -204,9 +244,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount,
               paymentMethod: value,
+              documentType,
+              customerDocument,
               customerName,
               customerEmail,
+              total,
               isGuest,
+              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -222,6 +266,88 @@ export default function OrderDetailUpdateForm(props) {
         hasError={errors.paymentMethod?.hasError}
         {...getOverrideProps(overrides, "paymentMethod")}
       ></TextField>
+      <SelectField
+        label="Document type"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={documentType}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              amount,
+              paymentMethod,
+              documentType: value,
+              customerDocument,
+              customerName,
+              customerEmail,
+              total,
+              isGuest,
+              bookingID,
+              userID,
+            };
+            const result = onChange(modelFields);
+            value = result?.documentType ?? value;
+          }
+          if (errors.documentType?.hasError) {
+            runValidationTasks("documentType", value);
+          }
+          setDocumentType(value);
+        }}
+        onBlur={() => runValidationTasks("documentType", documentType)}
+        errorMessage={errors.documentType?.errorMessage}
+        hasError={errors.documentType?.hasError}
+        {...getOverrideProps(overrides, "documentType")}
+      >
+        <option
+          children="V"
+          value="V"
+          {...getOverrideProps(overrides, "documentTypeoption0")}
+        ></option>
+        <option
+          children="E"
+          value="E"
+          {...getOverrideProps(overrides, "documentTypeoption1")}
+        ></option>
+        <option
+          children="P"
+          value="P"
+          {...getOverrideProps(overrides, "documentTypeoption2")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Customer document"
+        isRequired={false}
+        isReadOnly={false}
+        value={customerDocument}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              amount,
+              paymentMethod,
+              documentType,
+              customerDocument: value,
+              customerName,
+              customerEmail,
+              total,
+              isGuest,
+              bookingID,
+              userID,
+            };
+            const result = onChange(modelFields);
+            value = result?.customerDocument ?? value;
+          }
+          if (errors.customerDocument?.hasError) {
+            runValidationTasks("customerDocument", value);
+          }
+          setCustomerDocument(value);
+        }}
+        onBlur={() => runValidationTasks("customerDocument", customerDocument)}
+        errorMessage={errors.customerDocument?.errorMessage}
+        hasError={errors.customerDocument?.hasError}
+        {...getOverrideProps(overrides, "customerDocument")}
+      ></TextField>
       <TextField
         label="Customer name"
         isRequired={false}
@@ -233,9 +359,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount,
               paymentMethod,
+              documentType,
+              customerDocument,
               customerName: value,
               customerEmail,
+              total,
               isGuest,
+              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -262,9 +392,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount,
               paymentMethod,
+              documentType,
+              customerDocument,
               customerName,
               customerEmail: value,
+              total,
               isGuest,
+              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -280,6 +414,43 @@ export default function OrderDetailUpdateForm(props) {
         hasError={errors.customerEmail?.hasError}
         {...getOverrideProps(overrides, "customerEmail")}
       ></TextField>
+      <TextField
+        label="Total"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={total}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              amount,
+              paymentMethod,
+              documentType,
+              customerDocument,
+              customerName,
+              customerEmail,
+              total: value,
+              isGuest,
+              bookingID,
+              userID,
+            };
+            const result = onChange(modelFields);
+            value = result?.total ?? value;
+          }
+          if (errors.total?.hasError) {
+            runValidationTasks("total", value);
+          }
+          setTotal(value);
+        }}
+        onBlur={() => runValidationTasks("total", total)}
+        errorMessage={errors.total?.errorMessage}
+        hasError={errors.total?.hasError}
+        {...getOverrideProps(overrides, "total")}
+      ></TextField>
       <SwitchField
         label="Is guest"
         defaultChecked={false}
@@ -291,9 +462,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount,
               paymentMethod,
+              documentType,
+              customerDocument,
               customerName,
               customerEmail,
+              total,
               isGuest: value,
+              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -310,6 +485,39 @@ export default function OrderDetailUpdateForm(props) {
         {...getOverrideProps(overrides, "isGuest")}
       ></SwitchField>
       <TextField
+        label="Booking id"
+        isRequired={false}
+        isReadOnly={false}
+        value={bookingID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              amount,
+              paymentMethod,
+              documentType,
+              customerDocument,
+              customerName,
+              customerEmail,
+              total,
+              isGuest,
+              bookingID: value,
+              userID,
+            };
+            const result = onChange(modelFields);
+            value = result?.bookingID ?? value;
+          }
+          if (errors.bookingID?.hasError) {
+            runValidationTasks("bookingID", value);
+          }
+          setBookingID(value);
+        }}
+        onBlur={() => runValidationTasks("bookingID", bookingID)}
+        errorMessage={errors.bookingID?.errorMessage}
+        hasError={errors.bookingID?.hasError}
+        {...getOverrideProps(overrides, "bookingID")}
+      ></TextField>
+      <TextField
         label="User id"
         isRequired={false}
         isReadOnly={false}
@@ -320,9 +528,13 @@ export default function OrderDetailUpdateForm(props) {
             const modelFields = {
               amount,
               paymentMethod,
+              documentType,
+              customerDocument,
               customerName,
               customerEmail,
+              total,
               isGuest,
+              bookingID,
               userID: value,
             };
             const result = onChange(modelFields);

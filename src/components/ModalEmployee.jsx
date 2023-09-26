@@ -13,8 +13,7 @@ import {
 } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 import { Auth, API } from "aws-amplify";
-import * as queries from "@/graphql/queries";
-import * as mutations from "@/graphql/mutations";
+import * as mutations from "@/graphql/custom/mutations/employee";
 
 export default function ModalEmployee({ open, close, offices }) {
   const [office, setOffice] = useState("");
@@ -22,6 +21,8 @@ export default function ModalEmployee({ open, close, offices }) {
   const [type, setType] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsloading] = useState("");
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -40,22 +41,30 @@ export default function ModalEmployee({ open, close, offices }) {
     setPermissions(typeof value === "string" ? value.split(",") : value);
   };
   const onCreateOffice = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    const employee = await API.graphql({
-      query: mutations.createEmployee,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        input: {
-          name: name.trim(),
-          phone: phone.trim(),
-          type: type,
-          agencyID: user.attributes.sub,
-          officeID: office,
-          permissions: permissions
+    setIsloading(true);
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      await API.graphql({
+        query: mutations.createEmployee,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            name: name.trim(),
+            phone: phone.trim(),
+            email: email.trim(),
+            type: type,
+            agencyID: user.attributes["custom:agencyID"],
+            officeID: office,
+            permissions: permissions,
+          },
         },
-      },
-    });
-    console.log(employee);
+      });
+    } catch (error) {
+      const { message } = new Error(error);
+      console.error("error al crear empelado: ", message);
+    }
+    setIsloading(false);
+    resetModal();
   };
 
   const typesEmployees = [
@@ -97,16 +106,16 @@ export default function ModalEmployee({ open, close, offices }) {
   ];
 
   const resetModal = () => {
-    setName('')
-    setType('')
-    setPermissions([])
-    setOffice('')
-    setPhone('')
-    close()
-  }
+    setEmail("");
+    setName("");
+    setType("");
+    setPermissions([]);
+    setOffice("");
+    setPhone("");
+    close();
+  };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div>
       <Modal
@@ -221,14 +230,17 @@ export default function ModalEmployee({ open, close, offices }) {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
+                <TextField
+                  id="outlined-basic"
+                  label="Correo Electronico"
+                  variant="outlined"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
 
             <div className={styles.buttons}>
-              <Button variant="contained" size="large" onClick={() => {
-                onCreateOffice()
-                resetModal()
-              }}>
+              <Button variant="contained" size="large" onClick={onCreateOffice}>
                 Registrar
               </Button>
               <Button

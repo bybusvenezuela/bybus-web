@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Office } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -46,7 +45,7 @@ export declare type OfficeUpdateFormProps = React.PropsWithChildren<{
     overrides?: OfficeUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    office?: Office;
+    office?: any;
     onSubmit?: (fields: OfficeUpdateFormInputValues) => OfficeUpdateFormInputValues;
     onSuccess?: (fields: OfficeUpdateFormInputValues) => void;
     onError?: (fields: OfficeUpdateFormInputValues, errorMessage: string) => void;
