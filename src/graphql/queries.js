@@ -264,6 +264,7 @@ export const getAgency = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -372,6 +373,7 @@ export const listAgencies = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -463,6 +465,7 @@ export const getAgencyByEmail = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -571,6 +574,7 @@ export const getOffice = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -678,6 +682,7 @@ export const listOffices = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -768,6 +773,7 @@ export const officesByAgencyID = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -886,6 +892,7 @@ export const getEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -957,6 +964,7 @@ export const getEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1252,6 +1260,7 @@ export const getTransport = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -1321,6 +1330,7 @@ export const listTransports = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1373,6 +1383,7 @@ export const transportsByOfficeID = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1405,6 +1416,7 @@ export const getBooking = /* GraphQL */ `
   query GetBooking($id: ID!) {
     getBooking(id: $id) {
       id
+      status
       code
       agencyID
       officeID
@@ -1416,7 +1428,6 @@ export const getBooking = /* GraphQL */ `
           lastName
           ci
           email
-          phone
           bookingID
           ticketID
           ticket {
@@ -1525,6 +1536,7 @@ export const listBookings = /* GraphQL */ `
     listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        status
         code
         agencyID
         officeID
@@ -1536,7 +1548,6 @@ export const listBookings = /* GraphQL */ `
             lastName
             ci
             email
-            phone
             bookingID
             ticketID
             owner
@@ -1628,6 +1639,7 @@ export const bookingsByAgencyID = /* GraphQL */ `
     ) {
       items {
         id
+        status
         code
         agencyID
         officeID
@@ -1639,7 +1651,6 @@ export const bookingsByAgencyID = /* GraphQL */ `
             lastName
             ci
             email
-            phone
             bookingID
             ticketID
             owner
@@ -1731,6 +1742,7 @@ export const bookingsByOfficeID = /* GraphQL */ `
     ) {
       items {
         id
+        status
         code
         agencyID
         officeID
@@ -1742,7 +1754,6 @@ export const bookingsByOfficeID = /* GraphQL */ `
             lastName
             ci
             email
-            phone
             bookingID
             ticketID
             owner
@@ -1834,6 +1845,7 @@ export const bookingsByTransport = /* GraphQL */ `
     ) {
       items {
         id
+        status
         code
         agencyID
         officeID
@@ -1845,7 +1857,6 @@ export const bookingsByTransport = /* GraphQL */ `
             lastName
             ci
             email
-            phone
             bookingID
             ticketID
             owner
@@ -2075,7 +2086,6 @@ export const getCustomer = /* GraphQL */ `
       lastName
       ci
       email
-      phone
       bookingID
       ticketID
       ticket {
@@ -2114,57 +2124,6 @@ export const listCustomers = /* GraphQL */ `
         lastName
         ci
         email
-        phone
-        bookingID
-        ticketID
-        ticket {
-          id
-          code
-          bookingID
-          stop
-          customerID
-          seating
-          status
-          description
-          url
-          owner
-          createdAt
-          updatedAt
-          stopBookingTicketsId
-          __typename
-        }
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getUserbyEmail = /* GraphQL */ `
-  query GetUserbyEmail(
-    $email: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelCustomerFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getUserbyEmail(
-      email: $email
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        lastName
-        ci
-        email
-        phone
         bookingID
         ticketID
         ticket {
@@ -2214,7 +2173,6 @@ export const customersByBookingID = /* GraphQL */ `
         lastName
         ci
         email
-        phone
         bookingID
         ticketID
         ticket {
@@ -2879,6 +2837,62 @@ export const listUsers = /* GraphQL */ `
     $nextToken: String
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        email
+        status
+        notificationToken
+        previousBalance
+        orders {
+          items {
+            id
+            amount
+            paymentMethod
+            documentType
+            customerDocument
+            customerName
+            customerEmail
+            total
+            isGuest
+            paymentID
+            bookingID
+            userID
+            createdAt
+            updatedAt
+            userOrdersId
+            owner
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        owner
+        googleOwner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getUserbyEmail = /* GraphQL */ `
+  query GetUserbyEmail(
+    $email: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getUserbyEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         name
