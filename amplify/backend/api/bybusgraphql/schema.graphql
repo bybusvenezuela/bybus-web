@@ -142,7 +142,9 @@ type Employee
   pin: String
   type: EmployeeType @default(value: "OWNER")
   agencyID: ID @index(name: "byAgencyToEmployee")
+  agency: Agency @belongsTo(fields: ["agencyID"])
   officeID: ID @index(name: "byOfficeToEmployee")
+  office: Office @belongsTo(fields: ["officeID"])
   permissions: [PermissionsEmployees]
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
   lastConnection: String
@@ -185,13 +187,14 @@ type Booking
   @model
   @auth(
     rules: [
-      { allow: public, provider: iam, operations: [read] }
-      { allow: private, provider: iam, operations: [read] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
       { allow: owner }
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
   ) {
   id: ID!
+  status: BookingStatus @default(value: "AVAILABLE")
   code: String
   agencyID: ID! @index(name: "byAgencyToBooking")
   officeID: ID! @index(name: "byOfficeToBooking")
@@ -211,6 +214,12 @@ type Booking
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
 }
 
+enum BookingStatus {
+  AVAILABLE
+  BOARDING
+  DEPARTED
+  ARRIVED
+}
 type DepartureArrivalStopFields {
   time: AWSTime
   date: AWSDate
@@ -223,8 +232,8 @@ type StopBooking
   @model
   @auth(
     rules: [
-      { allow: public, provider: iam, operations: [read] }
-      { allow: private, provider: iam, operations: [read] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
       { allow: owner }
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
@@ -246,8 +255,8 @@ type Customer
   @auth(
     rules: [
       { allow: owner }
-      { allow: private, provider: iam, operations: [read] }
-      { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, provider: iam }
+      { allow: public, provider: iam }
       {
         allow: groups
         groups: ["sp", "admin", "agency", "office"]
@@ -259,8 +268,7 @@ type Customer
   name: String
   lastName: String
   ci: String
-  email: String @index(name: "userbyEmail", queryField: "getUserbyEmail")
-  phone: String
+  email: String
   bookingID: ID @index(name: "byBookingToCustomer")
   ticketID: ID
   ticket: Ticket @hasOne(fields: ["ticketID"])
@@ -272,8 +280,8 @@ type Ticket
   @auth(
     rules: [
       { allow: owner }
-      { allow: public, provider: iam, operations: [create, read] }
-      { allow: private, provider: iam, operations: [create, read] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
   ) {
@@ -295,8 +303,8 @@ type OrderTicket
   @auth(
     rules: [
       { allow: owner }
-      { allow: private, provider: iam, operations: [create, read] }
-      { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, provider: iam }
+      { allow: public, provider: iam }
       {
         allow: groups
         groups: ["sp", "admin", "agency", "office"]
@@ -316,8 +324,8 @@ type OrderDetail
   @auth(
     rules: [
       { allow: owner }
-      { allow: public, provider: iam, operations: [create, read] }
-      { allow: private, provider: iam, operations: [create, read] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
       {
         allow: groups
         groups: ["sp", "admin", "agency", "office"]
@@ -351,8 +359,8 @@ type Payment
   @auth(
     rules: [
       { allow: owner }
-      { allow: private, provider: iam, operations: [create, read] }
-      { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, provider: iam }
+      { allow: public, provider: iam }
       {
         allow: groups
         groups: ["sp", "admin", "agency", "office"]
@@ -406,7 +414,7 @@ type User
   ) {
   id: ID!
   name: String!
-  email: String
+  email: String @index(name: "userbyEmail", queryField: "getUserbyEmail")
   status: StatusUser
   notificationToken: String
   previousBalance: Float
@@ -433,7 +441,7 @@ enum StatusUser {
 
 type Mutation {
   registerAgencyAdmin(input: RegisterUserInput!): String
-    @function(name: "createAgencyAdmin-${env}")
+    @function(name: "createAdminAgency-${env}")
     @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
 }
 
