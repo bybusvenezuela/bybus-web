@@ -16,7 +16,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MobileTimePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import { venezuela } from "@/constants";
+import { time, venezuela } from "@/constants";
 import { Auth, API } from "aws-amplify";
 import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
@@ -32,13 +32,21 @@ export default function ModalTravel({ open, close, offices }) {
     state: "",
     address: "",
     date: "",
-    time: "",
+    time: {
+      hour: "",
+      minutes: "",
+      mode: ""
+    },
   });
   const [arrival, setArrival] = useState({
     state: "",
     city: "",
     date: "",
-    time: "",
+    time: {
+      hour: "",
+      minutes: "",
+      mode: ""
+    },
     address: "",
   });
   const resetModal = () => {
@@ -396,22 +404,23 @@ export default function ModalTravel({ open, close, offices }) {
                             />
                           </div>
                           <div className={styles.time}>
-                            <MobileTimePicker
-                              defaultValue={dayjs("2022-04-17T15:30")}
-                              onChange={(e) => {
-                                const options = {
-                                  hour12: false,
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  fractionalSecondDigits: 3,
-                                };
-                                let time = new Date(e).toLocaleTimeString(
-                                  "en",
-                                  options
-                                );
-                                setArrival({ ...arrival, time: time });
-                              }}
-                            />
+                          <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Hora
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            label="Hora"
+                            value={departure.time.hour}
+                            onChange={(e) => setArrival({ ...arrival, time: { hour: e.target.value} })}
+                          >
+                            {time.hour.map((item, index) => (
+                              <MenuItem value={item} key={index}>
+                                {item}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                           </div>
                         </LocalizationProvider>
                       </div>

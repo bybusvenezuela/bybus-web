@@ -42,7 +42,6 @@ export default function ModalTransport({ open, close, office }) {
   const resetModal = () => {
     setModel("");
     setBrand("");
-
     setSerial("");
     setType("");
     close();
@@ -67,8 +66,8 @@ export default function ModalTransport({ open, close, office }) {
               </div>
               <div className={styles.inputs}>
                 <p>
-                  {office.name} - {office.state} - {office.city} -{" "}
-                  {office.address}
+                  {office?.name} - {office?.state} - {office?.city} -{" "}
+                  {office?.address}
                 </p>
                 {/* <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Oficina</InputLabel>

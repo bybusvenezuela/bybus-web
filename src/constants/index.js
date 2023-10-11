@@ -4,9 +4,35 @@ export const login = {
     image: All.Logo,
 }
 export const menu = {
-    image: All.Logo
+    image: All.LogoWhite
 }
 
+export const time = {
+  hour: [
+    '01:00',
+    '02:00',
+    '03:00',
+    '04:00',
+    '05:00',
+    '06:00',
+    '07:00',
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+  ],
+  minutes: [
+    '00:00',
+    '00:15',
+    '00:30',
+    '00:45',
+  ],
+  mode: [
+    'AM',
+    'PM'
+  ]
+}
 export const venezuela = [
     {
       iso_31662: "VE-X",

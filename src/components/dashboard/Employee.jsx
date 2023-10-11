@@ -19,12 +19,9 @@ const Dashboard = ({ dataResult, userType }) => {
     setTravels(true);
   };
   const openTransport = () => {
+    console.log(data)
     setTransport(true);
   };
-  useEffect(() => {
-    if (!travels || !transport) Employee();
-  }, [transport, travels]);
-
   const Employee = async () => {
     const user = await Auth.currentAuthenticatedUser({});
     const list = await API.graphql({
@@ -34,9 +31,13 @@ const Dashboard = ({ dataResult, userType }) => {
         id: dataResult?.id,
       },
     });
-    console.log("EMPLOEES: ", list?.data?.getEmployee);
     setData(list?.data?.getEmployee);
   };
+  useEffect(() => {
+    if (!travels || !transport) Employee();
+  }, [transport, travels]);
+
+  
 
   return (
     <div className={styles.section}>
@@ -45,14 +46,14 @@ const Dashboard = ({ dataResult, userType }) => {
           {userT === "employee" && (
             <>
               <Card
-                title={`Agregar una nuevo Viaje`}
+                title={`Agregar una nuevo viaje`}
                 onHandle={openTravels}
-                icon={`bx bx-store`}
+                icon={`bx bx-calendar-plus`}
               />
               <Card
-                title={`Agregar un nuevo Transporte`}
+                title={`Agregar un nuevo transporte`}
                 onHandle={openTransport}
-                icon={`bx bx-bus`}
+                icon={`bx bxs-bus`}
               />
             </>
           )}

@@ -10,3 +10,20 @@
     top: 0;
     left: 0;
 }
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: -3rem;
+    margin-top: -2rem;
+}
+.logo img {
+    width: 150px;
+    height: 150px;
+}
+.link {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+}
