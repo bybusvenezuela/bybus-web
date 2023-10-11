@@ -69,7 +69,7 @@ const Menu = () => {
               }}
             />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Panel de control" />
         </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
@@ -90,7 +90,7 @@ const Menu = () => {
               }}
             />
           </ListItemIcon>
-          <ListItemText primary="Configuration" />
+          <ListItemText primary="Cerrar sesion" />
         </ListItemButton>
       </List>
       <div className={styles.panel}></div>

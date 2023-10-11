@@ -56,7 +56,7 @@ const Dashboard = () => {
       <div className="container section">
         <div className={styles.pages}>
           <div className={styles.panel}>
-            <Card
+            {/* <Card
               title={`Add New Agency`}
               link={`/home/agencies/panel`}
               icon={`bx bx-store`}
@@ -65,11 +65,11 @@ const Dashboard = () => {
               title={`Permissions`}
               link={`/home/configuration`}
               icon={`bx bx-lock`}
-            />
+            /> */}
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Correos Suscritos</h2>
+              <h2>Listado de Correos Subscritos</h2>
               <IconButton
                 aria-label="refresh-email"
                 onClick={() => fetchEmailSubs()}
@@ -81,7 +81,7 @@ const Dashboard = () => {
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Peticion de Suscripcion de Agencias</h2>
+              <h2>Listado de Peticion de Subscripcion de Agencias</h2>
               <IconButton
                 aria-label="refresh-agency"
                 onClick={() => fetchAgencySubs()}
