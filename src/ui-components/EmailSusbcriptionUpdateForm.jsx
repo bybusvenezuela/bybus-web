@@ -8,10 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { EmailSusbcription } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getEmailSusbcription } from "../graphql/queries";
-import { updateEmailSusbcription } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function EmailSusbcriptionUpdateForm(props) {
   const {
     id: idProp,
@@ -42,12 +41,7 @@ export default function EmailSusbcriptionUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getEmailSusbcription,
-              variables: { id: idProp },
-            })
-          )?.data?.getEmailSusbcription
+        ? await DataStore.query(EmailSusbcription, idProp)
         : emailSusbcriptionModelProp;
       setEmailSusbcriptionRecord(record);
     };
@@ -109,26 +103,21 @@ export default function EmailSusbcriptionUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: updateEmailSusbcription,
-            variables: {
-              input: {
-                id: emailSusbcriptionRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            EmailSusbcription.copyOf(emailSusbcriptionRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

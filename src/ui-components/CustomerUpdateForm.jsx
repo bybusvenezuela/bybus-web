@@ -8,10 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Customer } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getCustomer } from "../graphql/queries";
-import { updateCustomer } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function CustomerUpdateForm(props) {
   const {
     id: idProp,
@@ -29,14 +28,12 @@ export default function CustomerUpdateForm(props) {
     lastName: "",
     ci: "",
     email: "",
-    phone: "",
     owner: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [ci, setCi] = React.useState(initialValues.ci);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [phone, setPhone] = React.useState(initialValues.phone);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -47,7 +44,6 @@ export default function CustomerUpdateForm(props) {
     setLastName(cleanValues.lastName);
     setCi(cleanValues.ci);
     setEmail(cleanValues.email);
-    setPhone(cleanValues.phone);
     setOwner(cleanValues.owner);
     setErrors({});
   };
@@ -55,12 +51,7 @@ export default function CustomerUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getCustomer,
-              variables: { id: idProp },
-            })
-          )?.data?.getCustomer
+        ? await DataStore.query(Customer, idProp)
         : customerModelProp;
       setCustomerRecord(record);
     };
@@ -72,7 +63,6 @@ export default function CustomerUpdateForm(props) {
     lastName: [],
     ci: [],
     email: [],
-    phone: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -101,12 +91,11 @@ export default function CustomerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          lastName: lastName ?? null,
-          ci: ci ?? null,
-          email: email ?? null,
-          phone: phone ?? null,
-          owner: owner ?? null,
+          name,
+          lastName,
+          ci,
+          email,
+          owner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -132,26 +121,21 @@ export default function CustomerUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: updateCustomer,
-            variables: {
-              input: {
-                id: customerRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            Customer.copyOf(customerRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -171,7 +155,6 @@ export default function CustomerUpdateForm(props) {
               lastName,
               ci,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -200,7 +183,6 @@ export default function CustomerUpdateForm(props) {
               lastName: value,
               ci,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -229,7 +211,6 @@ export default function CustomerUpdateForm(props) {
               lastName,
               ci: value,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -258,7 +239,6 @@ export default function CustomerUpdateForm(props) {
               lastName,
               ci,
               email: value,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -275,35 +255,6 @@ export default function CustomerUpdateForm(props) {
         {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
-        label="Phone"
-        isRequired={false}
-        isReadOnly={false}
-        value={phone}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              lastName,
-              ci,
-              email,
-              phone: value,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.phone ?? value;
-          }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
-          }
-          setPhone(value);
-        }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
-      ></TextField>
-      <TextField
         label="Owner"
         isRequired={false}
         isReadOnly={false}
@@ -316,7 +267,6 @@ export default function CustomerUpdateForm(props) {
               lastName,
               ci,
               email,
-              phone,
               owner: value,
             };
             const result = onChange(modelFields);

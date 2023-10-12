@@ -8,9 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { EmailSusbcription } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createEmailSusbcription } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function EmailSusbcriptionCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -86,18 +86,11 @@ export default function EmailSusbcriptionCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: createEmailSusbcription,
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new EmailSusbcription(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -106,8 +99,7 @@ export default function EmailSusbcriptionCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
