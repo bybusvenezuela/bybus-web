@@ -7,6 +7,7 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { Agency } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -45,7 +46,7 @@ export declare type AgencyUpdateFormProps = React.PropsWithChildren<{
     overrides?: AgencyUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    agency?: any;
+    agency?: Agency;
     onSubmit?: (fields: AgencyUpdateFormInputValues) => AgencyUpdateFormInputValues;
     onSuccess?: (fields: AgencyUpdateFormInputValues) => void;
     onError?: (fields: AgencyUpdateFormInputValues, errorMessage: string) => void;

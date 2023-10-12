@@ -20,10 +20,9 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Employee } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getEmployee } from "../graphql/queries";
-import { updateEmployee } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 function ArrayField({
   items = [],
   onChange,
@@ -36,7 +35,6 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
-  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -60,7 +58,6 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
-    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -170,7 +167,12 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button size="small" variation="link" onClick={addItem}>
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -233,12 +235,7 @@ export default function EmployeeUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getEmployee,
-              variables: { id: idProp },
-            })
-          )?.data?.getEmployee
+        ? await DataStore.query(Employee, idProp)
         : employeeModelProp;
       setEmployeeRecord(record);
     };
@@ -297,14 +294,14 @@ export default function EmployeeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          email: email ?? null,
-          phone: phone ?? null,
-          pin: pin ?? null,
-          type: type ?? null,
-          permissions: permissions ?? null,
-          owner: owner ?? null,
-          lastConnection: lastConnection ?? null,
+          name,
+          email,
+          phone,
+          pin,
+          type,
+          permissions,
+          owner,
+          lastConnection,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -330,26 +327,21 @@ export default function EmployeeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: updateEmployee,
-            variables: {
-              input: {
-                id: employeeRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            Employee.copyOf(employeeRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -551,9 +543,6 @@ export default function EmployeeUpdateForm(props) {
         label={"Permissions"}
         items={permissions}
         hasError={errors?.permissions?.hasError}
-        runValidationTasks={async () =>
-          await runValidationTasks("permissions", currentPermissionsValue)
-        }
         errorMessage={errors?.permissions?.errorMessage}
         getBadgeText={getDisplayValue.permissions}
         setFieldValue={setCurrentPermissionsValue}
