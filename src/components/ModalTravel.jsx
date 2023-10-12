@@ -35,7 +35,7 @@ export default function ModalTravel({ open, close, offices }) {
     time: {
       hour: "",
       minutes: "",
-      mode: ""
+      mode: "",
     },
   });
   const [arrival, setArrival] = useState({
@@ -45,7 +45,7 @@ export default function ModalTravel({ open, close, offices }) {
     time: {
       hour: "",
       minutes: "",
-      mode: ""
+      mode: "",
     },
     address: "",
   });
@@ -61,7 +61,11 @@ export default function ModalTravel({ open, close, offices }) {
       state: "",
       city: "",
       date: "",
-      time: "",
+      time: {
+        hour: "",
+        minutes: "",
+        mode: "",
+      },
       address: "",
     });
     setTransport("");
@@ -311,27 +315,77 @@ export default function ModalTravel({ open, close, offices }) {
                                 let fecha = new Date(e)
                                   .toISOString()
                                   .slice(0, 10);
-                                setDeparture({ ...departure, date: fecha });
+                                setArrival({ ...arrival, date: fecha });
                               }}
                             />
                           </div>
                           <div className={styles.time}>
-                            <MobileTimePicker
-                              defaultValue={dayjs("2022-04-17T15:30")}
-                              onChange={(e) => {
-                                const options = {
-                                  hour12: false,
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  fractionalSecondDigits: 3,
-                                };
-                                let time = new Date(e).toLocaleTimeString(
-                                  "en",
-                                  options
-                                );
-                                setDeparture({ ...departure, time: time });
-                              }}
-                            />
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                00:00
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Hora"
+                                value={departure.time.hour}
+                                onChange={(e) =>
+                                  setDeparture({
+                                    ...departure,
+                                    time: { hour: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.hour.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                00:00
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Minutos"
+                                value={departure.time.minutes}
+                                onChange={(e) =>
+                                  setDeparture({
+                                    ...departure,
+                                    time: { minutes: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.minutes.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                AM
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Minutos"
+                                value={departure.time.mode}
+                                onChange={(e) =>
+                                  setDeparture({
+                                    ...departure,
+                                    time: { mode: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.mode.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
                           </div>
                         </LocalizationProvider>
                       </div>
@@ -404,23 +458,72 @@ export default function ModalTravel({ open, close, offices }) {
                             />
                           </div>
                           <div className={styles.time}>
-                          <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Hora
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            label="Hora"
-                            value={departure.time.hour}
-                            onChange={(e) => setArrival({ ...arrival, time: { hour: e.target.value} })}
-                          >
-                            {time.hour.map((item, index) => (
-                              <MenuItem value={item} key={index}>
-                                {item}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                00:00
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Hora"
+                                value={arrival.time.hour}
+                                onChange={(e) =>
+                                  setArrival({
+                                    ...arrival,
+                                    time: { hour: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.hour.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                00:00
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Minutos"
+                                value={arrival.time.minutes}
+                                onChange={(e) =>
+                                  setArrival({
+                                    ...arrival,
+                                    time: { minutes: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.minutes.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            <FormControl className={styles.timeInput}>
+                              <InputLabel id="demo-simple-select-label">
+                                AM
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                label="Minutos"
+                                value={arrival.time.mode}
+                                onChange={(e) =>
+                                  setArrival({
+                                    ...arrival,
+                                    time: { mode: e.target.value },
+                                  })
+                                }
+                              >
+                                {time.mode.map((item, index) => (
+                                  <MenuItem value={item} key={index}>
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
                           </div>
                         </LocalizationProvider>
                       </div>
@@ -564,7 +667,123 @@ export default function ModalTravel({ open, close, offices }) {
                                       />
                                     </div>
                                     <div className={styles.timeStop}>
-                                      <MobileTimePicker
+                                      <div className={styles.time}>
+                                        <FormControl
+                                          className={styles.timeInput}
+                                        >
+                                          <InputLabel id="demo-simple-select-label">
+                                            00:00
+                                          </InputLabel>
+                                          <Select
+                                            labelId="demo-simple-select-label"
+                                            label="Hora"
+                                            value={departure.time.hour}
+                                            onChange={(e) => {
+                                              let hour = e.target.value;
+                                              const updateStop = stopQ.map(
+                                                (stop, stopIndex) => {
+                                                  if (index === stopIndex) {
+                                                    return {
+                                                      ...stop,
+                                                      time: {
+                                                        hour: hour,
+                                                      },
+                                                    };
+                                                  }
+                                                  return stop;
+                                                }
+                                              );
+                                              setStopQ(updateStop);
+                                            }}
+                                          >
+                                            {time.hour.map((item, index) => (
+                                              <MenuItem
+                                                value={item}
+                                                key={index}
+                                              >
+                                                {item}
+                                              </MenuItem>
+                                            ))}
+                                          </Select>
+                                        </FormControl>
+                                        <FormControl
+                                          className={styles.timeInput}
+                                        >
+                                          <InputLabel id="demo-simple-select-label">
+                                            00:00
+                                          </InputLabel>
+                                          <Select
+                                            labelId="demo-simple-select-label"
+                                            label="Minutos"
+                                            value={departure.time.minutes}
+                                            onChange={(e) => {
+                                              let minutes = e.target.value;
+                                              const updateStop = stopQ.map(
+                                                (stop, stopIndex) => {
+                                                  if (index === stopIndex) {
+                                                    return {
+                                                      ...stop,
+                                                      time: {
+                                                        minutes: minutes,
+                                                      },
+                                                    };
+                                                  }
+                                                  return stop;
+                                                }
+                                              );
+                                              setStopQ(updateStop);
+                                            }}
+                                          >
+                                            {time.minutes.map((item, index) => (
+                                              <MenuItem
+                                                value={item}
+                                                key={index}
+                                              >
+                                                {item}
+                                              </MenuItem>
+                                            ))}
+                                          </Select>
+                                        </FormControl>
+                                        <FormControl
+                                          className={styles.timeInput}
+                                        >
+                                          <InputLabel id="demo-simple-select-label">
+                                            AM
+                                          </InputLabel>
+                                          <Select
+                                            labelId="demo-simple-select-label"
+                                            label="Mode"
+                                            value={departure.time.mode}
+                                            onChange={(e) => {
+                                              let mode = e.target.value;
+                                              const updateStop = stopQ.map(
+                                                (stop, stopIndex) => {
+                                                  if (index === stopIndex) {
+                                                    return {
+                                                      ...stop,
+                                                      time: {
+                                                        mode: mode,
+                                                      },
+                                                    };
+                                                  }
+                                                  return stop;
+                                                }
+                                              );
+                                              setStopQ(updateStop);
+                                            }}
+                                          >
+                                            {time.mode.map((item, index) => (
+                                              <MenuItem
+                                                value={item}
+                                                key={index}
+                                              >
+                                                {item}
+                                              </MenuItem>
+                                            ))}
+                                          </Select>
+                                        </FormControl>
+                                      </div>
+                                      {/* <MobileTimePicker
                                         defaultValue={dayjs("2022-04-17T15:30")}
                                         onChange={(e) => {
                                           const options = {
@@ -589,7 +808,7 @@ export default function ModalTravel({ open, close, offices }) {
                                           );
                                           setStopQ(updateStop);
                                         }}
-                                      />
+                                      /> */}
                                     </div>
                                   </LocalizationProvider>
                                 </div>
