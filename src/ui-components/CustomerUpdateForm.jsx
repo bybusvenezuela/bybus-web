@@ -91,11 +91,19 @@ export default function CustomerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+<<<<<<< HEAD
           name,
           lastName,
           ci,
           email,
           owner,
+=======
+          name: name ?? null,
+          lastName: lastName ?? null,
+          ci: ci ?? null,
+          email: email ?? null,
+          owner: owner ?? null,
+>>>>>>> ba7a7f441a50fb58d7ff17fbe78ad039dfbcf6c5
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {

@@ -130,6 +130,7 @@ export default function OrderDetailUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           amount,
+<<<<<<< HEAD
           paymentMethod,
           documentType,
           customerDocument,
@@ -139,6 +140,17 @@ export default function OrderDetailUpdateForm(props) {
           isGuest,
           bookingID,
           userID,
+=======
+          paymentMethod: paymentMethod ?? null,
+          documentType: documentType ?? null,
+          customerDocument: customerDocument ?? null,
+          customerName: customerName ?? null,
+          customerEmail: customerEmail ?? null,
+          total: total ?? null,
+          isGuest: isGuest ?? null,
+          bookingID: bookingID ?? null,
+          userID: userID ?? null,
+>>>>>>> ba7a7f441a50fb58d7ff17fbe78ad039dfbcf6c5
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {

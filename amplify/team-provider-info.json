@@ -36,6 +36,13 @@
       },
       "storage": {
         "s3storagebybus": {}
+<<<<<<< HEAD
+=======
+      },
+      "api": {
+        "AdminQueries": {},
+        "bybusgraphql": {}
+>>>>>>> ba7a7f441a50fb58d7ff17fbe78ad039dfbcf6c5
       }
     }
   }

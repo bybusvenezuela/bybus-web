@@ -52,7 +52,6 @@ export default function ModalAgencies({ open, close, data }) {
       phone: phone,
       agencySubsTableID: tableID,
     };
-
     setIsLoading(true);
     try {
       // registrar agencia
