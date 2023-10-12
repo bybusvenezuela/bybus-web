@@ -14,10 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getUser } from "../graphql/queries";
-import { updateUser } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function UserUpdateForm(props) {
   const {
     id: idProp,
@@ -70,12 +69,7 @@ export default function UserUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getUser,
-              variables: { id: idProp },
-            })
-          )?.data?.getUser
+        ? await DataStore.query(User, idProp)
         : userModelProp;
       setUserRecord(record);
     };
@@ -118,12 +112,12 @@ export default function UserUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          email: email ?? null,
-          status: status ?? null,
-          notificationToken: notificationToken ?? null,
-          previousBalance: previousBalance ?? null,
-          owner: owner ?? null,
-          googleOwner: googleOwner ?? null,
+          email,
+          status,
+          notificationToken,
+          previousBalance,
+          owner,
+          googleOwner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -149,26 +143,21 @@ export default function UserUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: updateUser,
-            variables: {
-              input: {
-                id: userRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            User.copyOf(userRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

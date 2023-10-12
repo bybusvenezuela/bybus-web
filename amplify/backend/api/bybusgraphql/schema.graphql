@@ -439,16 +439,16 @@ enum StatusUser {
   DENIED
 }
 
-# type Mutation {
-#   registerAgencyAdmin(input: RegisterUserInput!): String
-#     @function(name: "createAgencyAdmin-${env}")
-#     @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
-# }
+type Mutation {
+  registerAgencyAdmin(input: RegisterUserInput!): String
+    @function(name: "createAdminAgency-${env}")
+    @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
+}
 
-# input RegisterUserInput {
-#   name: String!
-#   username: String!
-#   rif: String!
-#   phone: String!
-#   agencySubsTableID: String!
-# }
+input RegisterUserInput {
+  name: String!
+  username: String!
+  rif: String!
+  phone: String!
+  agencySubsTableID: String!
+}

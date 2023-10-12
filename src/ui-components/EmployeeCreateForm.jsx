@@ -20,9 +20,9 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Employee } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createEmployee } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 function ArrayField({
   items = [],
   onChange,
@@ -35,7 +35,6 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
-  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -59,7 +58,6 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
-    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -169,7 +167,12 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button size="small" variation="link" onClick={addItem}>
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -309,18 +312,11 @@ export default function EmployeeCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: createEmployee,
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new Employee(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -329,8 +325,7 @@ export default function EmployeeCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -532,9 +527,6 @@ export default function EmployeeCreateForm(props) {
         label={"Permissions"}
         items={permissions}
         hasError={errors?.permissions?.hasError}
-        runValidationTasks={async () =>
-          await runValidationTasks("permissions", currentPermissionsValue)
-        }
         errorMessage={errors?.permissions?.errorMessage}
         getBadgeText={getDisplayValue.permissions}
         setFieldValue={setCurrentPermissionsValue}

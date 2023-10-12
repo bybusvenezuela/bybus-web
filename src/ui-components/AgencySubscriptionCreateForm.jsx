@@ -14,9 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { AgencySubscription } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createAgencySubscription } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function AgencySubscriptionCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -126,18 +126,11 @@ export default function AgencySubscriptionCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await API.graphql({
-            query: createAgencySubscription,
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new AgencySubscription(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -146,8 +139,7 @@ export default function AgencySubscriptionCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
