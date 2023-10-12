@@ -27,14 +27,12 @@ export default function CustomerCreateForm(props) {
     lastName: "",
     ci: "",
     email: "",
-    phone: "",
     owner: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [ci, setCi] = React.useState(initialValues.ci);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [phone, setPhone] = React.useState(initialValues.phone);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -42,7 +40,6 @@ export default function CustomerCreateForm(props) {
     setLastName(initialValues.lastName);
     setCi(initialValues.ci);
     setEmail(initialValues.email);
-    setPhone(initialValues.phone);
     setOwner(initialValues.owner);
     setErrors({});
   };
@@ -51,7 +48,6 @@ export default function CustomerCreateForm(props) {
     lastName: [],
     ci: [],
     email: [],
-    phone: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -84,7 +80,6 @@ export default function CustomerCreateForm(props) {
           lastName,
           ci,
           email,
-          phone,
           owner,
         };
         const validationResponses = await Promise.all(
@@ -152,7 +147,6 @@ export default function CustomerCreateForm(props) {
               lastName,
               ci,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -181,7 +175,6 @@ export default function CustomerCreateForm(props) {
               lastName: value,
               ci,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -210,7 +203,6 @@ export default function CustomerCreateForm(props) {
               lastName,
               ci: value,
               email,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -239,7 +231,6 @@ export default function CustomerCreateForm(props) {
               lastName,
               ci,
               email: value,
-              phone,
               owner,
             };
             const result = onChange(modelFields);
@@ -256,35 +247,6 @@ export default function CustomerCreateForm(props) {
         {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
-        label="Phone"
-        isRequired={false}
-        isReadOnly={false}
-        value={phone}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              lastName,
-              ci,
-              email,
-              phone: value,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.phone ?? value;
-          }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
-          }
-          setPhone(value);
-        }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
-      ></TextField>
-      <TextField
         label="Owner"
         isRequired={false}
         isReadOnly={false}
@@ -297,7 +259,6 @@ export default function CustomerCreateForm(props) {
               lastName,
               ci,
               email,
-              phone,
               owner: value,
             };
             const result = onChange(modelFields);
