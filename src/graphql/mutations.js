@@ -94,6 +94,7 @@ export const deleteAgency = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -157,7 +158,6 @@ export const deleteCustomer = /* GraphQL */ `
       lastName
       ci
       email
-      phone
       bookingID
       ticketID
       ticket {
@@ -434,6 +434,7 @@ export const createAgency = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -579,6 +580,7 @@ export const updateAgency = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -715,6 +717,7 @@ export const createOffice = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -851,6 +854,7 @@ export const updateOffice = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -987,6 +991,7 @@ export const deleteOffice = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -1146,6 +1151,7 @@ export const createEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1217,6 +1223,7 @@ export const createEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1310,6 +1317,7 @@ export const updateEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1381,6 +1389,7 @@ export const updateEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1474,6 +1483,7 @@ export const deleteEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1545,6 +1555,7 @@ export const deleteEmployee = /* GraphQL */ `
         bookings {
           items {
             id
+            status
             code
             agencyID
             officeID
@@ -1590,6 +1601,7 @@ export const createTransport = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -1657,6 +1669,7 @@ export const updateTransport = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -1724,6 +1737,7 @@ export const deleteTransport = /* GraphQL */ `
       bookings {
         items {
           id
+          status
           code
           agencyID
           officeID
@@ -1784,6 +1798,7 @@ export const createBooking = /* GraphQL */ `
   ) {
     createBooking(input: $input, condition: $condition) {
       id
+      status
       code
       agencyID
       officeID
@@ -1795,7 +1810,6 @@ export const createBooking = /* GraphQL */ `
           lastName
           ci
           email
-          phone
           bookingID
           ticketID
           ticket {
@@ -1902,6 +1916,7 @@ export const updateBooking = /* GraphQL */ `
   ) {
     updateBooking(input: $input, condition: $condition) {
       id
+      status
       code
       agencyID
       officeID
@@ -1913,7 +1928,6 @@ export const updateBooking = /* GraphQL */ `
           lastName
           ci
           email
-          phone
           bookingID
           ticketID
           ticket {
@@ -2020,6 +2034,7 @@ export const deleteBooking = /* GraphQL */ `
   ) {
     deleteBooking(input: $input, condition: $condition) {
       id
+      status
       code
       agencyID
       officeID
@@ -2031,7 +2046,6 @@ export const deleteBooking = /* GraphQL */ `
           lastName
           ci
           email
-          phone
           bookingID
           ticketID
           ticket {
@@ -2274,7 +2288,6 @@ export const createCustomer = /* GraphQL */ `
       lastName
       ci
       email
-      phone
       bookingID
       ticketID
       ticket {
@@ -2311,7 +2324,6 @@ export const updateCustomer = /* GraphQL */ `
       lastName
       ci
       email
-      phone
       bookingID
       ticketID
       ticket {
