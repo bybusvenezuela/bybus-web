@@ -27,11 +27,15 @@
         },
         "createUserCognito": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/createUserCognito-7654503767534c79436b-build.zip"
+          "s3Key": "amplify-builds/createUserCognito-6c68526a586b5a5a326e-build.zip"
         },
         "sheduleBookingUpdate": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
           "s3Key": "amplify-builds/sheduleBookingUpdate-68377a64614c6a777168-build.zip"
+        },
+        "calculeBookingStock": {
+          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
+          "s3Key": "amplify-builds/calculeBookingStock-5a45336b655251734646-build.zip"
         }
       },
       "storage": {

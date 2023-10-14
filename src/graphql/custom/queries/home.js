@@ -46,7 +46,6 @@ export const getAgency = /* GraphQL */ `
             state
             city
           }
-          permissions
           owner
           lastConnection
           createdAt
@@ -87,8 +86,94 @@ export const getEmployee = /* GraphQL */ `
           }
         }
       }
-      permissions
       __typename
+    }
+  }
+`;
+
+export const listBookings = /* GraphQL */ `
+  query ListBookings(
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        code
+        agencyID
+        officeID
+        customers {
+          items {
+            id
+            name
+            lastName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        tickets {
+          items {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          nextToken
+        }
+        stops {
+          items {
+            id
+            bookingID
+            price
+            owner
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+        }
+        stock
+        price
+        createdBy
+        driver
+        transport
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

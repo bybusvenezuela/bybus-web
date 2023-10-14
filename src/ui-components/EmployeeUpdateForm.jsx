@@ -7,180 +7,16 @@
 /* eslint-disable */
 import * as React from "react";
 import {
-  Badge,
   Button,
-  Divider,
   Flex,
   Grid,
-  Icon,
-  ScrollView,
   SelectField,
-  Text,
   TextField,
-  useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Employee } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-function ArrayField({
-  items = [],
-  onChange,
-  label,
-  inputFieldRef,
-  children,
-  hasError,
-  setFieldValue,
-  currentFieldValue,
-  defaultFieldValue,
-  lengthLimit,
-  getBadgeText,
-  errorMessage,
-}) {
-  const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
-  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
-  const [isEditing, setIsEditing] = React.useState();
-  React.useEffect(() => {
-    if (isEditing) {
-      inputFieldRef?.current?.focus();
-    }
-  }, [isEditing]);
-  const removeItem = async (removeIndex) => {
-    const newItems = items.filter((value, index) => index !== removeIndex);
-    await onChange(newItems);
-    setSelectedBadgeIndex(undefined);
-  };
-  const addItem = async () => {
-    if (
-      currentFieldValue !== undefined &&
-      currentFieldValue !== null &&
-      currentFieldValue !== "" &&
-      !hasError
-    ) {
-      const newItems = [...items];
-      if (selectedBadgeIndex !== undefined) {
-        newItems[selectedBadgeIndex] = currentFieldValue;
-        setSelectedBadgeIndex(undefined);
-      } else {
-        newItems.push(currentFieldValue);
-      }
-      await onChange(newItems);
-      setIsEditing(false);
-    }
-  };
-  const arraySection = (
-    <React.Fragment>
-      {!!items?.length && (
-        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
-          {items.map((value, index) => {
-            return (
-              <Badge
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  alignItems: "center",
-                  marginRight: 3,
-                  marginTop: 3,
-                  backgroundColor:
-                    index === selectedBadgeIndex ? "#B8CEF9" : "",
-                }}
-                onClick={() => {
-                  setSelectedBadgeIndex(index);
-                  setFieldValue(items[index]);
-                  setIsEditing(true);
-                }}
-              >
-                {getBadgeText ? getBadgeText(value) : value.toString()}
-                <Icon
-                  style={{
-                    cursor: "pointer",
-                    paddingLeft: 3,
-                    width: 20,
-                    height: 20,
-                  }}
-                  viewBox={{ width: 20, height: 20 }}
-                  paths={[
-                    {
-                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
-                      stroke: "black",
-                    },
-                  ]}
-                  ariaLabel="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    removeItem(index);
-                  }}
-                />
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-      <Divider orientation="horizontal" marginTop={5} />
-    </React.Fragment>
-  );
-  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
-    return (
-      <React.Fragment>
-        {labelElement}
-        {arraySection}
-      </React.Fragment>
-    );
-  }
-  return (
-    <React.Fragment>
-      {labelElement}
-      {isEditing && children}
-      {!isEditing ? (
-        <>
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            Add item
-          </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
-        </>
-      ) : (
-        <Flex justifyContent="flex-end">
-          {(currentFieldValue || isEditing) && (
-            <Button
-              children="Cancel"
-              type="button"
-              size="small"
-              onClick={() => {
-                setFieldValue(defaultFieldValue);
-                setIsEditing(false);
-                setSelectedBadgeIndex(undefined);
-              }}
-            ></Button>
-          )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
-            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
-          </Button>
-        </Flex>
-      )}
-      {arraySection}
-    </React.Fragment>
-  );
-}
 export default function EmployeeUpdateForm(props) {
   const {
     id: idProp,
@@ -199,7 +35,6 @@ export default function EmployeeUpdateForm(props) {
     phone: "",
     pin: "",
     type: "",
-    permissions: [],
     owner: "",
     lastConnection: "",
   };
@@ -208,9 +43,6 @@ export default function EmployeeUpdateForm(props) {
   const [phone, setPhone] = React.useState(initialValues.phone);
   const [pin, setPin] = React.useState(initialValues.pin);
   const [type, setType] = React.useState(initialValues.type);
-  const [permissions, setPermissions] = React.useState(
-    initialValues.permissions
-  );
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [lastConnection, setLastConnection] = React.useState(
     initialValues.lastConnection
@@ -225,8 +57,6 @@ export default function EmployeeUpdateForm(props) {
     setPhone(cleanValues.phone);
     setPin(cleanValues.pin);
     setType(cleanValues.type);
-    setPermissions(cleanValues.permissions ?? []);
-    setCurrentPermissionsValue("");
     setOwner(cleanValues.owner);
     setLastConnection(cleanValues.lastConnection);
     setErrors({});
@@ -242,29 +72,12 @@ export default function EmployeeUpdateForm(props) {
     queryData();
   }, [idProp, employeeModelProp]);
   React.useEffect(resetStateValues, [employeeRecord]);
-  const [currentPermissionsValue, setCurrentPermissionsValue] =
-    React.useState("");
-  const permissionsRef = React.createRef();
-  const getDisplayValue = {
-    permissions: (r) => {
-      const enumDisplayValueMap = {
-        QRSCAN: "Qrscan",
-        BOOOKING_READ: "Boooking read",
-        BOOOKING_UPDATED: "Boooking updated",
-        BOOOKING_CREATED: "Boooking created",
-        BOOOKING_DELETED: "Boooking deleted",
-        BALANCE_OFFICE_READ: "Balance office read",
-      };
-      return enumDisplayValueMap[r];
-    },
-  };
   const validations = {
     name: [],
     email: [],
     phone: [],
     pin: [],
-    type: [],
-    permissions: [],
+    type: [{ type: "Required" }],
     owner: [],
     lastConnection: [],
   };
@@ -299,7 +112,6 @@ export default function EmployeeUpdateForm(props) {
           phone,
           pin,
           type,
-          permissions,
           owner,
           lastConnection,
         };
@@ -362,7 +174,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
-              permissions,
               owner,
               lastConnection,
             };
@@ -393,7 +204,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
-              permissions,
               owner,
               lastConnection,
             };
@@ -424,7 +234,6 @@ export default function EmployeeUpdateForm(props) {
               phone: value,
               pin,
               type,
-              permissions,
               owner,
               lastConnection,
             };
@@ -455,7 +264,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin: value,
               type,
-              permissions,
               owner,
               lastConnection,
             };
@@ -486,7 +294,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type: value,
-              permissions,
               owner,
               lastConnection,
             };
@@ -504,104 +311,16 @@ export default function EmployeeUpdateForm(props) {
         {...getOverrideProps(overrides, "type")}
       >
         <option
-          children="Owner"
-          value="OWNER"
-          {...getOverrideProps(overrides, "typeoption0")}
-        ></option>
-        <option
           children="Office"
           value="OFFICE"
-          {...getOverrideProps(overrides, "typeoption1")}
+          {...getOverrideProps(overrides, "typeoption0")}
         ></option>
         <option
           children="Collector"
           value="COLLECTOR"
-          {...getOverrideProps(overrides, "typeoption2")}
+          {...getOverrideProps(overrides, "typeoption1")}
         ></option>
       </SelectField>
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              name,
-              email,
-              phone,
-              pin,
-              type,
-              permissions: values,
-              owner,
-              lastConnection,
-            };
-            const result = onChange(modelFields);
-            values = result?.permissions ?? values;
-          }
-          setPermissions(values);
-          setCurrentPermissionsValue("");
-        }}
-        currentFieldValue={currentPermissionsValue}
-        label={"Permissions"}
-        items={permissions}
-        hasError={errors?.permissions?.hasError}
-        errorMessage={errors?.permissions?.errorMessage}
-        getBadgeText={getDisplayValue.permissions}
-        setFieldValue={setCurrentPermissionsValue}
-        inputFieldRef={permissionsRef}
-        defaultFieldValue={""}
-      >
-        <SelectField
-          label="Permissions"
-          placeholder="Please select an option"
-          isDisabled={false}
-          value={currentPermissionsValue}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.permissions?.hasError) {
-              runValidationTasks("permissions", value);
-            }
-            setCurrentPermissionsValue(value);
-          }}
-          onBlur={() =>
-            runValidationTasks("permissions", currentPermissionsValue)
-          }
-          errorMessage={errors.permissions?.errorMessage}
-          hasError={errors.permissions?.hasError}
-          ref={permissionsRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "permissions")}
-        >
-          <option
-            children="Qrscan"
-            value="QRSCAN"
-            {...getOverrideProps(overrides, "permissionsoption0")}
-          ></option>
-          <option
-            children="Boooking read"
-            value="BOOOKING_READ"
-            {...getOverrideProps(overrides, "permissionsoption1")}
-          ></option>
-          <option
-            children="Boooking updated"
-            value="BOOOKING_UPDATED"
-            {...getOverrideProps(overrides, "permissionsoption2")}
-          ></option>
-          <option
-            children="Boooking created"
-            value="BOOOKING_CREATED"
-            {...getOverrideProps(overrides, "permissionsoption3")}
-          ></option>
-          <option
-            children="Boooking deleted"
-            value="BOOOKING_DELETED"
-            {...getOverrideProps(overrides, "permissionsoption4")}
-          ></option>
-          <option
-            children="Balance office read"
-            value="BALANCE_OFFICE_READ"
-            {...getOverrideProps(overrides, "permissionsoption5")}
-          ></option>
-        </SelectField>
-      </ArrayField>
       <TextField
         label="Owner"
         isRequired={false}
@@ -616,7 +335,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
-              permissions,
               owner: value,
               lastConnection,
             };
@@ -647,7 +365,6 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
-              permissions,
               owner,
               lastConnection: value,
             };

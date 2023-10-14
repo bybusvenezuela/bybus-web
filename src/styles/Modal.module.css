@@ -121,11 +121,21 @@
 }
 .inputTravelOther, .inputTravel {
   display: flex;
-  width: 900px;
+  width: 1000px;
   gap: 1.5rem;
 }
 .inputTravelOther {
   margin-top: 1.5rem;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+}
+.control {
+  display: flex;
+  gap: 1rem;
 }
 
 /* .inputStop input {

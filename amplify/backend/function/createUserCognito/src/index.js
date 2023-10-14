@@ -54,6 +54,8 @@ export const handler = async (event) => {
   const { sub, email, name } = event.request.userAttributes;
   console.log("ATTRIBUTOS: ", event.request.userAttributes);
   const { triggerSource } = event;
+  if (triggerSource === "PostConfirmation_ConfirmForgotPassword") return event;
+
   if (!(triggerSource === "PostConfirmation_ConfirmSignUp"))
     throw new Error("Trigger No aceptado en esta funcion");
 

@@ -26,23 +26,18 @@ export const deleteAgency = /* GraphQL */ `
           phone
           employees {
             nextToken
-            __typename
           }
           transports {
             nextToken
-            __typename
           }
           bookings {
             nextToken
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       employees {
         items {
@@ -64,7 +59,6 @@ export const deleteAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -79,17 +73,13 @@ export const deleteAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -98,18 +88,14 @@ export const deleteAgency = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -119,7 +105,6 @@ export const deleteAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -127,23 +112,21 @@ export const deleteAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -174,12 +157,10 @@ export const deleteCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -202,7 +183,6 @@ export const deleteTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
     }
   }
 `;
@@ -229,13 +209,11 @@ export const deleteOrderTicket = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
-      __typename
     }
   }
 `;
@@ -249,7 +227,6 @@ export const createEmailSusbcription = /* GraphQL */ `
       email
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -263,7 +240,6 @@ export const updateEmailSusbcription = /* GraphQL */ `
       email
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -277,7 +253,6 @@ export const deleteEmailSusbcription = /* GraphQL */ `
       email
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -297,7 +272,6 @@ export const createAgencySubscription = /* GraphQL */ `
       scheduledDate
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -317,7 +291,6 @@ export const updateAgencySubscription = /* GraphQL */ `
       scheduledDate
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -337,7 +310,6 @@ export const deleteAgencySubscription = /* GraphQL */ `
       scheduledDate
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -366,23 +338,18 @@ export const createAgency = /* GraphQL */ `
           phone
           employees {
             nextToken
-            __typename
           }
           transports {
             nextToken
-            __typename
           }
           bookings {
             nextToken
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       employees {
         items {
@@ -404,7 +371,6 @@ export const createAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -419,17 +385,13 @@ export const createAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -438,18 +400,14 @@ export const createAgency = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -459,7 +417,6 @@ export const createAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -467,23 +424,21 @@ export const createAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -512,23 +467,18 @@ export const updateAgency = /* GraphQL */ `
           phone
           employees {
             nextToken
-            __typename
           }
           transports {
             nextToken
-            __typename
           }
           bookings {
             nextToken
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       employees {
         items {
@@ -550,7 +500,6 @@ export const updateAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -565,17 +514,13 @@ export const updateAgency = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -584,18 +529,14 @@ export const updateAgency = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -605,7 +546,6 @@ export const updateAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -613,23 +553,21 @@ export const updateAgency = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -667,7 +605,6 @@ export const createOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -682,17 +619,13 @@ export const createOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       transports {
         items {
@@ -701,18 +634,12 @@ export const createOffice = /* GraphQL */ `
           serial
           type
           officeID
-          bookings {
-            nextToken
-            __typename
-          }
           createdBy
           createdAt
           updatedAt
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -721,18 +648,14 @@ export const createOffice = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -742,7 +665,6 @@ export const createOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -750,23 +672,21 @@ export const createOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -804,7 +724,6 @@ export const updateOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -819,17 +738,13 @@ export const updateOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       transports {
         items {
@@ -838,18 +753,12 @@ export const updateOffice = /* GraphQL */ `
           serial
           type
           officeID
-          bookings {
-            nextToken
-            __typename
-          }
           createdBy
           createdAt
           updatedAt
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -858,18 +767,14 @@ export const updateOffice = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -879,7 +784,6 @@ export const updateOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -887,23 +791,21 @@ export const updateOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -941,7 +843,6 @@ export const deleteOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           officeID
           office {
@@ -956,17 +857,13 @@ export const deleteOffice = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
-          permissions
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       transports {
         items {
@@ -975,18 +872,12 @@ export const deleteOffice = /* GraphQL */ `
           serial
           type
           officeID
-          bookings {
-            nextToken
-            __typename
-          }
           createdBy
           createdAt
           updatedAt
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -995,18 +886,14 @@ export const deleteOffice = /* GraphQL */ `
           code
           agencyID
           officeID
-          transport
           customers {
             nextToken
-            __typename
           }
           tickets {
             nextToken
-            __typename
           }
           stops {
             nextToken
-            __typename
           }
           departureCity
           arrivalCity
@@ -1016,7 +903,6 @@ export const deleteOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           arrival {
             time
@@ -1024,23 +910,21 @@ export const deleteOffice = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           stock
           price
           createdBy
+          driver
+          transport
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1055,7 +939,6 @@ export const createState = /* GraphQL */ `
       cities
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1070,7 +953,6 @@ export const updateState = /* GraphQL */ `
       cities
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1085,7 +967,6 @@ export const deleteState = /* GraphQL */ `
       cities
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1123,10 +1004,8 @@ export const createEmployee = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         employees {
           items {
@@ -1138,15 +1017,12 @@ export const createEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1155,24 +1031,22 @@ export const createEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       officeID
       office {
@@ -1194,15 +1068,12 @@ export const createEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         transports {
           items {
@@ -1215,10 +1086,8 @@ export const createEmployee = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1227,31 +1096,27 @@ export const createEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
-      permissions
       owner
       lastConnection
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1289,10 +1154,8 @@ export const updateEmployee = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         employees {
           items {
@@ -1304,15 +1167,12 @@ export const updateEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1321,24 +1181,22 @@ export const updateEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       officeID
       office {
@@ -1360,15 +1218,12 @@ export const updateEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         transports {
           items {
@@ -1381,10 +1236,8 @@ export const updateEmployee = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1393,31 +1246,27 @@ export const updateEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
-      permissions
       owner
       lastConnection
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1455,10 +1304,8 @@ export const deleteEmployee = /* GraphQL */ `
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         employees {
           items {
@@ -1470,15 +1317,12 @@ export const deleteEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1487,24 +1331,22 @@ export const deleteEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       officeID
       office {
@@ -1526,15 +1368,12 @@ export const deleteEmployee = /* GraphQL */ `
             type
             agencyID
             officeID
-            permissions
             owner
             lastConnection
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         transports {
           items {
@@ -1547,10 +1386,8 @@ export const deleteEmployee = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           nextToken
-          __typename
         }
         bookings {
           items {
@@ -1559,31 +1396,27 @@ export const deleteEmployee = /* GraphQL */ `
             code
             agencyID
             officeID
-            transport
             departureCity
             arrivalCity
             stock
             price
             createdBy
+            driver
+            transport
             owner
             createdAt
             updatedAt
-            __typename
           }
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
-      permissions
       owner
       lastConnection
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1598,60 +1431,10 @@ export const createTransport = /* GraphQL */ `
       serial
       type
       officeID
-      bookings {
-        items {
-          id
-          status
-          code
-          agencyID
-          officeID
-          transport
-          customers {
-            nextToken
-            __typename
-          }
-          tickets {
-            nextToken
-            __typename
-          }
-          stops {
-            nextToken
-            __typename
-          }
-          departureCity
-          arrivalCity
-          departure {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          arrival {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          stock
-          price
-          createdBy
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdBy
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -1666,60 +1449,10 @@ export const updateTransport = /* GraphQL */ `
       serial
       type
       officeID
-      bookings {
-        items {
-          id
-          status
-          code
-          agencyID
-          officeID
-          transport
-          customers {
-            nextToken
-            __typename
-          }
-          tickets {
-            nextToken
-            __typename
-          }
-          stops {
-            nextToken
-            __typename
-          }
-          departureCity
-          arrivalCity
-          departure {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          arrival {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          stock
-          price
-          createdBy
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdBy
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -1734,60 +1467,10 @@ export const deleteTransport = /* GraphQL */ `
       serial
       type
       officeID
-      bookings {
-        items {
-          id
-          status
-          code
-          agencyID
-          officeID
-          transport
-          customers {
-            nextToken
-            __typename
-          }
-          tickets {
-            nextToken
-            __typename
-          }
-          stops {
-            nextToken
-            __typename
-          }
-          departureCity
-          arrivalCity
-          departure {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          arrival {
-            time
-            date
-            city
-            state
-            address
-            __typename
-          }
-          stock
-          price
-          createdBy
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdBy
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -1802,7 +1485,6 @@ export const createBooking = /* GraphQL */ `
       code
       agencyID
       officeID
-      transport
       customers {
         items {
           id
@@ -1826,15 +1508,12 @@ export const createBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       tickets {
         items {
@@ -1851,10 +1530,8 @@ export const createBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       stops {
         items {
@@ -1862,7 +1539,6 @@ export const createBooking = /* GraphQL */ `
           bookingID
           tickets {
             nextToken
-            __typename
           }
           arrival {
             time
@@ -1870,16 +1546,13 @@ export const createBooking = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           price
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       departureCity
       arrivalCity
@@ -1889,7 +1562,6 @@ export const createBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       arrival {
         time
@@ -1897,15 +1569,15 @@ export const createBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       stock
       price
       createdBy
+      driver
+      transport
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1920,7 +1592,6 @@ export const updateBooking = /* GraphQL */ `
       code
       agencyID
       officeID
-      transport
       customers {
         items {
           id
@@ -1944,15 +1615,12 @@ export const updateBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       tickets {
         items {
@@ -1969,10 +1637,8 @@ export const updateBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       stops {
         items {
@@ -1980,7 +1646,6 @@ export const updateBooking = /* GraphQL */ `
           bookingID
           tickets {
             nextToken
-            __typename
           }
           arrival {
             time
@@ -1988,16 +1653,13 @@ export const updateBooking = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           price
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       departureCity
       arrivalCity
@@ -2007,7 +1669,6 @@ export const updateBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       arrival {
         time
@@ -2015,15 +1676,15 @@ export const updateBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       stock
       price
       createdBy
+      driver
+      transport
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2038,7 +1699,6 @@ export const deleteBooking = /* GraphQL */ `
       code
       agencyID
       officeID
-      transport
       customers {
         items {
           id
@@ -2062,15 +1722,12 @@ export const deleteBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       tickets {
         items {
@@ -2087,10 +1744,8 @@ export const deleteBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       stops {
         items {
@@ -2098,7 +1753,6 @@ export const deleteBooking = /* GraphQL */ `
           bookingID
           tickets {
             nextToken
-            __typename
           }
           arrival {
             time
@@ -2106,16 +1760,13 @@ export const deleteBooking = /* GraphQL */ `
             city
             state
             address
-            __typename
           }
           price
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       departureCity
       arrivalCity
@@ -2125,7 +1776,6 @@ export const deleteBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       arrival {
         time
@@ -2133,15 +1783,15 @@ export const deleteBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       stock
       price
       createdBy
+      driver
+      transport
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2168,10 +1818,8 @@ export const createStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       arrival {
         time
@@ -2179,13 +1827,11 @@ export const createStopBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       price
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2212,10 +1858,8 @@ export const updateStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       arrival {
         time
@@ -2223,13 +1867,11 @@ export const updateStopBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       price
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2256,10 +1898,8 @@ export const deleteStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       arrival {
         time
@@ -2267,13 +1907,11 @@ export const deleteStopBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       price
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2304,12 +1942,10 @@ export const createCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2340,12 +1976,10 @@ export const updateCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2368,7 +2002,6 @@ export const createTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
     }
   }
 `;
@@ -2391,7 +2024,6 @@ export const updateTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
     }
   }
 `;
@@ -2418,13 +2050,11 @@ export const createOrderTicket = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
-      __typename
     }
   }
 `;
@@ -2451,13 +2081,11 @@ export const updateOrderTicket = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
-      __typename
     }
   }
 `;
@@ -2486,7 +2114,6 @@ export const createOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       bookingID
       orderTickets {
@@ -2508,23 +2135,19 @@ export const createOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       userID
       createdAt
       updatedAt
       userOrdersId
       owner
-      __typename
     }
   }
 `;
@@ -2553,7 +2176,6 @@ export const updateOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       bookingID
       orderTickets {
@@ -2575,23 +2197,19 @@ export const updateOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       userID
       createdAt
       updatedAt
       userOrdersId
       owner
-      __typename
     }
   }
 `;
@@ -2620,7 +2238,6 @@ export const deleteOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       bookingID
       orderTickets {
@@ -2642,23 +2259,19 @@ export const deleteOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
-            __typename
           }
           owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       userID
       createdAt
       updatedAt
       userOrdersId
       owner
-      __typename
     }
   }
 `;
@@ -2676,7 +2289,6 @@ export const createPayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -2694,7 +2306,6 @@ export const updatePayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -2712,7 +2323,6 @@ export const deletePayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -2744,7 +2354,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
         orderTickets {
@@ -2756,24 +2365,20 @@ export const createOrderDetailHistory = /* GraphQL */ `
             createdAt
             updatedAt
             orderDetailOrderTicketsId
-            __typename
           }
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       userID
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2805,7 +2410,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
         orderTickets {
@@ -2817,24 +2421,20 @@ export const updateOrderDetailHistory = /* GraphQL */ `
             createdAt
             updatedAt
             orderDetailOrderTicketsId
-            __typename
           }
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       userID
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2866,7 +2466,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
         orderTickets {
@@ -2878,24 +2477,20 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
             createdAt
             updatedAt
             orderDetailOrderTicketsId
-            __typename
           }
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       userID
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2932,28 +2527,23 @@ export const createUser = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           bookingID
           orderTickets {
             nextToken
-            __typename
           }
           userID
           createdAt
           updatedAt
           userOrdersId
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2990,28 +2580,23 @@ export const updateUser = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           bookingID
           orderTickets {
             nextToken
-            __typename
           }
           userID
           createdAt
           updatedAt
           userOrdersId
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -3048,28 +2633,23 @@ export const deleteUser = /* GraphQL */ `
             createdAt
             updatedAt
             owner
-            __typename
           }
           bookingID
           orderTickets {
             nextToken
-            __typename
           }
           userID
           createdAt
           updatedAt
           userOrdersId
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
