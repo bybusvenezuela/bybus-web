@@ -111,6 +111,43 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "calculeBookingStock": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "checkTicketScan": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "createAdminAgency": {
       "build": true,
       "dependsOn": [
@@ -193,6 +230,22 @@
         {
           "category": "function",
           "resourceName": "calculeBookingStock"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkTicketScan_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkTicketScan"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkTicketScan_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkTicketScan"
         }
       ]
     },
