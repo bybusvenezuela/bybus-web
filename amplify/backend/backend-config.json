@@ -111,21 +111,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "calculeBookingStock": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ],
-          "category": "api",
-          "resourceName": "bybusgraphql"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "createAdminAgency": {
       "build": true,
       "dependsOn": [

@@ -21,7 +21,6 @@ const Dashboard = ({ dataResult, userType }) => {
     setTravels(true);
   };
   const openTransport = () => {
-    console.log(data);
     setTransport(true);
   };
   const Employee = async () => {
@@ -75,7 +74,6 @@ const Dashboard = ({ dataResult, userType }) => {
           {dataTravels && (
             <TableTravels rows={dataTravels} />
           )}
-          {console.log(dataTravels)}
         </div>
         {/* <div className={styles.users}>
             <div className={styles.title}>

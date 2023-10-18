@@ -19,6 +19,7 @@ export declare type EmployeeUpdateFormInputValues = {
     phone?: string;
     pin?: string;
     type?: string;
+    permissions?: string[];
     owner?: string;
     lastConnection?: string;
 };
@@ -28,6 +29,7 @@ export declare type EmployeeUpdateFormValidationValues = {
     phone?: ValidationFunction<string>;
     pin?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
+    permissions?: ValidationFunction<string>;
     owner?: ValidationFunction<string>;
     lastConnection?: ValidationFunction<string>;
 };
@@ -39,6 +41,7 @@ export declare type EmployeeUpdateFormOverridesProps = {
     phone?: PrimitiveOverrideProps<TextFieldProps>;
     pin?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<SelectFieldProps>;
+    permissions?: PrimitiveOverrideProps<SelectFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
     lastConnection?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;

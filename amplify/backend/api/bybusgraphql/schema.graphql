@@ -140,12 +140,12 @@ type Employee
   email: String
   phone: String
   pin: String
-  type: EmployeeType!
+  type: EmployeeType @default(value: "OWNER")
   agencyID: ID @index(name: "byAgencyToEmployee")
   agency: Agency @belongsTo(fields: ["agencyID"])
   officeID: ID @index(name: "byOfficeToEmployee")
   office: Office @belongsTo(fields: ["officeID"])
-  # permissions: [PermissionsEmployees]
+  permissions: [PermissionsEmployees]
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
   lastConnection: String
 }
@@ -160,6 +160,7 @@ enum PermissionsEmployees {
 }
 
 enum EmployeeType {
+  OWNER
   OFFICE
   COLLECTOR
 }
@@ -177,6 +178,8 @@ type Transport
   serial: String
   type: String
   officeID: ID @index(name: "byOfficeToTransport")
+  bookings: [Booking]
+    @hasMany(indexName: "byTransportToBooking", fields: ["id"])
   createdBy: ID
 }
 
@@ -195,6 +198,7 @@ type Booking
   code: String
   agencyID: ID! @index(name: "byAgencyToBooking")
   officeID: ID! @index(name: "byOfficeToBooking")
+  transport: ID! @index(name: "byTransportToBooking")
   customers: [Customer]
     @hasMany(indexName: "byBookingToCustomer", fields: ["id"])
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])
@@ -207,20 +211,11 @@ type Booking
   stock: Int
   price: Float
   createdBy: ID
-  driver: String
-  transport: transporType
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
-}
-
-enum transporType {
-  EXPRESO
-  ENCAVA
-  BUSCAMA
 }
 
 enum BookingStatus {
   AVAILABLE
-  SOLDOUT
   BOARDING
   DEPARTED
   ARRIVED
