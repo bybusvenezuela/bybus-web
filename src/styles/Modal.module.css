@@ -1,13 +1,14 @@
 .modal {
-  height: 100vh;
+  height: 100vh; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .content {
   padding: 2rem;
   background-color: var(--white);
-  height: 450px;
+  height: 550px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -20,24 +21,29 @@
   flex-direction: column;
   gap: 2rem;
 }
+
 .inputs {
   flex-direction: column;
   display: flex;
   gap: 1.5rem;
 }
+
 .input {
   display: flex;
   width: 700px;
   gap: 1.5rem;
 }
+
 .input input {
   width: 350px;
 }
+
 .buttons {
   display: flex;
   align-items: flex-end;
   gap: 1rem;
 }
+
 .title h2 {
   font-weight: 500;
   font-size: 24px;
@@ -49,18 +55,25 @@
 .contentTravel {
   padding: 2rem;
   background-color: var(--white);
-  height: 750px;
+  height: 550px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 3rem;
   overflow-y: scroll;
+  width: 1100px;
+}
+.time {
+  display: flex;
+  gap: 0.5rem;
+}
+.timeInput {
+  width: 90px;
 }
 .travel {
   display: flex;
   gap: 1.5rem;
-  width: 900px;
 }
 .departure, .arrival {
   display: flex;
@@ -77,8 +90,11 @@
   display: flex;
   gap: 1.5rem;
 }
+.datetime {
+  justify-content: space-between;
+}
 .date input {
-  width: 140px;
+  width: 110px;
 
 }
 .timeStop input {
@@ -105,11 +121,21 @@
 }
 .inputTravelOther, .inputTravel {
   display: flex;
-  width: 900px;
+  width: 1000px;
   gap: 1.5rem;
 }
 .inputTravelOther {
   margin-top: 1.5rem;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+}
+.control {
+  display: flex;
+  gap: 1rem;
 }
 
 /* .inputStop input {

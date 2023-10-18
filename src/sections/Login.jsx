@@ -72,7 +72,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container section">
+    <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title}>
           <Image src={login.image} alt=" " />

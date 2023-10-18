@@ -8,13 +8,6 @@ import {
   Divider,
   ListItemIcon,
 } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import StoreIcon from "@mui/icons-material/Store";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Image from "next/image";
 import { menu } from "@/constants";
 import { useRouter } from "next/navigation";
@@ -22,7 +15,10 @@ import Link from "next/link";
 import { useMenu } from "@/context/MenuContext";
 import { Auth } from "aws-amplify";
 import { useUser } from "@/context/UserContext";
-
+import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 
 const Menu = () => {
   const { userAuth, profileAuth, setTokenProfile, setTokenUser } = useUser();
@@ -45,17 +41,6 @@ const Menu = () => {
         <div className={styles.logo}>
           <Image src={menu.image} alt="" />
         </div>
-
-        <Link href="/auth/profiles">
-          <ArrowBackIcon
-            sx={{
-              color: selectedIndex === 0 ? "black" : "rgba(0, 0, 0, 0.54)",
-            }}
-          />
-          {profileAuth?.rol === "owner"
-            ? "Administrador"
-            : profileAuth?.rol === "employee" && profileAuth?.data?.name}
-        </Link>
 
         <List
           sx={{
@@ -84,9 +69,9 @@ const Menu = () => {
             }}
           >
             <ListItemIcon>
-              <DashboardIcon
+              <DashboardRoundedIcon
                 sx={{
-                  color: selectedIndex === 0 ? "white" : "rgba(0, 0, 0, 0.54)",
+                  color: selectedIndex === 0 ? "white" : "#1f1f1f",
                 }}
               />
             </ListItemIcon>
@@ -108,10 +93,10 @@ const Menu = () => {
                 }}
               >
                 <ListItemIcon>
-                  <DashboardIcon
+                  <SubjectRoundedIcon
                     sx={{
                       color:
-                        selectedIndex === 1 ? "white" : "rgba(0, 0, 0, 0.54)",
+                        selectedIndex === 1 ? "white" : "#1f1f1f",
                     }}
                   />
                 </ListItemIcon>
@@ -125,18 +110,38 @@ const Menu = () => {
             selected={selectedIndex === 2}
             onClick={(e) => {
               setTokenProfile(null);
+              router.push(
+                `/auth/profiles`
+              );
+            }}
+          >
+            <ListItemIcon>
+            <KeyboardBackspaceRoundedIcon
+            sx={{
+              color: "#1f1f1f",
+            }}
+          />
+            </ListItemIcon>
+            <ListItemText primary={`Salir del perfil`} />
+          </ListItemButton>
+          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+          <ListItemButton
+            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 2}
+            onClick={(e) => {
+              setTokenProfile(null);
               setTokenUser(null);
               Auth.signOut();
             }}
           >
             <ListItemIcon>
-              <DashboardIcon
+              <LogoutRoundedIcon
                 sx={{
-                  color: selectedIndex === 2 ? "white" : "rgba(0, 0, 0, 0.54)",
+                  color: selectedIndex === 2 ? "white" : "#1f1f1f",
                 }}
               />
             </ListItemIcon>
-            <ListItemText primary="Cerrar Sesion" />
+            <ListItemText primary="Cerrar sesion" />
           </ListItemButton>
         </List>
 

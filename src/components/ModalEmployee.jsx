@@ -19,7 +19,6 @@ export default function ModalEmployee({ open, close, offices }) {
   const [office, setOffice] = useState("");
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [permissions, setPermissions] = useState([]);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsloading] = useState("");
@@ -55,7 +54,6 @@ export default function ModalEmployee({ open, close, offices }) {
             type: type,
             agencyID: user.attributes["custom:agencyID"],
             officeID: office,
-            permissions: permissions,
           },
         },
       });
@@ -78,38 +76,10 @@ export default function ModalEmployee({ open, close, offices }) {
     },
   ];
 
-  const permissionsEmployees = [
-    {
-      value: "QRSCAN",
-      name: "Escaner QR",
-    },
-    {
-      value: "BOOOKING_READ",
-      name: "Ver viajes",
-    },
-    {
-      value: "BOOOKING_CREATED",
-      name: "Crear viajes",
-    },
-    {
-      value: "BOOOKING_UPDATED",
-      name: "Actualizar viajes",
-    },
-    {
-      value: "BOOOKING_DELETED",
-      name: "Borrar viajes",
-    },
-    {
-      value: "BALANCE_OFFICE_READ",
-      name: "Ver estadisticas de la oficina",
-    },
-  ];
-
   const resetModal = () => {
     setEmail("");
     setName("");
     setType("");
-    setPermissions([]);
     setOffice("");
     setPhone("");
     close();
@@ -189,53 +159,19 @@ export default function ModalEmployee({ open, close, offices }) {
                 </div>
 
                 <div className={styles.input}>
-                  <FormControl
-                    sx={{
-                      width: 360,
-                    }}
-                  >
-                    <InputLabel id="demo-multiple-checkbox-label">
-                      Permisos
-                    </InputLabel>
-                    <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      value={permissions}
-                      onChange={handlePermissions}
-                      input={<OutlinedInput label="Tag" />}
-                      renderValue={(selected) => selected.join(", ")}
-                      MenuProps={MenuProps}
-                    >
-                      {permissionsEmployees?.map((item, index) => (
-                        <MenuItem
-                          value={item.value}
-                          key={index}
-                          sx={{
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          <Checkbox
-                            checked={permissions.indexOf(item.value) > -1}
-                          />
-                          <ListItemText primary={item.name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
                   <TextField
                     id="outlined-basic"
                     label="Telefono"
                     variant="outlined"
                     onChange={(e) => setPhone(e.target.value)}
                   />
-                </div>
-                <TextField
+                  <TextField
                   id="outlined-basic"
                   label="Correo Electronico"
                   variant="outlined"
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                </div>
               </div>
             </div>
 

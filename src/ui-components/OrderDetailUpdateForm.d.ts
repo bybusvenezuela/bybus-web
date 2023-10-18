@@ -7,6 +7,7 @@
 import * as React from "react";
 import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { OrderDetail } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -54,7 +55,7 @@ export declare type OrderDetailUpdateFormProps = React.PropsWithChildren<{
     overrides?: OrderDetailUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    orderDetail?: any;
+    orderDetail?: OrderDetail;
     onSubmit?: (fields: OrderDetailUpdateFormInputValues) => OrderDetailUpdateFormInputValues;
     onSuccess?: (fields: OrderDetailUpdateFormInputValues) => void;
     onError?: (fields: OrderDetailUpdateFormInputValues, errorMessage: string) => void;

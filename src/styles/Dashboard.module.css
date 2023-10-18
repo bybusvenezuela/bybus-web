@@ -4,7 +4,7 @@
 .panel {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-evenly; 
 }
 .navbar {
   padding: 1rem;

@@ -47,12 +47,12 @@ const Dashboard = ({ dataResult, userType }) => {
                 <Card
                   title={`Agregar una nueva oficina`}
                   onHandle={openOffice}
-                  icon={`bx bx-store`}
+                  icon={`bx bx-buildings`}
                 />
                 <Card
                   title={`Agregar un nuevo empleado`}
                   onHandle={openEmployee}
-                  icon={`bx bx-bus`}
+                  icon={`bx bxs-user-badge`}
                 />
               </>
             )}

@@ -135,14 +135,14 @@ export default function ModalOffice({ open, close }) {
                 <div className={styles.input}>
                   <TextField
                     id="outlined-basic"
-                    label="Address"
+                    label="Direccion"
                     variant="outlined"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
                   <TextField
                     id="outlined-basic"
-                    label="Phone"
+                    label="Telefono"
                     variant="outlined"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}

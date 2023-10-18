@@ -1,3 +1,10 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -5,9 +12,15 @@
   align-items: center;
   gap: 3rem;
 }
+
 .title {
   display: flex;
   align-items: center;
+  margin-bottom: -3rem;
+}
+.title img {
+  width: 100px;
+  height: 100px;
 }
 .title h2 {
   margin-top: 3.5px;
