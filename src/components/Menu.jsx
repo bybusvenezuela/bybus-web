@@ -4,20 +4,16 @@ import {
   List,
   ListItemText,
   ListItemButton,
-  Collapse,
   Divider,
   ListItemIcon,
 } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import StoreIcon from "@mui/icons-material/Store";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Image from "next/image";
 import { menu } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import { Auth } from 'aws-amplify'
 
 const Menu = () => {
   const { updateIndex, selectedIndex } = useMenu();
@@ -63,13 +59,13 @@ const Menu = () => {
           }}
         >
           <ListItemIcon>
-            <DashboardIcon
+            <DashboardRoundedIcon
               sx={{
-                color: selectedIndex === 0 ? "white" : "rgba(0, 0, 0, 0.54)",
+                color: selectedIndex === 0 ? "white" : "#1f1f1f",
               }}
             />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Panel de control" />
         </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
 
@@ -78,19 +74,18 @@ const Menu = () => {
           selected={selectedIndex === 6}
           onClick={(e) => {
             e.preventDefault;
-            router.push("/home/configuration");
-            updateIndex(6);
-            console.log(selectedIndex);
+            router.push("/");
+            Auth.signOut()
           }}
         >
           <ListItemIcon>
-            <SettingsIcon
+            <LogoutRoundedIcon
               sx={{
-                color: selectedIndex === 6 ? "white" : "rgba(0, 0, 0, 0.54)",
+                color: selectedIndex === 6 ? "white" : "#1f1f1f",
               }}
             />
           </ListItemIcon>
-          <ListItemText primary="Configuration" />
+          <ListItemText primary="Cerrar sesion" />
         </ListItemButton>
       </List>
       <div className={styles.panel}></div>

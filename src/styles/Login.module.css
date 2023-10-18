@@ -8,6 +8,11 @@
 .title {
   display: flex;
   align-items: center;
+  margin-bottom: -3rem;
+}
+.title img {
+  width: 100px;
+  height: 100px;
 }
 .title h2 {
   margin-top: 3.5px;
