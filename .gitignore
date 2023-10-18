@@ -4,9 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/amplify
-/.vscode
-/.expo
+
 
 # testing
 /coverage
@@ -37,6 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+/amplify
+/.vscode
+/.expo
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -48,6 +50,7 @@ amplify/backend/.temp
 build/
 dist/
 node_modules/
+aws-exports.js
 awsconfiguration.json
 amplifyconfiguration.json
 amplifyconfiguration.dart
@@ -57,3 +60,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+/amplify
+/.vscode
+/.expo
