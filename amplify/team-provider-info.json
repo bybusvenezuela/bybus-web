@@ -21,13 +21,13 @@
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
           "s3Key": "amplify-builds/AdminQueries43e2835c-49743930774776726448-build.zip"
         },
-        "createUserCognito": {
-          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/createUserCognito-506c45612f7958754566-build.zip"
-        },
         "createAdminAgency": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
           "s3Key": "amplify-builds/createAdminAgency-6c347853586d7436482f-build.zip"
+        },
+        "createUserCognito": {
+          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
+          "s3Key": "amplify-builds/createUserCognito-506c45612f7958754566-build.zip"
         },
         "sheduleBookingUpdate": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
@@ -41,10 +41,6 @@
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
           "s3Key": "amplify-builds/checkTicketScan-4e766130784b46543370-build.zip"
         }
-      },
-      "api": {
-        "bybusgraphql": {},
-        "AdminQueries": {}
       },
       "storage": {
         "s3storagebybus": {}
