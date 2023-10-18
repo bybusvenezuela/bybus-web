@@ -15,7 +15,6 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type TicketUpdateFormInputValues = {
     code?: string;
     stop?: string;
-    customerID?: string;
     seating?: string;
     status?: string;
     description?: string;
@@ -25,7 +24,6 @@ export declare type TicketUpdateFormInputValues = {
 export declare type TicketUpdateFormValidationValues = {
     code?: ValidationFunction<string>;
     stop?: ValidationFunction<string>;
-    customerID?: ValidationFunction<string>;
     seating?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
@@ -37,7 +35,6 @@ export declare type TicketUpdateFormOverridesProps = {
     TicketUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     code?: PrimitiveOverrideProps<TextFieldProps>;
     stop?: PrimitiveOverrideProps<TextFieldProps>;
-    customerID?: PrimitiveOverrideProps<TextFieldProps>;
     seating?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;

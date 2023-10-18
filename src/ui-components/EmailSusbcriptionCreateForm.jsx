@@ -91,7 +91,7 @@ export default function EmailSusbcriptionCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createEmailSusbcription,
+            query: createEmailSusbcription.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

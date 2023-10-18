@@ -131,7 +131,7 @@ export default function AgencySubscriptionCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createAgencySubscription,
+            query: createAgencySubscription.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

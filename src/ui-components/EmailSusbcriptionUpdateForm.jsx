@@ -44,7 +44,7 @@ export default function EmailSusbcriptionUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getEmailSusbcription,
+              query: getEmailSusbcription.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getEmailSusbcription
@@ -114,7 +114,7 @@ export default function EmailSusbcriptionUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateEmailSusbcription,
+            query: updateEmailSusbcription.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: emailSusbcriptionRecord.id,

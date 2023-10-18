@@ -87,7 +87,7 @@ export default function OrderDetailUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getOrderDetail,
+              query: getOrderDetail.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getOrderDetail
@@ -175,7 +175,7 @@ export default function OrderDetailUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateOrderDetail,
+            query: updateOrderDetail.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: orderDetailRecord.id,

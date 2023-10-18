@@ -60,7 +60,7 @@ export default function AgencyUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getAgency,
+              query: getAgency.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getAgency
@@ -142,7 +142,7 @@ export default function AgencyUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateAgency,
+            query: updateAgency.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: agencyRecord.id,

@@ -121,7 +121,7 @@ export default function OfficeCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createOffice,
+            query: createOffice.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

@@ -153,7 +153,7 @@ export default function OrderDetailCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createOrderDetail,
+            query: createOrderDetail.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

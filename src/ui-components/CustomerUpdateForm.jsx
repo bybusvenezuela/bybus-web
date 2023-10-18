@@ -25,14 +25,12 @@ export default function CustomerUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    lastName: "",
+    fullName: "",
     ci: "",
     email: "",
     owner: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [lastName, setLastName] = React.useState(initialValues.lastName);
+  const [fullName, setFullName] = React.useState(initialValues.fullName);
   const [ci, setCi] = React.useState(initialValues.ci);
   const [email, setEmail] = React.useState(initialValues.email);
   const [owner, setOwner] = React.useState(initialValues.owner);
@@ -41,8 +39,7 @@ export default function CustomerUpdateForm(props) {
     const cleanValues = customerRecord
       ? { ...initialValues, ...customerRecord }
       : initialValues;
-    setName(cleanValues.name);
-    setLastName(cleanValues.lastName);
+    setFullName(cleanValues.fullName);
     setCi(cleanValues.ci);
     setEmail(cleanValues.email);
     setOwner(cleanValues.owner);
@@ -54,7 +51,7 @@ export default function CustomerUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getCustomer,
+              query: getCustomer.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getCustomer
@@ -65,8 +62,7 @@ export default function CustomerUpdateForm(props) {
   }, [idProp, customerModelProp]);
   React.useEffect(resetStateValues, [customerRecord]);
   const validations = {
-    name: [],
-    lastName: [],
+    fullName: [],
     ci: [],
     email: [],
     owner: [],
@@ -97,8 +93,7 @@ export default function CustomerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          lastName: lastName ?? null,
+          fullName: fullName ?? null,
           ci: ci ?? null,
           email: email ?? null,
           owner: owner ?? null,
@@ -132,7 +127,7 @@ export default function CustomerUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateCustomer,
+            query: updateCustomer.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: customerRecord.id,
@@ -154,60 +149,31 @@ export default function CustomerUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Full name"
         isRequired={false}
         isReadOnly={false}
-        value={name}
+        value={fullName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              lastName,
+              fullName: value,
               ci,
               email,
               owner,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.fullName ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.fullName?.hasError) {
+            runValidationTasks("fullName", value);
           }
-          setName(value);
+          setFullName(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Last name"
-        isRequired={false}
-        isReadOnly={false}
-        value={lastName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              lastName: value,
-              ci,
-              email,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.lastName ?? value;
-          }
-          if (errors.lastName?.hasError) {
-            runValidationTasks("lastName", value);
-          }
-          setLastName(value);
-        }}
-        onBlur={() => runValidationTasks("lastName", lastName)}
-        errorMessage={errors.lastName?.errorMessage}
-        hasError={errors.lastName?.hasError}
-        {...getOverrideProps(overrides, "lastName")}
+        onBlur={() => runValidationTasks("fullName", fullName)}
+        errorMessage={errors.fullName?.errorMessage}
+        hasError={errors.fullName?.hasError}
+        {...getOverrideProps(overrides, "fullName")}
       ></TextField>
       <TextField
         label="Ci"
@@ -218,8 +184,7 @@ export default function CustomerUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              lastName,
+              fullName,
               ci: value,
               email,
               owner,
@@ -246,8 +211,7 @@ export default function CustomerUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              lastName,
+              fullName,
               ci,
               email: value,
               owner,
@@ -274,8 +238,7 @@ export default function CustomerUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              lastName,
+              fullName,
               ci,
               email,
               owner: value,

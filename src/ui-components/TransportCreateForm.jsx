@@ -106,7 +106,7 @@ export default function TransportCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createTransport,
+            query: createTransport.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

@@ -212,7 +212,7 @@ export default function StateUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getState,
+              query: getState.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getState
@@ -286,7 +286,7 @@ export default function StateUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateState,
+            query: updateState.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: stateRecord.id,
