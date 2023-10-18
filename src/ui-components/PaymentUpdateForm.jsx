@@ -61,7 +61,7 @@ export default function PaymentUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getPayment,
+              query: getPayment.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getPayment
@@ -137,7 +137,7 @@ export default function PaymentUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updatePayment,
+            query: updatePayment.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: paymentRecord.id,

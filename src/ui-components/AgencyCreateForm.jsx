@@ -121,7 +121,7 @@ export default function AgencyCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createAgency,
+            query: createAgency.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

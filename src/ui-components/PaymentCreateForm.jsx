@@ -112,7 +112,7 @@ export default function PaymentCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createPayment,
+            query: createPayment.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

@@ -265,7 +265,7 @@ export default function StateCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createState,
+            query: createState.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

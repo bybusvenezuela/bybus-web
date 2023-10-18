@@ -71,7 +71,7 @@ export default function AgencySubscriptionUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getAgencySubscription,
+              query: getAgencySubscription.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getAgencySubscription
@@ -153,7 +153,7 @@ export default function AgencySubscriptionUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateAgencySubscription,
+            query: updateAgencySubscription.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: agencySubscriptionRecord.id,

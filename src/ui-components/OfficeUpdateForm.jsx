@@ -60,7 +60,7 @@ export default function OfficeUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getOffice,
+              query: getOffice.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getOffice
@@ -142,7 +142,7 @@ export default function OfficeUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateOffice,
+            query: updateOffice.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: officeRecord.id,

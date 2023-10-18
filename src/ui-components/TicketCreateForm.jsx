@@ -25,7 +25,6 @@ export default function TicketCreateForm(props) {
   const initialValues = {
     code: "",
     stop: "",
-    customerID: "",
     seating: "",
     status: "",
     description: "",
@@ -34,7 +33,6 @@ export default function TicketCreateForm(props) {
   };
   const [code, setCode] = React.useState(initialValues.code);
   const [stop, setStop] = React.useState(initialValues.stop);
-  const [customerID, setCustomerID] = React.useState(initialValues.customerID);
   const [seating, setSeating] = React.useState(initialValues.seating);
   const [status, setStatus] = React.useState(initialValues.status);
   const [description, setDescription] = React.useState(
@@ -46,7 +44,6 @@ export default function TicketCreateForm(props) {
   const resetStateValues = () => {
     setCode(initialValues.code);
     setStop(initialValues.stop);
-    setCustomerID(initialValues.customerID);
     setSeating(initialValues.seating);
     setStatus(initialValues.status);
     setDescription(initialValues.description);
@@ -57,7 +54,6 @@ export default function TicketCreateForm(props) {
   const validations = {
     code: [],
     stop: [],
-    customerID: [],
     seating: [],
     status: [],
     description: [],
@@ -92,7 +88,6 @@ export default function TicketCreateForm(props) {
         let modelFields = {
           code,
           stop,
-          customerID,
           seating,
           status,
           description,
@@ -128,7 +123,7 @@ export default function TicketCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createTicket,
+            query: createTicket.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -162,7 +157,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code: value,
               stop,
-              customerID,
               seating,
               status,
               description,
@@ -193,7 +187,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop: value,
-              customerID,
               seating,
               status,
               description,
@@ -214,37 +207,6 @@ export default function TicketCreateForm(props) {
         {...getOverrideProps(overrides, "stop")}
       ></TextField>
       <TextField
-        label="Customer id"
-        isRequired={false}
-        isReadOnly={false}
-        value={customerID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              code,
-              stop,
-              customerID: value,
-              seating,
-              status,
-              description,
-              url,
-              owner,
-            };
-            const result = onChange(modelFields);
-            value = result?.customerID ?? value;
-          }
-          if (errors.customerID?.hasError) {
-            runValidationTasks("customerID", value);
-          }
-          setCustomerID(value);
-        }}
-        onBlur={() => runValidationTasks("customerID", customerID)}
-        errorMessage={errors.customerID?.errorMessage}
-        hasError={errors.customerID?.hasError}
-        {...getOverrideProps(overrides, "customerID")}
-      ></TextField>
-      <TextField
         label="Seating"
         isRequired={false}
         isReadOnly={false}
@@ -255,7 +217,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop,
-              customerID,
               seating: value,
               status,
               description,
@@ -286,7 +247,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop,
-              customerID,
               seating,
               status: value,
               description,
@@ -317,7 +277,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop,
-              customerID,
               seating,
               status,
               description: value,
@@ -348,7 +307,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop,
-              customerID,
               seating,
               status,
               description,
@@ -379,7 +337,6 @@ export default function TicketCreateForm(props) {
             const modelFields = {
               code,
               stop,
-              customerID,
               seating,
               status,
               description,

@@ -52,7 +52,7 @@ export default function TransportUpdateForm(props) {
       const record = idProp
         ? (
             await API.graphql({
-              query: getTransport,
+              query: getTransport.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
           )?.data?.getTransport
@@ -128,7 +128,7 @@ export default function TransportUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateTransport,
+            query: updateTransport.replaceAll("__typename", ""),
             variables: {
               input: {
                 id: transportRecord.id,
