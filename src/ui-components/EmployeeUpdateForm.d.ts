@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Employee } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -46,7 +45,7 @@ export declare type EmployeeUpdateFormProps = React.PropsWithChildren<{
     overrides?: EmployeeUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    employee?: Employee;
+    employee?: any;
     onSubmit?: (fields: EmployeeUpdateFormInputValues) => EmployeeUpdateFormInputValues;
     onSuccess?: (fields: EmployeeUpdateFormInputValues) => void;
     onError?: (fields: EmployeeUpdateFormInputValues, errorMessage: string) => void;

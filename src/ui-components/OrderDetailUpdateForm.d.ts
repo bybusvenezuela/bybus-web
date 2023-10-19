@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { OrderDetail } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -22,7 +21,6 @@ export declare type OrderDetailUpdateFormInputValues = {
     customerEmail?: string;
     total?: number;
     isGuest?: boolean;
-    bookingID?: string;
     userID?: string;
 };
 export declare type OrderDetailUpdateFormValidationValues = {
@@ -34,7 +32,6 @@ export declare type OrderDetailUpdateFormValidationValues = {
     customerEmail?: ValidationFunction<string>;
     total?: ValidationFunction<number>;
     isGuest?: ValidationFunction<boolean>;
-    bookingID?: ValidationFunction<string>;
     userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -48,14 +45,13 @@ export declare type OrderDetailUpdateFormOverridesProps = {
     customerEmail?: PrimitiveOverrideProps<TextFieldProps>;
     total?: PrimitiveOverrideProps<TextFieldProps>;
     isGuest?: PrimitiveOverrideProps<SwitchFieldProps>;
-    bookingID?: PrimitiveOverrideProps<TextFieldProps>;
     userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrderDetailUpdateFormProps = React.PropsWithChildren<{
     overrides?: OrderDetailUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    orderDetail?: OrderDetail;
+    orderDetail?: any;
     onSubmit?: (fields: OrderDetailUpdateFormInputValues) => OrderDetailUpdateFormInputValues;
     onSuccess?: (fields: OrderDetailUpdateFormInputValues) => void;
     onError?: (fields: OrderDetailUpdateFormInputValues, errorMessage: string) => void;

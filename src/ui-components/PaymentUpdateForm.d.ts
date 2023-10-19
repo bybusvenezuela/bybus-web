@@ -7,7 +7,6 @@
 import * as React from "react";
 import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Payment } from "../models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -37,7 +36,7 @@ export declare type PaymentUpdateFormProps = React.PropsWithChildren<{
     overrides?: PaymentUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    payment?: Payment;
+    payment?: any;
     onSubmit?: (fields: PaymentUpdateFormInputValues) => PaymentUpdateFormInputValues;
     onSuccess?: (fields: PaymentUpdateFormInputValues) => void;
     onError?: (fields: PaymentUpdateFormInputValues, errorMessage: string) => void;
