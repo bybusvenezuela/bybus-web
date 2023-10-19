@@ -29,6 +29,12 @@ export const UserProvider = ({ children }) => {
     cookies.set("user", accessToken, { path: "/" });
   }
 
+  function setClearAll() {
+    // cookies.remove("user", accessTokenUser, { path: "/" });
+    // cookies.remove("profile", accessTokenProfile, { path: "/" });
+    localStorage.removeItem("user");
+    localStorage.removeItem("profile");
+  }
   function setTokenProfile(data) {
     setProfileAuth(data);
     setStorageTokenProfile(data);
@@ -54,6 +60,7 @@ export const UserProvider = ({ children }) => {
         setProfileAuth,
         setTokenProfile,
         setTokenUser,
+        setClearAll
       }}
     >
       {children}

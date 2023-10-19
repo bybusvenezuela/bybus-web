@@ -21,7 +21,7 @@ import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 
 const Menu = () => {
-  const { userAuth, profileAuth, setTokenProfile, setTokenUser } = useUser();
+  const { userAuth, profileAuth, setTokenProfile, setTokenUser, setClearAll } = useUser();
   const { updateIndex, selectedIndex } = useMenu();
   const router = useRouter();
   const [openAgencies, setOpenAgencies] = useState(true);
@@ -33,6 +33,10 @@ const Menu = () => {
   const handleUsers = () => {
     setOpenUsers(!openUsers);
   };
+  const LogoutAccount = async () => {
+    setClearAll()
+    Auth.signOut()
+  }
   console.log(profileAuth);
 
   return (
@@ -129,9 +133,10 @@ const Menu = () => {
             // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
             selected={selectedIndex === 2}
             onClick={(e) => {
-              setTokenProfile(null);
-              setTokenUser(null);
-              Auth.signOut();
+              // setTokenProfile(null);
+              // setTokenUser(null);
+              LogoutAccount()
+              // Auth.signOut();
             }}
           >
             <ListItemIcon>

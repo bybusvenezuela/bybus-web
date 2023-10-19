@@ -19,7 +19,7 @@ import { useUser } from "@/context/UserContext";
 
 const Profiles = ({ error }) => {
   const router = useRouter();
-  const { userAuth, profileAuth, setTokenProfile } = useUser();
+  const { userAuth, profileAuth, setTokenProfile, setClearAll } = useUser();
   const [agency, setAgency] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -45,6 +45,11 @@ const Profiles = ({ error }) => {
     }
   }, [pinModal]);
 
+
+  const LogoutAccount = async () => {
+    setClearAll()
+    Auth.signOut()
+  }
   // buscar empleados de dicha agencia
   const fetchEmployees = async () => {
     try {
@@ -192,7 +197,7 @@ const Profiles = ({ error }) => {
     <div className="container section">
       <div className={styles.content}>
         <h1 className={styles.title}>Elija un perfil para acceder al panel</h1>
-        <Button onClick={() => Auth.signOut()}>CERRAR SESION</Button>
+        <Button onClick={LogoutAccount}>CERRAR SESION</Button>
         {userAuth && (
           <div className={styles.profiles}>
             {userAuth?.attributes && (
