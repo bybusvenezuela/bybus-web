@@ -137,8 +137,7 @@ export const deleteCustomer = /* GraphQL */ `
   ) {
     deleteCustomer(input: $input, condition: $condition) {
       id
-      name
-      lastName
+      fullName
       ci
       email
       bookingID
@@ -149,6 +148,32 @@ export const deleteCustomer = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -175,6 +200,43 @@ export const deleteTicket = /* GraphQL */ `
       bookingID
       stop
       customerID
+      customer {
+        id
+        fullName
+        ci
+        email
+        bookingID
+        ticketID
+        ticket {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        owner
+        createdAt
+        updatedAt
+      }
       seating
       status
       description
@@ -201,6 +263,32 @@ export const deleteOrderTicket = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -1488,8 +1576,7 @@ export const createBooking = /* GraphQL */ `
       customers {
         items {
           id
-          name
-          lastName
+          fullName
           ci
           email
           bookingID
@@ -1522,6 +1609,17 @@ export const createBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1595,8 +1693,7 @@ export const updateBooking = /* GraphQL */ `
       customers {
         items {
           id
-          name
-          lastName
+          fullName
           ci
           email
           bookingID
@@ -1629,6 +1726,17 @@ export const updateBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1702,8 +1810,7 @@ export const deleteBooking = /* GraphQL */ `
       customers {
         items {
           id
-          name
-          lastName
+          fullName
           ci
           email
           bookingID
@@ -1736,6 +1843,17 @@ export const deleteBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1810,6 +1928,17 @@ export const createStopBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1850,6 +1979,17 @@ export const updateStopBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1890,6 +2030,17 @@ export const deleteStopBooking = /* GraphQL */ `
           bookingID
           stop
           customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
           seating
           status
           description
@@ -1922,8 +2073,7 @@ export const createCustomer = /* GraphQL */ `
   ) {
     createCustomer(input: $input, condition: $condition) {
       id
-      name
-      lastName
+      fullName
       ci
       email
       bookingID
@@ -1934,6 +2084,32 @@ export const createCustomer = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -1956,8 +2132,7 @@ export const updateCustomer = /* GraphQL */ `
   ) {
     updateCustomer(input: $input, condition: $condition) {
       id
-      name
-      lastName
+      fullName
       ci
       email
       bookingID
@@ -1968,6 +2143,32 @@ export const updateCustomer = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -1994,6 +2195,43 @@ export const createTicket = /* GraphQL */ `
       bookingID
       stop
       customerID
+      customer {
+        id
+        fullName
+        ci
+        email
+        bookingID
+        ticketID
+        ticket {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        owner
+        createdAt
+        updatedAt
+      }
       seating
       status
       description
@@ -2016,6 +2254,43 @@ export const updateTicket = /* GraphQL */ `
       bookingID
       stop
       customerID
+      customer {
+        id
+        fullName
+        ci
+        email
+        bookingID
+        ticketID
+        ticket {
+          id
+          code
+          bookingID
+          stop
+          customerID
+          customer {
+            id
+            fullName
+            ci
+            email
+            bookingID
+            ticketID
+            owner
+            createdAt
+            updatedAt
+          }
+          seating
+          status
+          description
+          url
+          owner
+          createdAt
+          updatedAt
+          stopBookingTicketsId
+        }
+        owner
+        createdAt
+        updatedAt
+      }
       seating
       status
       description
@@ -2042,6 +2317,32 @@ export const createOrderTicket = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -2073,6 +2374,32 @@ export const updateOrderTicket = /* GraphQL */ `
         bookingID
         stop
         customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          ticket {
+            id
+            code
+            bookingID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
+            owner
+            createdAt
+            updatedAt
+            stopBookingTicketsId
+          }
+          owner
+          createdAt
+          updatedAt
+        }
         seating
         status
         description
@@ -2656,5 +2983,10 @@ export const deleteUser = /* GraphQL */ `
 export const registerAgencyAdmin = /* GraphQL */ `
   mutation RegisterAgencyAdmin($input: RegisterUserInput!) {
     registerAgencyAdmin(input: $input)
+  }
+`;
+export const checkScan = /* GraphQL */ `
+  mutation CheckScan($input: CheckScanInput) {
+    checkScan(input: $input)
   }
 `;

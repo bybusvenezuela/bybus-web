@@ -107,8 +107,7 @@ export const listBookings = /* GraphQL */ `
         customers {
           items {
             id
-            name
-            lastName
+            fullName
             ci
             email
             bookingID

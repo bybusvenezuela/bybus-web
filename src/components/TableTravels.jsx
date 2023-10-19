@@ -26,7 +26,6 @@ const TableTravels = ({ rows }) => {
       renderCell: (params) => {
         return (
           <Stack>
-            {console.log(params)}
             <div>{params.formattedValue.date}</div>
             <div>{params.formattedValue.time.slice(0, 5)}</div>
           </Stack>
@@ -55,7 +54,6 @@ const TableTravels = ({ rows }) => {
       },
     },
   ];
-  console.log(rows)
 
   return (
     <Box sx={{ height: 500, width: 900 }}>
