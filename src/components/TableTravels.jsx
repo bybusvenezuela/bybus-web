@@ -2,10 +2,14 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
+import ModalTravelEdit from "./ModalTravelEdit";
+import { useState } from "react";
 
 
 
 const TableTravels = ({ rows }) => {
+  const [open, setOpen] = useState(false)
+  const [data, setData] = useState([])
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -47,8 +51,12 @@ const TableTravels = ({ rows }) => {
       renderCell: (params) => {
         return (
           <Stack>
-            <button>{`Editar`}</button>
-            <button>{`Eliminar`}</button>
+            <button onClick={() => {
+              console.log(params.row)
+              setData(params.row)
+              setOpen(!open)
+            }}>{`Editar`}</button>
+            {/* <button>{`Eliminar`}</button> */}
           </Stack>
         );
       },
@@ -72,6 +80,11 @@ const TableTravels = ({ rows }) => {
         disableRowSelectionOnClick
         slots={{ toolbar: GridToolbar }}
       />
+      <ModalTravelEdit
+          data={data}
+          open={open}
+          close={() => setOpen(!open)}
+        />
     </Box>
   );
 };
