@@ -22,6 +22,7 @@ export const getAgency = /* GraphQL */ `
           address
           email
           phone
+          status
           owner
           createdAt
           updatedAt
@@ -222,6 +223,139 @@ export const listOrderDetails = /* GraphQL */ `
         userOrdersId
       }
       nextToken
+    }
+  }
+`;
+
+export const getOffice = /* GraphQL */ `
+  query GetOffice($id: ID!) {
+    getOffice(id: $id) {
+      id
+      agencyID
+      name
+      state
+      city
+      address
+      email
+      phone
+      employees {
+        items {
+          id
+          name
+          email
+          phone
+          pin
+          type
+          agencyID
+          agency {
+            id
+            cognitoID
+            pin
+            name
+            rif
+            email
+            phone
+            createdAt
+            updatedAt
+          }
+          officeID
+          office {
+            id
+            agencyID
+            name
+            state
+            city
+            address
+            email
+            phone
+            createdAt
+            updatedAt
+          }
+          status
+          lastConnection
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      transports {
+        items {
+          id
+          model
+          serial
+          type
+          officeID
+          createdBy
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      bookings {
+        items {
+          id
+          status
+          code
+          agencyID
+          agency {
+            id
+            cognitoID
+            pin
+            name
+            rif
+            email
+            phone
+            createdAt
+            updatedAt
+          }
+          officeID
+          office {
+            id
+            agencyID
+            name
+            state
+            city
+            address
+            email
+            phone
+            createdAt
+            updatedAt
+          }
+          customers {
+            nextToken
+          }
+          tickets {
+            nextToken
+          }
+          stops {
+            nextToken
+          }
+          departureCity
+          arrivalCity
+          departure {
+            time
+            date
+            city
+            state
+            address
+          }
+          arrival {
+            time
+            date
+            city
+            state
+            address
+          }
+          stock
+          price
+          createdBy
+          driver
+          transport
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;

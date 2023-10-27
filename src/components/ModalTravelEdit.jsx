@@ -27,7 +27,8 @@ import { useUser } from "@/context/UserContext";
 
 export default function ModalTravelEdit({ data, open, close }) {
   const [quantity, setQuantity] = useState("");
-  console.log(data.departure);
+  const [price, setPrice] = useState(data.price);
+  const [edit, setEdit] = useState(false);
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -40,7 +41,9 @@ export default function ModalTravelEdit({ data, open, close }) {
   };
   //
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(price);
+  }, [edit]);
 
   return (
     <div>
@@ -110,7 +113,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                     <div className={styles.datetime}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className={styles.date}>
-                          
                           <TextField
                             id="outlined-basic"
                             variant="outlined"
@@ -120,7 +122,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                           />
                         </div>
                         <div className={styles.time}>
-                        <TextField
+                          <TextField
                             id="outlined-basic"
                             variant="outlined"
                             label="Tiempo de salida"
@@ -216,7 +218,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                     <div className={styles.datetime}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className={styles.date}>
-                        <TextField
+                          <TextField
                             id="outlined-basic"
                             variant="outlined"
                             label="Fecha de llegada"
@@ -291,9 +293,9 @@ export default function ModalTravelEdit({ data, open, close }) {
                     id="outlined-basic"
                     label="Precio"
                     variant="outlined"
-                    value={data?.price}
-                    disabled
-                    //   onChange={(e) => setPrice(e.target.value)}
+                    defaultValue={price ? price : data?.price}
+                    disabled={!edit}
+                    onChange={(e) => setPrice(e.target.value)}
                     sx={{ width: 250 }}
                   />
                   <TextField
@@ -306,147 +308,147 @@ export default function ModalTravelEdit({ data, open, close }) {
                     sx={{ width: 250 }}
                   />
                 </div>
-                <p>Paradas</p>
-                <div className={styles.stop}>
+                {/* <p>Paradas</p> */}
+                {/* <div className={styles.stop}>
                   <div className={styles.stopBooking}>
                     {data?.stops?.items?.length !== 0 && (
-                      // <div className={styles.stopForm}>
-                      //   {stopQ.map((item, index) => (
-                      //     <div className={styles.stopContent} key={index}>
-                      //       <div className={styles.inputTravel}>
-                      //         <FormControl fullWidth>
-                      //           <InputLabel id="demo-simple-select-label">
-                      //             Estado
-                      //           </InputLabel>
-                      //           <Select
-                      //             labelId="demo-simple-select-label"
-                      //             value={item.state}
-                      //             label="Estado"
-                      //             // onChange={(e) => {
-                      //             //   const updateStop = stopQ.map(
-                      //             //     (stop, stopIndex) => {
-                      //             //       if (index === stopIndex) {
-                      //             //         return {
-                      //             //           ...stop,
-                      //             //           state: e.target.value,
-                      //             //         };
-                      //             //       }
-                      //             //       return stop;
-                      //             //     }
-                      //             //   );
-                      //             //   setStopQ(updateStop);
-                      //             // }}
-                      //           >
-                      //             {/* {venezuela.map((item, index) => (
-                      //               <MenuItem value={item.estado} key={index}>
-                      //                 {item.estado}
-                      //               </MenuItem>
-                      //             ))} */}
-                      //           </Select>
-                      //         </FormControl>
-                      //         <FormControl fullWidth>
-                      //           <InputLabel id="demo-simple-select-label">
-                      //             Ciudad
-                      //           </InputLabel>
-                      //           <Select
-                      //             labelId="demo-simple-select-label"
-                      //             value={item.city}
-                      //             label="Ciudad"
-                      //             onChange={(e) => {
-                      //               const updateStop = stopQ.map(
-                      //                 (stop, stopIndex) => {
-                      //                   if (index === stopIndex) {
-                      //                     return {
-                      //                       ...stop,
-                      //                       city: e.target.value,
-                      //                     };
-                      //                   }
-                      //                   return stop;
-                      //                 }
-                      //               );
-                      //               setStopQ(updateStop);
-                      //             }}
-                      //           >
-                      //             {venezuela.map((group, index) =>
-                      //               item.state === group.estado
-                      //                 ? group.ciudades.map((city, index) => (
-                      //                     <MenuItem value={city} key={index}>
-                      //                       {city}
-                      //                     </MenuItem>
-                      //                   ))
-                      //                 : ""
-                      //             )}
-                      //           </Select>
-                      //         </FormControl>
-                      //       </div>
-                      //       <div className={styles.inputTravelOther}>
-                      //         <TextField
-                      //           id="outlined-basic"
-                      //           label="Direccion"
-                      //           variant="outlined"
-                      //           onChange={(e) => {
-                      //             const updateStop = stopQ.map(
-                      //               (stop, stopIndex) => {
-                      //                 if (index === stopIndex) {
-                      //                   return {
-                      //                     ...stop,
-                      //                     address: e.target.value,
-                      //                   };
-                      //                 }
-                      //                 return stop;
-                      //               }
-                      //             );
-                      //             setStopQ(updateStop);
-                      //           }}
-                      //           sx={{
-                      //             width: 560,
-                      //           }}
-                      //         />
-                      //         <TextField
-                      //           id="outlined-basic"
-                      //           label="Precio del ticket de la parada"
-                      //           variant="outlined"
-                      //           onChange={(e) => {
-                      //             const updateStop = stopQ.map(
-                      //               (stop, stopIndex) => {
-                      //                 if (index === stopIndex) {
-                      //                   return {
-                      //                     ...stop,
-                      //                     price: e.target.value,
-                      //                   };
-                      //                 }
-                      //                 return stop;
-                      //               }
-                      //             );
-                      //             setStopQ(updateStop);
-                      //           }}
-                      //           sx={{
-                      //             width: 315,
-                      //           }}
-                      //         />
-                      //       </div>
-                      //       <Button
-                      //         variant="contained"
-                      //         size="small"
-                      //         startIcon={<AddRoundedIcon />}
-                      //         onClick={() =>
-                      //           setStopQ((e) => {
-                      //             let nuevoArreglo = [...e];
-                      //             nuevoArreglo.splice(index, 1);
-                      //             return nuevoArreglo;
-                      //           })
-                      //         }
-                      //         className={styles.deleteStop}
-                      //       >
-                      //         Eliminar
-                      //       </Button>
-                      //     </div>
-                      //   ))}
-                      // </div>
+                      <div className={styles.stopForm}>
+                        {stopQ.map((item, index) => (
+                          <div className={styles.stopContent} key={index}>
+                            <div className={styles.inputTravel}>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                  Estado
+                                </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  value={item.state}
+                                  label="Estado"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            state: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                >
+                                  {venezuela.map((item, index) => (
+                                    <MenuItem value={item.estado} key={index}>
+                                      {item.estado}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                  Ciudad
+                                </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  value={item.city}
+                                  label="Ciudad"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            city: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                >
+                                  {venezuela.map((group, index) =>
+                                    item.state === group.estado
+                                      ? group.ciudades.map((city, index) => (
+                                          <MenuItem value={city} key={index}>
+                                            {city}
+                                          </MenuItem>
+                                        ))
+                                      : ""
+                                  )}
+                                </Select>
+                              </FormControl>
+                            </div>
+                            <div className={styles.inputTravelOther}>
+                              <TextField
+                                id="outlined-basic"
+                                label="Direccion"
+                                variant="outlined"
+                                onChange={(e) => {
+                                  const updateStop = stopQ.map(
+                                    (stop, stopIndex) => {
+                                      if (index === stopIndex) {
+                                        return {
+                                          ...stop,
+                                          address: e.target.value,
+                                        };
+                                      }
+                                      return stop;
+                                    }
+                                  );
+                                  setStopQ(updateStop);
+                                }}
+                                sx={{
+                                  width: 560,
+                                }}
+                              />
+                              <TextField
+                                id="outlined-basic"
+                                label="Precio del ticket de la parada"
+                                variant="outlined"
+                                onChange={(e) => {
+                                  const updateStop = stopQ.map(
+                                    (stop, stopIndex) => {
+                                      if (index === stopIndex) {
+                                        return {
+                                          ...stop,
+                                          price: e.target.value,
+                                        };
+                                      }
+                                      return stop;
+                                    }
+                                  );
+                                  setStopQ(updateStop);
+                                }}
+                                sx={{
+                                  width: 315,
+                                }}
+                              />
+                            </div>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              startIcon={<AddRoundedIcon />}
+                              onClick={() =>
+                                setStopQ((e) => {
+                                  let nuevoArreglo = [...e];
+                                  nuevoArreglo.splice(index, 1);
+                                  return nuevoArreglo;
+                                })
+                              }
+                              className={styles.deleteStop}
+                            >
+                              Eliminar
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
                       <div>Hey</div>
                     )}
                   </div>
-                  {/* <Button
+                  <Button
                       variant="contained"
                       size="medium"
                       startIcon={<AddRoundedIcon />}
@@ -465,23 +467,37 @@ export default function ModalTravelEdit({ data, open, close }) {
                       }
                     >
                       Agregar una parada
-                    </Button> */}
-                </div>
+                    </Button>
+                </div> */}
               </div>
             </div>
 
             <div className={styles.buttons}>
               <div className={styles.control}>
-                <Button variant="contained" size="large" onClick={() => {}}>
-                  Editar
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    if (edit) {
+                      close();
+                      setPrice(data?.price);
+                    }
+                    setEdit(!edit);
+                    setPrice(data?.price);
+                  }}
+                >
+                  {edit ? "Guardar" : "Editar"}
                 </Button>
                 <Button
                   variant="contained"
                   size="large"
                   color="error"
-                  onClick={close}
+                  onClick={() => {
+                    close();
+                    setPrice(data?.price);
+                  }}
                 >
-                  Cerrar
+                  Salir
                 </Button>
               </div>
               {/* <div className={styles.check}>

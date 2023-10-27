@@ -82,33 +82,6 @@ const Menu = () => {
             <ListItemText primary="Panel de control" />
           </ListItemButton>
           <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-
-          {profileAuth?.rol === "owner" && (
-            <>
-              <ListItemButton
-                // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-                selected={selectedIndex === 1}
-                onClick={(e) => {
-                  e.preventDefault;
-                  router.push(
-                    `/home/travels?type=${profileAuth?.rol}&id=${profileAuth?.id}`
-                  );
-                  updateIndex(1);
-                }}
-              >
-                <ListItemIcon>
-                  <SubjectRoundedIcon
-                    sx={{
-                      color:
-                        selectedIndex === 1 ? "white" : "#1f1f1f",
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Viajes" />
-              </ListItemButton>
-              <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-            </>
-          )}
           <ListItemButton
             // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
             selected={selectedIndex === 2}

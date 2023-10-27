@@ -91,14 +91,6 @@ const Dashboard = ({ dataResult, userType }) => {
           </div>
           {dataTravels && <TableTravels rows={dataTravels} />}
         </div>
-        {/* <div className={styles.users}>
-            <div className={styles.title}>
-              <h2>Lista de Empleados</h2>
-            </div>
-            {data?.employees?.items && (
-              <TableEmployees rows={data?.employees?.items} />
-            )}
-          </div> */}
           <div className={styles.agencies}>
           <div className={styles.title}>
             <h2>Lista de Ordenes de Venta</h2>
@@ -113,7 +105,7 @@ const Dashboard = ({ dataResult, userType }) => {
             onChange={(e) => setTravel(e.target.value)}
           >
             {dataTravels.map((item, index) => (
-            <MenuItem value={item.id}>{`ID: ${item.id} - Salida: ${item.departureCity} - ${item.departure.date} - Llegada: ${item.arrivalCity} - ${item.arrival.date}`}</MenuItem>
+            <MenuItem key={index} value={item.id}>{`ID: ${item.id} - Salida: ${item.departureCity} - ${item.departure.date} - Llegada: ${item.arrivalCity} - ${item.arrival.date}`}</MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -130,11 +122,6 @@ const Dashboard = ({ dataResult, userType }) => {
           close={() => setTravels(!travels)}
         />
 
-        {/* <ModalTransportEmployee
-          office={data?.office}
-          open={transport}
-          close={() => setTransport(!transport)}
-        /> */}
       </div>
     </div>
   );

@@ -19,6 +19,8 @@ export { default as EmployeeCreateForm } from "./EmployeeCreateForm";
 export { default as EmployeeUpdateForm } from "./EmployeeUpdateForm";
 export { default as TransportCreateForm } from "./TransportCreateForm";
 export { default as TransportUpdateForm } from "./TransportUpdateForm";
+export { default as ScheduleBookingCreateForm } from "./ScheduleBookingCreateForm";
+export { default as ScheduleBookingUpdateForm } from "./ScheduleBookingUpdateForm";
 export { default as CustomerCreateForm } from "./CustomerCreateForm";
 export { default as CustomerUpdateForm } from "./CustomerUpdateForm";
 export { default as TicketCreateForm } from "./TicketCreateForm";

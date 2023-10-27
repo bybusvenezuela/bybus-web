@@ -4,13 +4,26 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import ModalTravelEdit from "./ModalTravelEdit";
 import { useState } from "react";
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import * as mutation from "@/graphql/custom/mutations/profile";
 
-
-
-const TableTravels = ({ rows }) => {
-  const [open, setOpen] = useState(false)
-  const [data, setData] = useState([])
-
+const TableTravels = ({ rows  }) => {
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const filteredData = rows.filter(item => item.status !== 'CANCELLED');
+  const DeleteBooking = async (bookingId) => {
+    const booking = await API.graphql({
+      query: mutation.updateBooking,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        input: {
+          id: bookingId,
+          status: 'CANCELLED'
+        }
+      },
+    });
+    console.log(booking.data.updateBooking);
+  };
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -51,12 +64,25 @@ const TableTravels = ({ rows }) => {
       renderCell: (params) => {
         return (
           <Stack>
-            <button onClick={() => {
-              console.log(params.row)
-              setData(params.row)
-              setOpen(!open)
-            }}>{`Editar`}</button>
-            {/* <button>{`Eliminar`}</button> */}
+            <button
+              onClick={() => {
+                console.log(params.row);
+                setData(params.row);
+                setOpen(!open);
+              }}
+            >{`Editar`}</button>
+            <button
+              onClick={() => {
+                let opcion = confirm("Quieres eliminar el siguiente viaje?");
+                if (opcion == true) {
+                  alert('Se ha eliminado con exito. Refresque la pagina');
+                  console.log(params.row.id)
+                  DeleteBooking(params.row.id)
+                } else {
+                  alert('Has cancelado con exito');
+                }
+              }}
+            >{`Eliminar`}</button>
           </Stack>
         );
       },
@@ -66,7 +92,7 @@ const TableTravels = ({ rows }) => {
   return (
     <Box sx={{ height: 500, width: 900 }}>
       <DataGrid
-        rows={rows ? rows : ""}
+        rows={filteredData ? filteredData : ""}
         columns={columns}
         initialState={{
           pagination: {
@@ -80,11 +106,7 @@ const TableTravels = ({ rows }) => {
         disableRowSelectionOnClick
         slots={{ toolbar: GridToolbar }}
       />
-      <ModalTravelEdit
-          data={data}
-          open={open}
-          close={() => setOpen(!open)}
-        />
+      <ModalTravelEdit data={data} open={open} close={() => setOpen(!open)} />
     </Box>
   );
 };
