@@ -37,7 +37,13 @@ export async function sharedGetServerSideProps(query, req) {
           },
           authMode: "AMAZON_COGNITO_USER_POOLS",
         })
-          .then((r) => (result = r?.data?.getEmployee))
+          .then((r) => {
+            if (r?.data?.getEmployee.type === "OFFICE") {
+              result = r?.data?.getEmployee;
+            } else {
+              throw new Error("PERFIL SIN PERMISOS PARA ACCEDER A PANEL");
+            }
+          })
           .catch((e) => {
             const { message } = new Error(e);
             throw new Error(message);

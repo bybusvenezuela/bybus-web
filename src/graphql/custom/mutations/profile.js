@@ -20,3 +20,26 @@ export const updateEmployee = /* GraphQL */ `
     }
   }
 `;
+export const updateBooking = /* GraphQL */ `
+  mutation UpdateBooking(
+    $input: UpdateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    updateBooking(input: $input, condition: $condition) {
+      id
+      status
+    }
+  }
+`;
+
+export const updateOffice = /* GraphQL */ `
+  mutation UpdateOffice(
+    $input: UpdateOfficeInput!
+    $condition: ModelOfficeConditionInput
+  ) {
+    updateOffice(input: $input, condition: $condition) {
+      id
+      status
+    }
+  }
+`;

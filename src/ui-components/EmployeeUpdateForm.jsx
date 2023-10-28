@@ -36,6 +36,7 @@ export default function EmployeeUpdateForm(props) {
     phone: "",
     pin: "",
     type: "",
+    status: "",
     owner: "",
     lastConnection: "",
   };
@@ -44,6 +45,7 @@ export default function EmployeeUpdateForm(props) {
   const [phone, setPhone] = React.useState(initialValues.phone);
   const [pin, setPin] = React.useState(initialValues.pin);
   const [type, setType] = React.useState(initialValues.type);
+  const [status, setStatus] = React.useState(initialValues.status);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [lastConnection, setLastConnection] = React.useState(
     initialValues.lastConnection
@@ -58,6 +60,7 @@ export default function EmployeeUpdateForm(props) {
     setPhone(cleanValues.phone);
     setPin(cleanValues.pin);
     setType(cleanValues.type);
+    setStatus(cleanValues.status);
     setOwner(cleanValues.owner);
     setLastConnection(cleanValues.lastConnection);
     setErrors({});
@@ -84,6 +87,7 @@ export default function EmployeeUpdateForm(props) {
     phone: [],
     pin: [],
     type: [{ type: "Required" }],
+    status: [],
     owner: [],
     lastConnection: [],
   };
@@ -118,6 +122,7 @@ export default function EmployeeUpdateForm(props) {
           phone: phone ?? null,
           pin: pin ?? null,
           type,
+          status: status ?? null,
           owner: owner ?? null,
           lastConnection: lastConnection ?? null,
         };
@@ -185,6 +190,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
+              status,
               owner,
               lastConnection,
             };
@@ -215,6 +221,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
+              status,
               owner,
               lastConnection,
             };
@@ -245,6 +252,7 @@ export default function EmployeeUpdateForm(props) {
               phone: value,
               pin,
               type,
+              status,
               owner,
               lastConnection,
             };
@@ -275,6 +283,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin: value,
               type,
+              status,
               owner,
               lastConnection,
             };
@@ -305,6 +314,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type: value,
+              status,
               owner,
               lastConnection,
             };
@@ -332,6 +342,48 @@ export default function EmployeeUpdateForm(props) {
           {...getOverrideProps(overrides, "typeoption1")}
         ></option>
       </SelectField>
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              phone,
+              pin,
+              type,
+              status: value,
+              owner,
+              lastConnection,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Enabled"
+          value="ENABLED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Disabled"
+          value="DISABLED"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
       <TextField
         label="Owner"
         isRequired={false}
@@ -346,6 +398,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
+              status,
               owner: value,
               lastConnection,
             };
@@ -376,6 +429,7 @@ export default function EmployeeUpdateForm(props) {
               phone,
               pin,
               type,
+              status,
               owner,
               lastConnection: value,
             };

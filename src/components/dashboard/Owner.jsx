@@ -8,23 +8,26 @@ import * as queries from "@/graphql/custom/queries/home";
 import * as subscriptions from "@/graphql/custom/subscriptions/home";
 import TableEmployees from "@/components/TableEmployees";
 import TableOffices from "@/components/TableOffices";
+import { InputLabel, FormControl, MenuItem, Select } from "@mui/material";
+import TableTravels from "../TableTravels";
 
 const Dashboard = ({ dataResult, userType }) => {
   const [office, setOffice] = useState(false);
   const [employee, setEmployee] = useState(false);
   const [data, setData] = useState(dataResult);
+  const [dataO, setDataO] = useState([]);
+  const [dataOfficeTravel, setDataOfficeTravel] = useState([]);
   const [userT, setUserT] = useState(userType);
-
+  const [officeList, setOfficeList] = useState("");
+  const [officeListT, setOfficeListT] = useState("");
+  const [employeeListT, setEmployeeListT] = useState("");
+  const filteredData =  dataOfficeTravel?.bookings?.items?.filter(item => item.createdBy === employeeListT);
   const openOffice = () => {
     setOffice(true);
   };
   const openEmployee = () => {
     setEmployee(true);
   };
-
-  useEffect(() => {
-    if (!office) Agency();
-  }, [office, employee]);
 
   const Agency = async () => {
     const user = await Auth.currentAuthenticatedUser({});
@@ -37,6 +40,35 @@ const Dashboard = ({ dataResult, userType }) => {
     });
     setData(list?.data?.getAgency);
   };
+  const Employees = async () => {
+    const list = await API.graphql({
+      query: queries.getOffice,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        id: officeList,
+      },
+    });
+    console.log(list.data.getOffice);
+    setDataO(list?.data?.getOffice);
+  };
+  const OfficeTravels = async () => {
+    const list = await API.graphql({
+      query: queries.getOffice,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        id: officeListT,
+      },
+    });
+    console.log(list.data.getOffice);
+    setDataOfficeTravel(list?.data?.getOffice);
+  };
+
+  useEffect(() => {
+    if (!office) Agency();
+    if (officeList) Employees();
+    if (officeListT) OfficeTravels()
+  }, [office, employee, officeList, officeListT]);
+
   return (
     data && (
       <div className={styles.section}>
@@ -66,12 +98,101 @@ const Dashboard = ({ dataResult, userType }) => {
               <TableOffices rows={data?.officies?.items} />
             )}
           </div>
-          <div className={styles.users}>
+          <div className={styles.agencies}>
             <div className={styles.title}>
               <h2>Lista de Empleados</h2>
             </div>
-            {data?.employees?.items && (
-              <TableEmployees rows={data?.employees?.items} />
+            <FormControl
+              sx={{
+                width: 900,
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Seleccionar oficina
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={officeList}
+                label="Seleccionar oficina"
+                onChange={(e) => setOfficeList(e.target.value)}
+              >
+                {data?.officies?.items.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item.id}
+                  >{`ID: ${item.id} - Nombre: ${item.name} - Estado: ${item.state} - Ciudad: ${item.city}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {dataO?.employees?.items ? (
+              <TableEmployees rows={dataO?.employees?.items} />
+            ) : (
+              <div className={styles.nothingTable}>
+                Selecciona una oficina para poder ver sus empleados
+              </div>
+            )}
+          </div>
+          <div className={styles.agencies}>
+            <div className={styles.title}>
+              <h2>Lista de Viajes</h2>
+            </div>
+            <div className={styles.inputs}>
+            <FormControl
+              sx={{
+                width: 400,
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Seleccionar oficina
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={officeListT}
+                label="Seleccionar oficina"
+                onChange={(e) => setOfficeListT(e.target.value)}
+              >
+                {data?.officies?.items.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item.id}
+                  >{`ID: ${item.id} - Nombre: ${item.name} - Estado: ${item.state} - Ciudad: ${item.city}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl
+              sx={{
+                width: 400,
+              }}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Seleccionar empleado
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={employeeListT}
+                label="Seleccionar empleado"
+                disabled={!officeListT}
+                onChange={(e) => setEmployeeListT(e.target.value)}
+              >
+                {dataOfficeTravel?.employees?.items.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item.id}
+                  >{`Nombre: ${item.name} - Telefono: ${item.phone} - Email: ${item.email}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            </div>
+            
+            {employeeListT ? <TableTravels rows={filteredData} /> : dataOfficeTravel?.bookings?.items ? (
+              <TableTravels rows={dataOfficeTravel?.bookings?.items} />
+            ) : (
+              <div className={styles.nothingTable}>
+                Selecciona una oficina o un empleado para ver sus viajes
+              </div>
             )}
           </div>
           <ModalOffice open={office} close={() => setOffice(!office)} />

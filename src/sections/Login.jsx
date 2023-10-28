@@ -28,6 +28,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [userChangePwd, setUserChangePwd] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     clear();
@@ -44,8 +45,10 @@ const Login = () => {
   };
 
   const onHandleSubmit = async () => {
+    setErrorMsg("");
     setIsLoading(true);
     try {
+      if (!email || !password) throw new Error("No se permiten campos vacios!");
       const user = await Auth.signIn(email, password);
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
         setUserChangePwd(user);
@@ -54,7 +57,18 @@ const Login = () => {
         alert("POR FAVOR ACTUALIZAR CONTRASEÑA");
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+      switch (error.message) {
+        case "No se permiten campos vacios!":
+          setErrorMsg(error.message);
+          break;
+        case "Incorrect username or password.":
+          setErrorMsg("Correo o Contraseña Incorrectos");
+          break;
+        default:
+          setErrorMsg("Hubo un error intenta de Nuevo");
+          break;
+      }
     }
     setIsLoading(false);
   };
@@ -76,9 +90,10 @@ const Login = () => {
       <div className={styles.content}>
         <div className={styles.title}>
           <Image src={login.image} alt=" " />
-          <h2>- Agencias </h2>
+          <h2>- EMPRESAS </h2>
         </div>
         <div className={styles.inputs}>
+          {errorMsg && <p style={{ color: "red" }}>*{errorMsg}</p>}
           {isNewPassword && <h3>- Por Favor Actualiza Contraseña</h3>}
           <TextField
             id="email"
@@ -154,7 +169,7 @@ const Login = () => {
               onClick={onHandleSubmit}
               disabled={isLoading ? true : false}
             >
-              {isLoading ? <CircularProgress /> : "Connect"}
+              {isLoading ? <CircularProgress /> : "INGRESAR"}
             </Button>
           ) : (
             <Button
