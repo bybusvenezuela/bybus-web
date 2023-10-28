@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -19,6 +19,7 @@ export declare type OfficeUpdateFormInputValues = {
     address?: string;
     email?: string;
     phone?: string;
+    status?: string;
     owner?: string;
 };
 export declare type OfficeUpdateFormValidationValues = {
@@ -28,6 +29,7 @@ export declare type OfficeUpdateFormValidationValues = {
     address?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
+    status?: ValidationFunction<string>;
     owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -39,6 +41,7 @@ export declare type OfficeUpdateFormOverridesProps = {
     address?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
+    status?: PrimitiveOverrideProps<SelectFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OfficeUpdateFormProps = React.PropsWithChildren<{

@@ -153,18 +153,18 @@
       "dependsOn": [
         {
           "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "bybus"
-        },
-        {
-          "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
           ],
           "category": "api",
           "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -175,10 +175,90 @@
       "dependsOn": [
         {
           "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
+        },
+        {
+          "attributes": [
             "GraphQLAPIIdOutput"
           ],
           "category": "api",
           "resourceName": "bybusgraphql"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "preSignInCognito": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "reprogramBooking": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "reprogramBookingTicket"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "reprogramBookingTicket": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -278,6 +358,54 @@
         {
           "category": "function",
           "resourceName": "createUserCognito"
+        }
+      ]
+    },
+    "AMPLIFY_function_preSignInCognito_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "preSignInCognito"
+        }
+      ]
+    },
+    "AMPLIFY_function_preSignInCognito_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "preSignInCognito"
+        }
+      ]
+    },
+    "AMPLIFY_function_reprogramBookingTicket_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reprogramBookingTicket"
+        }
+      ]
+    },
+    "AMPLIFY_function_reprogramBookingTicket_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reprogramBookingTicket"
+        }
+      ]
+    },
+    "AMPLIFY_function_reprogramBooking_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reprogramBooking"
+        }
+      ]
+    },
+    "AMPLIFY_function_reprogramBooking_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reprogramBooking"
         }
       ]
     },

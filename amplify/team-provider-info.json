@@ -31,15 +31,27 @@
         },
         "createAdminAgency": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/createAdminAgency-6c347853586d7436482f-build.zip"
+          "s3Key": "amplify-builds/createAdminAgency-6e662b4d50534256646c-build.zip"
         },
         "createUserCognito": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/createUserCognito-506c45612f7958754566-build.zip"
+          "s3Key": "amplify-builds/createUserCognito-3567575861475a597264-build.zip"
+        },
+        "preSignInCognito": {
+          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
+          "s3Key": "amplify-builds/preSignInCognito-4a43522f51516663744e-build.zip"
+        },
+        "reprogramBooking": {
+          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
+          "s3Key": "amplify-builds/reprogramBooking-5274305a566d47434f51-build.zip"
+        },
+        "reprogramBookingTicket": {
+          "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
+          "s3Key": "amplify-builds/reprogramBookingTicket-4c41662f67456f7a7236-build.zip"
         },
         "sheduleBookingUpdate": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/sheduleBookingUpdate-68377a64614c6a777168-build.zip"
+          "s3Key": "amplify-builds/sheduleBookingUpdate-75572b3267657a72544e-build.zip"
         }
       },
       "storage": {
