@@ -13,11 +13,21 @@ import { Auth, API } from "aws-amplify";
 import {
   listEmailSusbcriptions,
   listAgencySubscriptions,
+  listAgencies,
 } from "@/graphql/queries";
+import * as queries from "@/graphql/custom/queries";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import TableOrderDetails from "@/components/TableOrderDetails";
+import TableTravels from "@/components/TableTravels";
+import ModalAgency from "@/components/ModalAgency";
 
 const Dashboard = () => {
   const [emailSubs, setEmailSubs] = useState([]);
   const [agencySubs, setAgencySubs] = useState([]);
+  const [agencyBookings, setAgencyBookings] = useState([]);
+  const [agencyOrders, setAgencyOrders] = useState([]);
+  const [agency, setAgency] = useState("");
+  const [open, setOpen] = useState(false);
   const fetchEmailSubs = async () => {
     try {
       const result = await API.graphql({
@@ -37,18 +47,61 @@ const Dashboard = () => {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       setAgencySubs(result?.data?.listAgencySubscriptions?.items);
-
-      const user = await Auth.currentAuthenticatedUser();
-      console.log("attributes:", user.attributes);
     } catch (error) {
       setAgencySubs([]);
       console.error("ERROR AL CONSULTAR AGENCIAS SUBS: ", error);
     }
   };
+
+  /*  */
+  const fetchAgency = async () => {
+    try {
+      const result = await API.graphql({
+        query: queries.getAgency,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          id: agency,
+        },
+      });
+      setAgencyBookings(result?.data?.getAgency?.bookings?.items);
+
+      let arrayOrders = [];
+
+      const promises = result?.data?.getAgency?.bookings?.items?.map(
+        async (item, index) => {
+          const orders = await API.graphql({
+            query: queries.listOrderDetails,
+            authMode: "AMAZON_COGNITO_USER_POOLS",
+            variables: {
+              filter: {
+                bookingID: { eq: item.id },
+              },
+            },
+          });
+          if (orders?.data?.listOrderDetails?.items.length !== 0) {
+            orders?.data?.listOrderDetails?.items.map((item, index) => {
+              arrayOrders.push(item);
+            });
+          }
+        }
+      );
+
+      Promise.all(promises).then(() => {
+        console.log(arrayOrders);
+        setAgencyOrders(arrayOrders);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const openModalAgency = () => {
+    setOpen(true);
+  };
   useEffect(() => {
     fetchEmailSubs();
     fetchAgencySubs();
-  }, []);
+    if (agency) fetchAgency();
+  }, [agency]);
 
   return (
     <div className={styles.content}>
@@ -56,16 +109,11 @@ const Dashboard = () => {
       <div className="container section">
         <div className={styles.pages}>
           <div className={styles.panel}>
-            {/* <Card
-              title={`Add New Agency`}
-              link={`/home/agencies/panel`}
+            <Card
+              title={`Agregar nueva agencia`}
+              onHandle={openModalAgency}
               icon={`bx bx-store`}
             />
-            <Card
-              title={`Permissions`}
-              link={`/home/configuration`}
-              icon={`bx bx-lock`}
-            /> */}
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
@@ -91,6 +139,53 @@ const Dashboard = () => {
             </div>
             <TableAgenciesSubs rows={agencySubs} />
           </div>
+
+          {/*  */}
+          <div className={styles.agencies}>
+            <div className={styles.title}>
+              <h2>Lista de Viajes de Venta por Agencia</h2>
+            </div>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Seleccionar agencia
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={agency}
+                label="Seleccionar agencia"
+                onChange={(e) => setAgency(e.target.value)}
+              >
+                {agencySubs.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item.agencyID}
+                  >{`Nombre: ${item.name} - RIF: ${item.rif}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {agencyBookings.length !== 0 ? (
+              <TableTravels rows={agencyBookings} />
+            ) : (
+              <div className={styles.nothingTable}>
+                Selecciona una agencia para poder ver sus viajes
+              </div>
+            )}
+            {agencyBookings.length !== 0 ? (
+              <TableOrderDetails rows={agencyOrders} />
+            ) : (
+              <div className={styles.nothingTable}>
+                No tienes ordenes para ver en esta agencia
+              </div>
+            )}
+          </div>
+
+          <ModalAgency
+            open={open}
+            close={() => {
+              setOpen(!open);
+            }}
+          />
         </div>
       </div>
     </div>

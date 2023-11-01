@@ -10,5 +10,9 @@
   {
     "groupName": "agency",
     "precedence": 3
+  },
+  {
+    "groupName": "customer",
+    "precedence": 4
   }
 ]

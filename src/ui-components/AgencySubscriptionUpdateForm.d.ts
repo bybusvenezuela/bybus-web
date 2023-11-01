@@ -21,6 +21,7 @@ export declare type AgencySubscriptionUpdateFormInputValues = {
     subscriptionDate?: string;
     status?: string;
     scheduledDate?: string;
+    agencyID?: string;
 };
 export declare type AgencySubscriptionUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -30,6 +31,7 @@ export declare type AgencySubscriptionUpdateFormValidationValues = {
     subscriptionDate?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
     scheduledDate?: ValidationFunction<string>;
+    agencyID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AgencySubscriptionUpdateFormOverridesProps = {
@@ -41,6 +43,7 @@ export declare type AgencySubscriptionUpdateFormOverridesProps = {
     subscriptionDate?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<SelectFieldProps>;
     scheduledDate?: PrimitiveOverrideProps<TextFieldProps>;
+    agencyID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgencySubscriptionUpdateFormProps = React.PropsWithChildren<{
     overrides?: AgencySubscriptionUpdateFormOverridesProps | undefined | null;

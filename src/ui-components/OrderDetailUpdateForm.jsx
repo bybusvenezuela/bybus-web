@@ -39,7 +39,6 @@ export default function OrderDetailUpdateForm(props) {
     customerEmail: "",
     total: "",
     isGuest: false,
-    bookingID: "",
     userID: "",
   };
   const [amount, setAmount] = React.useState(initialValues.amount);
@@ -60,7 +59,6 @@ export default function OrderDetailUpdateForm(props) {
   );
   const [total, setTotal] = React.useState(initialValues.total);
   const [isGuest, setIsGuest] = React.useState(initialValues.isGuest);
-  const [bookingID, setBookingID] = React.useState(initialValues.bookingID);
   const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -75,7 +73,6 @@ export default function OrderDetailUpdateForm(props) {
     setCustomerEmail(cleanValues.customerEmail);
     setTotal(cleanValues.total);
     setIsGuest(cleanValues.isGuest);
-    setBookingID(cleanValues.bookingID);
     setUserID(cleanValues.userID);
     setErrors({});
   };
@@ -100,7 +97,6 @@ export default function OrderDetailUpdateForm(props) {
     customerEmail: [],
     total: [],
     isGuest: [],
-    bookingID: [],
     userID: [],
   };
   const runValidationTasks = async (
@@ -130,7 +126,6 @@ export default function OrderDetailUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           amount,
-<<<<<<< HEAD
           paymentMethod,
           documentType,
           customerDocument,
@@ -138,19 +133,7 @@ export default function OrderDetailUpdateForm(props) {
           customerEmail,
           total,
           isGuest,
-          bookingID,
           userID,
-=======
-          paymentMethod: paymentMethod ?? null,
-          documentType: documentType ?? null,
-          customerDocument: customerDocument ?? null,
-          customerName: customerName ?? null,
-          customerEmail: customerEmail ?? null,
-          total: total ?? null,
-          isGuest: isGuest ?? null,
-          bookingID: bookingID ?? null,
-          userID: userID ?? null,
->>>>>>> ba7a7f441a50fb58d7ff17fbe78ad039dfbcf6c5
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -218,7 +201,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -251,7 +233,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -284,7 +265,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -333,7 +313,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -366,7 +345,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -399,7 +377,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail: value,
               total,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -436,7 +413,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total: value,
               isGuest,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -469,7 +445,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest: value,
-              bookingID,
               userID,
             };
             const result = onChange(modelFields);
@@ -485,39 +460,6 @@ export default function OrderDetailUpdateForm(props) {
         hasError={errors.isGuest?.hasError}
         {...getOverrideProps(overrides, "isGuest")}
       ></SwitchField>
-      <TextField
-        label="Booking id"
-        isRequired={false}
-        isReadOnly={false}
-        value={bookingID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              amount,
-              paymentMethod,
-              documentType,
-              customerDocument,
-              customerName,
-              customerEmail,
-              total,
-              isGuest,
-              bookingID: value,
-              userID,
-            };
-            const result = onChange(modelFields);
-            value = result?.bookingID ?? value;
-          }
-          if (errors.bookingID?.hasError) {
-            runValidationTasks("bookingID", value);
-          }
-          setBookingID(value);
-        }}
-        onBlur={() => runValidationTasks("bookingID", bookingID)}
-        errorMessage={errors.bookingID?.errorMessage}
-        hasError={errors.bookingID?.hasError}
-        {...getOverrideProps(overrides, "bookingID")}
-      ></TextField>
       <TextField
         label="User id"
         isRequired={false}
@@ -535,7 +477,6 @@ export default function OrderDetailUpdateForm(props) {
               customerEmail,
               total,
               isGuest,
-              bookingID,
               userID: value,
             };
             const result = onChange(modelFields);

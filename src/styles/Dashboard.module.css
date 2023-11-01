@@ -33,3 +33,13 @@
   font-size: 18px;
   color: var(--black);
 }
+.nothingTable {
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inputs {
+  display: flex;
+  justify-content: space-between;
+}

@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Office } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -29,6 +35,7 @@ export default function OfficeCreateForm(props) {
     address: "",
     email: "",
     phone: "",
+    status: "",
     owner: "",
   };
   const [name, setName] = React.useState(initialValues.name);
@@ -37,6 +44,7 @@ export default function OfficeCreateForm(props) {
   const [address, setAddress] = React.useState(initialValues.address);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
+  const [status, setStatus] = React.useState(initialValues.status);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -46,6 +54,7 @@ export default function OfficeCreateForm(props) {
     setAddress(initialValues.address);
     setEmail(initialValues.email);
     setPhone(initialValues.phone);
+    setStatus(initialValues.status);
     setOwner(initialValues.owner);
     setErrors({});
   };
@@ -56,6 +65,7 @@ export default function OfficeCreateForm(props) {
     address: [],
     email: [],
     phone: [],
+    status: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -90,6 +100,7 @@ export default function OfficeCreateForm(props) {
           address,
           email,
           phone,
+          status,
           owner,
         };
         const validationResponses = await Promise.all(
@@ -151,6 +162,7 @@ export default function OfficeCreateForm(props) {
               address,
               email,
               phone,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -181,6 +193,7 @@ export default function OfficeCreateForm(props) {
               address,
               email,
               phone,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -211,6 +224,7 @@ export default function OfficeCreateForm(props) {
               address,
               email,
               phone,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -241,6 +255,7 @@ export default function OfficeCreateForm(props) {
               address: value,
               email,
               phone,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -271,6 +286,7 @@ export default function OfficeCreateForm(props) {
               address,
               email: value,
               phone,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -301,6 +317,7 @@ export default function OfficeCreateForm(props) {
               address,
               email,
               phone: value,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -316,6 +333,48 @@ export default function OfficeCreateForm(props) {
         hasError={errors.phone?.hasError}
         {...getOverrideProps(overrides, "phone")}
       ></TextField>
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              state,
+              city,
+              address,
+              email,
+              phone,
+              status: value,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Enabled"
+          value="ENABLED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Disabled"
+          value="DISABLED"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
       <TextField
         label="Owner"
         isRequired={false}
@@ -331,6 +390,7 @@ export default function OfficeCreateForm(props) {
               address,
               email,
               phone,
+              status,
               owner: value,
             };
             const result = onChange(modelFields);

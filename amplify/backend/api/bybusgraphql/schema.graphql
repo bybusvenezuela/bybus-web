@@ -40,6 +40,7 @@ type AgencySubscription
   subscriptionDate: String
   status: SusbcriptionAgencyStatus @default(value: "PENDING")
   scheduledDate: String
+  agencyID: ID
 }
 
 enum SusbcriptionAgencyStatus {
@@ -51,7 +52,14 @@ enum SusbcriptionAgencyStatus {
 
 type Agency
   @model
-  @auth(rules: [{ allow: owner, operations: [read, update] }]) {
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update] }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
+    ]
+  ) {
   id: ID
   cognitoID: ID
   pin: String
@@ -113,12 +121,18 @@ type Office
   address: String
   email: String
   phone: String
+  status: OfficeStatus @default(value: "ENABLED")
   employees: [Employee]
     @hasMany(indexName: "byOfficeToEmployee", fields: ["id"])
   transports: [Transport]
     @hasMany(indexName: "byOfficeToTransport", fields: ["id"])
   bookings: [Booking] @hasMany(indexName: "byOfficeToBooking", fields: ["id"])
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+enum OfficeStatus {
+  ENABLED
+  DISABLED
 }
 
 type State @model @auth(rules: [{ allow: groups, groups: ["sp", "admin"] }]) {
@@ -140,14 +154,19 @@ type Employee
   email: String
   phone: String
   pin: String
-  type: EmployeeType @default(value: "OWNER")
+  type: EmployeeType!
   agencyID: ID @index(name: "byAgencyToEmployee")
   agency: Agency @belongsTo(fields: ["agencyID"])
   officeID: ID @index(name: "byOfficeToEmployee")
   office: Office @belongsTo(fields: ["officeID"])
-  permissions: [PermissionsEmployees]
+  status: EmployeeStatus @default(value: "ENABLED")
+  # permissions: [PermissionsEmployees]
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
   lastConnection: String
+}
+enum EmployeeStatus {
+  ENABLED
+  DISABLED
 }
 
 enum PermissionsEmployees {
@@ -160,7 +179,6 @@ enum PermissionsEmployees {
 }
 
 enum EmployeeType {
-  OWNER
   OFFICE
   COLLECTOR
 }
@@ -178,12 +196,10 @@ type Transport
   serial: String
   type: String
   officeID: ID @index(name: "byOfficeToTransport")
-  bookings: [Booking]
-    @hasMany(indexName: "byTransportToBooking", fields: ["id"])
   createdBy: ID
 }
 
-type Booking
+type ScheduleBooking
   @model
   @auth(
     rules: [
@@ -194,11 +210,40 @@ type Booking
     ]
   ) {
   id: ID!
+  bookingID: ID
+  booking: Booking @hasOne(fields: ["bookingID"])
+  freq: [WeekDays]
+  owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+enum WeekDays {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+type Booking
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: private }
+      { allow: groups, groups: ["sp", "customer"] }
+    ]
+  ) {
+  id: ID!
   status: BookingStatus @default(value: "AVAILABLE")
-  code: String
+  code: String @index(name: "bookingbyCode", queryField: "getBookingbyCode")
   agencyID: ID! @index(name: "byAgencyToBooking")
+  agency: Agency @belongsTo(fields: ["agencyID"])
   officeID: ID! @index(name: "byOfficeToBooking")
-  transport: ID! @index(name: "byTransportToBooking")
+  office: Office @belongsTo(fields: ["officeID"])
   customers: [Customer]
     @hasMany(indexName: "byBookingToCustomer", fields: ["id"])
   tickets: [Ticket] @hasMany(indexName: "byBookingToTicket", fields: ["id"])
@@ -211,14 +256,24 @@ type Booking
   stock: Int
   price: Float
   createdBy: ID
+  driver: String
+  transport: transporType
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+enum transporType {
+  EXPRESO
+  ENCAVA
+  BUSCAMA
 }
 
 enum BookingStatus {
   AVAILABLE
+  SOLDOUT
   BOARDING
   DEPARTED
   ARRIVED
+  CANCELLED
 }
 type DepartureArrivalStopFields {
   time: AWSTime
@@ -265,8 +320,7 @@ type Customer
     ]
   ) {
   id: ID!
-  name: String
-  lastName: String
+  fullName: String
   ci: String
   email: String
   bookingID: ID @index(name: "byBookingToCustomer")
@@ -280,6 +334,7 @@ type Ticket
   @auth(
     rules: [
       { allow: owner }
+      { allow: private }
       { allow: public, provider: iam }
       { allow: private, provider: iam }
       { allow: groups, groups: ["sp"], operations: [read] }
@@ -287,10 +342,10 @@ type Ticket
   ) {
   id: ID!
   code: String
-  # J000000000BARCAR0707202300-00
   bookingID: ID @index(name: "byBookingToTicket")
   stop: ID @index(name: "byStopBookingToTicket")
   customerID: ID
+  customer: Customer @belongsTo(fields: ["customerID"])
   seating: String
   status: String
   description: String
@@ -303,6 +358,7 @@ type OrderTicket
   @auth(
     rules: [
       { allow: owner }
+      { allow: private }
       { allow: private, provider: iam }
       { allow: public, provider: iam }
       {
@@ -324,6 +380,7 @@ type OrderDetail
   @auth(
     rules: [
       { allow: owner }
+      { allow: private }
       { allow: public, provider: iam }
       { allow: private, provider: iam }
       {
@@ -345,6 +402,7 @@ type OrderDetail
   paymentID: ID
   payment: Payment @hasOne(fields: ["paymentID"])
   bookingID: ID
+  booking: Booking @hasOne(fields: ["bookingID"])
   orderTickets: [OrderTicket] @hasMany(indexName: "byOrderDetailToTicket")
   userID: ID @index(name: "byUserToOrderDetail")
 }
@@ -359,6 +417,7 @@ type Payment
   @auth(
     rules: [
       { allow: owner }
+      { allow: private }
       { allow: private, provider: iam }
       { allow: public, provider: iam }
       {
@@ -379,6 +438,7 @@ type orderDetailHistory
   @auth(
     rules: [
       { allow: owner }
+      { allow: private }
       { allow: owner, ownerField: "googleOwner" }
       { allow: groups, groups: ["sp"], operations: [read] }
     ]
@@ -443,6 +503,15 @@ type Mutation {
   registerAgencyAdmin(input: RegisterUserInput!): String
     @function(name: "createAdminAgency-${env}")
     @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
+
+  checkScan(input: CheckScanInput): String
+    @function(name: "checkTicketScan-${env}")
+    @auth(rules: [{ allow: groups, groups: ["agency"] }])
+}
+
+input CheckScanInput {
+  ticketID: ID
+  bookingID: ID
 }
 
 input RegisterUserInput {
