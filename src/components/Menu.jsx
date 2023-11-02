@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
 import { Auth } from 'aws-amplify'
 
 const Menu = () => {
@@ -68,7 +69,26 @@ const Menu = () => {
           <ListItemText primary="Panel de control" />
         </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
-
+        <ListItemButton
+          // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+          selected={selectedIndex === 1}
+          onClick={(e) => {
+            e.preventDefault;
+            router.push("/home/support");
+            updateIndex(1);
+            console.log(selectedIndex);
+          }}
+        >
+          <ListItemIcon>
+            <SupportAgentRoundedIcon
+              sx={{
+                color: selectedIndex === 1 ? "white" : "#1f1f1f",
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText primary="Devoluciones" />
+        </ListItemButton>
+        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           sx={{ borderBottomLeftRadius: "7px", borderBottomRightRadius: "7px" }}
           selected={selectedIndex === 6}
