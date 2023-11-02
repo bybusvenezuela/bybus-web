@@ -8,7 +8,6 @@ export const getEmailSusbcription = /* GraphQL */ `
       email
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -28,10 +27,8 @@ export const listEmailSusbcriptions = /* GraphQL */ `
         email
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -55,10 +52,8 @@ export const getEmailSubscriptionbyEmail = /* GraphQL */ `
         email
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -73,9 +68,9 @@ export const getAgencySubscription = /* GraphQL */ `
       subscriptionDate
       status
       scheduledDate
+      agencyID
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -99,12 +94,11 @@ export const listAgencySubscriptions = /* GraphQL */ `
         subscriptionDate
         status
         scheduledDate
+        agencyID
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -132,12 +126,11 @@ export const getAgencySubscriptionbyRif = /* GraphQL */ `
         subscriptionDate
         status
         scheduledDate
+        agencyID
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -165,12 +158,11 @@ export const getAgencySubscriptionbyEmail = /* GraphQL */ `
         subscriptionDate
         status
         scheduledDate
+        agencyID
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -194,13 +186,12 @@ export const getAgency = /* GraphQL */ `
           address
           email
           phone
+          status
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       employees {
         items {
@@ -212,14 +203,16 @@ export const getAgency = /* GraphQL */ `
           type
           agencyID
           officeID
+<<<<<<< HEAD
+=======
+          status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -238,15 +231,12 @@ export const getAgency = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -267,23 +257,18 @@ export const listAgencies = /* GraphQL */ `
         phone
         officies {
           nextToken
-          __typename
         }
         employees {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -312,23 +297,18 @@ export const getAgencyByEmail = /* GraphQL */ `
         phone
         officies {
           nextToken
-          __typename
         }
         employees {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -343,6 +323,7 @@ export const getOffice = /* GraphQL */ `
       address
       email
       phone
+      status
       employees {
         items {
           id
@@ -353,14 +334,16 @@ export const getOffice = /* GraphQL */ `
           type
           agencyID
           officeID
+<<<<<<< HEAD
+=======
+          status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
           owner
           lastConnection
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       transports {
         items {
@@ -373,10 +356,8 @@ export const getOffice = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       bookings {
         items {
@@ -395,15 +376,12 @@ export const getOffice = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -423,25 +401,21 @@ export const listOffices = /* GraphQL */ `
         address
         email
         phone
+        status
         employees {
           nextToken
-          __typename
         }
         transports {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -469,25 +443,21 @@ export const officesByAgencyID = /* GraphQL */ `
         address
         email
         phone
+        status
         employees {
           nextToken
-          __typename
         }
         transports {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -499,7 +469,6 @@ export const getState = /* GraphQL */ `
       cities
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -516,10 +485,8 @@ export const listStates = /* GraphQL */ `
         cities
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -543,20 +510,16 @@ export const getEmployee = /* GraphQL */ `
         phone
         officies {
           nextToken
-          __typename
         }
         employees {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       officeID
       office {
@@ -568,28 +531,28 @@ export const getEmployee = /* GraphQL */ `
         address
         email
         phone
+        status
         employees {
           nextToken
-          __typename
         }
         transports {
           nextToken
-          __typename
         }
         bookings {
           nextToken
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
+<<<<<<< HEAD
+=======
+      status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
       owner
       lastConnection
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -619,7 +582,6 @@ export const listEmployees = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         officeID
         office {
@@ -631,19 +593,21 @@ export const listEmployees = /* GraphQL */ `
           address
           email
           phone
+          status
           owner
           createdAt
           updatedAt
-          __typename
         }
+<<<<<<< HEAD
+=======
+        status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         owner
         lastConnection
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -681,7 +645,6 @@ export const employeesByAgencyID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         officeID
         office {
@@ -693,19 +656,21 @@ export const employeesByAgencyID = /* GraphQL */ `
           address
           email
           phone
+          status
           owner
           createdAt
           updatedAt
-          __typename
         }
+<<<<<<< HEAD
+=======
+        status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         owner
         lastConnection
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -743,7 +708,6 @@ export const employeesByOfficeID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         officeID
         office {
@@ -755,19 +719,21 @@ export const employeesByOfficeID = /* GraphQL */ `
           address
           email
           phone
+          status
           owner
           createdAt
           updatedAt
-          __typename
         }
+<<<<<<< HEAD
+=======
+        status
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         owner
         lastConnection
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -783,7 +749,6 @@ export const getTransport = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -804,10 +769,8 @@ export const listTransports = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -836,10 +799,126 @@ export const transportsByOfficeID = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       nextToken
-      __typename
+    }
+  }
+`;
+export const getScheduleBooking = /* GraphQL */ `
+  query GetScheduleBooking($id: ID!) {
+    getScheduleBooking(id: $id) {
+      id
+      bookingID
+      booking {
+        id
+        status
+        code
+        agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
+        officeID
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+        customers {
+          nextToken
+        }
+        tickets {
+          nextToken
+        }
+        stops {
+          nextToken
+        }
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+        }
+        stock
+        price
+        createdBy
+        driver
+        transport
+        owner
+        createdAt
+        updatedAt
+      }
+      freq
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listScheduleBookings = /* GraphQL */ `
+  query ListScheduleBookings(
+    $filter: ModelScheduleBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listScheduleBookings(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+        }
+        freq
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;
@@ -850,7 +929,54 @@ export const getBooking = /* GraphQL */ `
       status
       code
       agencyID
+      agency {
+        id
+        cognitoID
+        pin
+        name
+        rif
+        email
+        phone
+        officies {
+          nextToken
+        }
+        employees {
+          nextToken
+        }
+        bookings {
+          nextToken
+        }
+        owner
+        createdAt
+        updatedAt
+      }
       officeID
+<<<<<<< HEAD
+=======
+      office {
+        id
+        agencyID
+        name
+        state
+        city
+        address
+        email
+        phone
+        status
+        employees {
+          nextToken
+        }
+        transports {
+          nextToken
+        }
+        bookings {
+          nextToken
+        }
+        owner
+        createdAt
+        updatedAt
+      }
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
       customers {
         items {
           id
@@ -862,10 +988,8 @@ export const getBooking = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       tickets {
         items {
@@ -882,10 +1006,8 @@ export const getBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       stops {
         items {
@@ -895,10 +1017,8 @@ export const getBooking = /* GraphQL */ `
           owner
           createdAt
           updatedAt
-          __typename
         }
         nextToken
-        __typename
       }
       departureCity
       arrivalCity
@@ -908,7 +1028,6 @@ export const getBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       arrival {
         time
@@ -916,7 +1035,6 @@ export const getBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       stock
       price
@@ -926,7 +1044,6 @@ export const getBooking = /* GraphQL */ `
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -942,18 +1059,44 @@ export const listBookings = /* GraphQL */ `
         status
         code
         agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
         officeID
+<<<<<<< HEAD
+=======
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         customers {
           nextToken
-          __typename
         }
         tickets {
           nextToken
-          __typename
         }
         stops {
           nextToken
-          __typename
         }
         departureCity
         arrivalCity
@@ -963,7 +1106,6 @@ export const listBookings = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         arrival {
           time
@@ -971,20 +1113,105 @@ export const listBookings = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         stock
         price
         createdBy
         driver
         transport
+<<<<<<< HEAD
+=======
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
+    }
+  }
+`;
+export const getBookingbyCode = /* GraphQL */ `
+  query GetBookingbyCode(
+    $code: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getBookingbyCode(
+      code: $code
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        code
+        agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
+        officeID
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+        customers {
+          nextToken
+        }
+        tickets {
+          nextToken
+        }
+        stops {
+          nextToken
+        }
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+        }
+        stock
+        price
+        createdBy
+        driver
+        transport
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
+        owner
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;
@@ -1008,18 +1235,44 @@ export const bookingsByAgencyID = /* GraphQL */ `
         status
         code
         agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
         officeID
+<<<<<<< HEAD
+=======
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         customers {
           nextToken
-          __typename
         }
         tickets {
           nextToken
-          __typename
         }
         stops {
           nextToken
-          __typename
         }
         departureCity
         arrivalCity
@@ -1029,7 +1282,6 @@ export const bookingsByAgencyID = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         arrival {
           time
@@ -1037,7 +1289,6 @@ export const bookingsByAgencyID = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         stock
         price
@@ -1047,10 +1298,8 @@ export const bookingsByAgencyID = /* GraphQL */ `
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1074,18 +1323,44 @@ export const bookingsByOfficeID = /* GraphQL */ `
         status
         code
         agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
         officeID
+<<<<<<< HEAD
+=======
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         customers {
           nextToken
-          __typename
         }
         tickets {
           nextToken
-          __typename
         }
         stops {
           nextToken
-          __typename
         }
         departureCity
         arrivalCity
@@ -1095,7 +1370,6 @@ export const bookingsByOfficeID = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         arrival {
           time
@@ -1103,7 +1377,6 @@ export const bookingsByOfficeID = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         stock
         price
@@ -1113,10 +1386,8 @@ export const bookingsByOfficeID = /* GraphQL */ `
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1140,10 +1411,8 @@ export const getStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       arrival {
         time
@@ -1151,13 +1420,11 @@ export const getStopBooking = /* GraphQL */ `
         city
         state
         address
-        __typename
       }
       price
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1173,7 +1440,6 @@ export const listStopBookings = /* GraphQL */ `
         bookingID
         tickets {
           nextToken
-          __typename
         }
         arrival {
           time
@@ -1181,16 +1447,13 @@ export const listStopBookings = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         price
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1214,7 +1477,6 @@ export const stopBookingsByBookingID = /* GraphQL */ `
         bookingID
         tickets {
           nextToken
-          __typename
         }
         arrival {
           time
@@ -1222,16 +1484,13 @@ export const stopBookingsByBookingID = /* GraphQL */ `
           city
           state
           address
-          __typename
         }
         price
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1260,7 +1519,10 @@ export const getCustomer = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         seating
         status
@@ -1270,12 +1532,10 @@ export const getCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1307,15 +1567,12 @@ export const listCustomers = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1355,15 +1612,12 @@ export const customersByBookingID = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         owner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1396,12 +1650,18 @@ export const getTicket = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         owner
         createdAt
         updatedAt
+<<<<<<< HEAD
         __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
       }
       seating
       status
@@ -1411,7 +1671,6 @@ export const getTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
     }
   }
 `;
@@ -1438,7 +1697,10 @@ export const listTickets = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         seating
         status
@@ -1448,10 +1710,8 @@ export const listTickets = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1486,7 +1746,10 @@ export const ticketsByBookingID = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         seating
         status
@@ -1496,10 +1759,8 @@ export const ticketsByBookingID = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1534,7 +1795,10 @@ export const ticketsByStop = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         seating
         status
@@ -1544,10 +1808,8 @@ export const ticketsByStop = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1573,7 +1835,10 @@ export const getOrderTicket = /* GraphQL */ `
           owner
           createdAt
           updatedAt
+<<<<<<< HEAD
           __typename
+=======
+>>>>>>> 543509edf92b96a4b4ffbabb0a8c3210f56d58c7
         }
         seating
         status
@@ -1583,13 +1848,11 @@ export const getOrderTicket = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-        __typename
       }
       owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
-      __typename
     }
   }
 `;
@@ -1618,16 +1881,13 @@ export const listOrderTickets = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         owner
         createdAt
         updatedAt
         orderDetailOrderTicketsId
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1664,16 +1924,13 @@ export const orderTicketsByOrderID = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
-          __typename
         }
         owner
         createdAt
         updatedAt
         orderDetailOrderTicketsId
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1699,9 +1956,74 @@ export const getOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       bookingID
+      booking {
+        id
+        status
+        code
+        agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          owner
+          createdAt
+          updatedAt
+        }
+        officeID
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+        }
+        customers {
+          nextToken
+        }
+        tickets {
+          nextToken
+        }
+        stops {
+          nextToken
+        }
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+        }
+        stock
+        price
+        createdBy
+        driver
+        transport
+        owner
+        createdAt
+        updatedAt
+      }
       orderTickets {
         items {
           id
@@ -1711,17 +2033,14 @@ export const getOrderDetail = /* GraphQL */ `
           createdAt
           updatedAt
           orderDetailOrderTicketsId
-          __typename
         }
         nextToken
-        __typename
       }
       userID
       createdAt
       updatedAt
       userOrdersId
       owner
-      __typename
     }
   }
 `;
@@ -1752,22 +2071,35 @@ export const listOrderDetails = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+        }
         orderTickets {
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1806,22 +2138,35 @@ export const orderDetailsByUserID = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+        }
         orderTickets {
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1836,7 +2181,6 @@ export const getPayment = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-      __typename
     }
   }
 `;
@@ -1856,10 +2200,8 @@ export const listPayments = /* GraphQL */ `
         createdAt
         updatedAt
         owner
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1888,26 +2230,39 @@ export const getOrderDetailHistory = /* GraphQL */ `
           createdAt
           updatedAt
           owner
-          __typename
         }
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+        }
         orderTickets {
           nextToken
-          __typename
         }
         userID
         createdAt
         updatedAt
         userOrdersId
         owner
-        __typename
       }
       userID
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -1942,17 +2297,14 @@ export const listOrderDetailHistories = /* GraphQL */ `
           updatedAt
           userOrdersId
           owner
-          __typename
         }
         userID
         owner
         googleOwner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -1983,16 +2335,13 @@ export const getUser = /* GraphQL */ `
           updatedAt
           userOrdersId
           owner
-          __typename
         }
         nextToken
-        __typename
       }
       owner
       googleOwner
       createdAt
       updatedAt
-      __typename
     }
   }
 `;
@@ -2012,16 +2361,13 @@ export const listUsers = /* GraphQL */ `
         previousBalance
         orders {
           nextToken
-          __typename
         }
         owner
         googleOwner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
@@ -2049,16 +2395,13 @@ export const getUserbyEmail = /* GraphQL */ `
         previousBalance
         orders {
           nextToken
-          __typename
         }
         owner
         googleOwner
         createdAt
         updatedAt
-        __typename
       }
       nextToken
-      __typename
     }
   }
 `;
