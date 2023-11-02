@@ -13,8 +13,7 @@ import {
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { fetchByPath, validateField } from "./utils";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
 import { createAgencySubscription } from "../graphql/mutations";
 export default function AgencySubscriptionCreateForm(props) {
@@ -36,6 +35,7 @@ export default function AgencySubscriptionCreateForm(props) {
     subscriptionDate: "",
     status: "",
     scheduledDate: "",
+    agencyID: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [rif, setRif] = React.useState(initialValues.rif);
@@ -48,6 +48,7 @@ export default function AgencySubscriptionCreateForm(props) {
   const [scheduledDate, setScheduledDate] = React.useState(
     initialValues.scheduledDate
   );
+  const [agencyID, setAgencyID] = React.useState(initialValues.agencyID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
@@ -57,6 +58,7 @@ export default function AgencySubscriptionCreateForm(props) {
     setSubscriptionDate(initialValues.subscriptionDate);
     setStatus(initialValues.status);
     setScheduledDate(initialValues.scheduledDate);
+    setAgencyID(initialValues.agencyID);
     setErrors({});
   };
   const validations = {
@@ -67,6 +69,7 @@ export default function AgencySubscriptionCreateForm(props) {
     subscriptionDate: [],
     status: [],
     scheduledDate: [],
+    agencyID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -101,6 +104,7 @@ export default function AgencySubscriptionCreateForm(props) {
           subscriptionDate,
           status,
           scheduledDate,
+          agencyID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -170,6 +174,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -200,6 +205,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.rif ?? value;
@@ -230,6 +236,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -260,6 +267,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.phone ?? value;
@@ -290,6 +298,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate: value,
               status,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.subscriptionDate ?? value;
@@ -320,6 +329,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status: value,
               scheduledDate,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -371,6 +381,7 @@ export default function AgencySubscriptionCreateForm(props) {
               subscriptionDate,
               status,
               scheduledDate: value,
+              agencyID,
             };
             const result = onChange(modelFields);
             value = result?.scheduledDate ?? value;
@@ -384,6 +395,37 @@ export default function AgencySubscriptionCreateForm(props) {
         errorMessage={errors.scheduledDate?.errorMessage}
         hasError={errors.scheduledDate?.hasError}
         {...getOverrideProps(overrides, "scheduledDate")}
+      ></TextField>
+      <TextField
+        label="Agency id"
+        isRequired={false}
+        isReadOnly={false}
+        value={agencyID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              rif,
+              email,
+              phone,
+              subscriptionDate,
+              status,
+              scheduledDate,
+              agencyID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.agencyID ?? value;
+          }
+          if (errors.agencyID?.hasError) {
+            runValidationTasks("agencyID", value);
+          }
+          setAgencyID(value);
+        }}
+        onBlur={() => runValidationTasks("agencyID", agencyID)}
+        errorMessage={errors.agencyID?.errorMessage}
+        hasError={errors.agencyID?.hasError}
+        {...getOverrideProps(overrides, "agencyID")}
       ></TextField>
       <Flex
         justifyContent="space-between"
