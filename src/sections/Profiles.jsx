@@ -60,10 +60,12 @@ const Profiles = ({ error }) => {
         },
       });
       setAgency(employees.data.getAgency);
-      console.log("EMPLEADOS: ", employees.data.getAgency);
+      // console.log("EMPLEADOS: ", employees.data.getAgency);
+      console.log(employees.data.getAgency.employees.items);
       const newEmployees = employees.data.getAgency.employees.items.filter(
         (item) => item.type === "OFFICE"
       );
+      console.log("NUEVOS EMPELADOS: ", newEmployees);
       setEmployees(newEmployees);
     } catch (error) {
       console.error(error);
