@@ -24,6 +24,7 @@ import ModalAgency from "@/components/ModalAgency";
 const Dashboard = () => {
   const [emailSubs, setEmailSubs] = useState([]);
   const [agencySubs, setAgencySubs] = useState([]);
+  const [agenciesList, setAgenciesList] = useState([]);
   const [agencyBookings, setAgencyBookings] = useState([]);
   const [agencyOrders, setAgencyOrders] = useState([]);
   const [agency, setAgency] = useState("");
@@ -46,7 +47,13 @@ const Dashboard = () => {
         query: listAgencySubscriptions,
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
+      const list = await API.graphql({
+        query: queries.listAgencies,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      console.log(list)
       setAgencySubs(result?.data?.listAgencySubscriptions?.items);
+      setAgenciesList(list?.data?.listAgencies?.items)
     } catch (error) {
       setAgencySubs([]);
       console.error("ERROR AL CONSULTAR AGENCIAS SUBS: ", error);
@@ -143,7 +150,7 @@ const Dashboard = () => {
           {/*  */}
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Viajes de Venta por Agencia</h2>
+              <h2>Lista de Viajes y Ordenes de Venta por Empresa</h2>
             </div>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
@@ -153,13 +160,13 @@ const Dashboard = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={agency}
-                label="Seleccionar agencia"
+                label="Seleccionar empresa"
                 onChange={(e) => setAgency(e.target.value)}
               >
-                {agencySubs.map((item, index) => (
+                {agenciesList.map((item, index) => (
                   <MenuItem
                     key={index}
-                    value={item.agencyID}
+                    value={item.id}
                   >{`Nombre: ${item.name} - RIF: ${item.rif}`}</MenuItem>
                 ))}
               </Select>
@@ -168,14 +175,14 @@ const Dashboard = () => {
               <TableTravels rows={agencyBookings} />
             ) : (
               <div className={styles.nothingTable}>
-                Selecciona una agencia para poder ver sus viajes
+                Selecciona una empresa para poder ver sus viajes
               </div>
             )}
             {agencyBookings.length !== 0 ? (
               <TableOrderDetails rows={agencyOrders} />
             ) : (
               <div className={styles.nothingTable}>
-                No tienes ordenes para ver en esta agencia
+                No tienes ordenes para ver en esta empresa
               </div>
             )}
           </div>

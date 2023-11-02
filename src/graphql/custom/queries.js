@@ -41,7 +41,6 @@ export const listAgencies = /* GraphQL */ `
               email
               phone
               status
-              owner
               createdAt
               updatedAt
             }
@@ -58,7 +57,6 @@ export const listAgencies = /* GraphQL */ `
               agencyID
               officeID
               status
-              owner
               lastConnection
               createdAt
               updatedAt
@@ -79,13 +77,11 @@ export const listAgencies = /* GraphQL */ `
               createdBy
               driver
               transport
-              owner
               createdAt
               updatedAt
             }
             nextToken
           }
-        owner
         createdAt
         updatedAt
       }
