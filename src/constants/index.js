@@ -7,21 +7,17 @@ export const menu = {
   image: All.LogoWhite,
 };
 
-export const week = [
-  'LUNES',
-  'MARTES',
-  'MIERCOLES',
-  'JUEVES',
-  'VIERNES',
-  'SABADO',
-  'DOMINGO'
-]
+export const week = {
+  SUNDAY: "DOMINGO",
+  MONDAY: "LUNES",
+  TUESDAY: "MARTES",
+  WEDNESDAY: "MIERCOLES",
+  THURSDAY: "JUEVES",
+  FRIDAY: "VIERNES",
+  SATURDAY: "SABADO",
+};
 
-export const transportes = [
-  'EXPRESO',
-  'ENCAVA',
-  'BUSCAMA'
-]
+export const transportes = ["EXPRESO", "ENCAVA", "BUSCAMA"];
 
 export const time = {
   hour: [

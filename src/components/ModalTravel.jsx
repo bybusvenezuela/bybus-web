@@ -23,6 +23,7 @@ import { time, transportes, venezuela, week } from "@/constants";
 import { Auth, API } from "aws-amplify";
 import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
+import { createScheduleBooking } from "@/graphql/custom/mutations/employee";
 import { useUser } from "@/context/UserContext";
 
 export default function ModalTravel({ open, close, offices }) {
@@ -87,6 +88,7 @@ export default function ModalTravel({ open, close, offices }) {
     setPrice("");
     setQuantity("");
     setSelectWeek([]);
+    setChecked(true);
     close();
   };
   const handleChange = (event) => {
@@ -106,6 +108,8 @@ export default function ModalTravel({ open, close, offices }) {
     },
   };
   const onCreateTravel = async () => {
+    console.log(checked);
+    console.log(selectWeek);
     let timeD =
       timeDeparture.mode === "PM"
         ? Number(timeDeparture.hour) +
@@ -141,7 +145,7 @@ export default function ModalTravel({ open, close, offices }) {
       )}${departure.date.replaceAll("-", "")}${number
         .toString()
         .padStart(2, "0")}`;
-        console.log(codeBooking)
+      console.log(codeBooking);
       return codeBooking;
     };
     const verifyCode = async (code) => {
@@ -215,7 +219,7 @@ export default function ModalTravel({ open, close, offices }) {
           arrivalCity: arrival.city,
           stock: quantity.trim(),
           price: price.trim(),
-          createdBy: profileAuth.id
+          createdBy: profileAuth.id,
         },
       },
     });
@@ -237,6 +241,19 @@ export default function ModalTravel({ open, close, offices }) {
       });
     }
 
+    const scheduleResponse = await API.graphql({
+      query: createScheduleBooking,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        input: {
+          bookingID: booking.data.createBooking.id,
+          freq: selectWeek,
+        },
+      },
+    });
+
+    console.log("CREACION DE REPROGRAMACION: ", scheduleResponse);
+    return;
     if (stopQ.length !== 0) {
       for (let i = 0; i + 1 <= stopQ.length; i++) {
         const stop = await API.graphql({
@@ -618,8 +635,8 @@ export default function ModalTravel({ open, close, offices }) {
                       sx={{ width: 250 }}
                     />
                   </div>
-                  <p>Paradas</p>
-                  <div className={styles.stop}>
+                  {/* <p>Paradas</p> */}
+                  {/* <div className={styles.stop}>
                     <div className={styles.stopBooking}>
                       {stopQ && (
                         <div className={styles.stopForm}>
@@ -691,11 +708,102 @@ export default function ModalTravel({ open, close, offices }) {
                                   </Select>
                                 </FormControl>
 
-                                {/* <div className={styles.datetime}> */}
-                                {/* <LocalizationProvider
+                        
+                              </div>
+                              <div className={styles.inputTravelOther}>
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Direccion"
+                                  variant="outlined"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            address: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                  sx={{
+                                    width: 560,
+                                  }}
+                                />
+                                <TextField
+                                  id="outlined-basic"
+                                  label="Precio del ticket de la parada"
+                                  variant="outlined"
+                                  onChange={(e) => {
+                                    const updateStop = stopQ.map(
+                                      (stop, stopIndex) => {
+                                        if (index === stopIndex) {
+                                          return {
+                                            ...stop,
+                                            price: e.target.value,
+                                          };
+                                        }
+                                        return stop;
+                                      }
+                                    );
+                                    setStopQ(updateStop);
+                                  }}
+                                  sx={{
+                                    width: 315,
+                                  }}
+                                />
+                              </div>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<AddRoundedIcon />}
+                                onClick={() =>
+                                  setStopQ((e) => {
+                                    let nuevoArreglo = [...e];
+                                    nuevoArreglo.splice(index, 1);
+                                    return nuevoArreglo;
+                                  })
+                                }
+                                className={styles.deleteStop}
+                              >
+                                Eliminar
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      startIcon={<AddRoundedIcon />}
+                      onClick={() =>
+                        setStopQ([
+                          ...stopQ,
+                          {
+                            state: "",
+                            city: "",
+                            time: "",
+                            date: "",
+                            address: "",
+                            price: "",
+                          },
+                        ])
+                      }
+                    >
+                      Agregar una parada
+                    </Button>
+                  </div> */}
+                </div>
+              </div>
+              {/* <div className={styles.datetime}> */}
+              {/* <LocalizationProvider
                                     dateAdapter={AdapterDayjs}
                                   > */}
-                                {/* <div className={styles.dateStop}>
+              {/* <div className={styles.dateStop}>
                                       <DatePicker
                                         onChange={(e) => {
                                           const options = {
@@ -721,8 +829,8 @@ export default function ModalTravel({ open, close, offices }) {
                                         }}
                                       />
                                     </div> */}
-                                {/* <div className={styles.timeStop}> */}
-                                {/* <div className={styles.time}>
+              {/* <div className={styles.timeStop}> */}
+              {/* <div className={styles.time}>
                                         <FormControl
                                           className={styles.timeInput}
                                         >
@@ -838,7 +946,7 @@ export default function ModalTravel({ open, close, offices }) {
                                           </Select>
                                         </FormControl>
                                       </div> */}
-                                {/* <MobileTimePicker
+              {/* <MobileTimePicker
                                         defaultValue={dayjs("2022-04-17T15:30")}
                                         onChange={(e) => {
                                           const options = {
@@ -864,99 +972,9 @@ export default function ModalTravel({ open, close, offices }) {
                                           setStopQ(updateStop);
                                         }}
                                       /> */}
-                                {/* </div> */}
-                                {/* </LocalizationProvider> */}
-                                {/* </div> */}
-                              </div>
-                              <div className={styles.inputTravelOther}>
-                                <TextField
-                                  id="outlined-basic"
-                                  label="Direccion"
-                                  variant="outlined"
-                                  onChange={(e) => {
-                                    const updateStop = stopQ.map(
-                                      (stop, stopIndex) => {
-                                        if (index === stopIndex) {
-                                          return {
-                                            ...stop,
-                                            address: e.target.value,
-                                          };
-                                        }
-                                        return stop;
-                                      }
-                                    );
-                                    setStopQ(updateStop);
-                                  }}
-                                  sx={{
-                                    width: 560,
-                                  }}
-                                />
-                                <TextField
-                                  id="outlined-basic"
-                                  label="Precio del ticket de la parada"
-                                  variant="outlined"
-                                  onChange={(e) => {
-                                    const updateStop = stopQ.map(
-                                      (stop, stopIndex) => {
-                                        if (index === stopIndex) {
-                                          return {
-                                            ...stop,
-                                            price: e.target.value,
-                                          };
-                                        }
-                                        return stop;
-                                      }
-                                    );
-                                    setStopQ(updateStop);
-                                  }}
-                                  sx={{
-                                    width: 315,
-                                  }}
-                                />
-                              </div>
-                              <Button
-                                variant="contained"
-                                size="small"
-                                startIcon={<AddRoundedIcon />}
-                                onClick={() =>
-                                  setStopQ((e) => {
-                                    let nuevoArreglo = [...e];
-                                    nuevoArreglo.splice(index, 1);
-                                    return nuevoArreglo;
-                                  })
-                                }
-                                className={styles.deleteStop}
-                              >
-                                Eliminar
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <Button
-                      variant="contained"
-                      size="medium"
-                      startIcon={<AddRoundedIcon />}
-                      onClick={() =>
-                        setStopQ([
-                          ...stopQ,
-                          {
-                            state: "",
-                            city: "",
-                            time: "",
-                            date: "",
-                            address: "",
-                            price: "",
-                          },
-                        ])
-                      }
-                    >
-                      Agregar una parada
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              {/* </div> */}
+              {/* </LocalizationProvider> */}
+              {/* </div> */}
 
               <div className={styles.buttons}>
                 <div className={styles.control}>
@@ -983,7 +1001,7 @@ export default function ModalTravel({ open, close, offices }) {
                   <div className={styles.pan}>
                     Quieres programar este viaje de manera automatica?
                     <Checkbox
-                    onChange={(e) => setChecked(!checked)}
+                      onChange={(e) => setChecked(!checked)}
                       sx={{
                         color: "#8F877F",
                         "&.Mui-checked": {
@@ -995,7 +1013,7 @@ export default function ModalTravel({ open, close, offices }) {
 
                   <FormControl fullWidth>
                     <InputLabel id="demo-multiple-checkbox-label">
-                      Dias a programar
+                      Días a programar
                     </InputLabel>
                     <Select
                       labelId="demo-multiple-checkbox-label"
@@ -1003,15 +1021,17 @@ export default function ModalTravel({ open, close, offices }) {
                       multiple
                       value={selectWeek}
                       onChange={handleChange}
-                      input={<OutlinedInput label="Dias a programar" />}
-                      renderValue={(selected) => selected.join(", ")}
+                      input={<OutlinedInput label="Días a programar" />}
+                      renderValue={(selected) =>
+                        selected.map((day) => week[day]).join(", ")
+                      }
                       MenuProps={MenuProps}
                       disabled={checked}
                     >
-                      {week.map((item, index) => (
-                        <MenuItem key={index} value={item}>
-                          <Checkbox checked={selectWeek.indexOf(item) > -1} />
-                          <ListItemText primary={item} />
+                      {Object.keys(week).map((day) => (
+                        <MenuItem key={day} value={day}>
+                          <Checkbox checked={selectWeek.indexOf(day) > -1} />
+                          <ListItemText primary={week[day]} />
                         </MenuItem>
                       ))}
                     </Select>
