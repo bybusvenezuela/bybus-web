@@ -7,10 +7,10 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { EmailSusbcription } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { API } from "aws-amplify";
+import { getEmailSusbcription } from "../graphql/queries";
+import { updateEmailSusbcription } from "../graphql/mutations";
 export default function EmailSusbcriptionUpdateForm(props) {
   const {
     id: idProp,
@@ -41,7 +41,12 @@ export default function EmailSusbcriptionUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(EmailSusbcription, idProp)
+        ? (
+            await API.graphql({
+              query: getEmailSusbcription.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getEmailSusbcription
         : emailSusbcriptionModelProp;
       setEmailSusbcriptionRecord(record);
     };
@@ -103,21 +108,26 @@ export default function EmailSusbcriptionUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            EmailSusbcription.copyOf(emailSusbcriptionRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await API.graphql({
+            query: updateEmailSusbcription.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                id: emailSusbcriptionRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

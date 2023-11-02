@@ -30,8 +30,8 @@ export const UserProvider = ({ children }) => {
   }
 
   function setClearAll() {
-    // cookies.remove("user", accessTokenUser, { path: "/" });
-    // cookies.remove("profile", accessTokenProfile, { path: "/" });
+    cookies.remove("user");
+    cookies.remove("profile");
     localStorage.removeItem("user");
     localStorage.removeItem("profile");
   }
@@ -60,7 +60,7 @@ export const UserProvider = ({ children }) => {
         setProfileAuth,
         setTokenProfile,
         setTokenUser,
-        setClearAll
+        setClearAll,
       }}
     >
       {children}

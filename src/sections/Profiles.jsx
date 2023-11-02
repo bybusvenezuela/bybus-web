@@ -45,11 +45,10 @@ const Profiles = ({ error }) => {
     }
   }, [pinModal]);
 
-
   const LogoutAccount = async () => {
-    setClearAll()
-    Auth.signOut()
-  }
+    setClearAll();
+    Auth.signOut();
+  };
   // buscar empleados de dicha agencia
   const fetchEmployees = async () => {
     try {
@@ -61,8 +60,13 @@ const Profiles = ({ error }) => {
         },
       });
       setAgency(employees.data.getAgency);
-      console.log(employees.data.getAgency);
-      setEmployees(employees.data.getAgency.employees.items);
+      // console.log("EMPLEADOS: ", employees.data.getAgency);
+      console.log(employees.data.getAgency.employees.items);
+      const newEmployees = employees.data.getAgency.employees.items.filter(
+        (item) => item.type === "OFFICE"
+      );
+      console.log("NUEVOS EMPELADOS: ", newEmployees);
+      setEmployees(newEmployees);
     } catch (error) {
       console.error(error);
     }
@@ -196,8 +200,12 @@ const Profiles = ({ error }) => {
   return (
     <div className="container section">
       <div className={styles.content}>
-        <h1 className={styles.title}>Elija un perfil para acceder al panel</h1>
-        <Button onClick={LogoutAccount}>CERRAR SESION</Button>
+        <h1 className={styles.title}>
+          Elija un perfil para acceder al panel -{" "}
+          <Button variant="contained" color="error" onClick={LogoutAccount}>
+            CERRAR SESION
+          </Button>
+        </h1>
         {userAuth && (
           <div className={styles.profiles}>
             {userAuth?.attributes && (
@@ -214,7 +222,7 @@ const Profiles = ({ error }) => {
                       onHandleProfileClick={onHandleProfileClick}
                       name={item.name}
                       type={item.type}
-                      key={index}
+                      key={`${index}-acc`}
                       data={item}
                     />
                   )}
@@ -253,7 +261,7 @@ const Profiles = ({ error }) => {
               <div className={styles.inputs}>
                 {pinModal.map((digit, index) => (
                   <TextField
-                    key={index}
+                    key={`${index}-text`}
                     id="outlined-basic"
                     variant="outlined"
                     inputProps={{

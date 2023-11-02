@@ -21,7 +21,7 @@ const Dashboard = ({ dataResult, userType }) => {
   const [officeList, setOfficeList] = useState("");
   const [officeListT, setOfficeListT] = useState("");
   const [employeeListT, setEmployeeListT] = useState("");
-  const filteredData =  dataOfficeTravel.bookings.items.filter(item => item.createdBy === employeeListT);
+  const filteredData =  dataOfficeTravel?.bookings?.items?.filter(item => item.createdBy === employeeListT);
   const openOffice = () => {
     setOffice(true);
   };

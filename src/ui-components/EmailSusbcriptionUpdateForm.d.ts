@@ -6,8 +6,16 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { EmailSusbcription } from "../models";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -28,7 +36,7 @@ export declare type EmailSusbcriptionUpdateFormProps = React.PropsWithChildren<{
     overrides?: EmailSusbcriptionUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    emailSusbcription?: EmailSusbcription;
+    emailSusbcription?: any;
     onSubmit?: (fields: EmailSusbcriptionUpdateFormInputValues) => EmailSusbcriptionUpdateFormInputValues;
     onSuccess?: (fields: EmailSusbcriptionUpdateFormInputValues) => void;
     onError?: (fields: EmailSusbcriptionUpdateFormInputValues, errorMessage: string) => void;

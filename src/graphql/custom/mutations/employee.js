@@ -8,3 +8,15 @@ export const createEmployee = /* GraphQL */ `
     }
   }
 `;
+
+export const createScheduleBooking = /* GraphQL */ `
+  mutation CreateScheduleBooking(
+    $input: CreateScheduleBookingInput!
+    $condition: ModelScheduleBookingConditionInput
+  ) {
+    createScheduleBooking(input: $input, condition: $condition) {
+      id
+      bookingID
+    }
+  }
+`;
