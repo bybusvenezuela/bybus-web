@@ -14,6 +14,7 @@ import { useMenu } from "@/context/MenuContext";
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
+import PaidRoundedIcon from '@mui/icons-material/PaidRounded';
 import { Auth } from 'aws-amplify'
 
 const Menu = () => {
@@ -67,6 +68,26 @@ const Menu = () => {
             />
           </ListItemIcon>
           <ListItemText primary="Panel de control" />
+        </ListItemButton>
+        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+        <ListItemButton
+          // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+          selected={selectedIndex === 3}
+          onClick={(e) => {
+            e.preventDefault;
+            router.push("/home/management");
+            updateIndex(3);
+            console.log(selectedIndex);
+          }}
+        >
+          <ListItemIcon>
+            <PaidRoundedIcon
+              sx={{
+                color: selectedIndex === 3 ? "white" : "#1f1f1f",
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText primary="Gestion de pagos" />
         </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
