@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "@/styles/Support.module.css";
 import { Button, TextField } from "@mui/material";
 import * as queries from "@/graphql/custom/queries";
+import { Auth, API } from "aws-amplify";
 
 const Support = () => {
   const [orderTravel, setOrderTravel] = useState("");
@@ -13,17 +14,18 @@ const Support = () => {
         query: queries.getOrderDetail,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
-          filter: {
-            id: orderTravel
-          }
+          // filter: {
+            id:  orderTravel
+          // }
         },
       });
-      console.log(result)
+      console.log(result.data.getOrderDetail)
     } catch (error) {
-      console.error("ERROR AL CONSULTAR EMAIL SUBS: ", error);
+      console.error(error);
     }
   };
 
+  console.log(orderTravel)
   return (
     <div className={styles.content}>
       <Menu />
