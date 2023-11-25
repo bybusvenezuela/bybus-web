@@ -15,9 +15,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getOrderDetail } from "../graphql/queries";
 import { updateOrderDetail } from "../graphql/mutations";
+const client = generateClient();
 export default function OrderDetailUpdateForm(props) {
   const {
     id: idProp,
@@ -82,7 +83,7 @@ export default function OrderDetailUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getOrderDetail.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -168,7 +169,7 @@ export default function OrderDetailUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateOrderDetail.replaceAll("__typename", ""),
             variables: {
               input: {

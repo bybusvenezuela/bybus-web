@@ -20,8 +20,9 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { createScheduleBooking } from "../graphql/mutations";
+const client = generateClient();
 function ArrayField({
   items = [],
   onChange,
@@ -278,7 +279,7 @@ export default function ScheduleBookingCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: createScheduleBooking.replaceAll("__typename", ""),
             variables: {
               input: {

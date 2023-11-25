@@ -15,8 +15,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { createOrderDetail } from "../graphql/mutations";
+const client = generateClient();
 export default function OrderDetailCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -146,7 +147,7 @@ export default function OrderDetailCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: createOrderDetail.replaceAll("__typename", ""),
             variables: {
               input: {

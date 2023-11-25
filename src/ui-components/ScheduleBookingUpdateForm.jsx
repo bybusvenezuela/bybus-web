@@ -20,9 +20,10 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getScheduleBooking } from "../graphql/queries";
 import { updateScheduleBooking } from "../graphql/mutations";
+const client = generateClient();
 function ArrayField({
   items = [],
   onChange,
@@ -213,7 +214,7 @@ export default function ScheduleBookingUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getScheduleBooking.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -301,7 +302,7 @@ export default function ScheduleBookingUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateScheduleBooking.replaceAll("__typename", ""),
             variables: {
               input: {
