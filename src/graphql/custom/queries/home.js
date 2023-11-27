@@ -8,7 +8,6 @@ export const getAgency = /* GraphQL */ `
       rif
       email
       phone
-      owner
       createdAt
       updatedAt
       __typename
@@ -23,7 +22,6 @@ export const getAgency = /* GraphQL */ `
           email
           phone
           status
-          owner
           createdAt
           updatedAt
           __typename
@@ -47,7 +45,6 @@ export const getAgency = /* GraphQL */ `
             state
             city
           }
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -59,7 +56,6 @@ export const getAgency = /* GraphQL */ `
     }
   }
 `;
-
 export const getEmployee = /* GraphQL */ `
   query GetEmployee($id: ID!) {
     getEmployee(id: $id) {
@@ -91,7 +87,6 @@ export const getEmployee = /* GraphQL */ `
     }
   }
 `;
-
 export const listBookings = /* GraphQL */ `
   query ListBookings(
     $filter: ModelBookingFilterInput
@@ -113,7 +108,6 @@ export const listBookings = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
           }
@@ -130,7 +124,6 @@ export const listBookings = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -142,7 +135,6 @@ export const listBookings = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
           }
@@ -169,7 +161,6 @@ export const listBookings = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
       }
@@ -177,7 +168,6 @@ export const listBookings = /* GraphQL */ `
     }
   }
 `;
-
 export const listOrderDetails = /* GraphQL */ `
   query ListOrderDetails(
     $filter: ModelOrderDetailFilterInput
@@ -226,7 +216,6 @@ export const listOrderDetails = /* GraphQL */ `
     }
   }
 `;
-
 export const getOffice = /* GraphQL */ `
   query GetOffice($id: ID!) {
     getOffice(id: $id) {

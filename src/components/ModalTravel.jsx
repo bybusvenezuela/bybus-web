@@ -23,6 +23,7 @@ import { time, transportes, venezuela, week } from "@/constants";
 import { Auth, API } from "aws-amplify";
 import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
+import * as employee from "@/graphql/custom/mutations/employee";
 import { createScheduleBooking } from "@/graphql/custom/mutations/employee";
 import { useUser } from "@/context/UserContext";
 
@@ -135,62 +136,6 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
 
-    const generateCode = () => {
-      let codeBooking = `${rif.data.getAgency.rif.replace(
-        "-",
-        ""
-      )}${offices.state.slice(0, 3)}${offices.city.slice(
-        0,
-        3
-      )}${departure.date.replaceAll("-", "")}${number
-        .toString()
-        .padStart(2, "0")}`;
-      console.log(codeBooking);
-      return codeBooking;
-    };
-    const verifyCode = async (code) => {
-      let codeVerify = null;
-      let i = 0;
-      if (listCodeBookings.data.listBookings.items.length === 0) return code;
-      while (i < listCodeBookings.data.listBookings.items.length) {
-        i++;
-        let element = listCodeBookings.data.listBookings.items[i]?.code;
-        element === code ? setNumber(number + 1) : (codeVerify = code);
-      }
-      return codeVerify;
-    };
-
-    const codeTravel = generateCode(number);
-    const verifyCodeTravel = await verifyCode(codeTravel.toUpperCase());
-    console.log(verifyCodeTravel);
-    console.log({
-      input: {
-        agencyID: offices.agencyID,
-        officeID: offices.id,
-        transport: transport,
-        driver: driver,
-        code: verifyCodeTravel,
-        departure: {
-          time: timeD,
-          date: departure.date,
-          city: departure.city,
-          state: departure.state,
-          address: departure.address.trim(),
-        },
-        arrival: {
-          time: timeA,
-          date: arrival.date,
-          city: arrival.city,
-          state: arrival.state,
-          address: arrival.address.trim(),
-        },
-        departureCity: departure.city,
-        arrivalCity: arrival.city,
-        stock: quantity.trim(),
-        price: price.trim(),
-      },
-    });
-
     const booking = await API.graphql({
       query: mutations.createBooking,
       authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -200,7 +145,6 @@ export default function ModalTravel({ open, close, offices }) {
           officeID: offices.id,
           transport: transport,
           driver: driver,
-          code: verifyCodeTravel,
           departure: {
             time: timeD,
             date: departure.date,
@@ -223,23 +167,66 @@ export default function ModalTravel({ open, close, offices }) {
         },
       },
     });
-    console.log(booking);
 
-    for (let i = 1; i <= booking.data.createBooking.stock; i++) {
-      const ticket = await API.graphql({
-        query: mutations.createTicket,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-        variables: {
-          input: {
-            code: `${booking.data.createBooking.code}-${i
-              .toString()
-              .padStart(2, "0")}-${booking.data.createBooking.id.slice(0, 5)}`,
-            bookingID: booking.data.createBooking.id,
-            status: "Active",
-          },
+    console.log(booking);
+    
+    const generateCode = () => {
+      let codeBooking = `${booking.data.createBooking.id.slice(0, 5).replace(
+        "-",
+        ""
+      ).toUpperCase()}${offices.state.slice(0, 1)}${offices.city.slice(
+        0,
+        1
+      )}${number
+        .toString()
+        .padStart(2, "0")}`;
+      console.log(codeBooking);
+      return codeBooking;
+    };
+    const verifyCode = async (code) => {
+      let codeVerify = null;
+      let i = 0;
+      if (listCodeBookings.data.listBookings.items.length === 0) return code;
+      while (i < listCodeBookings.data.listBookings.items.length) {
+        i++;
+        let element = listCodeBookings.data.listBookings.items[i]?.code;
+        element === code ? setNumber(number + 1) : (codeVerify = code);
+      }
+      return codeVerify;
+    };
+
+    const codeTravel = generateCode(number);
+    const verifyCodeTravel = await verifyCode(codeTravel.toUpperCase());
+
+    console.log(verifyCodeTravel);
+
+    const bookingUpdate = await API.graphql({
+      query: employee.updateBooking,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        input: {
+          id: booking?.data?.createBooking?.id,
+          code: verifyCodeTravel,
         },
-      });
-    }
+      },
+    });
+    console.log(bookingUpdate);
+
+    // for (let i = 1; i <= booking.data.createBooking.stock; i++) {
+    //   const ticket = await API.graphql({
+    //     query: mutations.createTicket,
+    //     authMode: "AMAZON_COGNITO_USER_POOLS",
+    //     variables: {
+    //       input: {
+    //         code: `${booking.data.createBooking.code}-${i
+    //           .toString()
+    //           .padStart(2, "0")}-${booking.data.createBooking.id.slice(0, 5)}`,
+    //         bookingID: booking.data.createBooking.id,
+    //         status: "Active",
+    //       },
+    //     },
+    //   });
+    // }
 
     const scheduleResponse = await API.graphql({
       query: createScheduleBooking,

@@ -1,6 +1,5 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
-
 export const deleteAgency = /* GraphQL */ `
   mutation DeleteAgency(
     $input: DeleteAgencyInput!
@@ -37,7 +36,6 @@ export const deleteAgency = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -62,7 +60,6 @@ export const deleteAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -78,13 +75,11 @@ export const deleteAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -107,7 +102,6 @@ export const deleteAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -123,7 +117,6 @@ export const deleteAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -163,7 +156,6 @@ export const deleteAgency = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -171,7 +163,6 @@ export const deleteAgency = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -213,13 +204,11 @@ export const deleteCustomer = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -228,13 +217,11 @@ export const deleteCustomer = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -272,7 +259,6 @@ export const deleteTicket = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -281,13 +267,11 @@ export const deleteTicket = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -296,7 +280,6 @@ export const deleteTicket = /* GraphQL */ `
       status
       description
       url
-      owner
       createdAt
       updatedAt
       stopBookingTicketsId
@@ -336,13 +319,11 @@ export const deleteOrderTicket = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -351,13 +332,11 @@ export const deleteOrderTicket = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
@@ -503,7 +482,6 @@ export const createAgency = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -528,7 +506,6 @@ export const createAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -544,13 +521,11 @@ export const createAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -573,7 +548,6 @@ export const createAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -589,7 +563,6 @@ export const createAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -629,7 +602,6 @@ export const createAgency = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -637,7 +609,6 @@ export const createAgency = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -680,7 +651,6 @@ export const updateAgency = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -705,7 +675,6 @@ export const updateAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -721,13 +690,11 @@ export const updateAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -750,7 +717,6 @@ export const updateAgency = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -766,7 +732,6 @@ export const updateAgency = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -806,7 +771,6 @@ export const updateAgency = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -814,7 +778,6 @@ export const updateAgency = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -853,7 +816,6 @@ export const createOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -869,13 +831,11 @@ export const createOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -894,7 +854,6 @@ export const createOffice = /* GraphQL */ `
           createdBy
           createdAt
           updatedAt
-          owner
           __typename
         }
         nextToken
@@ -914,7 +873,6 @@ export const createOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -930,7 +888,6 @@ export const createOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -970,7 +927,6 @@ export const createOffice = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -978,7 +934,6 @@ export const createOffice = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -1017,7 +972,6 @@ export const updateOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -1033,13 +987,11 @@ export const updateOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -1058,7 +1010,6 @@ export const updateOffice = /* GraphQL */ `
           createdBy
           createdAt
           updatedAt
-          owner
           __typename
         }
         nextToken
@@ -1078,7 +1029,6 @@ export const updateOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -1094,7 +1044,6 @@ export const updateOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -1134,7 +1083,6 @@ export const updateOffice = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -1142,7 +1090,6 @@ export const updateOffice = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -1181,7 +1128,6 @@ export const deleteOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -1197,13 +1143,11 @@ export const deleteOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
           }
           status
-          owner
           lastConnection
           createdAt
           updatedAt
@@ -1222,7 +1166,6 @@ export const deleteOffice = /* GraphQL */ `
           createdBy
           createdAt
           updatedAt
-          owner
           __typename
         }
         nextToken
@@ -1242,7 +1185,6 @@ export const deleteOffice = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -1258,7 +1200,6 @@ export const deleteOffice = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -1298,7 +1239,6 @@ export const deleteOffice = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -1306,7 +1246,6 @@ export const deleteOffice = /* GraphQL */ `
         nextToken
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -1390,7 +1329,6 @@ export const createEmployee = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -1409,7 +1347,6 @@ export const createEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1432,7 +1369,6 @@ export const createEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1440,7 +1376,6 @@ export const createEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -1467,7 +1402,6 @@ export const createEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1486,7 +1420,6 @@ export const createEmployee = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -1506,7 +1439,6 @@ export const createEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1514,13 +1446,11 @@ export const createEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
       }
       status
-      owner
       lastConnection
       createdAt
       updatedAt
@@ -1560,7 +1490,6 @@ export const updateEmployee = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -1579,7 +1508,6 @@ export const updateEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1602,7 +1530,6 @@ export const updateEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1610,7 +1537,6 @@ export const updateEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -1637,7 +1563,6 @@ export const updateEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1656,7 +1581,6 @@ export const updateEmployee = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -1676,7 +1600,6 @@ export const updateEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1684,13 +1607,11 @@ export const updateEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
       }
       status
-      owner
       lastConnection
       createdAt
       updatedAt
@@ -1730,7 +1651,6 @@ export const deleteEmployee = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -1749,7 +1669,6 @@ export const deleteEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1772,7 +1691,6 @@ export const deleteEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1780,7 +1698,6 @@ export const deleteEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -1807,7 +1724,6 @@ export const deleteEmployee = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -1826,7 +1742,6 @@ export const deleteEmployee = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -1846,7 +1761,6 @@ export const deleteEmployee = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -1854,13 +1768,11 @@ export const deleteEmployee = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
       }
       status
-      owner
       lastConnection
       createdAt
       updatedAt
@@ -1882,7 +1794,6 @@ export const createTransport = /* GraphQL */ `
       createdBy
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -1901,7 +1812,6 @@ export const updateTransport = /* GraphQL */ `
       createdBy
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -1920,7 +1830,6 @@ export const deleteTransport = /* GraphQL */ `
       createdBy
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -1958,7 +1867,6 @@ export const createScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -1986,7 +1894,6 @@ export const createScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -1999,7 +1906,6 @@ export const createScheduleBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -2018,7 +1924,6 @@ export const createScheduleBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -2032,7 +1937,6 @@ export const createScheduleBooking = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -2063,13 +1967,11 @@ export const createScheduleBooking = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
       }
       freq
-      owner
       createdAt
       updatedAt
       __typename
@@ -2109,7 +2011,6 @@ export const updateScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2137,7 +2038,6 @@ export const updateScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2150,7 +2050,6 @@ export const updateScheduleBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -2169,7 +2068,6 @@ export const updateScheduleBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -2183,7 +2081,6 @@ export const updateScheduleBooking = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -2214,13 +2111,11 @@ export const updateScheduleBooking = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
       }
       freq
-      owner
       createdAt
       updatedAt
       __typename
@@ -2260,7 +2155,6 @@ export const deleteScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2288,7 +2182,6 @@ export const deleteScheduleBooking = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2301,7 +2194,6 @@ export const deleteScheduleBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -2320,7 +2212,6 @@ export const deleteScheduleBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -2334,7 +2225,6 @@ export const deleteScheduleBooking = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -2365,13 +2255,11 @@ export const deleteScheduleBooking = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
       }
       freq
-      owner
       createdAt
       updatedAt
       __typename
@@ -2407,7 +2295,6 @@ export const createBooking = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -2426,7 +2313,6 @@ export const createBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2449,7 +2335,6 @@ export const createBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -2457,7 +2342,6 @@ export const createBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -2484,7 +2368,6 @@ export const createBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2503,7 +2386,6 @@ export const createBooking = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -2523,7 +2405,6 @@ export const createBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -2531,7 +2412,6 @@ export const createBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -2554,13 +2434,11 @@ export const createBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2582,7 +2460,6 @@ export const createBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -2591,7 +2468,6 @@ export const createBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -2617,7 +2493,6 @@ export const createBooking = /* GraphQL */ `
             __typename
           }
           price
-          owner
           createdAt
           updatedAt
           __typename
@@ -2648,7 +2523,6 @@ export const createBooking = /* GraphQL */ `
       createdBy
       driver
       transport
-      owner
       createdAt
       updatedAt
       __typename
@@ -2684,7 +2558,6 @@ export const updateBooking = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -2703,7 +2576,6 @@ export const updateBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2726,7 +2598,6 @@ export const updateBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -2734,7 +2605,6 @@ export const updateBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -2761,7 +2631,6 @@ export const updateBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2780,7 +2649,6 @@ export const updateBooking = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -2800,7 +2668,6 @@ export const updateBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -2808,7 +2675,6 @@ export const updateBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -2831,13 +2697,11 @@ export const updateBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -2859,7 +2723,6 @@ export const updateBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -2868,7 +2731,6 @@ export const updateBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -2894,7 +2756,6 @@ export const updateBooking = /* GraphQL */ `
             __typename
           }
           price
-          owner
           createdAt
           updatedAt
           __typename
@@ -2925,7 +2786,6 @@ export const updateBooking = /* GraphQL */ `
       createdBy
       driver
       transport
-      owner
       createdAt
       updatedAt
       __typename
@@ -2961,7 +2821,6 @@ export const deleteBooking = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -2980,7 +2839,6 @@ export const deleteBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -3003,7 +2861,6 @@ export const deleteBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -3011,7 +2868,6 @@ export const deleteBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -3038,7 +2894,6 @@ export const deleteBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -3057,7 +2912,6 @@ export const deleteBooking = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
             __typename
           }
           nextToken
@@ -3077,7 +2931,6 @@ export const deleteBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -3085,7 +2938,6 @@ export const deleteBooking = /* GraphQL */ `
           nextToken
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -3108,13 +2960,11 @@ export const deleteBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3136,7 +2986,6 @@ export const deleteBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3145,7 +2994,6 @@ export const deleteBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -3171,7 +3019,6 @@ export const deleteBooking = /* GraphQL */ `
             __typename
           }
           price
-          owner
           createdAt
           updatedAt
           __typename
@@ -3202,7 +3049,6 @@ export const deleteBooking = /* GraphQL */ `
       createdBy
       driver
       transport
-      owner
       createdAt
       updatedAt
       __typename
@@ -3231,7 +3077,6 @@ export const createStopBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3240,7 +3085,6 @@ export const createStopBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -3258,7 +3102,6 @@ export const createStopBooking = /* GraphQL */ `
         __typename
       }
       price
-      owner
       createdAt
       updatedAt
       __typename
@@ -3287,7 +3130,6 @@ export const updateStopBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3296,7 +3138,6 @@ export const updateStopBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -3314,7 +3155,6 @@ export const updateStopBooking = /* GraphQL */ `
         __typename
       }
       price
-      owner
       createdAt
       updatedAt
       __typename
@@ -3343,7 +3183,6 @@ export const deleteStopBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3352,7 +3191,6 @@ export const deleteStopBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -3370,7 +3208,6 @@ export const deleteStopBooking = /* GraphQL */ `
         __typename
       }
       price
-      owner
       createdAt
       updatedAt
       __typename
@@ -3412,13 +3249,11 @@ export const createCustomer = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3427,13 +3262,11 @@ export const createCustomer = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -3475,13 +3308,11 @@ export const updateCustomer = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3490,13 +3321,11 @@ export const updateCustomer = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       __typename
@@ -3534,7 +3363,6 @@ export const createTicket = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3543,13 +3371,11 @@ export const createTicket = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -3558,7 +3384,6 @@ export const createTicket = /* GraphQL */ `
       status
       description
       url
-      owner
       createdAt
       updatedAt
       stopBookingTicketsId
@@ -3597,7 +3422,6 @@ export const updateTicket = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3606,13 +3430,11 @@ export const updateTicket = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
           __typename
         }
-        owner
         createdAt
         updatedAt
         __typename
@@ -3621,7 +3443,6 @@ export const updateTicket = /* GraphQL */ `
       status
       description
       url
-      owner
       createdAt
       updatedAt
       stopBookingTicketsId
@@ -3661,13 +3482,11 @@ export const createOrderTicket = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3676,13 +3495,11 @@ export const createOrderTicket = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
@@ -3722,13 +3539,11 @@ export const updateOrderTicket = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3737,13 +3552,11 @@ export const updateOrderTicket = /* GraphQL */ `
         status
         description
         url
-        owner
         createdAt
         updatedAt
         stopBookingTicketsId
         __typename
       }
-      owner
       createdAt
       updatedAt
       orderDetailOrderTicketsId
@@ -3775,7 +3588,6 @@ export const createOrderDetail = /* GraphQL */ `
         userID
         createdAt
         updatedAt
-        owner
         __typename
       }
       bookingID
@@ -3804,7 +3616,6 @@ export const createOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3832,7 +3643,6 @@ export const createOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -3845,7 +3655,6 @@ export const createOrderDetail = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -3864,7 +3673,6 @@ export const createOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -3878,7 +3686,6 @@ export const createOrderDetail = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -3909,7 +3716,6 @@ export const createOrderDetail = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
@@ -3929,13 +3735,11 @@ export const createOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
@@ -3948,7 +3752,6 @@ export const createOrderDetail = /* GraphQL */ `
       createdAt
       updatedAt
       userOrdersId
-      owner
       __typename
     }
   }
@@ -3977,7 +3780,6 @@ export const updateOrderDetail = /* GraphQL */ `
         userID
         createdAt
         updatedAt
-        owner
         __typename
       }
       bookingID
@@ -4006,7 +3808,6 @@ export const updateOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -4034,7 +3835,6 @@ export const updateOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -4047,7 +3847,6 @@ export const updateOrderDetail = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -4066,7 +3865,6 @@ export const updateOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -4080,7 +3878,6 @@ export const updateOrderDetail = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -4111,7 +3908,6 @@ export const updateOrderDetail = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
@@ -4131,13 +3927,11 @@ export const updateOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
@@ -4150,7 +3944,6 @@ export const updateOrderDetail = /* GraphQL */ `
       createdAt
       updatedAt
       userOrdersId
-      owner
       __typename
     }
   }
@@ -4179,7 +3972,6 @@ export const deleteOrderDetail = /* GraphQL */ `
         userID
         createdAt
         updatedAt
-        owner
         __typename
       }
       bookingID
@@ -4208,7 +4000,6 @@ export const deleteOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -4236,7 +4027,6 @@ export const deleteOrderDetail = /* GraphQL */ `
             nextToken
             __typename
           }
-          owner
           createdAt
           updatedAt
           __typename
@@ -4249,7 +4039,6 @@ export const deleteOrderDetail = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
             __typename
@@ -4268,7 +4057,6 @@ export const deleteOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -4282,7 +4070,6 @@ export const deleteOrderDetail = /* GraphQL */ `
             id
             bookingID
             price
-            owner
             createdAt
             updatedAt
             __typename
@@ -4313,7 +4100,6 @@ export const deleteOrderDetail = /* GraphQL */ `
         createdBy
         driver
         transport
-        owner
         createdAt
         updatedAt
         __typename
@@ -4333,13 +4119,11 @@ export const deleteOrderDetail = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             __typename
           }
-          owner
           createdAt
           updatedAt
           orderDetailOrderTicketsId
@@ -4352,7 +4136,6 @@ export const deleteOrderDetail = /* GraphQL */ `
       createdAt
       updatedAt
       userOrdersId
-      owner
       __typename
     }
   }
@@ -4370,7 +4153,6 @@ export const createPayment = /* GraphQL */ `
       userID
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -4388,7 +4170,6 @@ export const updatePayment = /* GraphQL */ `
       userID
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -4406,7 +4187,6 @@ export const deletePayment = /* GraphQL */ `
       userID
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -4438,7 +4218,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
           __typename
         }
         bookingID
@@ -4455,7 +4234,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -4471,7 +4249,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -4511,7 +4288,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -4521,7 +4297,6 @@ export const createOrderDetailHistory = /* GraphQL */ `
             id
             orderID
             ticketID
-            owner
             createdAt
             updatedAt
             orderDetailOrderTicketsId
@@ -4534,12 +4309,10 @@ export const createOrderDetailHistory = /* GraphQL */ `
         createdAt
         updatedAt
         userOrdersId
-        owner
         __typename
       }
       userID
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
@@ -4573,7 +4346,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
           __typename
         }
         bookingID
@@ -4590,7 +4362,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -4606,7 +4377,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -4646,7 +4416,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -4656,7 +4425,6 @@ export const updateOrderDetailHistory = /* GraphQL */ `
             id
             orderID
             ticketID
-            owner
             createdAt
             updatedAt
             orderDetailOrderTicketsId
@@ -4669,12 +4437,10 @@ export const updateOrderDetailHistory = /* GraphQL */ `
         createdAt
         updatedAt
         userOrdersId
-        owner
         __typename
       }
       userID
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
@@ -4708,7 +4474,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
           __typename
         }
         bookingID
@@ -4725,7 +4490,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
-            owner
             createdAt
             updatedAt
             __typename
@@ -4741,7 +4505,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
             __typename
@@ -4781,7 +4544,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           createdBy
           driver
           transport
-          owner
           createdAt
           updatedAt
           __typename
@@ -4791,7 +4553,6 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
             id
             orderID
             ticketID
-            owner
             createdAt
             updatedAt
             orderDetailOrderTicketsId
@@ -4804,12 +4565,10 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
         createdAt
         updatedAt
         userOrdersId
-        owner
         __typename
       }
       userID
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
@@ -4848,7 +4607,6 @@ export const createUser = /* GraphQL */ `
             userID
             createdAt
             updatedAt
-            owner
             __typename
           }
           bookingID
@@ -4865,7 +4623,6 @@ export const createUser = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -4878,14 +4635,12 @@ export const createUser = /* GraphQL */ `
           createdAt
           updatedAt
           userOrdersId
-          owner
           __typename
         }
         nextToken
         __typename
       }
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
@@ -4924,7 +4679,6 @@ export const updateUser = /* GraphQL */ `
             userID
             createdAt
             updatedAt
-            owner
             __typename
           }
           bookingID
@@ -4941,7 +4695,6 @@ export const updateUser = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -4954,14 +4707,12 @@ export const updateUser = /* GraphQL */ `
           createdAt
           updatedAt
           userOrdersId
-          owner
           __typename
         }
         nextToken
         __typename
       }
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
@@ -5000,7 +4751,6 @@ export const deleteUser = /* GraphQL */ `
             userID
             createdAt
             updatedAt
-            owner
             __typename
           }
           bookingID
@@ -5017,7 +4767,6 @@ export const deleteUser = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
             __typename
@@ -5030,14 +4779,12 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           updatedAt
           userOrdersId
-          owner
           __typename
         }
         nextToken
         __typename
       }
-      owner
-      googleOwner
+      google
       createdAt
       updatedAt
       __typename
