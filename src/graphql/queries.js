@@ -975,6 +975,7 @@ export const getBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           seating
@@ -985,6 +986,7 @@ export const getBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
         }
         nextToken
       }
@@ -1368,6 +1370,7 @@ export const getStopBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           seating
@@ -1378,6 +1381,7 @@ export const getStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
         }
         nextToken
       }
@@ -1474,6 +1478,7 @@ export const getCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -1495,6 +1500,7 @@ export const getCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
       }
       owner
       createdAt
@@ -1520,6 +1526,7 @@ export const listCustomers = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           seating
@@ -1530,6 +1537,7 @@ export const listCustomers = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
         }
         owner
         createdAt
@@ -1565,6 +1573,7 @@ export const customersByBookingID = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           seating
@@ -1575,6 +1584,7 @@ export const customersByBookingID = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
         }
         owner
         createdAt
@@ -1590,6 +1600,7 @@ export const getTicket = /* GraphQL */ `
       id
       code
       bookingID
+      orderDetailID
       stop
       customerID
       customer {
@@ -1603,6 +1614,7 @@ export const getTicket = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           seating
@@ -1613,6 +1625,7 @@ export const getTicket = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
         }
         owner
         createdAt
@@ -1626,6 +1639,7 @@ export const getTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
+      orderDetailTicketsId
     }
   }
 `;
@@ -1640,6 +1654,7 @@ export const listTickets = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -1661,6 +1676,7 @@ export const listTickets = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
       }
       nextToken
     }
@@ -1685,6 +1701,7 @@ export const ticketsByBookingID = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -1706,6 +1723,54 @@ export const ticketsByBookingID = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
+      }
+      nextToken
+    }
+  }
+`;
+export const ticketsByOrderDetailID = /* GraphQL */ `
+  query TicketsByOrderDetailID(
+    $orderDetailID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTicketFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ticketsByOrderDetailID(
+      orderDetailID: $orderDetailID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        code
+        bookingID
+        orderDetailID
+        stop
+        customerID
+        customer {
+          id
+          fullName
+          ci
+          email
+          bookingID
+          ticketID
+          owner
+          createdAt
+          updatedAt
+        }
+        seating
+        status
+        description
+        url
+        owner
+        createdAt
+        updatedAt
+        stopBookingTicketsId
+        orderDetailTicketsId
       }
       nextToken
     }
@@ -1730,6 +1795,7 @@ export const ticketsByStop = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -1751,123 +1817,7 @@ export const ticketsByStop = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
-      }
-      nextToken
-    }
-  }
-`;
-export const getOrderTicket = /* GraphQL */ `
-  query GetOrderTicket($id: ID!) {
-    getOrderTicket(id: $id) {
-      id
-      orderID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        customer {
-          id
-          fullName
-          ci
-          email
-          bookingID
-          ticketID
-          owner
-          createdAt
-          updatedAt
-        }
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-      }
-      owner
-      createdAt
-      updatedAt
-      orderDetailOrderTicketsId
-    }
-  }
-`;
-export const listOrderTickets = /* GraphQL */ `
-  query ListOrderTickets(
-    $filter: ModelOrderTicketFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listOrderTickets(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        orderID
-        ticketID
-        ticket {
-          id
-          code
-          bookingID
-          stop
-          customerID
-          seating
-          status
-          description
-          url
-          owner
-          createdAt
-          updatedAt
-          stopBookingTicketsId
-        }
-        owner
-        createdAt
-        updatedAt
-        orderDetailOrderTicketsId
-      }
-      nextToken
-    }
-  }
-`;
-export const orderTicketsByOrderID = /* GraphQL */ `
-  query OrderTicketsByOrderID(
-    $orderID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelOrderTicketFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    orderTicketsByOrderID(
-      orderID: $orderID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        orderID
-        ticketID
-        ticket {
-          id
-          code
-          bookingID
-          stop
-          customerID
-          seating
-          status
-          description
-          url
-          owner
-          createdAt
-          updatedAt
-          stopBookingTicketsId
-        }
-        owner
-        createdAt
-        updatedAt
-        orderDetailOrderTicketsId
+        orderDetailTicketsId
       }
       nextToken
     }
@@ -1963,15 +1913,23 @@ export const getOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      orderTickets {
+      tickets {
         items {
           id
-          orderID
-          ticketID
+          code
+          bookingID
+          orderDetailID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
           owner
           createdAt
           updatedAt
-          orderDetailOrderTicketsId
+          stopBookingTicketsId
+          orderDetailTicketsId
         }
         nextToken
       }
@@ -2029,7 +1987,7 @@ export const listOrderDetails = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        orderTickets {
+        tickets {
           nextToken
         }
         userID
@@ -2096,7 +2054,7 @@ export const orderDetailsByUserID = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        orderTickets {
+        tickets {
           nextToken
         }
         userID
@@ -2188,7 +2146,7 @@ export const getOrderDetailHistory = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        orderTickets {
+        tickets {
           nextToken
         }
         userID

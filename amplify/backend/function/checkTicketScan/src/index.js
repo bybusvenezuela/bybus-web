@@ -115,7 +115,7 @@ export const handler = async (event) => {
     console.log("Existe el TIcket? ", isExistenTIcket);
     if (!isExistenTIcket) throw new Error("Ticket No existe en este viaje");
     switch (isExistenTIcket?.status) {
-      case "ACTIVATED":
+      case "ACTIVE":
         throw new Error(`Ticket no Asigando a un cliente`);
       case "BOARDED":
         throw new Error(
@@ -133,6 +133,8 @@ export const handler = async (event) => {
         break;
       case "CANCELED":
         throw new Error(`Ticket ${isExistenTIcket?.id} a sido cancelado`);
+      case "RETURNED":
+        throw new Error(`Ticket ${isExistenTIcket?.id} a sido devuelto`);
       default:
         throw new Error(
           `Estado del Ticket no aceptado ${isExistenTIcket?.status}`

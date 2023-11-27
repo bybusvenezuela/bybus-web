@@ -14,6 +14,7 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TicketCreateFormInputValues = {
     code?: string;
+    orderDetailID?: string;
     stop?: string;
     seating?: string;
     status?: string;
@@ -23,6 +24,7 @@ export declare type TicketCreateFormInputValues = {
 };
 export declare type TicketCreateFormValidationValues = {
     code?: ValidationFunction<string>;
+    orderDetailID?: ValidationFunction<string>;
     stop?: ValidationFunction<string>;
     seating?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
@@ -34,6 +36,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type TicketCreateFormOverridesProps = {
     TicketCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     code?: PrimitiveOverrideProps<TextFieldProps>;
+    orderDetailID?: PrimitiveOverrideProps<TextFieldProps>;
     stop?: PrimitiveOverrideProps<TextFieldProps>;
     seating?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<TextFieldProps>;

@@ -42,6 +42,8 @@ const CREATE_TICKET = async (data) => {
     bookingID: { S: bookingID },
     status: { S: status },
     __typename: { S: "Ticket" },
+    createdAt: { S: new Date() },
+    updatedAt: { S: new Date() },
   };
 
   // formato de Put Item

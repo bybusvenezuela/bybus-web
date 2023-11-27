@@ -215,15 +215,7 @@ export const listOrderDetails = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        orderTickets {
-          items {
-            id
-            orderID
-            ticketID
-            createdAt
-            updatedAt
-            orderDetailOrderTicketsId
-          }
+        tickets {
           nextToken
         }
         userID
@@ -322,14 +314,22 @@ export const getOrderDetail = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      orderTickets {
+      tickets {
         items {
           id
-          orderID
-          ticketID
+          code
+          bookingID
+          orderDetailID
+          stop
+          customerID
+          seating
+          status
+          description
+          url
           createdAt
           updatedAt
-          orderDetailOrderTicketsId
+          stopBookingTicketsId
+          orderDetailTicketsId
         }
         nextToken
       }

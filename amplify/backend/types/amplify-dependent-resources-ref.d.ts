@@ -85,6 +85,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "scheduleBookingAgency": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "sheduleBookingUpdate": {
       "Arn": "string",
       "CloudWatchEventRule": "string",
