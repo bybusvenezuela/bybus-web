@@ -72,18 +72,18 @@ const Menu = () => {
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 3}
+          selected={selectedIndex === 1}
           onClick={(e) => {
             e.preventDefault;
             router.push("/home/management");
-            updateIndex(3);
+            updateIndex(1);
             console.log(selectedIndex);
           }}
         >
           <ListItemIcon>
             <PaidRoundedIcon
               sx={{
-                color: selectedIndex === 3 ? "white" : "#1f1f1f",
+                color: selectedIndex === 1 ? "white" : "#1f1f1f",
               }}
             />
           </ListItemIcon>
@@ -92,18 +92,18 @@ const Menu = () => {
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 1}
+          selected={selectedIndex === 2}
           onClick={(e) => {
             e.preventDefault;
             router.push("/home/support");
-            updateIndex(1);
+            updateIndex(2);
             console.log(selectedIndex);
           }}
         >
           <ListItemIcon>
             <SupportAgentRoundedIcon
               sx={{
-                color: selectedIndex === 1 ? "white" : "#1f1f1f",
+                color: selectedIndex === 2 ? "white" : "#1f1f1f",
               }}
             />
           </ListItemIcon>

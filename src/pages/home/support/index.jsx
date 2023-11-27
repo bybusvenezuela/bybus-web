@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "@/styles/Support.module.css";
 import { Button, TextField } from "@mui/material";
 import * as queries from "@/graphql/custom/queries";
+import * as mutation from "@/graphql/custom/mutations";
 import { Auth, API } from "aws-amplify";
 
 const Support = () => {
@@ -27,17 +28,61 @@ const Support = () => {
     }
   };
 
-  const fetchReturned = () => {
-    let opcion = confirm('Recuerda de haber devuelto el pago correspondiente al cliente antes de realizar la devolucion. Si hiciste todos los procedimientos puedes pulsar "Aceptar"')
+  const fetchReturned = async () => {
+    let opcion = confirm(
+      'Recuerda de haber devuelto el pago correspondiente al cliente antes de realizar la devolucion. Si hiciste todos los procedimientos puedes pulsar "Aceptar"'
+    );
     if (opcion) {
-      setOrderTravel('')
-      setData(null)
-      alert('Tu devolucion ha sido un exito!')
+      try {
+        await Promise.all(data.tickets.items.map(async (item, index) => {
+          const ticket = await API.graphql({
+            query: mutation.updateTicket,
+            authMode: "AMAZON_COGNITO_USER_POOLS",
+            variables: {
+              input: {
+                id: item.id,
+                status: 'RETURNED'
+              }
+            },
+          }); 
+          console.log(ticket)
+        }))
+  
+        const order = await API.graphql({
+          query: mutation.updateOrderDetail,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variables: {
+            input: {
+              id: data.id,
+              status: 'RETURNED'
+            }
+          },
+        });
+        console.log(order)
+        let stockNew = data.booking.stock + data.tickets.items.length
+        console.log(stockNew)
+        const booking = await API.graphql({
+          query: mutation.updateBooking,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variables: {
+            input: {
+              id: data.bookingID,
+              stock: stockNew
+            }
+          },
+        });
+        console.log(booking)
+        setOrderTravel("");
+        setData(null);
+        alert("Tu devolucion ha sido un exito!");
+      } catch (error) {
+        console.log(error)
+        alert("No se ha podido completar tu devolucion");
+      }
     } else {
-      alert('No se ha podido completar tu devolucion')
-
+      alert("No se ha podido completar tu devolucion");
     }
-  }
+  };
 
   console.log(orderTravel);
   return (
@@ -70,7 +115,7 @@ const Support = () => {
             Buscar
           </Button>
         </div>
-        {data && (
+        {data && data?.status === 'AVAILABLE' ? (
           <div className={styles.info}>
             <div className={styles.both}>
               <div className={styles.infoAgency}>
@@ -159,25 +204,32 @@ const Support = () => {
               </p>
               <p>
                 {" "}
-                <span>Numero de referencia del pago:</span> {data.payment.reference}
+                <span>Numero de referencia del pago:</span>{" "}
+                {data.payment.reference}
               </p>
             </div>
             <div className={styles.button}>
-
-            <Button
-            variant="contained"
-            color="error"
-            sx={{
-              height: 55,
-              width: 250,
-              marginLeft: 3,
-            }}
-            onClick={fetchReturned}
-          >
-            Realizar devolucion
-          </Button>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{
+                  height: 55,
+                  width: 250,
+                  marginLeft: 3,
+                }}
+                onClick={fetchReturned}
+              >
+                Realizar devolucion
+              </Button>
+            </div>
           </div>
-
+        ) : data && data?.status === 'RETURNED' ? (
+          <div>
+            <h5 style={{color: 'red'}}>La orden con el id: {data.id} ya se encuentra devuelto</h5>
+          </div>
+        ) : (
+          <div>
+            <h5 style={{color: 'red'}}>No se encuentra la orden con el id: {orderTravel}</h5>
           </div>
         )}
       </div>

@@ -38,6 +38,7 @@ export default function OrderDetailCreateForm(props) {
     customerEmail: "",
     total: "",
     isGuest: false,
+    status: "",
     userID: "",
   };
   const [amount, setAmount] = React.useState(initialValues.amount);
@@ -58,6 +59,7 @@ export default function OrderDetailCreateForm(props) {
   );
   const [total, setTotal] = React.useState(initialValues.total);
   const [isGuest, setIsGuest] = React.useState(initialValues.isGuest);
+  const [status, setStatus] = React.useState(initialValues.status);
   const [userID, setUserID] = React.useState(initialValues.userID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -69,6 +71,7 @@ export default function OrderDetailCreateForm(props) {
     setCustomerEmail(initialValues.customerEmail);
     setTotal(initialValues.total);
     setIsGuest(initialValues.isGuest);
+    setStatus(initialValues.status);
     setUserID(initialValues.userID);
     setErrors({});
   };
@@ -81,6 +84,7 @@ export default function OrderDetailCreateForm(props) {
     customerEmail: [],
     total: [],
     isGuest: [],
+    status: [],
     userID: [],
   };
   const runValidationTasks = async (
@@ -117,6 +121,7 @@ export default function OrderDetailCreateForm(props) {
           customerEmail,
           total,
           isGuest,
+          status,
           userID,
         };
         const validationResponses = await Promise.all(
@@ -184,6 +189,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -216,6 +222,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -248,6 +255,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -296,6 +304,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -328,6 +337,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -360,6 +370,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail: value,
               total,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -396,6 +407,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total: value,
               isGuest,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -428,6 +440,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest: value,
+              status,
               userID,
             };
             const result = onChange(modelFields);
@@ -443,6 +456,39 @@ export default function OrderDetailCreateForm(props) {
         hasError={errors.isGuest?.hasError}
         {...getOverrideProps(overrides, "isGuest")}
       ></SwitchField>
+      <TextField
+        label="Status"
+        isRequired={false}
+        isReadOnly={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              amount,
+              paymentMethod,
+              documentType,
+              customerDocument,
+              customerName,
+              customerEmail,
+              total,
+              isGuest,
+              status: value,
+              userID,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      ></TextField>
       <TextField
         label="User id"
         isRequired={false}
@@ -460,6 +506,7 @@ export default function OrderDetailCreateForm(props) {
               customerEmail,
               total,
               isGuest,
+              status,
               userID: value,
             };
             const result = onChange(modelFields);

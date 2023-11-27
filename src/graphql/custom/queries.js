@@ -188,6 +188,7 @@ export const listOrderDetails = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -240,6 +241,7 @@ export const getOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id

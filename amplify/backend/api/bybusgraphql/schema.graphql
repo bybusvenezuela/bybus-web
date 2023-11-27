@@ -414,6 +414,7 @@ type OrderDetail
   customerEmail: String
   total: Int
   isGuest: Boolean
+  status: String @default(value: "APPROVED")
   paymentID: ID
   payment: Payment @hasOne(fields: ["paymentID"])
   bookingID: ID

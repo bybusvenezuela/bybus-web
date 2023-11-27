@@ -1894,6 +1894,7 @@ export const createOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -2015,6 +2016,7 @@ export const updateOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -2136,6 +2138,7 @@ export const deleteOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -2311,6 +2314,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -2375,6 +2379,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -2439,6 +2444,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -2508,6 +2514,7 @@ export const createUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           bookingID
           userID
@@ -2548,6 +2555,7 @@ export const updateUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           bookingID
           userID
@@ -2588,6 +2596,7 @@ export const deleteUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           bookingID
           userID
