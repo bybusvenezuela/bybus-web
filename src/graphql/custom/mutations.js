@@ -72,3 +72,38 @@ export const createAgency = /* GraphQL */ `
     }
   }
 `;
+
+export const updateTicket = /* GraphQL */ `
+  mutation UpdateTicket(
+    $input: UpdateTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    updateTicket(input: $input, condition: $condition) {
+      id
+      status
+    }
+  }
+`;
+export const updateOrderDetail = /* GraphQL */ `
+  mutation UpdateOrderDetail(
+    $input: UpdateOrderDetailInput!
+    $condition: ModelOrderDetailConditionInput
+  ) {
+    updateOrderDetail(input: $input, condition: $condition) {
+      id
+      status
+    }
+  }
+`;
+
+export const updateBooking = /* GraphQL */ `
+  mutation UpdateBooking(
+    $input: UpdateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    updateBooking(input: $input, condition: $condition) {
+      id
+      stock
+    }
+  }
+`;
