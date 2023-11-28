@@ -56,7 +56,6 @@ export const getAgency = /* GraphQL */ `
     }
   }
 `;
-
 export const getEmployee = /* GraphQL */ `
   query GetEmployee($id: ID!) {
     getEmployee(id: $id) {
@@ -88,7 +87,6 @@ export const getEmployee = /* GraphQL */ `
     }
   }
 `;
-
 export const listBookings = /* GraphQL */ `
   query ListBookings(
     $filter: ModelBookingFilterInput
@@ -110,7 +108,6 @@ export const listBookings = /* GraphQL */ `
             email
             bookingID
             ticketID
-
             createdAt
             updatedAt
           }
@@ -127,7 +124,6 @@ export const listBookings = /* GraphQL */ `
             status
             description
             url
-
             createdAt
             updatedAt
             stopBookingTicketsId
@@ -139,7 +135,6 @@ export const listBookings = /* GraphQL */ `
             id
             bookingID
             price
-
             createdAt
             updatedAt
           }
@@ -166,7 +161,6 @@ export const listBookings = /* GraphQL */ `
         createdBy
         driver
         transport
-
         createdAt
         updatedAt
       }
@@ -174,7 +168,6 @@ export const listBookings = /* GraphQL */ `
     }
   }
 `;
-
 export const listOrderDetails = /* GraphQL */ `
   query ListOrderDetails(
     $filter: ModelOrderDetailFilterInput
@@ -223,7 +216,6 @@ export const listOrderDetails = /* GraphQL */ `
     }
   }
 `;
-
 export const getOffice = /* GraphQL */ `
   query GetOffice($id: ID!) {
     getOffice(id: $id) {

@@ -210,6 +210,7 @@ export default function ModalTravel({ open, close, offices }) {
       },
     });
 
+
     console.log(booking);
 
     const generateCode = () => {

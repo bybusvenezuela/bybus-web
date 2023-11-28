@@ -18,7 +18,6 @@ export const getAgency = /* GraphQL */ `
           type
           agencyID
           officeID
-          
           lastConnection
           createdAt
           updatedAt
@@ -27,7 +26,6 @@ export const getAgency = /* GraphQL */ `
         nextToken
         __typename
       }
-      
       createdAt
       updatedAt
       __typename
