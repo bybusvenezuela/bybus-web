@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getPayment } from "../graphql/queries";
 import { updatePayment } from "../graphql/mutations";
+const client = generateClient();
 export default function PaymentUpdateForm(props) {
   const {
     id: idProp,
@@ -59,7 +60,7 @@ export default function PaymentUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getPayment.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -135,7 +136,7 @@ export default function PaymentUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updatePayment.replaceAll("__typename", ""),
             variables: {
               input: {

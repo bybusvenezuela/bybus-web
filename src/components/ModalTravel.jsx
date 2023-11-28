@@ -28,7 +28,7 @@ import { createScheduleBooking } from "@/graphql/custom/mutations/employee";
 import { useUser } from "@/context/UserContext";
 
 export default function ModalTravel({ open, close, offices }) {
-  const { profileAuth } = useUser();
+  const { profileAuth, userAuth } = useUser();
   const [number, setNumber] = useState(1);
   const [stopQ, setStopQ] = useState([]);
   const [selectWeek, setSelectWeek] = useState([]);
@@ -59,6 +59,7 @@ export default function ModalTravel({ open, close, offices }) {
     date: "",
     address: "",
   });
+  const [scheduleDate, setScheduleDate] = useState("");
   const resetModal = () => {
     setStopQ([]);
     setDeparture({
@@ -124,6 +125,47 @@ export default function ModalTravel({ open, close, offices }) {
         ? Number(timeArrival.hour) + 12 + ":" + timeArrival.minutes + ":00.000"
         : timeArrival.hour + ":" + timeArrival.minutes + ":00.000";
 
+    const params = {
+      booking: {
+        agencyID: offices.agencyID,
+        officeID: offices.id,
+        transport: transport,
+        driver: driver,
+        departure: {
+          time: timeD,
+          date: departure.date,
+          city: departure.city,
+          state: departure.state,
+          address: departure.address.trim(),
+        },
+        arrival: {
+          time: timeA,
+          date: arrival.date,
+          city: arrival.city,
+          state: arrival.state,
+          address: arrival.address.trim(),
+        },
+        departureCity: departure.city,
+        arrivalCity: arrival.city,
+        stock: quantity.trim(),
+        price: price.trim(),
+        createdBy: profileAuth.id,
+      },
+      owner: userAuth?.username,
+      reprogram: {
+        is: !checked,
+        date: scheduleDate,
+        week: selectWeek,
+      },
+    };
+    const ejele = await API.graphql({
+      query: mutations.reprogram,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: { input: JSON.stringify(params) },
+    });
+    console.log(ejele);
+    return;
+
     const rif = await API.graphql({
       query: queries.getAgency,
       authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -168,18 +210,17 @@ export default function ModalTravel({ open, close, offices }) {
       },
     });
 
+
     console.log(booking);
-    
+
     const generateCode = () => {
-      let codeBooking = `${booking.data.createBooking.id.slice(0, 5).replace(
-        "-",
-        ""
-      ).toUpperCase()}${offices.state.slice(0, 1)}${offices.city.slice(
+      let codeBooking = `${booking.data.createBooking.id
+        .slice(0, 5)
+        .replace("-", "")
+        .toUpperCase()}${offices.state.slice(0, 1)}${offices.city.slice(
         0,
         1
-      )}${number
-        .toString()
-        .padStart(2, "0")}`;
+      )}${number.toString().padStart(2, "0")}`;
       console.log(codeBooking);
       return codeBooking;
     };
@@ -211,76 +252,6 @@ export default function ModalTravel({ open, close, offices }) {
       },
     });
     console.log(bookingUpdate);
-
-    // for (let i = 1; i <= booking.data.createBooking.stock; i++) {
-    //   const ticket = await API.graphql({
-    //     query: mutations.createTicket,
-    //     authMode: "AMAZON_COGNITO_USER_POOLS",
-    //     variables: {
-    //       input: {
-    //         code: `${booking.data.createBooking.code}-${i
-    //           .toString()
-    //           .padStart(2, "0")}-${booking.data.createBooking.id.slice(0, 5)}`,
-    //         bookingID: booking.data.createBooking.id,
-    //         status: "Active",
-    //       },
-    //     },
-    //   });
-    // }
-
-    const scheduleResponse = await API.graphql({
-      query: createScheduleBooking,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        input: {
-          bookingID: booking.data.createBooking.id,
-          freq: selectWeek,
-        },
-      },
-    });
-
-    console.log("CREACION DE REPROGRAMACION: ", scheduleResponse);
-    return;
-    if (stopQ.length !== 0) {
-      for (let i = 0; i + 1 <= stopQ.length; i++) {
-        const stop = await API.graphql({
-          query: mutations.createStopBooking,
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-          variables: {
-            input: {
-              bookingID: booking.data.createBooking.id,
-              arrival: {
-                time: "00:00:00.000",
-                date: "2023-01-01",
-                city: stopQ[i]?.city,
-                state: stopQ[i]?.state,
-                address: stopQ[i]?.address.trim(),
-              },
-              price: stopQ[i]?.price.trim(),
-            },
-          },
-        });
-        // for (let i = 1; i <= booking.data.createBooking.stock; i++) {
-        //   const ticketStop = await API.graphql({
-        //     query: mutations.createTicket,
-        //     authMode: "AMAZON_COGNITO_USER_POOLS",
-        //     variables: {
-        //       input: {
-        //         stop: stop.data.createStopBooking.id,
-        //         code: `${booking.data.createBooking.code}-${i
-        //           .toString()
-        //           .padStart(2, "0")}-${stop.data.createStopBooking.id.slice(
-        //           0,
-        //           5
-        //         )}`,
-        //         bookingID: booking.data.createBooking.id,
-        //         status: "Active",
-        //       },
-        //     },
-        //   });
-        // }
-      }
-    }
   };
 
   useEffect(() => {
@@ -970,7 +941,7 @@ export default function ModalTravel({ open, close, offices }) {
                     size="large"
                     onClick={() => {
                       onCreateTravel();
-                      resetModal();
+                      // resetModal();
                     }}
                   >
                     Registrar
@@ -984,6 +955,7 @@ export default function ModalTravel({ open, close, offices }) {
                     Cancelar
                   </Button>
                 </div>
+
                 <div className={styles.check}>
                   <div className={styles.pan}>
                     Quieres programar este viaje de manera automatica?
@@ -997,32 +969,50 @@ export default function ModalTravel({ open, close, offices }) {
                       }}
                     />
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <div className={styles.date}>
+                        <DatePicker
+                          onChange={(e) => {
+                            let fecha = new Date(e).toISOString().slice(0, 10);
+                            setScheduleDate(fecha);
+                          }}
+                          disabled={checked}
+                        />
+                      </div>
+                    </LocalizationProvider>
 
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-multiple-checkbox-label">
-                      Días a programar
-                    </InputLabel>
-                    <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      value={selectWeek}
-                      onChange={handleChange}
-                      input={<OutlinedInput label="Días a programar" />}
-                      renderValue={(selected) =>
-                        selected.map((day) => week[day]).join(", ")
-                      }
-                      MenuProps={MenuProps}
-                      disabled={checked}
-                    >
-                      {Object.keys(week).map((day) => (
-                        <MenuItem key={day} value={day}>
-                          <Checkbox checked={selectWeek.indexOf(day) > -1} />
-                          <ListItemText primary={week[day]} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                    <FormControl fullWidth style={{ marginLeft: "5px" }}>
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        Días a programar
+                      </InputLabel>
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        multiple
+                        value={selectWeek}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Días a programar" />}
+                        renderValue={(selected) =>
+                          selected.map((day) => week[day]).join(", ")
+                        }
+                        MenuProps={MenuProps}
+                        disabled={checked}
+                      >
+                        {Object.keys(week).map((day) => (
+                          <MenuItem key={day} value={day}>
+                            <Checkbox checked={selectWeek.indexOf(day) > -1} />
+                            <ListItemText primary={week[day]} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
                 </div>
               </div>
             </div>

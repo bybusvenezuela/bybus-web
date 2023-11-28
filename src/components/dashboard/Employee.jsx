@@ -14,7 +14,7 @@ import TableOrderDetails from "../TableOrderDetails";
 
 const Dashboard = ({ dataResult, userType }) => {
   const [travels, setTravels] = useState(false);
-  const [travel, setTravel] = useState('');
+  const [travel, setTravel] = useState("");
   const [transport, setTransport] = useState(false);
   const [data, setData] = useState(dataResult);
   const [dataTravels, setDataTravels] = useState([]);
@@ -54,16 +54,18 @@ const Dashboard = ({ dataResult, userType }) => {
       query: queries.listOrderDetails,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
-        bookingID: travel,
+        filter: {
+          bookingID: { eq: travel },
+        },
       },
     });
     console.log(list.data.listOrderDetails);
-    setDataOrders(list.data.listOrderDetails.items)
+    setDataOrders(list.data.listOrderDetails.items);
   };
 
   useEffect(() => {
     if (!travels || !transport) Employee();
-    if (travel) Travels()
+    if (travel) Travels();
   }, [transport, travels, travel]);
 
   return (
@@ -91,37 +93,43 @@ const Dashboard = ({ dataResult, userType }) => {
           </div>
           {dataTravels && <TableTravels rows={dataTravels} />}
         </div>
-          <div className={styles.agencies}>
+        <div className={styles.agencies}>
           <div className={styles.title}>
             <h2>Lista de Ordenes de Venta</h2>
           </div>
           <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Seleccionar viaje</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={travel}
-            label="Seleccionar viaje"
-            onChange={(e) => setTravel(e.target.value)}
-          >
-            {dataTravels.map((item, index) => (
-            <MenuItem key={index} value={item.id}>{`ID: ${item.id} - Salida: ${item.departureCity} - ${item.departure.date} - Llegada: ${item.arrivalCity} - ${item.arrival.date}`}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-          {travel ? <TableOrderDetails rows={dataOrders} /> : (
+            <InputLabel id="demo-simple-select-label">
+              Seleccionar viaje
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={travel}
+              label="Seleccionar viaje"
+              onChange={(e) => setTravel(e.target.value)}
+            >
+              {dataTravels.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  value={item.id}
+                >{`ID: ${item.id} - Salida: ${item.departureCity} - ${item.departure.date} - Llegada: ${item.arrivalCity} - ${item.arrival.date}`}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {travel ? (
+            <TableOrderDetails rows={dataOrders} />
+          ) : (
             <div className={styles.nothingTable}>
               Selecciona un viaje antes para poder ver sus ordenes de venta
             </div>
           )}
         </div>
-        
+
         <ModalTravel
           offices={data?.office}
           open={travels}
           close={() => setTravels(!travels)}
         />
-
       </div>
     </div>
   );

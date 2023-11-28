@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getAgencySubscription } from "../graphql/queries";
 import { updateAgencySubscription } from "../graphql/mutations";
+const client = generateClient();
 export default function AgencySubscriptionUpdateForm(props) {
   const {
     id: idProp,
@@ -72,7 +73,7 @@ export default function AgencySubscriptionUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getAgencySubscription.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -156,7 +157,7 @@ export default function AgencySubscriptionUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateAgencySubscription.replaceAll("__typename", ""),
             variables: {
               input: {
