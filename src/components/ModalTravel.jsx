@@ -13,11 +13,9 @@ import {
 } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 import { useState } from "react";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { MobileTimePicker, TimePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { time, transportes, venezuela, week } from "@/constants";
 import { Auth, API } from "aws-amplify";
@@ -26,6 +24,7 @@ import * as mutations from "@/graphql/mutations";
 import * as employee from "@/graphql/custom/mutations/employee";
 import { createScheduleBooking } from "@/graphql/custom/mutations/employee";
 import { useUser } from "@/context/UserContext";
+import { addDays, parseISO } from "date-fns";
 
 export default function ModalTravel({ open, close, offices }) {
   const { profileAuth, userAuth } = useUser();
@@ -36,7 +35,11 @@ export default function ModalTravel({ open, close, offices }) {
   const [driver, setDriver] = useState("");
   const [price, setPrice] = useState("");
   const [checked, setChecked] = useState(true);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [min, setMin] = useState(null);
   const [quantity, setQuantity] = useState("");
+
   const [timeArrival, setTimeArrival] = useState({
     hour: "01",
     minutes: "00",
@@ -164,7 +167,7 @@ export default function ModalTravel({ open, close, offices }) {
       variables: { input: JSON.stringify(params) },
     });
     console.log(ejele);
-    return;
+    // return;
 
     const rif = await API.graphql({
       query: queries.getAgency,
@@ -209,7 +212,6 @@ export default function ModalTravel({ open, close, offices }) {
         },
       },
     });
-
 
     console.log(booking);
 
@@ -330,7 +332,7 @@ export default function ModalTravel({ open, close, offices }) {
                         disabled
                       />
                       <div className={styles.datetime}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <div className={styles.date}>
                             <DatePicker
                               onChange={(e) => {
@@ -338,6 +340,9 @@ export default function ModalTravel({ open, close, offices }) {
                                   .toISOString()
                                   .slice(0, 10);
                                 setDeparture({ ...departure, date: fecha });
+                                setStartDate(e);
+                                setEndDate(addDays(e, 7));
+                                setMin(e);
                               }}
                             />
                           </div>
@@ -469,7 +474,7 @@ export default function ModalTravel({ open, close, offices }) {
                         }
                       />
                       <div className={styles.datetime}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <div className={styles.date}>
                             <DatePicker
                               onChange={(e) => {
@@ -478,6 +483,7 @@ export default function ModalTravel({ open, close, offices }) {
                                   .slice(0, 10);
                                 setArrival({ ...arrival, date: fecha });
                               }}
+                              minDate={min}
                             />
                           </div>
                           <div className={styles.time}>
@@ -975,7 +981,7 @@ export default function ModalTravel({ open, close, offices }) {
                       flexDirection: "row",
                     }}
                   >
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <div className={styles.date}>
                         <DatePicker
                           onChange={(e) => {
@@ -983,6 +989,8 @@ export default function ModalTravel({ open, close, offices }) {
                             setScheduleDate(fecha);
                           }}
                           disabled={checked}
+                          minDate={addDays(startDate, 7)}
+                          maxDate={addDays(startDate, 30)}
                         />
                       </div>
                     </LocalizationProvider>
@@ -1013,6 +1021,20 @@ export default function ModalTravel({ open, close, offices }) {
                       </Select>
                     </FormControl>
                   </div>
+                  <p
+                    style={{
+                      fontSize: 12,
+                      textAlign: "justify",
+                      marginTop: 10,
+                    }}
+                  >
+                    La fecha a elegir es 7 dias despues de la fecha de inicio
+                    del viaje original y un maximo de 30 dias despues de la
+                    fecha de inicio. El viaje se reprogramara para cada dia
+                    comprendido entre la fecha de inicio del viaje original y la
+                    fecha seleccionada en la reprogramacion y los viajes solo se
+                    crearan los dias seleccionados se la semana.
+                  </p>
                 </div>
               </div>
             </div>
