@@ -194,6 +194,7 @@ export const deleteCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -207,6 +208,7 @@ export const deleteCustomer = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -217,6 +219,7 @@ export const deleteCustomer = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -232,6 +235,7 @@ export const deleteCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
         __typename
       }
       owner
@@ -250,6 +254,7 @@ export const deleteTicket = /* GraphQL */ `
       id
       code
       bookingID
+      orderDetailID
       stop
       customerID
       customer {
@@ -263,6 +268,7 @@ export const deleteTicket = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -285,6 +291,7 @@ export const deleteTicket = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         owner
@@ -300,67 +307,7 @@ export const deleteTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
-    }
-  }
-`;
-export const deleteOrderTicket = /* GraphQL */ `
-  mutation DeleteOrderTicket(
-    $input: DeleteOrderTicketInput!
-    $condition: ModelOrderTicketConditionInput
-  ) {
-    deleteOrderTicket(input: $input, condition: $condition) {
-      id
-      orderID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        customer {
-          id
-          fullName
-          ci
-          email
-          bookingID
-          ticketID
-          ticket {
-            id
-            code
-            bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
-            owner
-            createdAt
-            updatedAt
-            stopBookingTicketsId
-            __typename
-          }
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      orderDetailOrderTicketsId
+      orderDetailTicketsId
       __typename
     }
   }
@@ -421,6 +368,7 @@ export const createAgencySubscription = /* GraphQL */ `
       subscriptionDate
       status
       scheduledDate
+      agencyID
       createdAt
       updatedAt
       __typename
@@ -441,6 +389,7 @@ export const updateAgencySubscription = /* GraphQL */ `
       subscriptionDate
       status
       scheduledDate
+      agencyID
       createdAt
       updatedAt
       __typename
@@ -461,6 +410,7 @@ export const deleteAgencySubscription = /* GraphQL */ `
       subscriptionDate
       status
       scheduledDate
+      agencyID
       createdAt
       updatedAt
       __typename
@@ -2012,6 +1962,7 @@ export const createScheduleBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -2022,6 +1973,7 @@ export const createScheduleBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -2163,6 +2115,7 @@ export const updateScheduleBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -2173,6 +2126,7 @@ export const updateScheduleBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -2314,6 +2268,7 @@ export const deleteScheduleBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -2324,6 +2279,7 @@ export const deleteScheduleBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -2548,6 +2504,7 @@ export const createBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -2558,6 +2515,7 @@ export const createBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -2573,6 +2531,7 @@ export const createBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -2595,6 +2554,7 @@ export const createBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -2825,6 +2785,7 @@ export const updateBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -2835,6 +2796,7 @@ export const updateBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -2850,6 +2812,7 @@ export const updateBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -2872,6 +2835,7 @@ export const updateBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3102,6 +3066,7 @@ export const deleteBooking = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -3112,6 +3077,7 @@ export const deleteBooking = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -3127,6 +3093,7 @@ export const deleteBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3149,6 +3116,7 @@ export const deleteBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3222,6 +3190,7 @@ export const createStopBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3244,6 +3213,7 @@ export const createStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3278,6 +3248,7 @@ export const updateStopBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3300,6 +3271,7 @@ export const updateStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3334,6 +3306,7 @@ export const deleteStopBooking = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3356,6 +3329,7 @@ export const deleteStopBooking = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3393,6 +3367,7 @@ export const createCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -3406,6 +3381,7 @@ export const createCustomer = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -3416,6 +3392,7 @@ export const createCustomer = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -3431,6 +3408,7 @@ export const createCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
         __typename
       }
       owner
@@ -3456,6 +3434,7 @@ export const updateCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        orderDetailID
         stop
         customerID
         customer {
@@ -3469,6 +3448,7 @@ export const updateCustomer = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -3479,6 +3459,7 @@ export const updateCustomer = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           owner
@@ -3494,6 +3475,7 @@ export const updateCustomer = /* GraphQL */ `
         createdAt
         updatedAt
         stopBookingTicketsId
+        orderDetailTicketsId
         __typename
       }
       owner
@@ -3512,6 +3494,7 @@ export const createTicket = /* GraphQL */ `
       id
       code
       bookingID
+      orderDetailID
       stop
       customerID
       customer {
@@ -3525,6 +3508,7 @@ export const createTicket = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3547,6 +3531,7 @@ export const createTicket = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         owner
@@ -3562,6 +3547,7 @@ export const createTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
+      orderDetailTicketsId
       __typename
     }
   }
@@ -3575,6 +3561,7 @@ export const updateTicket = /* GraphQL */ `
       id
       code
       bookingID
+      orderDetailID
       stop
       customerID
       customer {
@@ -3588,6 +3575,7 @@ export const updateTicket = /* GraphQL */ `
           id
           code
           bookingID
+          orderDetailID
           stop
           customerID
           customer {
@@ -3610,6 +3598,7 @@ export const updateTicket = /* GraphQL */ `
           createdAt
           updatedAt
           stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         owner
@@ -3625,128 +3614,7 @@ export const updateTicket = /* GraphQL */ `
       createdAt
       updatedAt
       stopBookingTicketsId
-      __typename
-    }
-  }
-`;
-export const createOrderTicket = /* GraphQL */ `
-  mutation CreateOrderTicket(
-    $input: CreateOrderTicketInput!
-    $condition: ModelOrderTicketConditionInput
-  ) {
-    createOrderTicket(input: $input, condition: $condition) {
-      id
-      orderID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        customer {
-          id
-          fullName
-          ci
-          email
-          bookingID
-          ticketID
-          ticket {
-            id
-            code
-            bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
-            owner
-            createdAt
-            updatedAt
-            stopBookingTicketsId
-            __typename
-          }
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      orderDetailOrderTicketsId
-      __typename
-    }
-  }
-`;
-export const updateOrderTicket = /* GraphQL */ `
-  mutation UpdateOrderTicket(
-    $input: UpdateOrderTicketInput!
-    $condition: ModelOrderTicketConditionInput
-  ) {
-    updateOrderTicket(input: $input, condition: $condition) {
-      id
-      orderID
-      ticketID
-      ticket {
-        id
-        code
-        bookingID
-        stop
-        customerID
-        customer {
-          id
-          fullName
-          ci
-          email
-          bookingID
-          ticketID
-          ticket {
-            id
-            code
-            bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
-            owner
-            createdAt
-            updatedAt
-            stopBookingTicketsId
-            __typename
-          }
-          owner
-          createdAt
-          updatedAt
-          __typename
-        }
-        seating
-        status
-        description
-        url
-        owner
-        createdAt
-        updatedAt
-        stopBookingTicketsId
-        __typename
-      }
-      owner
-      createdAt
-      updatedAt
-      orderDetailOrderTicketsId
+      orderDetailTicketsId
       __typename
     }
   }
@@ -3766,6 +3634,7 @@ export const createOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -3858,6 +3727,7 @@ export const createOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -3868,6 +3738,7 @@ export const createOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -3914,31 +3785,35 @@ export const createOrderDetail = /* GraphQL */ `
         updatedAt
         __typename
       }
-      orderTickets {
+      tickets {
         items {
           id
-          orderID
-          ticketID
-          ticket {
+          code
+          bookingID
+          orderDetailID
+          stop
+          customerID
+          customer {
             id
-            code
+            fullName
+            ci
+            email
             bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
+            ticketID
             owner
             createdAt
             updatedAt
-            stopBookingTicketsId
             __typename
           }
+          seating
+          status
+          description
+          url
           owner
           createdAt
           updatedAt
-          orderDetailOrderTicketsId
+          stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -3968,6 +3843,7 @@ export const updateOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -4060,6 +3936,7 @@ export const updateOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -4070,6 +3947,7 @@ export const updateOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -4116,31 +3994,35 @@ export const updateOrderDetail = /* GraphQL */ `
         updatedAt
         __typename
       }
-      orderTickets {
+      tickets {
         items {
           id
-          orderID
-          ticketID
-          ticket {
+          code
+          bookingID
+          orderDetailID
+          stop
+          customerID
+          customer {
             id
-            code
+            fullName
+            ci
+            email
             bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
+            ticketID
             owner
             createdAt
             updatedAt
-            stopBookingTicketsId
             __typename
           }
+          seating
+          status
+          description
+          url
           owner
           createdAt
           updatedAt
-          orderDetailOrderTicketsId
+          stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -4170,6 +4052,7 @@ export const deleteOrderDetail = /* GraphQL */ `
       customerEmail
       total
       isGuest
+      status
       paymentID
       payment {
         id
@@ -4262,6 +4145,7 @@ export const deleteOrderDetail = /* GraphQL */ `
             id
             code
             bookingID
+            orderDetailID
             stop
             customerID
             seating
@@ -4272,6 +4156,7 @@ export const deleteOrderDetail = /* GraphQL */ `
             createdAt
             updatedAt
             stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -4318,31 +4203,35 @@ export const deleteOrderDetail = /* GraphQL */ `
         updatedAt
         __typename
       }
-      orderTickets {
+      tickets {
         items {
           id
-          orderID
-          ticketID
-          ticket {
+          code
+          bookingID
+          orderDetailID
+          stop
+          customerID
+          customer {
             id
-            code
+            fullName
+            ci
+            email
             bookingID
-            stop
-            customerID
-            seating
-            status
-            description
-            url
+            ticketID
             owner
             createdAt
             updatedAt
-            stopBookingTicketsId
             __typename
           }
+          seating
+          status
+          description
+          url
           owner
           createdAt
           updatedAt
-          orderDetailOrderTicketsId
+          stopBookingTicketsId
+          orderDetailTicketsId
           __typename
         }
         nextToken
@@ -4429,6 +4318,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -4516,15 +4406,23 @@ export const createOrderDetailHistory = /* GraphQL */ `
           updatedAt
           __typename
         }
-        orderTickets {
+        tickets {
           items {
             id
-            orderID
-            ticketID
+            code
+            bookingID
+            orderDetailID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
             owner
             createdAt
             updatedAt
-            orderDetailOrderTicketsId
+            stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -4564,6 +4462,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -4651,15 +4550,23 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           updatedAt
           __typename
         }
-        orderTickets {
+        tickets {
           items {
             id
-            orderID
-            ticketID
+            code
+            bookingID
+            orderDetailID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
             owner
             createdAt
             updatedAt
-            orderDetailOrderTicketsId
+            stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -4699,6 +4606,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
         customerEmail
         total
         isGuest
+        status
         paymentID
         payment {
           id
@@ -4786,15 +4694,23 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           updatedAt
           __typename
         }
-        orderTickets {
+        tickets {
           items {
             id
-            orderID
-            ticketID
+            code
+            bookingID
+            orderDetailID
+            stop
+            customerID
+            seating
+            status
+            description
+            url
             owner
             createdAt
             updatedAt
-            orderDetailOrderTicketsId
+            stopBookingTicketsId
+            orderDetailTicketsId
             __typename
           }
           nextToken
@@ -4839,6 +4755,7 @@ export const createUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           payment {
             id
@@ -4870,7 +4787,7 @@ export const createUser = /* GraphQL */ `
             updatedAt
             __typename
           }
-          orderTickets {
+          tickets {
             nextToken
             __typename
           }
@@ -4915,6 +4832,7 @@ export const updateUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           payment {
             id
@@ -4946,7 +4864,7 @@ export const updateUser = /* GraphQL */ `
             updatedAt
             __typename
           }
-          orderTickets {
+          tickets {
             nextToken
             __typename
           }
@@ -4991,6 +4909,7 @@ export const deleteUser = /* GraphQL */ `
           customerEmail
           total
           isGuest
+          status
           paymentID
           payment {
             id
@@ -5022,7 +4941,7 @@ export const deleteUser = /* GraphQL */ `
             updatedAt
             __typename
           }
-          orderTickets {
+          tickets {
             nextToken
             __typename
           }
@@ -5052,5 +4971,10 @@ export const registerAgencyAdmin = /* GraphQL */ `
 export const checkScan = /* GraphQL */ `
   mutation CheckScan($input: CheckScanInput) {
     checkScan(input: $input)
+  }
+`;
+export const reprogram = /* GraphQL */ `
+  mutation Reprogram($input: String) {
+    reprogram(input: $input)
   }
 `;

@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getOffice } from "../graphql/queries";
 import { updateOffice } from "../graphql/mutations";
+const client = generateClient();
 export default function OfficeUpdateForm(props) {
   const {
     id: idProp,
@@ -67,7 +68,7 @@ export default function OfficeUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getOffice.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -151,7 +152,7 @@ export default function OfficeUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateOffice.replaceAll("__typename", ""),
             variables: {
               input: {
