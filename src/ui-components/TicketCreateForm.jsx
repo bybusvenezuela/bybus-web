@@ -7,10 +7,10 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
 import { createTicket } from "../graphql/mutations";
+const client = generateClient();
 export default function TicketCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -24,6 +24,7 @@ export default function TicketCreateForm(props) {
   } = props;
   const initialValues = {
     code: "",
+    orderDetailID: "",
     stop: "",
     seating: "",
     status: "",
@@ -32,6 +33,9 @@ export default function TicketCreateForm(props) {
     owner: "",
   };
   const [code, setCode] = React.useState(initialValues.code);
+  const [orderDetailID, setOrderDetailID] = React.useState(
+    initialValues.orderDetailID
+  );
   const [stop, setStop] = React.useState(initialValues.stop);
   const [seating, setSeating] = React.useState(initialValues.seating);
   const [status, setStatus] = React.useState(initialValues.status);
@@ -43,6 +47,7 @@ export default function TicketCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setCode(initialValues.code);
+    setOrderDetailID(initialValues.orderDetailID);
     setStop(initialValues.stop);
     setSeating(initialValues.seating);
     setStatus(initialValues.status);
@@ -53,6 +58,7 @@ export default function TicketCreateForm(props) {
   };
   const validations = {
     code: [],
+    orderDetailID: [],
     stop: [],
     seating: [],
     status: [],
@@ -87,6 +93,7 @@ export default function TicketCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           code,
+          orderDetailID,
           stop,
           seating,
           status,
@@ -122,7 +129,7 @@ export default function TicketCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: createTicket.replaceAll("__typename", ""),
             variables: {
               input: {
@@ -156,6 +163,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code: value,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -177,6 +185,37 @@ export default function TicketCreateForm(props) {
         {...getOverrideProps(overrides, "code")}
       ></TextField>
       <TextField
+        label="Order detail id"
+        isRequired={false}
+        isReadOnly={false}
+        value={orderDetailID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              code,
+              orderDetailID: value,
+              stop,
+              seating,
+              status,
+              description,
+              url,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.orderDetailID ?? value;
+          }
+          if (errors.orderDetailID?.hasError) {
+            runValidationTasks("orderDetailID", value);
+          }
+          setOrderDetailID(value);
+        }}
+        onBlur={() => runValidationTasks("orderDetailID", orderDetailID)}
+        errorMessage={errors.orderDetailID?.errorMessage}
+        hasError={errors.orderDetailID?.hasError}
+        {...getOverrideProps(overrides, "orderDetailID")}
+      ></TextField>
+      <TextField
         label="Stop"
         isRequired={false}
         isReadOnly={false}
@@ -186,6 +225,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop: value,
               seating,
               status,
@@ -216,6 +256,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating: value,
               status,
@@ -246,6 +287,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status: value,
@@ -276,6 +318,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -306,6 +349,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -336,6 +380,7 @@ export default function TicketCreateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,

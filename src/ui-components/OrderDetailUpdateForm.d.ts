@@ -6,7 +6,16 @@
 
 import * as React from "react";
 import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -21,7 +30,7 @@ export declare type OrderDetailUpdateFormInputValues = {
     customerEmail?: string;
     total?: number;
     isGuest?: boolean;
-    bookingID?: string;
+    status?: string;
     userID?: string;
 };
 export declare type OrderDetailUpdateFormValidationValues = {
@@ -33,7 +42,7 @@ export declare type OrderDetailUpdateFormValidationValues = {
     customerEmail?: ValidationFunction<string>;
     total?: ValidationFunction<number>;
     isGuest?: ValidationFunction<boolean>;
-    bookingID?: ValidationFunction<string>;
+    status?: ValidationFunction<string>;
     userID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -47,7 +56,7 @@ export declare type OrderDetailUpdateFormOverridesProps = {
     customerEmail?: PrimitiveOverrideProps<TextFieldProps>;
     total?: PrimitiveOverrideProps<TextFieldProps>;
     isGuest?: PrimitiveOverrideProps<SwitchFieldProps>;
-    bookingID?: PrimitiveOverrideProps<TextFieldProps>;
+    status?: PrimitiveOverrideProps<TextFieldProps>;
     userID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrderDetailUpdateFormProps = React.PropsWithChildren<{

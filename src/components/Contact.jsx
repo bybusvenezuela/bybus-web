@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import { baseContact, buttons, cardContact } from "../constants/index";
 import styles from "@/styles/Contact.module.css";
-import { createAgencySubscription } from "@/graphql/mutations";
-import { CircularProgress, Button } from "@mui/material";
-import { API } from "aws-amplify";
+import { createAgencySubscription } from "@/graphql/custom/mutations";
 import {
   getAgencySubscriptionbyRif,
   getAgencySubscriptionbyEmail,
-} from "@/graphql/queries";
+} from "@/graphql/custom/queries";
+import { CircularProgress, Button } from "@mui/material";
+import { API } from "aws-amplify";
 const Contact = ({ contactRef }) => {
   const form = useRef();
   const [name, setName] = useState("");
@@ -27,7 +27,6 @@ const Contact = ({ contactRef }) => {
         phone,
       },
     };
-    console.log(params);
     setLoading(true);
     try {
       // verificamos si el rif ya existe
@@ -38,7 +37,6 @@ const Contact = ({ contactRef }) => {
           rif: rif,
         },
       });
-      console.log(byRif);
       // si existe condicionamos
       if (byRif?.data?.getAgencySubscriptionbyRif?.items.length > 0) {
         const status =
@@ -64,11 +62,17 @@ const Contact = ({ contactRef }) => {
         const statusbyEmail =
           byEmail?.data?.getAgencySubscriptionbyEmail?.items[0]?.status;
         if (statusbyEmail === "ACCEPTED")
-          return alert(`Correo electronico: ${email}. ya esta registrado en nuestro sistema`);
+          return alert(
+            `Correo electronico: ${email}. ya esta registrado en nuestro sistema`
+          );
         if (statusbyEmail === "PENDING" || statusbyEmail === "SCHEDULED")
-          return alert(`Correo electronico: ${email}. ya tiene una solicitud pendiente`);
+          return alert(
+            `Correo electronico: ${email}. ya tiene una solicitud pendiente`
+          );
         if (statusbyEmail === "REJECTED")
-          return alert(`Correo electronico: ${email}. rechazado, llamar a soporte`);
+          return alert(
+            `Correo electronico: ${email}. rechazado, llamar a soporte`
+          );
       }
       // de no existe email o rif enviamsop petciion
       // enviamos peticion
@@ -161,10 +165,9 @@ const Contact = ({ contactRef }) => {
               maxLength={100}
             />
           </div>
-            <div className={styles.send}>
-
+          <div className={styles.send}>
             <input type="submit" value="Enviar" className={styles.button} />
-          {/* <input
+            {/* <input
             className={styles.button}
             style={{ color: "white" }}
             type="submit"
@@ -173,7 +176,6 @@ const Contact = ({ contactRef }) => {
             {isLoading ? <CircularProgress /> : "Enviar"}
           </input> */}
           </div>
-
         </form>
       </div>
     </div>

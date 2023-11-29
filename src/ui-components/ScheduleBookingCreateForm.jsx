@@ -14,14 +14,14 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SelectField,
   Text,
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getState } from "../graphql/queries";
-import { updateState } from "../graphql/mutations";
+import { createScheduleBooking } from "../graphql/mutations";
 const client = generateClient();
 function ArrayField({
   items = [],
@@ -178,10 +178,9 @@ function ArrayField({
     </React.Fragment>
   );
 }
-export default function StateUpdateForm(props) {
+export default function ScheduleBookingCreateForm(props) {
   const {
-    id: idProp,
-    state: stateModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -191,42 +190,37 @@ export default function StateUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    cities: [],
+    freq: [],
+    owner: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [cities, setCities] = React.useState(initialValues.cities);
+  const [freq, setFreq] = React.useState(initialValues.freq);
+  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = stateRecord
-      ? { ...initialValues, ...stateRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setCities(cleanValues.cities ?? []);
-    setCurrentCitiesValue("");
+    setFreq(initialValues.freq);
+    setCurrentFreqValue("");
+    setOwner(initialValues.owner);
     setErrors({});
   };
-  const [stateRecord, setStateRecord] = React.useState(stateModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await client.graphql({
-              query: getState.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getState
-        : stateModelProp;
-      setStateRecord(record);
-    };
-    queryData();
-  }, [idProp, stateModelProp]);
-  React.useEffect(resetStateValues, [stateRecord]);
-  const [currentCitiesValue, setCurrentCitiesValue] = React.useState("");
-  const citiesRef = React.createRef();
+  const [currentFreqValue, setCurrentFreqValue] = React.useState("");
+  const freqRef = React.createRef();
+  const getDisplayValue = {
+    freq: (r) => {
+      const enumDisplayValueMap = {
+        SUNDAY: "Sunday",
+        MONDAY: "Monday",
+        TUESDAY: "Tuesday",
+        WEDNESDAY: "Wednesday",
+        THURSDAY: "Thursday",
+        FRIDAY: "Friday",
+        SATURDAY: "Saturday",
+      };
+      return enumDisplayValueMap[r];
+    },
+  };
   const validations = {
-    name: [],
-    cities: [],
+    freq: [],
+    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -254,8 +248,8 @@ export default function StateUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          cities: cities ?? null,
+          freq,
+          owner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -286,16 +280,18 @@ export default function StateUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateState.replaceAll("__typename", ""),
+            query: createScheduleBooking.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: stateRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -304,93 +300,129 @@ export default function StateUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "StateUpdateForm")}
+      {...getOverrideProps(overrides, "ScheduleBookingCreateForm")}
       {...rest}
     >
-      <TextField
-        label="Name"
-        isRequired={false}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name: value,
-              cities,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
           if (onChange) {
             const modelFields = {
-              name,
-              cities: values,
+              freq: values,
+              owner,
             };
             const result = onChange(modelFields);
-            values = result?.cities ?? values;
+            values = result?.freq ?? values;
           }
-          setCities(values);
-          setCurrentCitiesValue("");
+          setFreq(values);
+          setCurrentFreqValue("");
         }}
-        currentFieldValue={currentCitiesValue}
-        label={"Cities"}
-        items={cities}
-        hasError={errors?.cities?.hasError}
+        currentFieldValue={currentFreqValue}
+        label={"Freq"}
+        items={freq}
+        hasError={errors?.freq?.hasError}
         runValidationTasks={async () =>
-          await runValidationTasks("cities", currentCitiesValue)
+          await runValidationTasks("freq", currentFreqValue)
         }
-        errorMessage={errors?.cities?.errorMessage}
-        setFieldValue={setCurrentCitiesValue}
-        inputFieldRef={citiesRef}
+        errorMessage={errors?.freq?.errorMessage}
+        getBadgeText={getDisplayValue.freq}
+        setFieldValue={setCurrentFreqValue}
+        inputFieldRef={freqRef}
         defaultFieldValue={""}
       >
-        <TextField
-          label="Cities"
-          isRequired={false}
-          isReadOnly={false}
-          value={currentCitiesValue}
+        <SelectField
+          label="Freq"
+          placeholder="Please select an option"
+          isDisabled={false}
+          value={currentFreqValue}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.cities?.hasError) {
-              runValidationTasks("cities", value);
+            if (errors.freq?.hasError) {
+              runValidationTasks("freq", value);
             }
-            setCurrentCitiesValue(value);
+            setCurrentFreqValue(value);
           }}
-          onBlur={() => runValidationTasks("cities", currentCitiesValue)}
-          errorMessage={errors.cities?.errorMessage}
-          hasError={errors.cities?.hasError}
-          ref={citiesRef}
+          onBlur={() => runValidationTasks("freq", currentFreqValue)}
+          errorMessage={errors.freq?.errorMessage}
+          hasError={errors.freq?.hasError}
+          ref={freqRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "cities")}
-        ></TextField>
+          {...getOverrideProps(overrides, "freq")}
+        >
+          <option
+            children="Sunday"
+            value="SUNDAY"
+            {...getOverrideProps(overrides, "freqoption0")}
+          ></option>
+          <option
+            children="Monday"
+            value="MONDAY"
+            {...getOverrideProps(overrides, "freqoption1")}
+          ></option>
+          <option
+            children="Tuesday"
+            value="TUESDAY"
+            {...getOverrideProps(overrides, "freqoption2")}
+          ></option>
+          <option
+            children="Wednesday"
+            value="WEDNESDAY"
+            {...getOverrideProps(overrides, "freqoption3")}
+          ></option>
+          <option
+            children="Thursday"
+            value="THURSDAY"
+            {...getOverrideProps(overrides, "freqoption4")}
+          ></option>
+          <option
+            children="Friday"
+            value="FRIDAY"
+            {...getOverrideProps(overrides, "freqoption5")}
+          ></option>
+          <option
+            children="Saturday"
+            value="SATURDAY"
+            {...getOverrideProps(overrides, "freqoption6")}
+          ></option>
+        </SelectField>
       </ArrayField>
+      <TextField
+        label="Owner"
+        isRequired={false}
+        isReadOnly={false}
+        value={owner}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              freq,
+              owner: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.owner ?? value;
+          }
+          if (errors.owner?.hasError) {
+            runValidationTasks("owner", value);
+          }
+          setOwner(value);
+        }}
+        onBlur={() => runValidationTasks("owner", owner)}
+        errorMessage={errors.owner?.errorMessage}
+        hasError={errors.owner?.hasError}
+        {...getOverrideProps(overrides, "owner")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || stateModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -400,10 +432,7 @@ export default function StateUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || stateModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

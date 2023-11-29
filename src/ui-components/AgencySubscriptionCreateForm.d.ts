@@ -6,7 +6,16 @@
 
 import * as React from "react";
 import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -20,6 +29,7 @@ export declare type AgencySubscriptionCreateFormInputValues = {
     subscriptionDate?: string;
     status?: string;
     scheduledDate?: string;
+    agencyID?: string;
 };
 export declare type AgencySubscriptionCreateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -29,6 +39,7 @@ export declare type AgencySubscriptionCreateFormValidationValues = {
     subscriptionDate?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
     scheduledDate?: ValidationFunction<string>;
+    agencyID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AgencySubscriptionCreateFormOverridesProps = {
@@ -40,6 +51,7 @@ export declare type AgencySubscriptionCreateFormOverridesProps = {
     subscriptionDate?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<SelectFieldProps>;
     scheduledDate?: PrimitiveOverrideProps<TextFieldProps>;
+    agencyID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgencySubscriptionCreateFormProps = React.PropsWithChildren<{
     overrides?: AgencySubscriptionCreateFormOverridesProps | undefined | null;

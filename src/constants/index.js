@@ -25,7 +25,7 @@ export const navbar = {
     id: "donwload",
     logo: All.Google,
     apple: All.Apple,
-    title: "Descárgalo",
+    title: "Muy Pronto",
   },
 };
 
@@ -35,7 +35,7 @@ export const home = {
   title: "Viaja con ByBus",
   titleSecond: "por toda Venezuela",
   subtitle:
-    '¡Con nuestra emocionante nueva app de transporte en Venezuela, descubre una forma más fácil y conveniente de moverte! Olvídate de las largas horas de espera y los viajes incómodos. ¡Descarga ByBus y disfruta de nuevas experiencias de viajes que traemos para ti!',
+    "¡Con nuestra emocionante nueva app de transporte en Venezuela, descubre una forma más fácil y conveniente de moverte! Olvídate de las largas horas de espera y los viajes incómodos. ¡Descarga ByBus y disfruta de nuevas experiencias de viajes que traemos para ti!",
   buttons: {
     one: {
       id: "one-btn",
@@ -231,7 +231,7 @@ export const cardContact = [
 ];
 
 export const terms = {
-  title: 'Términos y Condiciones de ByBus',
+  title: "Términos y Condiciones de ByBus",
   content: `
 
   1. Introducción Estos Términos y Condiciones rigen el uso de la aplicación ByBus y el servicio de venta de boletos de viaje terrestre proporcionado por nuestra empresa. Al utilizar nuestra aplicación, usted acepta estos Términos y Condiciones en su totalidad. Si no está de acuerdo con estos Términos y Condiciones o cualquier parte de ellos, no debe utilizar nuestra aplicación.
@@ -272,11 +272,11 @@ export const terms = {
   
   19. Relación entre las partes Nada en estos Términos y Condiciones crea una relación de agencia, sociedad, empresa conjunta o empleo entre usted y nuestra empresa.
   
-  20. Contacto Si tiene alguna pregunta o comentario sobre estos Términos y Condiciones, puede contactarnos a través de la información de contacto proporcionada en nuestra aplicación.`
-}
+  20. Contacto Si tiene alguna pregunta o comentario sobre estos Términos y Condiciones, puede contactarnos a través de la información de contacto proporcionada en nuestra aplicación.`,
+};
 
 export const politics = {
-  title: 'Política de Privacidad de ByBus',
+  title: "Política de Privacidad de ByBus",
   content: `
   1. Introducción: ByBus respeta la privacidad de sus usuarios y se compromete a protegerla.
   
@@ -317,5 +317,5 @@ export const politics = {
   19. Jurisdicción Legal: Esta política se rige por las leyes del país en el que operamos.
   
   20. Quejas: Si tienes alguna queja sobre cómo manejamos tu información personal, por favor contáctanos.
-  `
-}
+  `,
+};

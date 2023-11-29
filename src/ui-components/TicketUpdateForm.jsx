@@ -7,11 +7,11 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { fetchByPath, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
 import { getTicket } from "../graphql/queries";
 import { updateTicket } from "../graphql/mutations";
+const client = generateClient();
 export default function TicketUpdateForm(props) {
   const {
     id: idProp,
@@ -26,6 +26,7 @@ export default function TicketUpdateForm(props) {
   } = props;
   const initialValues = {
     code: "",
+    orderDetailID: "",
     stop: "",
     seating: "",
     status: "",
@@ -34,6 +35,9 @@ export default function TicketUpdateForm(props) {
     owner: "",
   };
   const [code, setCode] = React.useState(initialValues.code);
+  const [orderDetailID, setOrderDetailID] = React.useState(
+    initialValues.orderDetailID
+  );
   const [stop, setStop] = React.useState(initialValues.stop);
   const [seating, setSeating] = React.useState(initialValues.seating);
   const [status, setStatus] = React.useState(initialValues.status);
@@ -48,6 +52,7 @@ export default function TicketUpdateForm(props) {
       ? { ...initialValues, ...ticketRecord }
       : initialValues;
     setCode(cleanValues.code);
+    setOrderDetailID(cleanValues.orderDetailID);
     setStop(cleanValues.stop);
     setSeating(cleanValues.seating);
     setStatus(cleanValues.status);
@@ -61,7 +66,7 @@ export default function TicketUpdateForm(props) {
     const queryData = async () => {
       const record = idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getTicket.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
@@ -74,6 +79,7 @@ export default function TicketUpdateForm(props) {
   React.useEffect(resetStateValues, [ticketRecord]);
   const validations = {
     code: [],
+    orderDetailID: [],
     stop: [],
     seating: [],
     status: [],
@@ -108,6 +114,7 @@ export default function TicketUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           code: code ?? null,
+          orderDetailID: orderDetailID ?? null,
           stop: stop ?? null,
           seating: seating ?? null,
           status: status ?? null,
@@ -143,7 +150,7 @@ export default function TicketUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateTicket.replaceAll("__typename", ""),
             variables: {
               input: {
@@ -175,6 +182,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code: value,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -196,6 +204,37 @@ export default function TicketUpdateForm(props) {
         {...getOverrideProps(overrides, "code")}
       ></TextField>
       <TextField
+        label="Order detail id"
+        isRequired={false}
+        isReadOnly={false}
+        value={orderDetailID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              code,
+              orderDetailID: value,
+              stop,
+              seating,
+              status,
+              description,
+              url,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.orderDetailID ?? value;
+          }
+          if (errors.orderDetailID?.hasError) {
+            runValidationTasks("orderDetailID", value);
+          }
+          setOrderDetailID(value);
+        }}
+        onBlur={() => runValidationTasks("orderDetailID", orderDetailID)}
+        errorMessage={errors.orderDetailID?.errorMessage}
+        hasError={errors.orderDetailID?.hasError}
+        {...getOverrideProps(overrides, "orderDetailID")}
+      ></TextField>
+      <TextField
         label="Stop"
         isRequired={false}
         isReadOnly={false}
@@ -205,6 +244,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop: value,
               seating,
               status,
@@ -235,6 +275,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating: value,
               status,
@@ -265,6 +306,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status: value,
@@ -295,6 +337,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -325,6 +368,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,
@@ -355,6 +399,7 @@ export default function TicketUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               code,
+              orderDetailID,
               stop,
               seating,
               status,
