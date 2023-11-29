@@ -31,7 +31,7 @@
         },
         "createAdminAgency": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
-          "s3Key": "amplify-builds/createAdminAgency-37426374456c5073626c-build.zip"
+          "s3Key": "amplify-builds/createAdminAgency-6472423949794d4b3057-build.zip"
         },
         "createUserCognito": {
           "deploymentBucketName": "amplify-bybus-stage-193751-deployment",
@@ -60,6 +60,10 @@
       },
       "storage": {
         "s3storagebybus": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "bybusgraphql": {}
       }
     }
   }
