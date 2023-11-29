@@ -167,7 +167,7 @@ export default function ModalTravel({ open, close, offices }) {
       variables: { input: JSON.stringify(params) },
     });
     console.log(ejele);
-    // return;
+    return;
 
     const rif = await API.graphql({
       query: queries.getAgency,
