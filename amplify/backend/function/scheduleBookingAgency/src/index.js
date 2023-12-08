@@ -1,8 +1,7 @@
 /* Amplify Params - DO NOT EDIT
-	API_BYBUSGRAPHQL_BOOKINGTABLE_ARN
-	API_BYBUSGRAPHQL_BOOKINGTABLE_NAME
 	API_BYBUSGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT
 	API_BYBUSGRAPHQL_GRAPHQLAPIIDOUTPUT
+	AUTH_BYBUS_USERPOOLID
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -12,195 +11,151 @@ import { defaultProvider } from "@aws-sdk/credential-provider-node";
 import { SignatureV4 } from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
 import { default as fetch, Request } from "node-fetch";
-import { v4 as uuidv4 } from "uuid";
-//   const ID = uuidv4();
 
 const GRAPHQL_ENDPOINT = process.env.API_BYBUSGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT;
-const AWS_REGION = process.env.REGION || "us-east-1";
+const AWS_REGION = process.env.AWS_REGION || "us-east-1";
 const { Sha256 } = crypto;
 moment.tz.setDefault("America/Caracas");
-
-const createBooking = /* GraphQL */ `
-  mutation CreateBooking(
-    $input: CreateBookingInput!
-    $condition: ModelBookingConditionInput
-  ) {
-    createBooking(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-
-const getBookingbyCode = /* GraphQL */ `
-  query GetBookingbyCode(
-    $code: String!
-    $sortDirection: ModelSortDirection
+const listBookings = /* GraphQL */ `
+  query LIST_BOOKINGS(
     $filter: ModelBookingFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    getBookingbyCode(
-      code: $code
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
+    listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         status
         code
+        agencyID
+        officeID
+        transport
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        stock
+        price
+        createdBy
+        owner
+        createdAt
+        updatedAt
+        __typename
       }
       nextToken
       __typename
     }
   }
 `;
+
+const updateBooking = /* GraphQL */ `
+  mutation UpdateBooking($input: UpdateBookingInput!) {
+    updateBooking(input: $input) {
+      id
+      status
+    }
+  }
+`;
+
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-const weekDays = [
-  "MONDAY",
-  "TUESDAY",
-  "WEDNESDAY",
-  "THURSDAY",
-  "FRIDAY",
-  "SATURDAY",
-  "SUNDAY",
-];
 
 export const handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
-  /*
-    LOGICA PARA VIAJES PROGRAMADOS CON ANTICIPACION 
-    1. obtenemos en inpuy el owner de  la agencia , los datos apra reprogramar y los datos del vaije booking
-    2. si la creacion no es para reprogramar entonces se crea un solo viaje 
-    3.si no hay que crear varios viajes dependiendo del reprogram.date
-  */
-  // Obtenemos los parametros
-  const { owner, reprogram, booking } = JSON.parse(event.arguments.input);
-
-  if (reprogram?.is) {
-    // Viene una creacion devarios bookings
-    console.log("Crear varios bookings");
-    // cantidad de viajes
-    const departureDate = moment(booking?.departure?.date);
-    const scheduleDate = moment(reprogram?.date);
-    const arrivalDate = moment(booking?.arrival?.date);
-    // diferencia de dias entre el inicio del viaje y el ultimo programado
-    const daysSchedule = scheduleDate.diff(departureDate, "days");
-    // diferencias entre arrival y departuee
-    const daysDifference = arrivalDate.diff(departureDate, "days");
-    console.log("DIAS PROGRAMADOS: ", daysSchedule);
-    console.log("DIAS ARRAY: ", reprogram?.week);
-    const initDay = departureDate.format("YYYY-MM-DD");
-    for (let index = 0; index < daysSchedule + 1; index++) {
-      console.log("INDEX: ", index);
-      // obtenemos el dia
-      const day = moment(initDay).add(index, "days").format("YYYY-MM-DD");
-      const aDay = moment(initDay)
-        .add(daysDifference, "days")
-        .format("YYYY-MM-DD");
-      const dayWeek = weekDays[moment(day).isoWeekday() - 1];
-      console.log("FECHA DE INCIIO: ", initDay);
-      console.log("FECHA: ", day);
-      // console.log("NUMERO DE SEMANA: ", day.day());
-      console.log("DIA DE LA SEMANA: ", dayWeek);
-
-      if (reprogram?.week.includes(dayWeek)) {
-        // si en la repgramacion esta el dia de la semana cumplido
-        // obtenemos un iD
-        const ID = uuidv4();
-
-        // conseguimso el codigo
-        const code = await GENERATE_CODE({ id: ID, booking });
-        const inputParams = {
-          id: ID,
-          agencyID: booking?.agencyID,
-          officeID: booking?.officeID,
-          transport: booking?.transport,
-          driver: booking?.driver,
-          code: code,
-          departure: {
-            ...booking?.departure,
-            date: day,
-          },
-          arrival: {
-            ...booking?.arrival,
-            date: aDay,
-          },
-          departureCity: booking?.departureCity,
-          arrivalCity: booking?.arrivalCity,
-          stock: booking?.stock,
-          price: booking?.price,
-          createdBy: booking?.createdBy,
-          owner: owner,
-        };
-        const result = await CUSTOM_API_GRAPHQL(createBooking, {
-          input: inputParams,
-        });
-        console.log("RESULTADO DE CREACION MULTIPLE: ", result);
-      }
-    }
-  } else {
-    // solo se crea uno
-    // // creamos el viaje
-
-    // obtenemos el id del viaje
-    const ID = uuidv4();
-    // obtenemos el codigo del viaje
-    const code = await GENERATE_CODE({ id: ID, booking });
-    const resultCreate = await CUSTOM_API_GRAPHQL(createBooking, {
-      input: {
-        id: ID,
-        code,
-        ...booking,
-        owner: owner,
-      },
-    });
-    console.log("RESULTADO UNO: ", resultCreate);
-  }
-
-  return JSON.stringify({
-    statusCode: 200,
-    body: "CREACION DE VIAJES EXITOSO",
+  let bodyresponse = "";
+  const response = await CUSTOM_API_GRAPHQL(listBookings, {
+    filter: {
+      or: [{ status: { eq: "AVAILABLE" } }, { status: { eq: "SOLDOUT" } }],
+    },
   });
-};
+  const response2 = await CUSTOM_API_GRAPHQL(listBookings, {
+    filter: { status: { eq: "BOARDING" } },
+  });
+  // Obtiene la fecha y hora actual en formato ISO 8601
+  console.log("RESPONSE: ", response.data.listBookings.items);
 
-const GENERATE_CODE = async (data) => {
-  const { id, booking } = data;
-  const { departure } = booking;
-  let number = 1;
-  let codeBooking = null;
-  while (true) {
-    codeBooking = `${id
-      .slice(0, 5)
-      .replace("-", "")
-      .toUpperCase()}${departure?.state?.slice(0, 1)}${departure?.city?.slice(
-      0,
-      1
-    )}${number.toString().padStart(2, "0")}`;
-    let isExistingCode = await CUSTOM_API_GRAPHQL(getBookingbyCode, {
-      code: codeBooking.toUpperCase(),
-    });
-    if (isExistingCode.data.getBookingbyCode.items.length > 0) {
-      number = number + 1;
-    } else if (isExistingCode.data.getBookingbyCode.items.length === 0) {
-      break;
+  for (const item of response?.data?.listBookings?.items) {
+    // formamos la hora de la base de dtaos con date and time como objecto moment
+    const departure = item.departure;
+    const departureDatetime = moment(
+      `${departure.date} ${departure.time}`,
+      "YYYY-MM-DD HH:mm:ss"
+    );
+    // Compara con la fecha y hora actual
+    const now = moment().format("YYYY-MM-DDTHH:mm:ssZ");
+
+    console.log("Hora Servidor: ", now);
+    console.log("Hora DB: ", departureDatetime);
+    // Calcula la diferencia en minutos entre la hora del servidor y la hora de la tarea
+    const diffInMinutes = departureDatetime.diff(now, "minutes");
+    console.log("Diferencia de minutos: ", diffInMinutes);
+    if (diffInMinutes <= 17) {
+      await CUSTOM_API_GRAPHQL(updateBooking, {
+        input: {
+          id: item.id,
+          status: "BOARDING",
+        },
+      });
     }
   }
 
-  return codeBooking.toUpperCase();
+  for (const item of response2?.data?.listBookings?.items) {
+    // formamos la hora de la base de dtaos con date and time como objecto moment
+    const arrival = item.arrival;
+    const arrivalDatatime = moment(
+      `${arrival.date} ${arrival.time}`,
+      "YYYY-MM-DD HH:mm:ss"
+    );
+    // Compara con la fecha y hora actual
+    const now = moment().format("YYYY-MM-DDTHH:mm:ssZ");
+
+    console.log("Hora DB ARRIVAL: ", arrivalDatatime);
+    // Calcula la diferencia en minutos entre la hora del servidor y la hora de la tarea
+    const diffInMinutes = arrivalDatatime.diff(now, "minutes");
+    console.log("Diferencia de minutos entre ahora y Arrival: ", diffInMinutes);
+    if ((diffInMinutes) => 0 || diffInMinutes <= 1) {
+      await CUSTOM_API_GRAPHQL(updateBooking, {
+        input: {
+          id: item.id,
+          status: "ARRIVED",
+        },
+      });
+    }
+  }
+
+  if (
+    response?.data?.listBookings?.items > 0 ||
+    response2?.data?.listBookings?.items
+  ) {
+    bodyresponse = `Elemento actualizados`;
+  } else {
+    bodyresponse = `No hay elementos para actualizar`;
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(bodyresponse),
+  };
 };
 
 const CUSTOM_API_GRAPHQL = async (query, variables = {}) => {
   const endpoint = new URL(GRAPHQL_ENDPOINT);
-  let bodyContent = JSON.stringify({ query });
-  if (variables) bodyContent = JSON.stringify({ query, variables });
+
   const signer = new SignatureV4({
     credentials: defaultProvider(),
     region: AWS_REGION,
@@ -215,7 +170,7 @@ const CUSTOM_API_GRAPHQL = async (query, variables = {}) => {
       host: endpoint.host,
     },
     hostname: endpoint.host,
-    body: bodyContent,
+    body: JSON.stringify({ query, variables }),
     path: endpoint.pathname,
   });
 

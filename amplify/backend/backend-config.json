@@ -341,38 +341,6 @@
         }
       ]
     },
-    "AMPLIFY_function_reprogramBookingTicket_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "reprogramBookingTicket"
-        }
-      ]
-    },
-    "AMPLIFY_function_reprogramBookingTicket_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "reprogramBookingTicket"
-        }
-      ]
-    },
-    "AMPLIFY_function_reprogramBooking_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "reprogramBooking"
-        }
-      ]
-    },
-    "AMPLIFY_function_reprogramBooking_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "reprogramBooking"
-        }
-      ]
-    },
     "AMPLIFY_function_scheduleBookingAgency_deploymentBucketName": {
       "usedBy": [
         {

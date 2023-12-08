@@ -106,6 +106,8 @@ export const handler = async (event) => {
     const result = await CUSTOM_API_GRAPHQL(getBooking, {
       id: bookingID,
     });
+    if (result?.data?.getBooking?.status === "ARRIVED")
+      throw new Error(`Viaje ya cerrado`);
     const tickets = result?.data?.getBooking?.tickets?.items;
     const isExistenTIcket = tickets.find(
       (item, index) => item?.id === ticketID
@@ -115,8 +117,6 @@ export const handler = async (event) => {
     console.log("Existe el TIcket? ", isExistenTIcket);
     if (!isExistenTIcket) throw new Error("Ticket No existe en este viaje");
     switch (isExistenTIcket?.status) {
-      case "ACTIVE":
-        throw new Error(`Ticket no Asigando a un cliente`);
       case "BOARDED":
         throw new Error(
           `Cliente con ticket ${isExistenTIcket?.id}, ya abordado`
