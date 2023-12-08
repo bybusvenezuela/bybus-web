@@ -113,6 +113,7 @@ export const onCreateAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -161,6 +162,7 @@ export const onCreateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -206,6 +208,7 @@ export const onCreateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -290,6 +293,7 @@ export const onUpdateAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -338,6 +342,7 @@ export const onUpdateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -383,6 +388,7 @@ export const onUpdateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -467,6 +473,7 @@ export const onDeleteAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -515,6 +522,7 @@ export const onDeleteAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -560,6 +568,7 @@ export const onDeleteAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -663,6 +672,7 @@ export const onCreateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -724,6 +734,7 @@ export const onCreateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -827,6 +838,7 @@ export const onUpdateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -888,6 +900,7 @@ export const onUpdateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -991,6 +1004,7 @@ export const onDeleteOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1052,6 +1066,7 @@ export const onDeleteOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1180,6 +1195,7 @@ export const onCreateEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1350,6 +1366,7 @@ export const onUpdateEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1520,6 +1537,7 @@ export const onDeleteEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1747,6 +1765,7 @@ export const onCreateScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -1900,6 +1919,7 @@ export const onUpdateScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -2053,6 +2073,7 @@ export const onDeleteScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -2203,6 +2224,7 @@ export const onCreateBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -2484,6 +2506,7 @@ export const onUpdateBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -2765,6 +2788,7 @@ export const onDeleteBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -3646,6 +3670,7 @@ export const onCreateOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -3855,6 +3880,7 @@ export const onUpdateOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -4064,6 +4090,7 @@ export const onDeleteOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -4335,6 +4362,7 @@ export const onCreateOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -4484,6 +4512,7 @@ export const onUpdateOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -4633,6 +4662,7 @@ export const onDeleteOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
