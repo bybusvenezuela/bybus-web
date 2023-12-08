@@ -262,6 +262,7 @@ export const onCreateAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -442,6 +443,7 @@ export const onUpdateAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -622,6 +624,7 @@ export const onDeleteAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -788,6 +791,7 @@ export const onCreateOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -954,6 +958,7 @@ export const onUpdateOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -1120,6 +1125,7 @@ export const onDeleteOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -1246,6 +1252,7 @@ export const onCreateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1320,6 +1327,7 @@ export const onCreateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1417,6 +1425,7 @@ export const onUpdateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1491,6 +1500,7 @@ export const onUpdateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1588,6 +1598,7 @@ export const onDeleteEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1662,6 +1673,7 @@ export const onDeleteEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1882,6 +1894,7 @@ export const onCreateScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2036,6 +2049,7 @@ export const onUpdateScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2190,6 +2204,7 @@ export const onDeleteScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2275,6 +2290,7 @@ export const onCreateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2349,6 +2365,7 @@ export const onCreateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2478,6 +2495,7 @@ export const onCreateBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -2557,6 +2575,7 @@ export const onUpdateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2631,6 +2650,7 @@ export const onUpdateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2760,6 +2780,7 @@ export const onUpdateBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -2839,6 +2860,7 @@ export const onDeleteBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2913,6 +2935,7 @@ export const onDeleteBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -3042,6 +3065,7 @@ export const onDeleteBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -3787,6 +3811,7 @@ export const onCreateOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -3997,6 +4022,7 @@ export const onUpdateOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -4207,6 +4233,7 @@ export const onDeleteOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -4416,6 +4443,7 @@ export const onCreateOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4566,6 +4594,7 @@ export const onUpdateOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4716,6 +4745,7 @@ export const onDeleteOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4810,6 +4840,7 @@ export const onCreateUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -4888,6 +4919,7 @@ export const onUpdateUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -4966,6 +4998,7 @@ export const onDeleteUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
