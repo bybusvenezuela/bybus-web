@@ -453,14 +453,23 @@ export default function ModalTravel({ open, close, offices }) {
                               setArrival({ ...arrival, city: e.target.value })
                             }
                           >
+                            {console.log(venezuela)}
                             {venezuela.map((item, index) =>
-                              arrival.state === item.estado
-                                ? item.ciudades.map((city, index) => (
+                              arrival.state === item.estado ? (
+                                item?.ciudades ? (
+                                  item.ciudades.map((city, index) => (
                                     <MenuItem value={city} key={index}>
                                       {city}
                                     </MenuItem>
                                   ))
-                                : ""
+                                ) : (
+                                  <MenuItem value={item.capital} key={1}>
+                                    {item.capital}
+                                  </MenuItem>
+                                )
+                              ) : (
+                                ""
+                              )
                             )}
                           </Select>
                         </FormControl>
