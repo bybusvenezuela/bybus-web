@@ -28,6 +28,7 @@ export declare type AgencyCreateFormInputValues = {
     rif?: string;
     email?: string;
     phone?: string;
+    percentage?: number;
     owner?: string;
 };
 export declare type AgencyCreateFormValidationValues = {
@@ -37,6 +38,7 @@ export declare type AgencyCreateFormValidationValues = {
     rif?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
+    percentage?: ValidationFunction<number>;
     owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -48,6 +50,7 @@ export declare type AgencyCreateFormOverridesProps = {
     rif?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
+    percentage?: PrimitiveOverrideProps<TextFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgencyCreateFormProps = React.PropsWithChildren<{

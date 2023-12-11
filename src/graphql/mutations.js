@@ -14,6 +14,7 @@ export const deleteAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -62,6 +63,7 @@ export const deleteAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -107,6 +109,7 @@ export const deleteAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -160,6 +163,7 @@ export const deleteAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -430,6 +434,7 @@ export const createAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -478,6 +483,7 @@ export const createAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -523,6 +529,7 @@ export const createAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -576,6 +583,7 @@ export const createAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -607,6 +615,7 @@ export const updateAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
       officies {
         items {
           id
@@ -655,6 +664,7 @@ export const updateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -700,6 +710,7 @@ export const updateAgency = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -753,6 +764,7 @@ export const updateAgency = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -803,6 +815,7 @@ export const createOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -864,6 +877,7 @@ export const createOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -917,6 +931,7 @@ export const createOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -967,6 +982,7 @@ export const updateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1028,6 +1044,7 @@ export const updateOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1081,6 +1098,7 @@ export const updateOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -1131,6 +1149,7 @@ export const deleteOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1192,6 +1211,7 @@ export const deleteOffice = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -1245,6 +1265,7 @@ export const deleteOffice = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -1329,6 +1350,7 @@ export const createEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1379,6 +1401,7 @@ export const createEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1453,6 +1476,7 @@ export const createEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1499,6 +1523,7 @@ export const updateEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1549,6 +1574,7 @@ export const updateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1623,6 +1649,7 @@ export const updateEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1669,6 +1696,7 @@ export const deleteEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -1719,6 +1747,7 @@ export const deleteEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1793,6 +1822,7 @@ export const deleteEmployee = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -1896,6 +1926,7 @@ export const createScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -2012,6 +2043,7 @@ export const createScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2049,6 +2081,7 @@ export const updateScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -2165,6 +2198,7 @@ export const updateScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2202,6 +2236,7 @@ export const deleteScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -2318,6 +2353,7 @@ export const deleteScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -2352,6 +2388,7 @@ export const createBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -2402,6 +2439,7 @@ export const createBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2476,6 +2514,7 @@ export const createBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2605,6 +2644,7 @@ export const createBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -2633,6 +2673,7 @@ export const updateBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -2683,6 +2724,7 @@ export const updateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2757,6 +2799,7 @@ export const updateBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -2886,6 +2929,7 @@ export const updateBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -2914,6 +2958,7 @@ export const deleteBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         officies {
           items {
             id
@@ -2964,6 +3009,7 @@ export const deleteBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -3038,6 +3084,7 @@ export const deleteBooking = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -3167,6 +3214,7 @@ export const deleteBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -3661,6 +3709,7 @@ export const createOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -3777,6 +3826,7 @@ export const createOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -3870,6 +3920,7 @@ export const updateOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -3986,6 +4037,7 @@ export const updateOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -4079,6 +4131,7 @@ export const deleteOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
           officies {
             nextToken
             __typename
@@ -4195,6 +4248,7 @@ export const deleteOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -4345,6 +4399,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -4398,6 +4453,7 @@ export const createOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4489,6 +4545,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -4542,6 +4599,7 @@ export const updateOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4633,6 +4691,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
             rif
             email
             phone
+            percentage
             owner
             createdAt
             updatedAt
@@ -4686,6 +4745,7 @@ export const deleteOrderDetailHistory = /* GraphQL */ `
           }
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -4779,6 +4839,7 @@ export const createUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -4856,6 +4917,7 @@ export const updateUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport
@@ -4933,6 +4995,7 @@ export const deleteUser = /* GraphQL */ `
             arrivalCity
             stock
             price
+            percentage
             createdBy
             driver
             transport

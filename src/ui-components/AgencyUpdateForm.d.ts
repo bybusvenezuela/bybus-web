@@ -28,6 +28,7 @@ export declare type AgencyUpdateFormInputValues = {
     rif?: string;
     email?: string;
     phone?: string;
+    percentage?: number;
     owner?: string;
 };
 export declare type AgencyUpdateFormValidationValues = {
@@ -37,6 +38,7 @@ export declare type AgencyUpdateFormValidationValues = {
     rif?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
+    percentage?: ValidationFunction<number>;
     owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -48,6 +50,7 @@ export declare type AgencyUpdateFormOverridesProps = {
     rif?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
+    percentage?: PrimitiveOverrideProps<TextFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgencyUpdateFormProps = React.PropsWithChildren<{

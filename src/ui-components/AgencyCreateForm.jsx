@@ -29,6 +29,7 @@ export default function AgencyCreateForm(props) {
     rif: "",
     email: "",
     phone: "",
+    percentage: "",
     owner: "",
   };
   const [cognitoID, setCognitoID] = React.useState(initialValues.cognitoID);
@@ -37,6 +38,7 @@ export default function AgencyCreateForm(props) {
   const [rif, setRif] = React.useState(initialValues.rif);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
+  const [percentage, setPercentage] = React.useState(initialValues.percentage);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -46,6 +48,7 @@ export default function AgencyCreateForm(props) {
     setRif(initialValues.rif);
     setEmail(initialValues.email);
     setPhone(initialValues.phone);
+    setPercentage(initialValues.percentage);
     setOwner(initialValues.owner);
     setErrors({});
   };
@@ -56,6 +59,7 @@ export default function AgencyCreateForm(props) {
     rif: [],
     email: [],
     phone: [],
+    percentage: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -90,6 +94,7 @@ export default function AgencyCreateForm(props) {
           rif,
           email,
           phone,
+          percentage,
           owner,
         };
         const validationResponses = await Promise.all(
@@ -159,6 +164,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email,
               phone,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -189,6 +195,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email,
               phone,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -219,6 +226,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email,
               phone,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -249,6 +257,7 @@ export default function AgencyCreateForm(props) {
               rif: value,
               email,
               phone,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -279,6 +288,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email: value,
               phone,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -309,6 +319,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email,
               phone: value,
+              percentage,
               owner,
             };
             const result = onChange(modelFields);
@@ -325,6 +336,41 @@ export default function AgencyCreateForm(props) {
         {...getOverrideProps(overrides, "phone")}
       ></TextField>
       <TextField
+        label="Percentage"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={percentage}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin,
+              name,
+              rif,
+              email,
+              phone,
+              percentage: value,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.percentage ?? value;
+          }
+          if (errors.percentage?.hasError) {
+            runValidationTasks("percentage", value);
+          }
+          setPercentage(value);
+        }}
+        onBlur={() => runValidationTasks("percentage", percentage)}
+        errorMessage={errors.percentage?.errorMessage}
+        hasError={errors.percentage?.hasError}
+        {...getOverrideProps(overrides, "percentage")}
+      ></TextField>
+      <TextField
         label="Owner"
         isRequired={false}
         isReadOnly={false}
@@ -339,6 +385,7 @@ export default function AgencyCreateForm(props) {
               rif,
               email,
               phone,
+              percentage,
               owner: value,
             };
             const result = onChange(modelFields);
