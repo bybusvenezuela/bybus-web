@@ -16,7 +16,6 @@ import * as mutations from "@/graphql/custom/mutations/office";
 import { venezuela } from "@/constants";
 
 export default function ModalOfficeEdit({ open, close, data }) {
-  console.log(data);
   useEffect(() => {}, []);
 
   return (

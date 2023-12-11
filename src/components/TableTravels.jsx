@@ -22,7 +22,6 @@ const TableTravels = ({ rows  }) => {
         }
       },
     });
-    console.log(booking.data.updateBooking);
   };
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -66,7 +65,6 @@ const TableTravels = ({ rows  }) => {
           <Stack>
             <button
               onClick={() => {
-                console.log(params.row);
                 setData(params.row);
                 setOpen(!open);
               }}
@@ -76,7 +74,6 @@ const TableTravels = ({ rows  }) => {
                 let opcion = confirm("Quieres eliminar el siguiente viaje?");
                 if (opcion == true) {
                   alert('Se ha eliminado con exito. Refresque la pagina');
-                  console.log(params.row.id)
                   DeleteBooking(params.row.id)
                 } else {
                   alert('Has cancelado con exito');

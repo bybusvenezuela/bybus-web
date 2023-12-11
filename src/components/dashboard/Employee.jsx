@@ -36,7 +36,6 @@ const Dashboard = ({ dataResult, userType }) => {
         id: dataResult?.id,
       },
     });
-    // console.log(list?.data);
     setData(list?.data?.getEmployee);
     const travels = await API.graphql({
       query: queries.listBookings,
@@ -45,8 +44,9 @@ const Dashboard = ({ dataResult, userType }) => {
         id: list?.data?.getEmployee?.agencyID,
       },
     });
-    // console.log(travels?.data.listBookings.items);
-    setDataTravels(travels?.data.listBookings.items);
+    let array = travels?.data.listBookings.items.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date));
+    console.log(array)
+    setDataTravels(array);
   };
 
   const Travels = async () => {
@@ -59,7 +59,6 @@ const Dashboard = ({ dataResult, userType }) => {
         },
       },
     });
-    console.log(list.data.listOrderDetails);
     setDataOrders(list.data.listOrderDetails.items);
   };
 

@@ -16,7 +16,6 @@ import { Auth, API } from "aws-amplify";
 import * as mutations from "@/graphql/custom/mutations/employee";
 
 export default function ModalEmployeeEdit({ open, close, data }) {
-  console.log(data);
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {

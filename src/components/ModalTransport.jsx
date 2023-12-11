@@ -36,7 +36,6 @@ export default function ModalTransport({ open, close, offices }) {
         },
       },
     });
-    console.log(transport)
   };
 
   const resetModal = () => {

@@ -113,8 +113,6 @@ export default function ModalTravel({ open, close, offices }) {
     },
   };
   const onCreateTravel = async () => {
-    console.log(checked);
-    console.log(selectWeek);
     let timeD =
       timeDeparture.mode === "PM"
         ? Number(timeDeparture.hour) +
@@ -161,99 +159,12 @@ export default function ModalTravel({ open, close, offices }) {
         week: selectWeek,
       },
     };
+
     const ejele = await API.graphql({
       query: mutations.reprogram,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: { input: JSON.stringify(params) },
     });
-    console.log(ejele);
-    return;
-
-    const rif = await API.graphql({
-      query: queries.getAgency,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        id: offices.agencyID,
-      },
-    });
-    const listCodeBookings = await API.graphql({
-      query: queries.listBookings,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-
-    const booking = await API.graphql({
-      query: mutations.createBooking,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        input: {
-          agencyID: offices.agencyID,
-          officeID: offices.id,
-          transport: transport,
-          driver: driver,
-          departure: {
-            time: timeD,
-            date: departure.date,
-            city: departure.city,
-            state: departure.state,
-            address: departure.address.trim(),
-          },
-          arrival: {
-            time: timeA,
-            date: arrival.date,
-            city: arrival.city,
-            state: arrival.state,
-            address: arrival.address.trim(),
-          },
-          departureCity: departure.city,
-          arrivalCity: arrival.city,
-          stock: quantity.trim(),
-          price: price.trim(),
-          createdBy: profileAuth.id,
-        },
-      },
-    });
-
-    console.log(booking);
-
-    const generateCode = () => {
-      let codeBooking = `${booking.data.createBooking.id
-        .slice(0, 5)
-        .replace("-", "")
-        .toUpperCase()}${offices.state.slice(0, 1)}${offices.city.slice(
-        0,
-        1
-      )}${number.toString().padStart(2, "0")}`;
-      console.log(codeBooking);
-      return codeBooking;
-    };
-    const verifyCode = async (code) => {
-      let codeVerify = null;
-      let i = 0;
-      if (listCodeBookings.data.listBookings.items.length === 0) return code;
-      while (i < listCodeBookings.data.listBookings.items.length) {
-        i++;
-        let element = listCodeBookings.data.listBookings.items[i]?.code;
-        element === code ? setNumber(number + 1) : (codeVerify = code);
-      }
-      return codeVerify;
-    };
-
-    const codeTravel = generateCode(number);
-    const verifyCodeTravel = await verifyCode(codeTravel.toUpperCase());
-
-    console.log(verifyCodeTravel);
-
-    const bookingUpdate = await API.graphql({
-      query: employee.updateBooking,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-      variables: {
-        input: {
-          id: booking?.data?.createBooking?.id,
-          code: verifyCodeTravel,
-        },
-      },
-    });
-    console.log(bookingUpdate);
   };
 
   useEffect(() => {
@@ -453,7 +364,6 @@ export default function ModalTravel({ open, close, offices }) {
                               setArrival({ ...arrival, city: e.target.value })
                             }
                           >
-                            {console.log(venezuela)}
                             {venezuela.map((item, index) =>
                               arrival.state === item.estado ? (
                                 item?.ciudades ? (
@@ -574,9 +484,9 @@ export default function ModalTravel({ open, close, offices }) {
                       label="Conductor"
                       variant="outlined"
                       onChange={(e) => setDriver(e.target.value)}
-                      sx={{ width: 450 }}
+                      sx={{ width: 850 }}
                     />
-                    <FormControl sx={{ width: 250 }}>
+                    <FormControl sx={{ width: 1250 }}>
                       <InputLabel id="demo-simple-select-label">
                         Tipo de transporte
                       </InputLabel>
@@ -593,20 +503,38 @@ export default function ModalTravel({ open, close, offices }) {
                         ))}
                       </Select>
                     </FormControl>
-                    <TextField
-                      id="outlined-basic"
-                      label="Precio"
-                      variant="outlined"
-                      onChange={(e) => setPrice(e.target.value)}
-                      sx={{ width: 250 }}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      label="Cantidad de puestos"
-                      onChange={(e) => setQuantity(e.target.value)}
-                      sx={{ width: 250 }}
-                    />
+                    <div>
+                    <div style={{
+                      display: 'flex',
+                      gap: 10
+                    }}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Precio"
+                        variant="outlined"
+                        onChange={(e) => setPrice(e.target.value)}
+                        sx={{ width: 150 }}
+                      />
+
+                      <TextField
+                        id="outlined-basic"
+                        variant="outlined"
+                        label="Cantidad de puestos"
+                        onChange={(e) => setQuantity(e.target.value)}
+                        sx={{ width: 250 }}
+                      />
+                    </div>
+
+                      <div
+                        style={{
+                          fontSize: 11,
+                          marginTop: 5
+                        }}
+                      >
+                        Recuerda que tu precio se vera reflejo al final por el
+                        10% de comision de Bybus
+                      </div>
+                    </div>
                   </div>
                   {/* <p>Paradas</p> */}
                   {/* <div className={styles.stop}>

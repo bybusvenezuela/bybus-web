@@ -7,11 +7,10 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { getCustomer } from "../graphql/queries";
-import { updateCustomer } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Customer } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function CustomerUpdateForm(props) {
   const {
     id: idProp,
@@ -49,12 +48,7 @@ export default function CustomerUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await client.graphql({
-              query: getCustomer.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getCustomer
+        ? await DataStore.query(Customer, idProp)
         : customerModelProp;
       setCustomerRecord(record);
     };
@@ -93,10 +87,10 @@ export default function CustomerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          fullName: fullName ?? null,
-          ci: ci ?? null,
-          email: email ?? null,
-          owner: owner ?? null,
+          fullName,
+          ci,
+          email,
+          owner,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -122,26 +116,21 @@ export default function CustomerUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: updateCustomer.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: customerRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            Customer.copyOf(customerRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

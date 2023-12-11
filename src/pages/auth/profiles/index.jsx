@@ -14,7 +14,6 @@ const Profiles = ({ error }) => {
 };
 
 export async function getServerSideProps({ query }) {
-  console.log("PROFILE: ", query);
   if (query.error) {
     return {
       props: {

@@ -48,7 +48,6 @@ const Dashboard = ({ dataResult, userType }) => {
         id: officeList,
       },
     });
-    console.log(list.data.getOffice);
     setDataO(list?.data?.getOffice);
   };
   const OfficeTravels = async () => {
@@ -59,7 +58,6 @@ const Dashboard = ({ dataResult, userType }) => {
         id: officeListT,
       },
     });
-    console.log(list.data.getOffice);
     setDataOfficeTravel(list?.data?.getOffice);
   };
 

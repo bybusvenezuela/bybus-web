@@ -8,7 +8,6 @@ import * as mutation from "@/graphql/custom/mutations/profile";
 import ModalOfficeEdit from "./ModalOfficeEdit";
 
 const TableOffices = ({ rows }) => {
-  console.log(rows)
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const DeleteOffice = async (officeId) => {
@@ -22,7 +21,6 @@ const TableOffices = ({ rows }) => {
         }
       },
     });
-    console.log(office.data.updateOffice);
   };
 
 
@@ -59,7 +57,6 @@ const TableOffices = ({ rows }) => {
           <Stack>
             <button
               onClick={() => {
-                console.log(params.row);
                 setData(params.row);
                 setOpen(!open);
               }}
@@ -69,7 +66,6 @@ const TableOffices = ({ rows }) => {
                 let opcion = confirm("Quieres eliminar la siguiente agencia de viaje?");
                 if (opcion == true) {
                   alert('Se ha eliminado con exito. Refresque la pagina');
-                  console.log(params.row.id)
                   DeleteOffice(params.row.id)
                 } else {
                   alert('Has cancelado con exito');

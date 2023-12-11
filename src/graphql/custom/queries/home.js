@@ -160,6 +160,7 @@ export const listBookings = /* GraphQL */ `
         price
         createdBy
         driver
+        percentage
         transport
         createdAt
         updatedAt
@@ -196,17 +197,6 @@ export const listOrderDetails = /* GraphQL */ `
           updatedAt
         }
         bookingID
-        orderTickets {
-          items {
-            id
-            orderID
-            ticketID
-            createdAt
-            updatedAt
-            orderDetailOrderTicketsId
-          }
-          nextToken
-        }
         userID
         createdAt
         updatedAt
@@ -286,6 +276,7 @@ export const getOffice = /* GraphQL */ `
           status
           code
           agencyID
+          percentage
           agency {
             id
             cognitoID

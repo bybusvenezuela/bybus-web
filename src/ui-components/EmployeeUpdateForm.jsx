@@ -13,11 +13,10 @@ import {
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { getEmployee } from "../graphql/queries";
-import { updateEmployee } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Employee } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function EmployeeUpdateForm(props) {
   const {
     id: idProp,
@@ -69,12 +68,7 @@ export default function EmployeeUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await client.graphql({
-              query: getEmployee.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getEmployee
+        ? await DataStore.query(Employee, idProp)
         : employeeModelProp;
       setEmployeeRecord(record);
     };
@@ -117,14 +111,14 @@ export default function EmployeeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          email: email ?? null,
-          phone: phone ?? null,
-          pin: pin ?? null,
+          name,
+          email,
+          phone,
+          pin,
           type,
-          status: status ?? null,
-          owner: owner ?? null,
-          lastConnection: lastConnection ?? null,
+          status,
+          owner,
+          lastConnection,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -150,26 +144,21 @@ export default function EmployeeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: updateEmployee.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: employeeRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            Employee.copyOf(employeeRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
