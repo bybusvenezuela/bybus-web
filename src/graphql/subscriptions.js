@@ -2293,7 +2293,6 @@ export const onUpdateBooking = /* GraphQL */ `
             email
             phone
             status
-            owner
             createdAt
             updatedAt
           }
@@ -2310,7 +2309,6 @@ export const onUpdateBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2332,13 +2330,11 @@ export const onUpdateBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
           }
           nextToken
         }
-        owner
         createdAt
         updatedAt
       }
@@ -2364,7 +2360,6 @@ export const onUpdateBooking = /* GraphQL */ `
             agencyID
             officeID
             status
-            owner
             lastConnection
             createdAt
             updatedAt
@@ -2381,7 +2376,6 @@ export const onUpdateBooking = /* GraphQL */ `
             createdBy
             createdAt
             updatedAt
-            owner
           }
           nextToken
         }
@@ -2400,13 +2394,11 @@ export const onUpdateBooking = /* GraphQL */ `
             createdBy
             driver
             transport
-            owner
             createdAt
             updatedAt
           }
           nextToken
         }
-        owner
         createdAt
         updatedAt
       }
@@ -2429,13 +2421,11 @@ export const onUpdateBooking = /* GraphQL */ `
             status
             description
             url
-            owner
             createdAt
             updatedAt
             stopBookingTicketsId
             orderDetailTicketsId
           }
-          owner
           createdAt
           updatedAt
         }
@@ -2456,7 +2446,6 @@ export const onUpdateBooking = /* GraphQL */ `
             email
             bookingID
             ticketID
-            owner
             createdAt
             updatedAt
           }
@@ -2464,7 +2453,6 @@ export const onUpdateBooking = /* GraphQL */ `
           status
           description
           url
-          owner
           createdAt
           updatedAt
           stopBookingTicketsId
@@ -2487,7 +2475,6 @@ export const onUpdateBooking = /* GraphQL */ `
             address
           }
           price
-          owner
           createdAt
           updatedAt
         }
@@ -2515,7 +2502,6 @@ export const onUpdateBooking = /* GraphQL */ `
       createdBy
       driver
       transport
-      owner
       createdAt
       updatedAt
     }

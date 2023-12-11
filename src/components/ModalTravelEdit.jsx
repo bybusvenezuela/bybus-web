@@ -61,8 +61,8 @@ export default function ModalTravelEdit({ data, open, close }) {
             amount: 1,
             paymentMethod: "TAQUILLA",
             customerName: attributes?.name,
-            paymentID: '',
-            customerDocument: '',
+            paymentID: "",
+            customerDocument: "",
             isGuest: false,
             total: 0,
             customerEmail: attributes?.email,
@@ -84,7 +84,7 @@ export default function ModalTravelEdit({ data, open, close }) {
             code: `${data?.code}-${i}`,
             bookingID: data?.id,
             status: "PAID",
-            customerID: '29f7c1aa-8b49-4db0-baaa-8e78879f2437',
+            customerID: "29f7c1aa-8b49-4db0-baaa-8e78879f2437",
             orderDetailID: orderDetail?.data?.createOrderDetail.id,
             description: "TAQUILLA",
           },
@@ -109,7 +109,6 @@ export default function ModalTravelEdit({ data, open, close }) {
     }
   };
 
-
   useEffect(() => {
     setStockVerify(data?.stock);
 
@@ -117,21 +116,20 @@ export default function ModalTravelEdit({ data, open, close }) {
       query: subscriptions.onUpdateBooking,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
-        filter: {
-          id: { eq: data?.id },
-        },
+        id: data.id,
       },
     }).subscribe({
       next: ({ provider, value: { data } }) => {
         setStockVerify(data?.onUpdateBooking?.stock);
         console.log(data);
-        console.log('TOY AQUI');
+        console.log("TOY AQUI");
       },
       error: (error) => console.warn(error),
     });
     return () => {
       updateSub.unsubscribe();
       console.log(stockVerify);
+      console.log("TOY por");
     };
   }, []);
 
@@ -399,7 +397,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                 size="large"
                 // color="error"
                 onClick={() => {
-                  onHandleOrder()
+                  onHandleOrder();
                 }}
               >
                 Agregar venta por taquilla
