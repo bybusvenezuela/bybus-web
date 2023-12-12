@@ -22,25 +22,13 @@ import TableTravels from "@/components/TableTravels";
 import ModalAgency from "@/components/ModalAgency";
 
 const Dashboard = () => {
-  const [emailSubs, setEmailSubs] = useState([]);
   const [agencySubs, setAgencySubs] = useState([]);
-  const [agenciesList, setAgenciesList] = useState([]);
   const [agencyBookings, setAgencyBookings] = useState([]);
+  const [agenciesList, setAgenciesList] = useState([])
   const [agencyOrders, setAgencyOrders] = useState([]);
   const [agency, setAgency] = useState("");
   const [open, setOpen] = useState(false);
-  const fetchEmailSubs = async () => {
-    try {
-      const result = await API.graphql({
-        query: listEmailSusbcriptions,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      setEmailSubs(result?.data?.listEmailSusbcriptions?.items);
-    } catch (error) {
-      setEmailSubs([]);
-      console.error("ERROR AL CONSULTAR EMAIL SUBS: ", error);
-    }
-  };
+
   const fetchAgencySubs = async () => {
     try {
       const result = await API.graphql({
@@ -51,9 +39,9 @@ const Dashboard = () => {
         query: queries.listAgencies,
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
-      console.log(list)
       setAgencySubs(result?.data?.listAgencySubscriptions?.items);
       setAgenciesList(list?.data?.listAgencies?.items)
+
     } catch (error) {
       setAgencySubs([]);
       console.error("ERROR AL CONSULTAR AGENCIAS SUBS: ", error);
@@ -105,7 +93,6 @@ const Dashboard = () => {
     setOpen(true);
   };
   useEffect(() => {
-    fetchEmailSubs();
     fetchAgencySubs();
     if (agency) fetchAgency();
   }, [agency]);
@@ -124,15 +111,15 @@ const Dashboard = () => {
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Correos Subscritos</h2>
+              <h2>Listado de Empresas Subscritas</h2>
               <IconButton
                 aria-label="refresh-email"
-                onClick={() => fetchEmailSubs()}
+                onClick={() => fetchAgencySubs()}
               >
                 <RefreshIcon />
               </IconButton>
             </div>
-            <TableEmailSubs rows={emailSubs} />
+            <TableEmailSubs rows={agenciesList} />
           </div>
           <div className={styles.users}>
             <div className={styles.title}>

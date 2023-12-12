@@ -176,6 +176,8 @@ export const getAgency = /* GraphQL */ `
       rif
       email
       phone
+      percentage
+      status
       officies {
         items {
           id
@@ -222,6 +224,7 @@ export const getAgency = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -252,6 +255,8 @@ export const listAgencies = /* GraphQL */ `
         rif
         email
         phone
+        percentage
+        status
         officies {
           nextToken
         }
@@ -292,6 +297,8 @@ export const getAgencyByEmail = /* GraphQL */ `
         rif
         email
         phone
+        percentage
+        status
         officies {
           nextToken
         }
@@ -364,6 +371,7 @@ export const getOffice = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -502,6 +510,8 @@ export const getEmployee = /* GraphQL */ `
         rif
         email
         phone
+        percentage
+        status
         officies {
           nextToken
         }
@@ -570,6 +580,8 @@ export const listEmployees = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -630,6 +642,8 @@ export const employeesByAgencyID = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -690,6 +704,8 @@ export const employeesByOfficeID = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -804,6 +820,8 @@ export const getScheduleBooking = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -850,6 +868,7 @@ export const getScheduleBooking = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -888,6 +907,7 @@ export const listScheduleBookings = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -919,6 +939,8 @@ export const getBooking = /* GraphQL */ `
         rif
         email
         phone
+        percentage
+        status
         officies {
           nextToken
         }
@@ -1019,6 +1041,7 @@ export const getBooking = /* GraphQL */ `
       }
       stock
       price
+      percentage
       createdBy
       driver
       transport
@@ -1048,6 +1071,8 @@ export const listBookings = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -1094,6 +1119,7 @@ export const listBookings = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -1133,6 +1159,8 @@ export const getBookingbyCode = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -1179,6 +1207,7 @@ export const getBookingbyCode = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -1218,6 +1247,8 @@ export const bookingsByAgencyID = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -1264,6 +1295,7 @@ export const bookingsByAgencyID = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -1303,6 +1335,8 @@ export const bookingsByOfficeID = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -1349,6 +1383,7 @@ export const bookingsByOfficeID = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -1861,6 +1896,8 @@ export const getOrderDetail = /* GraphQL */ `
           rif
           email
           phone
+          percentage
+          status
           owner
           createdAt
           updatedAt
@@ -1907,6 +1944,7 @@ export const getOrderDetail = /* GraphQL */ `
         }
         stock
         price
+        percentage
         createdBy
         driver
         transport
@@ -1982,6 +2020,7 @@ export const listOrderDetails = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -2050,6 +2089,7 @@ export const orderDetailsByUserID = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport
@@ -2143,6 +2183,7 @@ export const getOrderDetailHistory = /* GraphQL */ `
           arrivalCity
           stock
           price
+          percentage
           createdBy
           driver
           transport

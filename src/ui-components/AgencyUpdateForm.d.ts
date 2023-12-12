@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { Agency } from "../models";
 export declare type ValidationResponse = {
@@ -20,6 +20,8 @@ export declare type AgencyUpdateFormInputValues = {
     rif?: string;
     email?: string;
     phone?: string;
+    percentage?: number;
+    status?: string;
     owner?: string;
 };
 export declare type AgencyUpdateFormValidationValues = {
@@ -29,6 +31,8 @@ export declare type AgencyUpdateFormValidationValues = {
     rif?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
+    percentage?: ValidationFunction<number>;
+    status?: ValidationFunction<string>;
     owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -40,6 +44,8 @@ export declare type AgencyUpdateFormOverridesProps = {
     rif?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
+    percentage?: PrimitiveOverrideProps<TextFieldProps>;
+    status?: PrimitiveOverrideProps<SelectFieldProps>;
     owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgencyUpdateFormProps = React.PropsWithChildren<{

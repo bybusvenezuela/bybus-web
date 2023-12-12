@@ -30,6 +30,7 @@ export const listAgencies = /* GraphQL */ `
         rif
         email
         phone
+        status
         officies {
             items {
               id
@@ -99,6 +100,7 @@ export const getAgency = /* GraphQL */ `
       rif
       email
       phone
+      status
       officies {
         items {
           id
