@@ -342,7 +342,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                       <TextField
                         id="outlined-basic"
                         variant="outlined"
-                        label="Cantidad de puestos"
+                        label="Cantidad de puestos disponibles"
                         disabled
                         value={stockVerify ? stockVerify : data.stock}
                         //   onChange={(e) => setQuantity(e.target.value)}
