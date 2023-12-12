@@ -3209,5 +3209,8 @@ export const week = [
           ],
         },
       ],
+      ciudades: [
+        "Caracas"
+      ]
     },
   ];

@@ -92,7 +92,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                         >
                           {venezuela.map((item, index) =>
                             data?.departure?.state === item.estado
-                              ? item.ciudades.map((city, index) => (
+                              ? item?.ciudades?.map((city, index) => (
                                   <MenuItem value={city} key={index}>
                                     {city}
                                   </MenuItem>
@@ -194,7 +194,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                         >
                           {venezuela.map((item, index) =>
                             data?.arrival?.state === item.estado
-                              ? item.ciudades.map((city, index) => (
+                              ? item?.ciudades?.map((city, index) => (
                                   <MenuItem value={city} key={index}>
                                     {city}
                                   </MenuItem>

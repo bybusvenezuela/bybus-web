@@ -16,7 +16,15 @@ import {
   listAgencies,
 } from "@/graphql/queries";
 import * as queries from "@/graphql/custom/queries";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import TableOrderDetails from "@/components/TableOrderDetails";
 import TableTravels from "@/components/TableTravels";
 import ModalAgency from "@/components/ModalAgency";
@@ -24,9 +32,10 @@ import ModalAgency from "@/components/ModalAgency";
 const Dashboard = () => {
   const [agencySubs, setAgencySubs] = useState([]);
   const [agencyBookings, setAgencyBookings] = useState([]);
-  const [agenciesList, setAgenciesList] = useState([])
+  const [agenciesList, setAgenciesList] = useState([]);
   const [agencyOrders, setAgencyOrders] = useState([]);
-  const [agency, setAgency] = useState("");
+  const [agency, setAgency] = useState(null);
+  const [travel, setTravel] = useState(null);
   const [open, setOpen] = useState(false);
 
   const fetchAgencySubs = async () => {
@@ -40,8 +49,7 @@ const Dashboard = () => {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       setAgencySubs(result?.data?.listAgencySubscriptions?.items);
-      setAgenciesList(list?.data?.listAgencies?.items)
-
+      setAgenciesList(list?.data?.listAgencies?.items);
     } catch (error) {
       setAgencySubs([]);
       console.error("ERROR AL CONSULTAR AGENCIAS SUBS: ", error);
@@ -59,32 +67,18 @@ const Dashboard = () => {
         },
       });
       setAgencyBookings(result?.data?.getAgency?.bookings?.items);
-
-      let arrayOrders = [];
-
-      const promises = result?.data?.getAgency?.bookings?.items?.map(
-        async (item, index) => {
-          const orders = await API.graphql({
-            query: queries.listOrderDetails,
-            authMode: "AMAZON_COGNITO_USER_POOLS",
-            variables: {
-              filter: {
-                bookingID: { eq: item.id },
-              },
-            },
-          });
-          if (orders?.data?.listOrderDetails?.items.length !== 0) {
-            orders?.data?.listOrderDetails?.items.map((item, index) => {
-              arrayOrders.push(item);
-            });
-          }
-        }
-      );
-
-      Promise.all(promises).then(() => {
-        console.log(arrayOrders);
-        setAgencyOrders(arrayOrders);
+      console.log(result?.data?.getAgency?.bookings?.items);
+      const orders = await API.graphql({
+        query: queries.listOrderDetails,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          filter: {
+            bookingID: { eq: travel },
+          },
+        },
       });
+      console.log("ORDERS", orders.data.listOrderDetails);
+      setAgencyOrders(orders?.data?.listOrderDetails?.items);
     } catch (error) {
       console.log(error);
     }
@@ -94,8 +88,8 @@ const Dashboard = () => {
   };
   useEffect(() => {
     fetchAgencySubs();
-    if (agency) fetchAgency();
-  }, [agency]);
+    fetchAgency();
+  }, [agency, travel]);
 
   return (
     <div className={styles.content}>
@@ -137,26 +131,31 @@ const Dashboard = () => {
           {/*  */}
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Viajes y Ordenes de Venta por Empresa</h2>
+              <h2>Lista de Viajes por Empresa</h2>
             </div>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Seleccionar agencia
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.rif}
+                isOptionEqualToValue={(option, value) =>
+                  option.rif === value.rif
+                }
+                options={agenciesList}
                 value={agency}
-                label="Seleccionar empresa"
-                onChange={(e) => setAgency(e.target.value)}
-              >
-                {agenciesList.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item.id}
-                  >{`Nombre: ${item.name} - RIF: ${item.rif}`}</MenuItem>
-                ))}
-              </Select>
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setAgency(option.id);
+                      }}
+                    >{`Nombre: ${option.name} - RIF: ${option.rif}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Busqueda por agencia" />
+                )}
+              />
             </FormControl>
             {agencyBookings.length !== 0 ? (
               <TableTravels rows={agencyBookings} />
@@ -165,6 +164,32 @@ const Dashboard = () => {
                 Selecciona una empresa para poder ver sus viajes
               </div>
             )}
+            <div className={styles.title}>
+              <h2>Lista de Ordenes de Venta por Viajes</h2>
+            </div>
+            <FormControl fullWidth>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.id}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                options={agencyBookings}
+                value={travel}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setTravel(option.id);
+                        fetchAgency();
+                      }}
+                    >{`${option.departure.city}, ${option.departure.state} - ${option.arrival.city}, ${option.arrival.state} - ${option.departure.date}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Busqueda por ID del viaje" />
+                )}
+              />
+            </FormControl>
             {agencyBookings.length !== 0 ? (
               <TableOrderDetails rows={agencyOrders} />
             ) : (

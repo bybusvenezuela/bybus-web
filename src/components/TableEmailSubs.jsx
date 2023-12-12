@@ -60,7 +60,7 @@ const TableEmailSubs = ({ rows }) => {
   ];
   return (
     <div>
-      <Box sx={{ height: 400, width: 700 }}>
+      <Box sx={{ height: 400, width: 900 }}>
         <DataGrid
           rows={rows}
           columns={columns}

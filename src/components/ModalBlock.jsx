@@ -19,10 +19,10 @@ export default function ModalBlock({ open, close, data }) {
 
   const onHandleRegister = async () => {
     const params = {
-        motivo: motivo,
-        description: description,
-        id: '',
-        status: 'BLOQUEADO'
+        // motivo: motivo,
+        // description: description,
+        id: data.id,
+        status: data.status === 'ACTIVO' ? 'ACTIVO' : 'BLOQUEADO'
       };
     setIsLoading(true);
     try {
