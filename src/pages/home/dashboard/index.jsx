@@ -158,7 +158,7 @@ const Dashboard = () => {
               />
             </FormControl>
             {agencyBookings.length !== 0 ? (
-              <TableTravels rows={agencyBookings} />
+              <TableTravels rows={agencyBookings.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
             ) : (
               <div className={styles.nothingTable}>
                 Selecciona una empresa para poder ver sus viajes
