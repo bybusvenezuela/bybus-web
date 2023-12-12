@@ -8,7 +8,7 @@ import * as queries from "@/graphql/custom/queries/home";
 import * as subscriptions from "@/graphql/custom/subscriptions/home";
 import TableEmployees from "@/components/TableEmployees";
 import TableOffices from "@/components/TableOffices";
-import { InputLabel, FormControl, MenuItem, Select } from "@mui/material";
+import { InputLabel, FormControl, MenuItem, Select, Autocomplete, Box, TextField } from "@mui/material";
 import TableTravels from "../TableTravels";
 
 const Dashboard = ({ dataResult, userType }) => {
@@ -58,6 +58,9 @@ const Dashboard = ({ dataResult, userType }) => {
         id: officeListT,
       },
     });
+    let array = list?.data?.getOffice?.bookings?.items.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date));
+    console.log('AQUI MI BRO', list?.data?.getOffice)
+    // setDataTravels(array);
     setDataOfficeTravel(list?.data?.getOffice);
   };
 
@@ -100,29 +103,31 @@ const Dashboard = ({ dataResult, userType }) => {
             <div className={styles.title}>
               <h2>Lista de Empleados</h2>
             </div>
-            <FormControl
-              sx={{
-                width: 900,
-              }}
-            >
-              <InputLabel id="demo-simple-select-label">
-                Seleccionar oficina
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+            <FormControl fullWidth>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.rif}
+                isOptionEqualToValue={(option, value) =>
+                  option.id === value.id
+                }
+                options={data?.officies?.items}
                 value={officeList}
-                label="Seleccionar oficina"
-                onChange={(e) => setOfficeList(e.target.value)}
-              >
-                {data?.officies?.items.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item.id}
-                  >{`ID: ${item.id} - Nombre: ${item.name} - Estado: ${item.state} - Ciudad: ${item.city}`}</MenuItem>
-                ))}
-              </Select>
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setOfficeList(option.id);
+                      }}
+                    >{`Nombre: ${option.name} - Estado: ${option.state} - Ciudad: ${option.city}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Seleccionar oficina" />
+                )}
+              />
             </FormControl>
+
             {dataO?.employees?.items ? (
               <TableEmployees rows={dataO?.employees?.items} />
             ) : (
@@ -136,57 +141,69 @@ const Dashboard = ({ dataResult, userType }) => {
               <h2>Lista de Viajes</h2>
             </div>
             <div className={styles.inputs}>
-            <FormControl
-              sx={{
-                width: 400,
-              }}
-            >
-              <InputLabel id="demo-simple-select-label">
-                Seleccionar oficina
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+            <FormControl sx={{
+                width: 500,
+              }}>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.rif}
+                isOptionEqualToValue={(option, value) =>
+                  option.id === value.id
+                }
+                options={data?.officies?.items}
                 value={officeListT}
-                label="Seleccionar oficina"
-                onChange={(e) => setOfficeListT(e.target.value)}
-              >
-                {data?.officies?.items.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item.id}
-                  >{`ID: ${item.id} - Nombre: ${item.name} - Estado: ${item.state} - Ciudad: ${item.city}`}</MenuItem>
-                ))}
-              </Select>
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setOfficeListT(option.id);
+                      }}
+                      style={{
+                        fontSize: 12
+                      }}
+                    >{`Nombre: ${option.name} - Estado: ${option.state} - Ciudad: ${option.city}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Seleccionar oficina" />
+                )}
+              />
             </FormControl>
-            <FormControl
-              sx={{
+            <FormControl sx={{
                 width: 400,
-              }}
-            >
-              <InputLabel id="demo-simple-select-label">
-                Seleccionar empleado
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={employeeListT}
-                label="Seleccionar empleado"
+              }}>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.rif}
+                isOptionEqualToValue={(option, value) =>
+                  option.id === value.id
+                }
                 disabled={!officeListT}
-                onChange={(e) => setEmployeeListT(e.target.value)}
-              >
-                {dataOfficeTravel?.employees?.items.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item.id}
-                  >{`Nombre: ${item.name} - Telefono: ${item.phone} - Email: ${item.email}`}</MenuItem>
-                ))}
-              </Select>
+                options={dataOfficeTravel.length !== 0 && dataOfficeTravel?.employees?.items}
+                value={employeeListT}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setEmployeeListT(option.id);
+                      }}
+                      style={{
+                        fontSize: 12
+                      }}
+                    >{`Nombre: ${option.name} - Telefono: ${option.phone} - Email: ${option.email}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Seleccionar empleado" />
+                )}
+              />
             </FormControl>
             </div>
             
             {employeeListT ? <TableTravels rows={filteredData} /> : dataOfficeTravel?.bookings?.items ? (
-              <TableTravels rows={dataOfficeTravel?.bookings?.items} />
+              <TableTravels rows={dataOfficeTravel?.bookings?.items?.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
             ) : (
               <div className={styles.nothingTable}>
                 Selecciona una oficina o un empleado para ver sus viajes
@@ -194,7 +211,7 @@ const Dashboard = ({ dataResult, userType }) => {
             )}
           </div>
           <ModalOffice open={office} close={() => setOffice(!office)} />
-          {data?.officies?.items?.length > 0 && (
+          {data?.officies?.items?.length !== 0 && (
             <ModalEmployee
               open={employee}
               close={() => setEmployee(!employee)}

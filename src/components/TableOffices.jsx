@@ -42,10 +42,14 @@ const TableOffices = ({ rows }) => {
     },
     {
       field: "status",
-      headerName: "Estatus",
+      headerName: "Estado",
       width: 150,
-      valueGetter: (params) => {
-        return params?.row?.status === null ? 'DISPONIBLE' : params?.row?.status ;
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === "ENABLED" ? 'ACTIVO' : 'INACTIVO'}
+          </div>
+        );
       },
     },
     {

@@ -36,7 +36,7 @@ const TableEmployees = ({ rows }) => {
         return params.row.type === "OFFICE"
           ? "OFICINISTA"
           : params.row.type === "COLLECTOR"
-          ? "COLECTOR"
+          ? "COBRADOR"
           : params.row.type;
       },
     },
@@ -60,10 +60,14 @@ const TableEmployees = ({ rows }) => {
     },
     {
       field: "status",
-      headerName: "Estatus",
+      headerName: "Estado",
       width: 150,
-      valueGetter: (params) => {
-        return params?.row?.status === null ? 'DISPONIBLE' : params?.row?.status ;
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === "ENABLED" ? 'ACTIVO' : 'INACTIVO'}
+          </div>
+        );
       },
     },
     {

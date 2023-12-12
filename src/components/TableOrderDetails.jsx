@@ -43,11 +43,11 @@ const TableOrderDetails = ({ rows }) => {
       renderCell: (params) => {
         return (
           <Stack>
-            <div>Cantidad: {params.row.amount} - {params.formattedValue.items[0].ticketID}</div>
+            <div>{params.row.amount}</div>
           </Stack>
         );
       },
-      headerName: "ID del Ticket",
+      headerName: "Cantidad de tickets",
       width: 450,
     },
   ];

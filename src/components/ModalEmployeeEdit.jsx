@@ -64,7 +64,7 @@ export default function ModalEmployeeEdit({ open, close, data }) {
                     variant="outlined"
                     disabled
                     defaultValue={
-                      data?.type === "OFFICE" ? "OFICINISTA" : "COLECTOR"
+                      data?.type === "OFFICE" ? "OFICINISTA" : "COBRADOR"
                     }
                   />
                 </div>
