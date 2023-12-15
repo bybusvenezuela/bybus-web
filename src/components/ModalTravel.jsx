@@ -165,6 +165,8 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: { input: JSON.stringify(params) },
     });
+
+    close()
   };
 
   useEffect(() => {
