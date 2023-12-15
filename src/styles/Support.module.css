@@ -1,7 +1,7 @@
 .content {
     display: flex;
   }
-  .content h1 {
+  .up h1 {
     margin-bottom: 1em;
   }
   .search {
@@ -19,15 +19,15 @@
   .both .arrival {
     margin-left: 40px;
   }
-  .content h3 {
+  .up h3 {
     margin: 40px 0px 10px;
     font-size: 24px;
   }
-  .content span {
+  .up span {
     color: var(--yellow);
     font-weight: 600;
   }
-  .content p {
+  .up p {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
