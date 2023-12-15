@@ -32,7 +32,6 @@ const Profiles = ({ error }) => {
   // si hay un usuairo nuevo logeadpo o algun cambio y no esta visinble un modla busco los empleados
   useEffect(() => {
     if (userAuth && !visible) fetchEmployees();
-    console.log(userAuth);
   }, [userAuth, visible]);
 
   // manejar el boton dinamico de si est avisible o no
@@ -60,12 +59,9 @@ const Profiles = ({ error }) => {
         },
       });
       setAgency(employees.data.getAgency);
-      // console.log("EMPLEADOS: ", employees.data.getAgency);
-      console.log(employees.data.getAgency.employees.items);
       const newEmployees = employees.data.getAgency.employees.items.filter(
         (item) => item.type === "OFFICE"
       );
-      console.log("NUEVOS EMPELADOS: ", newEmployees);
       setEmployees(newEmployees);
     } catch (error) {
       console.error(error);
@@ -73,7 +69,6 @@ const Profiles = ({ error }) => {
   };
   // cuando seleciono un perfil guardo la info del perfil y averigupo si es la primera vez o no que ingresa
   const onHandleProfileClick = (params) => {
-    console.log(params);
     // guardamos la informacion del perfil
     const saveToLocalStorage = () => {
       try {

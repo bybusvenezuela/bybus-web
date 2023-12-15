@@ -7,7 +7,6 @@ import * as mutation from "@/graphql/custom/mutations/profile";
 import ModalEmployeeEdit from "./ModalEmployeeEdit";
 
 const TableEmployees = ({ rows }) => {
-  console.log(rows)
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const DeleteEmployee = async (employeeId) => {
@@ -21,7 +20,6 @@ const TableEmployees = ({ rows }) => {
         }
       },
     });
-    console.log(employee.data.updateOffice);
   };
   
   const columns = [
@@ -38,7 +36,7 @@ const TableEmployees = ({ rows }) => {
         return params.row.type === "OFFICE"
           ? "OFICINISTA"
           : params.row.type === "COLLECTOR"
-          ? "COLECTOR"
+          ? "COBRADOR"
           : params.row.type;
       },
     },
@@ -62,10 +60,14 @@ const TableEmployees = ({ rows }) => {
     },
     {
       field: "status",
-      headerName: "Estatus",
+      headerName: "Estado",
       width: 150,
-      valueGetter: (params) => {
-        return params?.row?.status === null ? 'DISPONIBLE' : params?.row?.status ;
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === "ENABLED" ? 'ACTIVO' : 'INACTIVO'}
+          </div>
+        );
       },
     },
     {
@@ -77,7 +79,6 @@ const TableEmployees = ({ rows }) => {
           <Stack>
             <button
               onClick={() => {
-                console.log(params.row);
                 setData(params.row);
                 setOpen(!open);
               }}
@@ -87,7 +88,6 @@ const TableEmployees = ({ rows }) => {
                 let opcion = confirm("Quieres eliminar la siguiente agencia de viaje?");
                 if (opcion == true) {
                   alert('Se ha eliminado con exito. Refresque la pagina');
-                  console.log(params.row.id)
                   DeleteEmployee(params.row.id)
                 } else {
                   alert('Has cancelado con exito');

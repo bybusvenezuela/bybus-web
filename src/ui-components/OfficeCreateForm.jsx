@@ -13,10 +13,10 @@ import {
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { createOffice } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Office } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function OfficeCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -127,18 +127,11 @@ export default function OfficeCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: createOffice.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new Office(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -147,8 +140,7 @@ export default function OfficeCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

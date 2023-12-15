@@ -36,7 +36,6 @@ export default function ModalTransport({ open, close, office }) {
         },
       },
     });
-    console.log(transport);
   };
 
   const resetModal = () => {
@@ -47,7 +46,6 @@ export default function ModalTransport({ open, close, office }) {
     close();
   };
   useEffect(() => {
-    console.log("EN TRAVEL: ", office);
   }, []);
 
   return (

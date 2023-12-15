@@ -9,7 +9,8 @@ import * as subscriptions from "@/graphql/custom/subscriptions/home";
 import TableEmployees from "@/components/TableEmployees";
 import TableOffices from "@/components/TableOffices";
 import TableTravels from "../TableTravels";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { Autocomplete, Box, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import TableOrderDetails from "../TableOrderDetails";
 
 const Dashboard = ({ dataResult, userType }) => {
@@ -36,7 +37,6 @@ const Dashboard = ({ dataResult, userType }) => {
         id: dataResult?.id,
       },
     });
-    // console.log(list?.data);
     setData(list?.data?.getEmployee);
     const travels = await API.graphql({
       query: queries.listBookings,
@@ -45,8 +45,9 @@ const Dashboard = ({ dataResult, userType }) => {
         id: list?.data?.getEmployee?.agencyID,
       },
     });
-    // console.log(travels?.data.listBookings.items);
-    setDataTravels(travels?.data.listBookings.items);
+    let array = travels?.data.listBookings.items.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date));
+    console.log(array)
+    setDataTravels(array);
   };
 
   const Travels = async () => {
@@ -59,7 +60,6 @@ const Dashboard = ({ dataResult, userType }) => {
         },
       },
     });
-    console.log(list.data.listOrderDetails);
     setDataOrders(list.data.listOrderDetails.items);
   };
 
@@ -90,6 +90,12 @@ const Dashboard = ({ dataResult, userType }) => {
         <div className={styles.agencies}>
           <div className={styles.title}>
             <h2>Lista de Viajes</h2>
+            <IconButton
+                aria-label="refresh-email"
+                onClick={() => Employee()}
+              >
+                <RefreshIcon />
+              </IconButton>
           </div>
           {dataTravels && <TableTravels rows={dataTravels} />}
         </div>
@@ -98,24 +104,29 @@ const Dashboard = ({ dataResult, userType }) => {
             <h2>Lista de Ordenes de Venta</h2>
           </div>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Seleccionar viaje
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={travel}
-              label="Seleccionar viaje"
-              onChange={(e) => setTravel(e.target.value)}
-            >
-              {dataTravels.map((item, index) => (
-                <MenuItem
-                  key={index}
-                  value={item.id}
-                >{`ID: ${item.id} - Salida: ${item.departureCity} - ${item.departure.date} - Llegada: ${item.arrivalCity} - ${item.arrival.date}`}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                // getOptionLabel={(option) => option.rif}
+                isOptionEqualToValue={(option, value) =>
+                  option.id === value.id
+                }
+                options={dataTravels}
+                value={travel}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <div
+                      onClick={() => {
+                        setTravel(option.id);
+                      }}
+                    >{`${option.departure.city}, ${option.departure.state} - ${option.arrival.city}, ${option.arrival.state} ${option.departure.date}`}</div>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Seleccionar viaje" />
+                )}
+              />
+            </FormControl>
           {travel ? (
             <TableOrderDetails rows={dataOrders} />
           ) : (

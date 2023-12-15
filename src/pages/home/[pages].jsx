@@ -3,7 +3,6 @@ import Menu from "@/components/Menu";
 import styles from "@/styles/Home.module.css";
 
 const Pages = (props) => {
-  // console.log(props);
   return (
     <div className={styles.content}>
       <Menu />
@@ -23,7 +22,6 @@ export async function getServerSideProps({ query, req }) {
 
 /*
 export async function getServerSideProps({ query, req }) {
-  console.log(query);
   const { type, pin, id } = query;
   const SSR = withSSRContext({ req });
   let result;

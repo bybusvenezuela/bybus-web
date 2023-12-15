@@ -37,7 +37,6 @@ const Menu = () => {
     setClearAll()
     Auth.signOut()
   }
-  console.log(profileAuth);
 
   return (
     userAuth && (

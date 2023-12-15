@@ -6,7 +6,6 @@ import { Button, Stack } from "@mui/material";
 
 
 const TableOrderDetails = ({ rows }) => {
-  console.log(rows)
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -42,14 +41,13 @@ const TableOrderDetails = ({ rows }) => {
     {
       field: "orderTickets",
       renderCell: (params) => {
-        console.log(params)
         return (
           <Stack>
-            <div>Cantidad: {params.row.amount} - {params.formattedValue.items[0].ticketID}</div>
+            <div>{params.row.amount}</div>
           </Stack>
         );
       },
-      headerName: "ID del Ticket",
+      headerName: "Cantidad de tickets",
       width: 450,
     },
   ];

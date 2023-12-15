@@ -25,7 +25,6 @@ export async function sharedGetServerSideProps(query, req) {
         })
           .then((r) => (result = r?.data?.getAgency))
           .catch((e) => {
-            console.log(e);
             throw new Error("Error en buscar agencia");
           });
         break;

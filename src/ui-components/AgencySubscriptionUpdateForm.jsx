@@ -13,11 +13,10 @@ import {
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { getAgencySubscription } from "../graphql/queries";
-import { updateAgencySubscription } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { AgencySubscription } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function AgencySubscriptionUpdateForm(props) {
   const {
     id: idProp,
@@ -72,12 +71,7 @@ export default function AgencySubscriptionUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await client.graphql({
-              query: getAgencySubscription.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getAgencySubscription
+        ? await DataStore.query(AgencySubscription, idProp)
         : agencySubscriptionModelProp;
       setAgencySubscriptionRecord(record);
     };
@@ -124,10 +118,10 @@ export default function AgencySubscriptionUpdateForm(props) {
           rif,
           email,
           phone,
-          subscriptionDate: subscriptionDate ?? null,
-          status: status ?? null,
-          scheduledDate: scheduledDate ?? null,
-          agencyID: agencyID ?? null,
+          subscriptionDate,
+          status,
+          scheduledDate,
+          agencyID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -153,26 +147,21 @@ export default function AgencySubscriptionUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: updateAgencySubscription.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: agencySubscriptionRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            AgencySubscription.copyOf(agencySubscriptionRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

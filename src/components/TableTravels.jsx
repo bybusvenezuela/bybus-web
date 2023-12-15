@@ -22,7 +22,6 @@ const TableTravels = ({ rows  }) => {
         }
       },
     });
-    console.log(booking.data.updateBooking);
   };
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -53,20 +52,26 @@ const TableTravels = ({ rows  }) => {
     },
     {
       field: "status",
-      headerName: "Status",
+      headerName: "Estado",
       width: 150,
       editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === "AVAILABLE" ? 'DISPONIBLE' : params.row.status === "BOARDING" ? 'ABORDANDO' : params.row.status === "ARRIVED" ? 'FINALIZO' : 'CANCELADO'}
+          </div>
+        );
+      },
     },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: "Acciones",
       width: 150,
       renderCell: (params) => {
         return (
           <Stack>
             <button
               onClick={() => {
-                console.log(params.row);
                 setData(params.row);
                 setOpen(!open);
               }}
@@ -76,7 +81,6 @@ const TableTravels = ({ rows  }) => {
                 let opcion = confirm("Quieres eliminar el siguiente viaje?");
                 if (opcion == true) {
                   alert('Se ha eliminado con exito. Refresque la pagina');
-                  console.log(params.row.id)
                   DeleteBooking(params.row.id)
                 } else {
                   alert('Has cancelado con exito');

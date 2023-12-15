@@ -61,7 +61,6 @@ const ConfigureMain = () => {
   useEffect(() => {
     // crear subscripcion
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      console.log("HUB: ", event);
       switch (event) {
         case "signIn":
           userSignIn(data);

@@ -23,11 +23,14 @@ import { time, transportes, venezuela, week } from "@/constants";
 import { Auth, API } from "aws-amplify";
 import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
+import * as subscriptions from "@/graphql/subscriptions";
 import { useUser } from "@/context/UserContext";
 
 export default function ModalTravelEdit({ data, open, close }) {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(data.price);
+  const [stockVerify, setStockVerify] = useState(0);
+  // console.log(stockVerify.toString().padStart(2, "0"))
   const [edit, setEdit] = useState(false);
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -39,11 +42,96 @@ export default function ModalTravelEdit({ data, open, close }) {
       },
     },
   };
-  //
+
+  const onHandleOrder = async () => {
+    let respuesta = window.confirm("¿Deseas agregar una comprar por taquilla?");
+
+    if (!respuesta) {
+      return;
+    }
+    try {
+      const { attributes } = await Auth.currentAuthenticatedUser();
+
+      /* Creamos el orderDetail */
+      const orderDetail = await API.graphql({
+        query: mutations.createOrderDetail,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            amount: 1,
+            paymentMethod: "TAQUILLA",
+            customerName: attributes?.name,
+            paymentID: "",
+            customerDocument: "",
+            isGuest: false,
+            total: 0,
+            customerEmail: attributes?.email,
+            userID: attributes["custom:userTableID"],
+            bookingID: data?.id,
+          },
+        },
+      });
+      console.log(orderDetail.data.createOrderDetail);
+
+      /* Creamos el ticket */
+      let i = data.stock.toString().padStart(2, "0");
+      console.log(i);
+      const ticket = await API.graphql({
+        query: mutations.createTicket,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            code: `${data?.code}-${i}`,
+            bookingID: data?.id,
+            status: "PAID",
+            customerID: "29f7c1aa-8b49-4db0-baaa-8e78879f2437",
+            orderDetailID: orderDetail?.data?.createOrderDetail.id,
+            description: "TAQUILLA",
+          },
+        },
+      });
+      console.log("createTicket", ticket.data.createTicket);
+
+      /* Actualizamos el stock */
+      const updateBookingStock = await API.graphql({
+        query: mutations.updateBooking,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: {
+            id: data.id,
+            stock: data.stock - 1,
+          },
+        },
+      });
+      console.log("updateBooking", updateBookingStock.data.updateBooking);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    console.log(price);
-  }, [edit]);
+    setStockVerify(data?.stock);
+
+    const updateSub = API.graphql({
+      query: subscriptions.onUpdateBooking,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      variables: {
+        id: data.id,
+      },
+    }).subscribe({
+      next: ({ provider, value: { data } }) => {
+        setStockVerify(data?.onUpdateBooking?.stock);
+        console.log(data);
+        console.log("TOY AQUI");
+      },
+      error: (error) => console.warn(error),
+    });
+    return () => {
+      updateSub.unsubscribe();
+      console.log(stockVerify);
+      console.log("TOY por");
+    };
+  }, []);
 
   return (
     <div>
@@ -129,29 +217,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                             defaultValue={data?.departure?.time}
                             disabled
                           />
-                          {/* <FormControl className={styles.timeInput}>
-                            <InputLabel id="demo-simple-select-label">
-                              Tiempo de salida
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              label="Tiempo de salida"
-                              // defaultValue="00:00"e
-                              disabled
-                              defaultValue={data?.departure?.time}
-                              // onChange={(e) =>
-                              //   setTimeDeparture({
-                              //     ...timeDeparture,
-                              //     hour: e.target.value,
-                              //   })
-                            >
-                              {time.hour.map((item, index) => (
-                                <MenuItem value={item.value} key={index}>
-                                  {item.text}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl> */}
                         </div>
                       </LocalizationProvider>
                     </div>
@@ -169,9 +234,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                           defaultValue={data?.arrival?.state}
                           label="Ciudad"
                           disabled
-                          // onChange={(e) =>
-                          //   setArrival({ ...arrival, state: e.target.value })
-                          // }
                         >
                           {venezuela.map((item, index) => (
                             <MenuItem value={item.estado} key={index}>
@@ -189,9 +251,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                           defaultValue={data?.arrival?.city}
                           label="Ciudad"
                           disabled
-                          // onChange={(e) =>
-                          //   setArrival({ ...arrival, city: e.target.value })
-                          // }
                         >
                           {venezuela.map((item, index) =>
                             data?.arrival?.state === item.estado
@@ -211,9 +270,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                       variant="outlined"
                       value={data?.arrival?.address}
                       disabled
-                      // onChange={(e) =>
-                      //   setArrival({ ...arrival, address: e.target.value })
-                      // }
                     />
                     <div className={styles.datetime}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -234,28 +290,6 @@ export default function ModalTravelEdit({ data, open, close }) {
                             defaultValue={data?.arrival?.time}
                             disabled
                           />
-                          {/* <FormControl fullWidth>
-                              <InputLabel id="demo-simple-select-label">
-                                Tiempo de llegada
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                label="Tiempo de llegada"
-                                defaultValue={data?.arrival?.time}
-                                disabled
-                                // onChange={(e) =>
-                                //   setTimeArrival({
-                                //     ...timeArrival,
-                                //     hour: e.target.value,
-                                //   })
-                              >
-                                {time.hour.map((item, index) => (
-                                  <MenuItem value={item.value} key={index}>
-                                    {item.text}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl> */}
                         </div>
                       </LocalizationProvider>
                     </div>
@@ -289,186 +323,44 @@ export default function ModalTravelEdit({ data, open, close }) {
                       ))}
                     </Select>
                   </FormControl>
-                  <TextField
-                    id="outlined-basic"
-                    label="Precio"
-                    variant="outlined"
-                    defaultValue={price ? price : data?.price}
-                    disabled={!edit}
-                    onChange={(e) => setPrice(e.target.value)}
-                    sx={{ width: 250 }}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    label="Cantidad de puestos"
-                    disabled
-                    value={data?.stock}
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    sx={{ width: 250 }}
-                  />
-                </div>
-                {/* <p>Paradas</p> */}
-                {/* <div className={styles.stop}>
-                  <div className={styles.stopBooking}>
-                    {data?.stops?.items?.length !== 0 && (
-                      <div className={styles.stopForm}>
-                        {stopQ.map((item, index) => (
-                          <div className={styles.stopContent} key={index}>
-                            <div className={styles.inputTravel}>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                  Estado
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  value={item.state}
-                                  label="Estado"
-                                  onChange={(e) => {
-                                    const updateStop = stopQ.map(
-                                      (stop, stopIndex) => {
-                                        if (index === stopIndex) {
-                                          return {
-                                            ...stop,
-                                            state: e.target.value,
-                                          };
-                                        }
-                                        return stop;
-                                      }
-                                    );
-                                    setStopQ(updateStop);
-                                  }}
-                                >
-                                  {venezuela.map((item, index) => (
-                                    <MenuItem value={item.estado} key={index}>
-                                      {item.estado}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">
-                                  Ciudad
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  value={item.city}
-                                  label="Ciudad"
-                                  onChange={(e) => {
-                                    const updateStop = stopQ.map(
-                                      (stop, stopIndex) => {
-                                        if (index === stopIndex) {
-                                          return {
-                                            ...stop,
-                                            city: e.target.value,
-                                          };
-                                        }
-                                        return stop;
-                                      }
-                                    );
-                                    setStopQ(updateStop);
-                                  }}
-                                >
-                                  {venezuela.map((group, index) =>
-                                    item.state === group.estado
-                                      ? group.ciudades.map((city, index) => (
-                                          <MenuItem value={city} key={index}>
-                                            {city}
-                                          </MenuItem>
-                                        ))
-                                      : ""
-                                  )}
-                                </Select>
-                              </FormControl>
-                            </div>
-                            <div className={styles.inputTravelOther}>
-                              <TextField
-                                id="outlined-basic"
-                                label="Direccion"
-                                variant="outlined"
-                                onChange={(e) => {
-                                  const updateStop = stopQ.map(
-                                    (stop, stopIndex) => {
-                                      if (index === stopIndex) {
-                                        return {
-                                          ...stop,
-                                          address: e.target.value,
-                                        };
-                                      }
-                                      return stop;
-                                    }
-                                  );
-                                  setStopQ(updateStop);
-                                }}
-                                sx={{
-                                  width: 560,
-                                }}
-                              />
-                              <TextField
-                                id="outlined-basic"
-                                label="Precio del ticket de la parada"
-                                variant="outlined"
-                                onChange={(e) => {
-                                  const updateStop = stopQ.map(
-                                    (stop, stopIndex) => {
-                                      if (index === stopIndex) {
-                                        return {
-                                          ...stop,
-                                          price: e.target.value,
-                                        };
-                                      }
-                                      return stop;
-                                    }
-                                  );
-                                  setStopQ(updateStop);
-                                }}
-                                sx={{
-                                  width: 315,
-                                }}
-                              />
-                            </div>
-                            <Button
-                              variant="contained"
-                              size="small"
-                              startIcon={<AddRoundedIcon />}
-                              onClick={() =>
-                                setStopQ((e) => {
-                                  let nuevoArreglo = [...e];
-                                  nuevoArreglo.splice(index, 1);
-                                  return nuevoArreglo;
-                                })
-                              }
-                              className={styles.deleteStop}
-                            >
-                              Eliminar
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                      <div>Hey</div>
-                    )}
-                  </div>
-                  <Button
-                      variant="contained"
-                      size="medium"
-                      startIcon={<AddRoundedIcon />}
-                      onClick={() =>
-                        setStopQ([
-                          ...stopQ,
-                          {
-                            state: "",
-                            city: "",
-                            time: "",
-                            date: "",
-                            address: "",
-                            price: "",
-                          },
-                        ])
-                      }
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                      }}
                     >
-                      Agregar una parada
-                    </Button>
-                </div> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="Precio"
+                        variant="outlined"
+                        defaultValue={price ? price : data?.price}
+                        disabled={!edit}
+                        onChange={(e) => setPrice(e.target.value)}
+                        sx={{ width: 200 }}
+                      />
+                      <TextField
+                        id="outlined-basic"
+                        variant="outlined"
+                        label="Cantidad de puestos disponibles"
+                        disabled
+                        value={stockVerify ? stockVerify : data.stock}
+                        //   onChange={(e) => setQuantity(e.target.value)}
+                        sx={{ width: 200 }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: 11,
+                        marginTop: 5,
+                      }}
+                    >
+                      Recuerda que tu precio se vera reflejo al final por el 10%
+                      de comision de Bybus
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -500,44 +392,16 @@ export default function ModalTravelEdit({ data, open, close }) {
                   Salir
                 </Button>
               </div>
-              {/* <div className={styles.check}>
-                  <div className={styles.pan}>
-                    Quieres programar este viaje de manera automatica?
-                    <Checkbox
-                    onChange={(e) => setChecked(!checked)}
-                      sx={{
-                        color: "#8F877F",
-                        "&.Mui-checked": {
-                          color: "#0077B6",
-                        },
-                      }}
-                    />
-                  </div>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-multiple-checkbox-label">
-                      Dias a programar
-                    </InputLabel>
-                    <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      value={selectWeek}
-                      onChange={handleChange}
-                      input={<OutlinedInput label="Dias a programar" />}
-                      renderValue={(selected) => selected.join(", ")}
-                      MenuProps={MenuProps}
-                      disabled={checked}
-                    >
-                      {week.map((item, index) => (
-                        <MenuItem key={index} value={item}>
-                          <Checkbox checked={selectWeek.indexOf(item) > -1} />
-                          <ListItemText primary={item} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div> */}
+              <Button
+                variant="contained"
+                size="large"
+                // color="error"
+                onClick={() => {
+                  onHandleOrder();
+                }}
+              >
+                Agregar venta por taquilla
+              </Button>
             </div>
           </div>
         </div>

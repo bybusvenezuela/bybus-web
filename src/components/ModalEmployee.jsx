@@ -68,11 +68,11 @@ export default function ModalEmployee({ open, close, offices }) {
   const typesEmployees = [
     {
       value: "OFFICE",
-      name: "Operador",
+      name: "OFICINISTA",
     },
     {
       value: "COLLECTOR",
-      name: "Cobrador",
+      name: "COBRADOR",
     },
   ];
 

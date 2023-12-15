@@ -18,11 +18,10 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { getState } from "../graphql/queries";
-import { updateState } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { State } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 function ArrayField({
   items = [],
   onChange,
@@ -35,7 +34,6 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
-  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -59,7 +57,6 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
-    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -169,7 +166,12 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button size="small" variation="link" onClick={addItem}>
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -210,12 +212,7 @@ export default function StateUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await client.graphql({
-              query: getState.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getState
+        ? await DataStore.query(State, idProp)
         : stateModelProp;
       setStateRecord(record);
     };
@@ -254,8 +251,8 @@ export default function StateUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name: name ?? null,
-          cities: cities ?? null,
+          name,
+          cities,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -281,26 +278,21 @@ export default function StateUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: updateState.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: stateRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            State.copyOf(stateRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -350,9 +342,6 @@ export default function StateUpdateForm(props) {
         label={"Cities"}
         items={cities}
         hasError={errors?.cities?.hasError}
-        runValidationTasks={async () =>
-          await runValidationTasks("cities", currentCitiesValue)
-        }
         errorMessage={errors?.cities?.errorMessage}
         setFieldValue={setCurrentCitiesValue}
         inputFieldRef={citiesRef}

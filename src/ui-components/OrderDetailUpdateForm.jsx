@@ -14,11 +14,10 @@ import {
   SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
-import { getOrderDetail } from "../graphql/queries";
-import { updateOrderDetail } from "../graphql/mutations";
-const client = generateClient();
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { OrderDetail } from "../models";
+import { fetchByPath, validateField } from "./utils";
+import { DataStore } from "aws-amplify";
 export default function OrderDetailUpdateForm(props) {
   const {
     id: idProp,
@@ -85,12 +84,7 @@ export default function OrderDetailUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await client.graphql({
-              query: getOrderDetail.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getOrderDetail
+        ? await DataStore.query(OrderDetail, idProp)
         : orderDetailModelProp;
       setOrderDetailRecord(record);
     };
@@ -136,15 +130,15 @@ export default function OrderDetailUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           amount,
-          paymentMethod: paymentMethod ?? null,
-          documentType: documentType ?? null,
-          customerDocument: customerDocument ?? null,
-          customerName: customerName ?? null,
-          customerEmail: customerEmail ?? null,
-          total: total ?? null,
-          isGuest: isGuest ?? null,
-          status: status ?? null,
-          userID: userID ?? null,
+          paymentMethod,
+          documentType,
+          customerDocument,
+          customerName,
+          customerEmail,
+          total,
+          isGuest,
+          status,
+          userID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -170,26 +164,21 @@ export default function OrderDetailUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value === "") {
-              modelFields[key] = null;
+            if (typeof value === "string" && value.trim() === "") {
+              modelFields[key] = undefined;
             }
           });
-          await client.graphql({
-            query: updateOrderDetail.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: orderDetailRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            OrderDetail.copyOf(orderDetailRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

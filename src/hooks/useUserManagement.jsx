@@ -26,7 +26,6 @@ const useUserManagement = () => {
   const userSignIn = async (data) => {
     const result = await Auth.currentAuthenticatedUser();
     setTokenUser(result);
-    console.log("REVISAR ESTE: ", data);
     const isSignIn = true;
     checkAttrGroups(isSignIn);
     router.push(`/auth/profiles`);
