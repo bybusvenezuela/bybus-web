@@ -3205,5 +3205,6 @@ export const venezuela = [
         ],
       },
     ],
+    ciudades:["Caracas"]
   },
 ];
