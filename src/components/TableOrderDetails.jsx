@@ -48,7 +48,20 @@ const TableOrderDetails = ({ rows }) => {
         );
       },
       headerName: "Cantidad de tickets",
-      width: 450,
+      width: 70,
+    },
+    {
+      field: "status",
+      renderCell: (params) => {
+        console.log(params)
+        return (
+          <Stack>
+            <div>{params.row.status === 'APPROVED' ? 'APROBADO' : params.row.status === 'RETURNED' ? 'DEVUELTO' : 'CANCELADO'}</div>
+          </Stack>
+        );
+      },
+      headerName: "Estatus",
+      width: 200,
     },
   ];
 
