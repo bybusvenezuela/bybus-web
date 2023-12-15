@@ -41,10 +41,10 @@ const TableOrderDetails = ({ rows }) => {
     {
       field: "orderTickets",
       renderCell: (params) => {
-        console.log(params.formattedValue.items.length !== 0)
-        if (params.formattedValue.items.length !== 0) return (
+        // console.log(params.formattedValue.items.length !== 0)
+        if (params?.formattedValue?.items?.length !== 0) return (
           <Stack>
-            <div>Cantidad: {params.row.amount} - {params.formattedValue.items[0].ticketID}</div>
+            <div>{params.row.amount}</div>
           </Stack>
         );
         return (
@@ -53,7 +53,7 @@ const TableOrderDetails = ({ rows }) => {
           </Stack>
         );
       },
-      headerName: "ID del Ticket",
+      headerName: "Cantidad de tickets",
       width: 450,
     },
   ];

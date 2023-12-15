@@ -1,52 +1,91 @@
-import Reac from "react";
+import Reac, { useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
+import ModalBlock from "./ModalBlock";
+import ThumbUpOffAltRoundedIcon from '@mui/icons-material/ThumbUpOffAltRounded';
+
 
 const TableEmailSubs = ({ rows }) => {
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
+  console.log(rows)
   const columns = [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "id", headerName: "ID", width: 90 },
+    {
+      field: "status",
+      headerName: "Estado",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "name",
+      headerName: "Nombre",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "rif",
+      headerName: "RIF",
+      width: 150,
+      editable: true,
+    },
     {
       field: "email",
-      headerName: "Email",
+      headerName: "Correo",
       width: 300,
       editable: true,
     },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: "Acciones",
       width: 110,
       renderCell: (params) => {
         return (
-          <Stack>
-            <IconButton aria-label="delete-email-subs" onClick={() => ""}>
-              <DeleteIcon />
+          <div>
+            <IconButton
+              aria-label="delete-agency-subs"
+              onClick={() => {
+                setData(params.row)
+                setOpen(!open)
+              }}
+            >
+              {params.row.status === 'ACTIVO' ? <BlockRoundedIcon /> : <ThumbUpOffAltRoundedIcon />}
             </IconButton>
-          </Stack>
+          </div>
         );
       },
     },
   ];
   return (
-    <Box sx={{ height: 400, width: 700 }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
+    <div>
+      <Box sx={{ height: 400, width: 900 }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
             },
-          },
+          }}
+          pageSizeOptions={[10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          slots={{ toolbar: GridToolbar }}
+        />
+      </Box>
+      <ModalBlock
+        data={data}
+        open={open}
+        close={() => {
+          setOpen(!open);
+          setData({});
         }}
-        pageSizeOptions={[10]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        slots={{ toolbar: GridToolbar }}
       />
-    </Box>
+    </div>
   );
 };
 

@@ -103,11 +103,25 @@ type Agency
         { allow: groups, groups: ["admin", "sp"] }
       ]
     )
+  percentage: Float @default(value: "10")
+    @auth(
+      rules: [
+        { allow: owner }
+        { allow: private, provider: iam, operations: [read] }
+        { allow: groups, groups: ["admin", "sp"] }
+      ]
+    )
+  status: AgencyStatus @default(value:"ACTIVO")
   officies: [Office] @hasMany(indexName: "byAgencyToOffice", fields: ["id"])
   employees: [Employee]
     @hasMany(indexName: "byAgencyToEmployee", fields: ["id"])
   bookings: [Booking] @hasMany(indexName: "byAgencyToBooking", fields: ["id"])
   owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+}
+
+enum AgencyStatus {
+  ACTIVO
+  BLOQUEADO
 }
 
 type Office
@@ -260,6 +274,7 @@ type Booking
   arrival: DepartureArrivalStopFields
   stock: Int
   price: Float
+  percentage: Float
   createdBy: ID
   driver: String
   transport: transporType

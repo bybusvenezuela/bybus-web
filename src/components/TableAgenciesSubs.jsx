@@ -17,6 +17,13 @@ const TableEmailSubs = ({ rows }) => {
       headerName: "Estado",
       width: 150,
       editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === "ACCEPTED" ? 'ACEPTADO' : params.row.status === "PENDING" ? 'PENDIENTE' : 'RECHAZADO'}
+          </div>
+        );
+      },
     },
     {
       field: "name",
@@ -68,7 +75,7 @@ const TableEmailSubs = ({ rows }) => {
 
   return (
     <div>
-      <Box sx={{ height: 400, width: 700 }}>
+      <Box sx={{ height: 400, width: 900 }}>
         <DataGrid
           rows={rows}
           columns={columns}

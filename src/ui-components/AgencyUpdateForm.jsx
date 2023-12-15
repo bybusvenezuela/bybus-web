@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getAgency } from "../graphql/queries";
@@ -31,6 +37,8 @@ export default function AgencyUpdateForm(props) {
     rif: "",
     email: "",
     phone: "",
+    percentage: "",
+    status: "",
     owner: "",
   };
   const [cognitoID, setCognitoID] = React.useState(initialValues.cognitoID);
@@ -39,6 +47,8 @@ export default function AgencyUpdateForm(props) {
   const [rif, setRif] = React.useState(initialValues.rif);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
+  const [percentage, setPercentage] = React.useState(initialValues.percentage);
+  const [status, setStatus] = React.useState(initialValues.status);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -51,6 +61,8 @@ export default function AgencyUpdateForm(props) {
     setRif(cleanValues.rif);
     setEmail(cleanValues.email);
     setPhone(cleanValues.phone);
+    setPercentage(cleanValues.percentage);
+    setStatus(cleanValues.status);
     setOwner(cleanValues.owner);
     setErrors({});
   };
@@ -77,6 +89,8 @@ export default function AgencyUpdateForm(props) {
     rif: [],
     email: [],
     phone: [],
+    percentage: [],
+    status: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -111,6 +125,8 @@ export default function AgencyUpdateForm(props) {
           rif: rif ?? null,
           email: email ?? null,
           phone: phone ?? null,
+          percentage: percentage ?? null,
+          status: status ?? null,
           owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
@@ -178,6 +194,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email,
               phone,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -208,6 +226,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email,
               phone,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -238,6 +258,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email,
               phone,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -268,6 +290,8 @@ export default function AgencyUpdateForm(props) {
               rif: value,
               email,
               phone,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -298,6 +322,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email: value,
               phone,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -328,6 +354,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email,
               phone: value,
+              percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -344,6 +372,85 @@ export default function AgencyUpdateForm(props) {
         {...getOverrideProps(overrides, "phone")}
       ></TextField>
       <TextField
+        label="Percentage"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={percentage}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin,
+              name,
+              rif,
+              email,
+              phone,
+              percentage: value,
+              status,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.percentage ?? value;
+          }
+          if (errors.percentage?.hasError) {
+            runValidationTasks("percentage", value);
+          }
+          setPercentage(value);
+        }}
+        onBlur={() => runValidationTasks("percentage", percentage)}
+        errorMessage={errors.percentage?.errorMessage}
+        hasError={errors.percentage?.hasError}
+        {...getOverrideProps(overrides, "percentage")}
+      ></TextField>
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin,
+              name,
+              rif,
+              email,
+              phone,
+              percentage,
+              status: value,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Activo"
+          value="ACTIVO"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Bloqueado"
+          value="BLOQUEADO"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
+      <TextField
         label="Owner"
         isRequired={false}
         isReadOnly={false}
@@ -358,6 +465,8 @@ export default function AgencyUpdateForm(props) {
               rif,
               email,
               phone,
+              percentage,
+              status,
               owner: value,
             };
             const result = onChange(modelFields);

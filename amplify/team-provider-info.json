@@ -43,11 +43,11 @@
         },
         "scheduleBookingAgency": {
           "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
-          "s3Key": "amplify-builds/scheduleBookingAgency-4e47586649464f48416a-build.zip"
+          "s3Key": "amplify-builds/scheduleBookingAgency-637078386d4836677833-build.zip"
         },
         "sheduleBookingUpdate": {
           "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
-          "s3Key": "amplify-builds/sheduleBookingUpdate-79686442395457376961-build.zip"
+          "s3Key": "amplify-builds/sheduleBookingUpdate-486e6d5158544c2b3730-build.zip"
         }
       },
       "storage": {
