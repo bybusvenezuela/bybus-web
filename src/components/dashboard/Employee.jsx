@@ -10,7 +10,16 @@ import TableEmployees from "@/components/TableEmployees";
 import TableOffices from "@/components/TableOffices";
 import TableTravels from "../TableTravels";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Autocomplete, Box, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import TableOrderDetails from "../TableOrderDetails";
 
 const Dashboard = ({ dataResult, userType }) => {
@@ -37,6 +46,8 @@ const Dashboard = ({ dataResult, userType }) => {
         id: dataResult?.id,
       },
     });
+    // console.log(dataResult.id)
+
     setData(list?.data?.getEmployee);
     const travels = await API.graphql({
       query: queries.listBookings,
@@ -45,9 +56,16 @@ const Dashboard = ({ dataResult, userType }) => {
         id: list?.data?.getEmployee?.agencyID,
       },
     });
-    let array = travels?.data.listBookings.items.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date));
-    console.log(array)
-    setDataTravels(array);
+    let array = travels?.data.listBookings.items.sort(
+      (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+    );
+
+    let arrayFilter = array.filter(
+      (objeto) => objeto.createdBy === dataResult.id
+    );
+    // console.log(arrayFilter)
+    // console.log(array)
+    setDataTravels(arrayFilter);
   };
 
   const Travels = async () => {
@@ -90,12 +108,9 @@ const Dashboard = ({ dataResult, userType }) => {
         <div className={styles.agencies}>
           <div className={styles.title}>
             <h2>Lista de Viajes</h2>
-            <IconButton
-                aria-label="refresh-email"
-                onClick={() => Employee()}
-              >
-                <RefreshIcon />
-              </IconButton>
+            <IconButton aria-label="refresh-email" onClick={() => Employee()}>
+              <RefreshIcon />
+            </IconButton>
           </div>
           {dataTravels && <TableTravels rows={dataTravels} />}
         </div>
@@ -104,29 +119,31 @@ const Dashboard = ({ dataResult, userType }) => {
             <h2>Lista de Ordenes de Venta</h2>
           </div>
           <FormControl fullWidth>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                // getOptionLabel={(option) => option.rif}
-                isOptionEqualToValue={(option, value) =>
-                  option.id === value.id
-                }
-                options={dataTravels}
-                value={travel}
-                renderOption={(props, option) => (
-                  <Box component="li" {...props}>
-                    <div
-                      onClick={() => {
-                        setTravel(option.id);
-                      }}
-                    >{`${option.departure.city}, ${option.departure.state} - ${option.arrival.city}, ${option.arrival.state} ${option.departure.date}`}</div>
-                  </Box>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} label="Seleccionar viaje" />
-                )}
-              />
-            </FormControl>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              // getOptionLabel={(option) => option.rif}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              options={dataTravels}
+              value={travel}
+              renderOption={(props, option) => (
+                <Box component="li" {...props}>
+                  <div
+                    onClick={() => {
+                      setTravel(option.id);
+                    }}
+                  >{`${option.departure.city}, ${option.departure.state} - ${
+                    option.arrival.city
+                  }, ${option.arrival.state} ${
+                    option.departure.date
+                  } - ${option.departure.time.slice(0, 5)}`}</div>
+                </Box>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label="Seleccionar viaje" />
+              )}
+            />
+          </FormControl>
           {travel ? (
             <TableOrderDetails rows={dataOrders} />
           ) : (
