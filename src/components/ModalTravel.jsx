@@ -165,6 +165,7 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: { input: JSON.stringify(params) },
     });
+    close();
   };
 
   useEffect(() => {
@@ -504,31 +505,33 @@ export default function ModalTravel({ open, close, offices }) {
                       </Select>
                     </FormControl>
                     <div>
-                    <div style={{
-                      display: 'flex',
-                      gap: 10
-                    }}>
-                      <TextField
-                        id="outlined-basic"
-                        label="Precio"
-                        variant="outlined"
-                        onChange={(e) => setPrice(e.target.value)}
-                        sx={{ width: 150 }}
-                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 10,
+                        }}
+                      >
+                        <TextField
+                          id="outlined-basic"
+                          label="Precio"
+                          variant="outlined"
+                          onChange={(e) => setPrice(e.target.value)}
+                          sx={{ width: 150 }}
+                        />
 
-                      <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        label="Cantidad de puestos"
-                        onChange={(e) => setQuantity(e.target.value)}
-                        sx={{ width: 250 }}
-                      />
-                    </div>
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          label="Cantidad de puestos"
+                          onChange={(e) => setQuantity(e.target.value)}
+                          sx={{ width: 250 }}
+                        />
+                      </div>
 
                       <div
                         style={{
                           fontSize: 11,
-                          marginTop: 5
+                          marginTop: 5,
                         }}
                       >
                         Recuerda que tu precio se vera reflejo al final por el
