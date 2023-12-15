@@ -11,11 +11,11 @@ import Image from "next/image";
 import { menu } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
-import PaidRoundedIcon from '@mui/icons-material/PaidRounded';
-import { Auth } from 'aws-amplify'
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
+import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
+import { Auth } from "aws-amplify";
 
 const Menu = () => {
   const { updateIndex, selectedIndex } = useMenu();
@@ -54,7 +54,7 @@ const Menu = () => {
           sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
           selected={selectedIndex === 0}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             router.push("/home/dashboard");
             updateIndex(0);
             console.log(selectedIndex);
@@ -74,7 +74,7 @@ const Menu = () => {
           // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
           selected={selectedIndex === 1}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             router.push("/home/management");
             updateIndex(1);
             console.log(selectedIndex);
@@ -94,7 +94,7 @@ const Menu = () => {
           // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
           selected={selectedIndex === 2}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             router.push("/home/support");
             updateIndex(2);
             console.log(selectedIndex);
@@ -109,14 +109,33 @@ const Menu = () => {
           </ListItemIcon>
           <ListItemText primary="Devoluciones" />
         </ListItemButton>
+        {/* <ListItemButton
+          // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+          selected={selectedIndex === 2}
+          onClick={(e) => {
+            e.preventDefault();
+            router.push("/home/support");
+            updateIndex(2);
+            console.log(selectedIndex);
+          }}
+        >
+          <ListItemIcon>
+            <PaidRoundedIcon
+              sx={{
+                color: selectedIndex === 2 ? "white" : "#1f1f1f",
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText primary="Gestion de pagos" />
+        </ListItemButton> */}
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           sx={{ borderBottomLeftRadius: "7px", borderBottomRightRadius: "7px" }}
           selected={selectedIndex === 6}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             router.push("/");
-            Auth.signOut()
+            Auth.signOut();
           }}
         >
           <ListItemIcon>
@@ -129,7 +148,7 @@ const Menu = () => {
           <ListItemText primary="Cerrar sesion" />
         </ListItemButton>
       </List>
-      <div className={styles.panel}></div>
+      {/* <div className={styles.panel}></div> */}
     </div>
   );
 };
