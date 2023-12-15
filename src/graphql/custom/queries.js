@@ -30,6 +30,7 @@ export const listAgencies = /* GraphQL */ `
         rif
         email
         phone
+        percentage
         status
         officies {
             items {

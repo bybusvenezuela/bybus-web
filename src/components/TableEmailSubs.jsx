@@ -38,6 +38,12 @@ const TableEmailSubs = ({ rows }) => {
       editable: true,
     },
     {
+      field: "percentage",
+      headerName: "Porcentaje %",
+      width: 200,
+      editable: true,
+    },
+    {
       field: "actions",
       headerName: "Acciones",
       width: 110,
