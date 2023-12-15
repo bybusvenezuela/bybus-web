@@ -11,12 +11,14 @@ export default function ModalAgency({ open, close }) {
   const [email, setEmail] = useState("");
   const [rif, setRif] = useState("");
   const [phone, setPhone] = useState("");
+  const [percentage, setPercentage] = useState(10);
 
   const reset = () => {
     setName("");
     setEmail("");
     setRif("");
     setPhone("");
+    setPercentage(10)
     setIsLoading(false);
     close();
   };
@@ -27,6 +29,7 @@ export default function ModalAgency({ open, close }) {
         name: name,
         rif: rif,
         phone: phone,
+        percentage: percentage,
         agencySubsTableID: '',
       };
     console.log(params)
@@ -108,6 +111,16 @@ export default function ModalAgency({ open, close }) {
                       style: { fontSize: 14 },
                     }}
                     onChange={(e) => setPhone(e.target.value)}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Porcentaje %"
+                    variant="outlined"
+                    value={percentage}
+                    inputProps={{
+                      style: { fontSize: 14 },
+                    }}
+                    onChange={(e) => setPercentage(e.target.value)}
                   />
                 </div>
               </div>
