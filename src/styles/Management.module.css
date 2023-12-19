@@ -1,3 +1,46 @@
 .content {
-    display: flex;
-  }
+  display: flex;
+}
+.up h1 {
+  margin-bottom: 1em;
+}
+.search {
+  width: 900px;
+  display: flex;
+  flex: 1;
+  margin-top: 2rem;
+  /* justify-content: space-between; */
+}
+
+.both {
+  display: flex;
+  justify-content: space-around;
+}
+.both .arrival {
+  margin-left: 40px;
+}
+.up h3 {
+  margin: 40px 0px 10px;
+  font-size: 24px;
+}
+.up span {
+  color: var(--yellow);
+  font-weight: 600;
+}
+.up p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.infoCustomer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 40px;
+}

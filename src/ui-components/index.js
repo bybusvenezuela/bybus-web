@@ -11,6 +11,8 @@ export { default as AgencySubscriptionCreateForm } from "./AgencySubscriptionCre
 export { default as AgencySubscriptionUpdateForm } from "./AgencySubscriptionUpdateForm";
 export { default as AgencyCreateForm } from "./AgencyCreateForm";
 export { default as AgencyUpdateForm } from "./AgencyUpdateForm";
+export { default as AgencyHistoryCreateForm } from "./AgencyHistoryCreateForm";
+export { default as AgencyHistoryUpdateForm } from "./AgencyHistoryUpdateForm";
 export { default as OfficeCreateForm } from "./OfficeCreateForm";
 export { default as OfficeUpdateForm } from "./OfficeUpdateForm";
 export { default as StateCreateForm } from "./StateCreateForm";

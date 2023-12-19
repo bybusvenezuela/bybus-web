@@ -32,8 +32,91 @@ export const listAgencies = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          items {
+            id
+            agencyID
+            reason
+            description
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         officies {
-            items {
+          items {
+            id
+            agencyID
+            name
+            state
+            city
+            address
+            email
+            phone
+            status
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        employees {
+          items {
+            id
+            name
+            email
+            phone
+            pin
+            type
+            agencyID
+            officeID
+            status
+            lastConnection
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        bookings {
+          items {
+            id
+            status
+            code
+            agencyID
+            agency {
+              id
+              cognitoID
+              pin
+              name
+              rif
+              email
+              phone
+              percentage
+              status
+              history {
+                items {
+                  id
+                  agencyID
+                  reason
+                  description
+                  createdAt
+                  updatedAt
+                }
+                nextToken
+              }
+              officies {
+                nextToken
+              }
+              employees {
+                nextToken
+              }
+              bookings {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            officeID
+            office {
               id
               agencyID
               name
@@ -43,47 +126,89 @@ export const listAgencies = /* GraphQL */ `
               email
               phone
               status
+              employees {
+                nextToken
+              }
+              transports {
+                nextToken
+              }
+              bookings {
+                nextToken
+              }
               createdAt
               updatedAt
             }
-            nextToken
-          }
-          employees {
-            items {
-              id
-              name
-              email
-              phone
-              pin
-              type
-              agencyID
-              officeID
-              status
-              lastConnection
-              createdAt
-              updatedAt
+            customers {
+              items {
+                id
+                fullName
+                ci
+                email
+                bookingID
+                ticketID
+
+                createdAt
+                updatedAt
+              }
+              nextToken
             }
-            nextToken
-          }
-          bookings {
-            items {
-              id
-              status
-              code
-              agencyID
-              officeID
-              departureCity
-              arrivalCity
-              stock
-              price
-              createdBy
-              driver
-              transport
-              createdAt
-              updatedAt
+            tickets {
+              items {
+                id
+                code
+                bookingID
+                orderDetailID
+                stop
+                customerID
+                seating
+                status
+                description
+                url
+                createdAt
+                updatedAt
+                stopBookingTicketsId
+                orderDetailTicketsId
+              }
+              nextToken
             }
-            nextToken
+            stops {
+              items {
+                id
+                bookingID
+                price
+
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            departureCity
+            arrivalCity
+            departure {
+              time
+              date
+              city
+              state
+              address
+            }
+            arrival {
+              time
+              date
+              city
+              state
+              address
+            }
+            stock
+            price
+            percentage
+            createdBy
+            driver
+            transport
+            createdAt
+            updatedAt
           }
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -91,6 +216,7 @@ export const listAgencies = /* GraphQL */ `
     }
   }
 `;
+
 export const getAgency = /* GraphQL */ `
   query GetAgency($id: ID!) {
     getAgency(id: $id) {
@@ -342,6 +468,26 @@ export const getOrderDetail = /* GraphQL */ `
       createdAt
       updatedAt
       userOrdersId
+    }
+  }
+`;
+
+export const listAgencyHistories = /* GraphQL */ `
+  query ListAgencyHistories(
+    $filter: ModelAgencyHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAgencyHistories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        agencyID
+        reason
+        description
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

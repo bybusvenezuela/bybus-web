@@ -48,6 +48,10 @@
         "sheduleBookingUpdate": {
           "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
           "s3Key": "amplify-builds/sheduleBookingUpdate-486e6d5158544c2b3730-build.zip"
+        },
+        "updateAgencyCognito": {
+          "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
+          "s3Key": "amplify-builds/updateAgencyCognito-762b377944543553724c-build.zip"
         }
       },
       "storage": {
