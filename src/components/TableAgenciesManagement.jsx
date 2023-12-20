@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import ModalAgencies from "./ModalAgencies";
 
-const TableAgenciesManagement = ({ rows }) => {
+const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const columns = [
@@ -36,7 +36,7 @@ const TableAgenciesManagement = ({ rows }) => {
       renderCell: (params) => {
         return (
           <div>
-            <button
+            {/* <button
               onClick={() => {
                 setOpen(!open);
                 setData(params.row);
@@ -52,11 +52,12 @@ const TableAgenciesManagement = ({ rows }) => {
               }}
             >
               Ver historial
-            </button>
+            </button> */}
             <button
               onClick={() => {
-                setOpen(!open);
-                setData(params.row);
+                businessID(params.id)
+                search(params.id)
+                cleanList()
                 console.log(params);
               }}
               style={{

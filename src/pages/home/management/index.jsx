@@ -15,6 +15,7 @@ const Management = () => {
   const [description, setDescription] = useState("");
   const [tasa, setTasa] = useState(0);
   const [dateInput, setDateInput] = useState(null);
+  const [dateInputSearch, setDateInputSearch] = useState(null);
   const [filterTickets, setFilterTickets] = useState([]);
   const [data, setData] = useState(null);
   const [dataList, setDataList] = useState([]);
@@ -31,21 +32,23 @@ const Management = () => {
 
     return año + "-" + mes + "-" + dia;
   };
-  const fetchSearch = async () => {
+  const fetchSearch = async (businessId) => {
+    console.log('businessid', businessId)
     setDescription("");
     setDeuda(true);
-    setData(null)
-    console.log('toy aqui cabron', filterTickets)
+    setData(null);
+    setDataList([]);
+    console.log("toy aqui cabron", filterTickets);
     let newFilterTickets = [];
-    let newTotal = 0
+    let newTotal = 0;
     try {
-      if (business) {
+      if (business || businessId) {
         const result = await API.graphql({
           query: queries.listAgencies,
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: {
             filter: {
-              id: { eq: business },
+              id: { eq: businessId ? businessId : business },
             },
           },
         });
@@ -65,10 +68,12 @@ const Management = () => {
             let fechaFormateada = formatearFecha(new Date(ticket?.updatedAt));
             if (ticket.status === "BOARDED" && fechaFormateada === dateInput) {
               newFilterTickets.push({ ticket: ticket, booking: booking });
-              newTotal += booking.price; 
+              newTotal += booking.price;
+              setDateInputSearch(fechaFormateada)
             }
           });
         });
+        setDataList([]);
       } else {
         const result = await API.graphql({
           query: queries.listAgencies,
@@ -84,7 +89,6 @@ const Management = () => {
       }
       setFilterTickets(newFilterTickets);
       setTotal(newTotal);
-
     } catch (error) {
       console.error(error);
     }
@@ -207,6 +211,7 @@ const Management = () => {
   useEffect(() => {
     let hoy = formatearFecha(new Date());
     setDateInput(hoy);
+    console.log(data)
   }, []);
 
   if (dateInput)
@@ -274,7 +279,7 @@ const Management = () => {
                     </p>
                   </div>
                   <div className={styles.infoTravel}>
-                    <h3>Resumen de deuda ({dateInput})</h3>
+                    <h3>Resumen de deuda</h3>
                     <div className={styles.both}>
                       <div>
                         <p>
@@ -285,7 +290,7 @@ const Management = () => {
                         <p>
                           {" "}
                           {console.log(filterTickets)}
-                          <span>Total ha pagar:</span> {total}$
+                          <span>Total ha pagar:</span> {total - (total/data.percentage)}$
                         </p>
                       </div>
                     </div>
@@ -367,7 +372,14 @@ const Management = () => {
                 </div>
               </div>
             )}
-            {dataList.length !== 0 && <TableAgenciesManagement rows={dataList} />}
+            {dataList.length !== 0 && (
+              <TableAgenciesManagement
+                rows={dataList}
+                businessID={(e) => setBusiness(e)}
+                search={(e) => fetchSearch(e)}
+                cleanList={() => setDataList([])}
+              />
+            )}
           </div>
         </div>
       </div>

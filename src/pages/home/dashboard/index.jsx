@@ -34,6 +34,7 @@ const Dashboard = () => {
   const [agencyBookings, setAgencyBookings] = useState([]);
   const [agenciesList, setAgenciesList] = useState([]);
   const [agencyOrders, setAgencyOrders] = useState([]);
+  const [listCSV, setListCSV] = useState(null);
   const [agency, setAgency] = useState(null);
   const [travel, setTravel] = useState(null);
   const [open, setOpen] = useState(false);
@@ -67,7 +68,7 @@ const Dashboard = () => {
         },
       });
       setAgencyBookings(result?.data?.getAgency?.bookings?.items);
-      console.log(result?.data?.getAgency?.bookings?.items);
+      // console.log(result?.data?.getAgency?.bookings?.items);
       const orders = await API.graphql({
         query: queries.listOrderDetails,
         authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -77,7 +78,7 @@ const Dashboard = () => {
           },
         },
       });
-      console.log("ORDERS", orders.data.listOrderDetails);
+      // console.log("ORDERS", orders.data.listOrderDetails);
       setAgencyOrders(orders?.data?.listOrderDetails?.items);
     } catch (error) {
       console.log(error);
@@ -86,9 +87,137 @@ const Dashboard = () => {
   const openModalAgency = () => {
     setOpen(true);
   };
+  const fetchCSV = async () => {
+    try {
+      const result = await API.graphql({
+        query: queries.listAgenciesCSV,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      // console.log("LISTA", result?.data?.listAgencies);
+      const orders = await API.graphql({
+        query: queries.listOrdersCSV,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      // console.log("ORDERS", orders?.data?.listOrderDetails);
+      setListCSV({
+        listAgencies: result?.data?.listAgencies?.items,
+        listOrdersDetails: orders?.data?.listOrderDetails?.items,
+      });
+    } catch (error) {
+      console.log("aqui csv", error);
+    }
+  };
+  const resumenSimple = () => {
+    let listAgencies = listCSV?.listAgencies;
+    let listOrders = listCSV?.listOrdersDetails;
+
+    listAgencies = listAgencies.map((agency) => {
+      agency.bookings.items = agency.bookings.items.map((booking) => {
+        booking.orders = listOrders.filter(
+          (order) => order.bookingID === booking.id
+        );
+        return booking;
+      });
+      return agency;
+    });
+
+    let newArray = listAgencies.map((item, index) => {
+      return {
+        ID_Empresa: item.id,
+        Fecha_Creacion: item.createdAt,
+        Nombre: item.name,
+        RIF: item.rif,
+        Telefono: item.phone,
+        Correo_Electronico: item.email,
+        Estatus: item.status,
+        Cantidad_Oficinas: item.officies.items.length,
+        Cantidad_Empleados: item.employees.items.length,
+        Cantidad_Viajes: item.bookings.items.length,
+        Porcentaje: item.percentage,
+      };
+    });
+    let cabecera = Object.keys(newArray[0]).join(",") + "\r\n";
+
+    let cuerpo = newArray
+      .map((obj) => Object.values(obj).join(","))
+      .join("\r\n");
+    let csv = cabecera + cuerpo;
+
+    let enlaceDescarga = document.createElement("a");
+    enlaceDescarga.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+    enlaceDescarga.target = "_blank";
+    enlaceDescarga.download = "resumen_simple_bybus.csv";
+    enlaceDescarga.click();
+    console.log(newArray);
+  };
+
+  const resumenDetallado = () => {
+    let listAgencies = listCSV?.listAgencies;
+    let listOrders = listCSV?.listOrdersDetails;
+    
+    listAgencies = listAgencies.map((agency) => {
+      agency.bookings.items = agency.bookings.items.map((booking) => {
+        agency.orders = listOrders.filter(
+          (order) => order.bookingID === booking.id
+        );
+        return booking;
+      });
+      return agency;
+    });
+
+    listAgencies = listAgencies.map(agency => {
+      agency.bookings.items.forEach(booking => {
+          ['tickets', 'orders', 'customers'].forEach(field => {
+              if (!agency[field]) {
+                  agency[field] = [];
+              }
+              booking[field].forEach(item => {
+                  if (!agency[field].find(existingItem => existingItem.id === item.id)) {
+                      agency[field].push(item);
+                  }
+              });
+          });
+      });
+      return agency;
+  });
+    console.log("nuevo nuevo list", listAgencies);
+return
+    let newArray = listAgencies.map((item, index) => {
+      return {
+        ID_Empresa: item.id,
+        Fecha_Creacion: item.createdAt,
+        Nombre: item.name,
+        RIF: item.rif,
+        Telefono: item.phone,
+        Correo_Electronico: item.email,
+        Estatus: item.status,
+        Cantidad_Oficinas: item.officies.items,
+        Cantidad_Empleados: item.employees.items,
+        Cantidad_Viajes: item.bookings.items,
+        Historial: item.history.items,
+        Porcentaje: item.percentage,
+      };
+    });
+
+    let cabecera = Object.keys(newArray[0]).join(",") + "\r\n";
+
+    let cuerpo = newArray
+      .map((obj) => Object.values(obj).join(","))
+      .join("\r\n");
+    let csv = cabecera + cuerpo;
+
+    let enlaceDescarga = document.createElement("a");
+    enlaceDescarga.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+    enlaceDescarga.target = "_blank";
+    enlaceDescarga.download = "resumen_detallado_bybus.csv";
+    enlaceDescarga.click();
+    console.log(newArray);
+  };
   useEffect(() => {
     fetchAgencySubs();
     fetchAgency();
+    fetchCSV();
+    // console.log(listCSV);
   }, [agency, travel]);
 
   return (
@@ -100,6 +229,16 @@ const Dashboard = () => {
             <Card
               title={`Agregar nueva agencia`}
               onHandle={openModalAgency}
+              icon={`bx bx-store`}
+            />
+            <Card
+              title={`Descargar mi resumen simple`}
+              onHandle={resumenSimple}
+              icon={`bx bx-store`}
+            />
+            <Card
+              title={`Descargar mi resumen detallado`}
+              onHandle={resumenDetallado}
               icon={`bx bx-store`}
             />
           </div>
@@ -158,7 +297,12 @@ const Dashboard = () => {
               />
             </FormControl>
             {agencyBookings.length !== 0 ? (
-              <TableTravels rows={agencyBookings.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
+              <TableTravels
+                rows={agencyBookings.sort(
+                  (a, b) =>
+                    new Date(a.departure.date) - new Date(b.departure.date)
+                )}
+              />
             ) : (
               <div className={styles.nothingTable}>
                 Selecciona una empresa para poder ver sus viajes
