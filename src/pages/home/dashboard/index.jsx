@@ -210,6 +210,191 @@ const Dashboard = () => {
       }
     });
 
+
+    listAgencies = listAgencies.map((item, index) => {
+      return {
+        ID_Empresa: item.id,
+        Fecha_Creacion: item.createdAt,
+        Nombre: item.name,
+        RIF: item.rif,
+        Telefono: item.phone,
+        Correo_Electronico: item.email,
+        Estatus: item.status,
+        Cantidad_Oficinas: item.officies.items.length,
+        Cantidad_Empleados: item.employees.items.length,
+        Cantidad_Viajes: item.bookings.items.length,
+        Historial: item.history.items.length,
+        Porcentaje: item.percentage,
+      };
+    });
+    allBookings = allBookings.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Empleado: item.createdBy,
+        ID_Oficina: item.officeID,
+        ID_Viaje: item.id,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Fecha_Creacion_Viaje: item.createdAt,
+        Codigo_Viaje: item.code,
+        Conductor_Viaje: item.driver,
+        Precio_Viaje: item.price,
+        Porcentaje_Viaje: item.percentage,
+        Estatus_Viaje: item.status,
+        Tipo_Bus: item.transport,
+        Stock_Disponible: item.stock,
+        Cantidad_Tickets: item.tickets.items.length,
+        Estado_Salida: item.departure.state,
+        Ciudad_Salida: item.departure.city,
+        Fecha_Salida: item.departure.date,
+        Hora_Salida: item.departure.time,
+        Estado_Llegada: item.arrival.state,
+        Ciudad_Llegada: item.arrival.city,
+        Fecha_Llegada: item.arrival.date,
+        Hora_Llegada: item.arrival.time,
+      };
+    });
+
+    allEmployees = allEmployees.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Empleado: item.employee.id,
+        ID_Oficina: item.employee.officeID,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Nombre_Empleado: item.employee.name,
+        Correo_Electronico_Empleado: item.employee.email,
+        Telefono_Empleado: item.employee.phone,
+        Estatus_Empleado: item.employee.status,
+        Tipo_Empleado: item.employee.type,
+      };
+    });
+
+    allHistory = allHistory.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Historial: item.history.id,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Fecha_Historial: item.history.createdAt,
+        Descripcion_Historial: item.history.description,
+        Razon_Historial: item.history.reason,
+      };
+    });
+
+    allOfficies = allOfficies.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Oficina: item.office.id,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Nombre_Oficina: item.office.name,
+        Correo_Electronico_Oficina: item.office.email,
+        Telefono_Oficina: item.office.phone,
+        Estado_Oficina: item.office.state,
+        Ciudad_Oficina: item.office.city,
+        Direccion_Oficina: item.office.address,
+        Estatus_Oficina: item.office.status,
+        Fecha_Creacion_Oficina: item.office.createdAt,
+      };
+    });
+
+    allOrders = allOrders.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Oficina: item.booking.officeID,
+        ID_Empleado: item.booking.createdBy,
+        ID_Viaje: item.booking.id,
+        ID_Orden_Venta: item.order.id,
+        ID_Cliente: item.order.userID,
+        ID_Pago: item.order.paymentID,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Fecha_Creacion_Viaje: item.booking.createdAt,
+        Codigo_Viaje: item.booking.code,
+        Conductor_Viaje: item.booking.driver,
+        Precio_Viaje: item.booking.price,
+        Porcentaje_Viaje: item.booking.percentage,
+        Estatus_Viaje: item.booking.status,
+        Tipo_Bus: item.booking.transport,
+        Stock_Disponible: item.booking.stock,
+        Cantidad_Tickets: item.booking.tickets.items.length,
+        Estado_Salida: item.booking.departure.state,
+        Ciudad_Salida: item.booking.departure.city,
+        Fecha_Salida: item.booking.departure.date,
+        Hora_Salida: item.booking.departure.time,
+        Estado_Llegada: item.booking.arrival.state,
+        Ciudad_Llegada: item.booking.arrival.city,
+        Fecha_Llegada: item.booking.arrival.date,
+        Hora_Llegada: item.booking.arrival.time,
+        Orden_Venta_Fecha_Creacion: item.order.createdAt,
+        Orden_Venta_Cantidad_Tickets: item.order.amount,
+        Orden_Venta_Monto_Total: item.order.total,
+        Orden_Venta_Correo_Electronico: item.order.customerEmail,
+        Orden_Venta_Nombre: item.order.customerName,
+        Orden_Venta_Estatus: item.order.status,
+        Orden_Venta_Tipo_Pago: item.order.paymentMethod,
+        Orden_Venta_Referencia: item.order?.payment?.reference,
+      };
+    });
+
+    allTickets = allTickets.map((item, index) => {
+      return {
+        ID_Empresa: item.agency.id,
+        ID_Oficina: item.booking.officeID,
+        ID_Empleado: item.booking.createdBy,
+        ID_Viaje: item.booking.id,
+        ID_Orden_Venta: item.ticket.orderDetailID,
+        ID_Cliente: item.ticket.customerID,
+        Nombre_Empresa: item.agency.name,
+        RIF_Empresa: item.agency.rif,
+        Telefono_Empresa: item.agency.phone,
+        Correo_Electronico_Empresa: item.agency.email,
+        Estatus_Empresa: item.agency.status,
+        Porcentaje_Empresa: item.agency.percentage,
+        Fecha_Creacion_Viaje: item.booking.createdAt,
+        Codigo_Viaje: item.booking.code,
+        Conductor_Viaje: item.booking.driver,
+        Precio_Viaje: item.booking.price,
+        Porcentaje_Viaje: item.booking.percentage,
+        Estatus_Viaje: item.booking.status,
+        Tipo_Bus: item.booking.transport,
+        Stock_Disponible: item.booking.stock,
+        Cantidad_Tickets: item.booking.tickets.items.length,
+        Estado_Salida: item.booking.departure.state,
+        Ciudad_Salida: item.booking.departure.city,
+        Fecha_Salida: item.booking.departure.date,
+        Hora_Salida: item.booking.departure.time,
+        Estado_Llegada: item.booking.arrival.state,
+        Ciudad_Llegada: item.booking.arrival.city,
+        Fecha_Llegada: item.booking.arrival.date,
+        Hora_Llegada: item.booking.arrival.time,
+        Fecha_Creacion_Ticket: item.ticket.createdAt,
+        Codigo_Ticket: item.ticket.code,
+        Estatus_Ticket: item.ticket.status,
+      };
+    });
+
     console.log("nuevo nuevo list", {
       listAgencies: listAgencies,
       listOfficies: allOfficies,
@@ -220,7 +405,6 @@ const Dashboard = () => {
       listHistory: allHistory,
       listOrders: allOrders,
     });
-
     const JSZip = require("jszip");
     const saveAs = require("file-saver");
 
@@ -277,39 +461,9 @@ const Dashboard = () => {
     });
 
     zip.generateAsync({ type: "blob" }).then((blob) => {
-      saveAs.saveAs(blob, "resumen_detallado.zip");
+      saveAs.saveAs(blob, "resumen_detallado_bybus.zip");
     });
-    return;
-    let newArray = listAgencies.map((item, index) => {
-      return {
-        ID_Empresa: item.id,
-        Fecha_Creacion: item.createdAt,
-        Nombre: item.name,
-        RIF: item.rif,
-        Telefono: item.phone,
-        Correo_Electronico: item.email,
-        Estatus: item.status,
-        Cantidad_Oficinas: item.officies.items,
-        Cantidad_Empleados: item.employees.items,
-        Cantidad_Viajes: item.bookings.items,
-        Historial: item.history.items,
-        Porcentaje: item.percentage,
-      };
-    });
-
-    let cabecera = Object.keys(newArray[0]).join(",") + "\r\n";
-
-    let cuerpo = newArray
-      .map((obj) => Object.values(obj).join(","))
-      .join("\r\n");
-    let csv = cabecera + cuerpo;
-
-    let enlaceDescarga = document.createElement("a");
-    enlaceDescarga.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
-    enlaceDescarga.target = "_blank";
-    enlaceDescarga.download = "resumen_detallado_bybus.csv";
-    enlaceDescarga.click();
-    console.log(newArray);
+    // return;
   };
   useEffect(() => {
     fetchAgencySubs();
@@ -330,14 +484,14 @@ const Dashboard = () => {
               icon={`bx bx-store`}
             />
             <Card
-              title={`Descargar mi resumen simple`}
+              title={`Descargar resumen simple`}
               onHandle={resumenSimple}
-              icon={`bx bx-store`}
+              icon={`bx bxs-file-import`}
             />
             <Card
-              title={`Descargar mi resumen detallado`}
+              title={`Descargar resumen detallado`}
               onHandle={resumenDetallado}
-              icon={`bx bx-store`}
+              icon={`bx bxs-file-archive`}
             />
           </div>
           <div className={styles.users}>
