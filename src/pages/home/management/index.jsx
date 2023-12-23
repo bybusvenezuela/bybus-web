@@ -9,6 +9,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import TableAgenciesManagement from "@/components/TableAgenciesManagement";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts";
 
 const Management = () => {
   const [business, setBusiness] = useState("");
@@ -17,9 +19,24 @@ const Management = () => {
   const [dateInput, setDateInput] = useState(null);
   const [dateInputSearch, setDateInputSearch] = useState(null);
   const [filterTickets, setFilterTickets] = useState([]);
+  const [totalTicketsSell, setTotalTicketsSell] = useState([]);
+  const [totalTicketsReturned, setTotalTicketsReturned] = useState([]);
   const [data, setData] = useState(null);
   const [dataList, setDataList] = useState([]);
+  const [listDaysTravels, setListDaysTravels] = useState([]);
+  const [listMonthTravels, setListMonthTravels] = useState([]);
+  const [listYearTravels, setListYearTravels] = useState([]);
+  const [listDaysProfit, setListDaysProfit] = useState([]);
+  const [listMonthProfit, setListMonthProfit] = useState([]);
+  const [listYearProfit, setListYearProfit] = useState([]);
+  const [listDaysReturned, setListDaysReturned] = useState([]);
+  const [listMonthReturned, setListMonthReturned] = useState([]);
+  const [listYearReturned, setListYearReturned] = useState([]);
   const [total, setTotal] = useState(0);
+  const [totalAll, setTotalAll] = useState(0);
+  const [selectCharts, setSelectCharts] = useState(1);
+  const [selectModeCharts, setSelectModeCharts] = useState(1);
+  const [totalGanancias, setTotalGanancias] = useState(0);
   const [deuda, setDeuda] = useState(true);
 
   const formatearFecha = (fecha) => {
@@ -33,7 +50,7 @@ const Management = () => {
     return año + "-" + mes + "-" + dia;
   };
   const fetchSearch = async (businessId) => {
-    console.log('businessid', businessId)
+    console.log("businessid", businessId);
     setDescription("");
     setDeuda(true);
     setData(null);
@@ -41,6 +58,10 @@ const Management = () => {
     console.log("toy aqui cabron", filterTickets);
     let newFilterTickets = [];
     let newTotal = 0;
+    let totalTickets = [];
+    let ticketsReturned = [];
+    let totalProfit = 0;
+    let totalTodo = 0;
     try {
       if (business || businessId) {
         const result = await API.graphql({
@@ -69,7 +90,20 @@ const Management = () => {
             if (ticket.status === "BOARDED" && fechaFormateada === dateInput) {
               newFilterTickets.push({ ticket: ticket, booking: booking });
               newTotal += booking.price;
-              setDateInputSearch(fechaFormateada)
+              setDateInputSearch(fechaFormateada);
+            }
+            if (ticket.status === "RETURNED" && fechaFormateada === dateInput) {
+              ticketsReturned.push({ ticket: ticket, booking: booking });
+              setDateInputSearch(fechaFormateada);
+            }
+            if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
+              totalTickets.push({ ticket: ticket, booking: booking });
+              totalTodo += booking.price;
+              setDateInputSearch(fechaFormateada);
+            }
+            if (ticket.status === "PAID" && fechaFormateada === dateInput) {
+              totalProfit += booking.price;
+              setDateInputSearch(fechaFormateada);
             }
           });
         });
@@ -84,10 +118,287 @@ const Management = () => {
         let filter = result.data.listAgencies.items.filter(
           (item, index) => item.status === "ACTIVO"
         );
+        let array30Dias = [];
+        let arrayMensual = [];
+        let arrayAnual = [];
+
+        let hoy = new Date();
+        let hace30Dias = new Date();
+        hace30Dias.setDate(hoy.getDate() - 30);
+        let hace10Anos = new Date();
+        hace10Anos.setFullYear(hoy.getFullYear() - 10);
+        let nombresMeses = [
+          "ene",
+          "feb",
+          "mar",
+          "abr",
+          "may",
+          "jun",
+          "jul",
+          "ago",
+          "sep",
+          "oct",
+          "nov",
+          "dic",
+        ];
+        for (let i = 0; i < 30; i++) {
+          let dia = new Date();
+          dia.setDate(hoy.getDate() - i);
+          let fecha = dia.toISOString().split("T")[0].substring(5); // Solo guarda el mes y el día
+          array30Dias.push({ fecha: fecha, cantidad: 0 });
+        }
+
+        for (let i = 0; i < 12; i++) {
+          let mes = new Date();
+          mes.setMonth(i);
+          arrayMensual.push({ mes: nombresMeses[mes.getMonth()], cantidad: 0 });
+        }
+
+        for (let i = 0; i < 10; i++) {
+          let ano = new Date();
+          ano.setFullYear(hoy.getFullYear() - i);
+          arrayAnual.push({ ano: ano.getFullYear(), cantidad: 0 });
+        }
+
+        filter.forEach((objeto) => {
+          if (Array.isArray(objeto.bookings.items)) {
+            objeto.bookings.items.forEach((booking) => {
+              let fechaDeparture = new Date(booking.departure.date);
+
+              if (fechaDeparture >= hace30Dias && fechaDeparture <= hoy) {
+                let diasPasados = Math.floor(
+                  (hoy - fechaDeparture) / (1000 * 60 * 60 * 24)
+                );
+                array30Dias[diasPasados].cantidad++;
+              }
+
+              if (
+                fechaDeparture.getFullYear() === hoy.getFullYear() &&
+                fechaDeparture.getMonth() === hoy.getMonth() &&
+                fechaDeparture <= hoy
+              ) {
+                arrayMensual[fechaDeparture.getMonth()].cantidad++;
+              }
+
+              if (
+                fechaDeparture.getFullYear() >= hace10Anos.getFullYear() &&
+                fechaDeparture <= hoy
+              ) {
+                arrayAnual[hoy.getFullYear() - fechaDeparture.getFullYear()]
+                  .cantidad++;
+              }
+            });
+          }
+        });
         console.log(filter);
+
+        /* GRAFICAS GANANCIAS */
+        let filterBookings = filter.map((item, index) =>
+          item.bookings.items.filter(
+            (item, index) => item.status !== "CANCELLED"
+          )
+        );
+        filterBookings = filterBookings.filter((item) => item.length > 0);
+        filterBookings = filterBookings.flat();
+
+        let array30DiasP = [];
+        let arrayMensualP = [];
+        let arrayAnualP = [];
+
+        let hoyP = new Date();
+        let hace30DiasP = new Date();
+        hace30DiasP.setDate(hoyP.getDate() - 30);
+        let hace10AnosP = new Date();
+        hace10AnosP.setFullYear(hoyP.getFullYear() - 10);
+
+        console.log(hoyP);
+        console.log(hace30DiasP);
+        console.log(hace10AnosP);
+        for (let i = 0; i < 30; i++) {
+          let diaP = new Date();
+          diaP.setDate(hoyP.getDate() - i);
+          let fechaP = diaP.toISOString().split("T")[0].substring(5); // Solo guarda el mes y el día
+          array30DiasP.push({ fecha: fechaP, cantidad: 0, total: 0 });
+        }
+
+        for (let i = 0; i < 12; i++) {
+          let mesP = new Date();
+          mesP.setMonth(i);
+          arrayMensualP.push({
+            mes: nombresMeses[mesP.getMonth()],
+            cantidad: 0,
+            total: 0,
+          });
+        }
+
+        for (let i = 0; i < 10; i++) {
+          let anoP = new Date();
+          anoP.setFullYear(hoyP.getFullYear() - i);
+          arrayAnualP.push({ ano: anoP.getFullYear(), cantidad: 0, total: 0 });
+        }
+
+        filterBookings.forEach((booking) => {
+          if (booking.tickets.items) {
+            let ticketsPagados = booking.tickets.items.filter(
+              (ticket) =>
+                ticket.status === "PAID" && ticket.description !== "TAQUILLA"
+            );
+            let ticketsBoarded = booking.tickets.items.filter(
+              (ticket) =>
+                ticket.status === "BOARDED" && ticket.description !== "TAQUILLA"
+            );
+            ticketsPagados.concat(ticketsBoarded).forEach((ticket) => {
+              let fechaUpdatedAt = new Date(ticket.updatedAt);
+              fechaUpdatedAt.setDate(fechaUpdatedAt.getDate() - 1);
+              let fecha = fechaUpdatedAt.toISOString().split("T")[0];
+              console.log(fecha);
+              let totalPagados = 0;
+              let totalBoarded = 0;
+
+              if (
+                ticket.status === "PAID" &&
+                fecha >= hace30DiasP.toISOString().split("T")[0] &&
+                fecha <= hoyP.toISOString().split("T")[0]
+              ) {
+                totalPagados = (totalPagados + booking.price).toFixed(1);
+              }
+
+              if (
+                ticket.status === "BOARDED" &&
+                fecha >= hace30DiasP.toISOString().split("T")[0] &&
+                fecha <= hoyP.toISOString().split("T")[0]
+              ) {
+                totalBoarded = (
+                  totalBoarded +
+                  booking.price * (booking.percentage / 100)
+                ).toFixed(1);
+              }
+
+              let total = parseFloat(totalPagados) + parseFloat(totalBoarded);
+
+              if (
+                fecha >= hace30DiasP.toISOString().split("T")[0] &&
+                fecha <= hoyP.toISOString().split("T")[0]
+              ) {
+                let diasPasados = Math.floor(
+                  (hoyP - fechaUpdatedAt) / (1000 * 60 * 60 * 24)
+                );
+                array30DiasP[diasPasados].cantidad += 1;
+                array30DiasP[diasPasados].total += total;
+              }
+
+              if (
+                fecha.split("-")[0] === hoyP.getFullYear().toString() &&
+                fecha.split("-")[1] ===
+                  (hoyP.getMonth() + 1).toString().padStart(2, "0") &&
+                fecha <= hoyP.toISOString().split("T")[0]
+              ) {
+                arrayMensualP[hoyP.getMonth()].cantidad += 1;
+                arrayMensualP[hoyP.getMonth()].total += total;
+              }
+
+              if (
+                fecha.split("-")[0] >= hace10AnosP.getFullYear().toString() &&
+                fecha <= hoyP.toISOString().split("T")[0]
+              ) {
+                arrayAnualP[
+                  hoyP.getFullYear() - parseInt(fecha.split("-")[0])
+                ].cantidad += 1;
+                arrayAnualP[
+                  hoyP.getFullYear() - parseInt(fecha.split("-")[0])
+                ].total += total;
+              }
+            });
+          }
+        });
+
+        /* GRAFICA DE TICKETS DEVUELTOS */
+
+        let array30DiasR = [];
+        let arrayMensualR = [];
+        let arrayAnualR = [];
+
+        let hoyR = new Date();
+        let hace30DiasR = new Date();
+        hace30DiasR.setDate(hoyR.getDate() - 30);
+        let hace10AnosR = new Date();
+        hace10AnosR.setFullYear(hoyR.getFullYear() - 10);
+        for (let i = 0; i < 30; i++) {
+          let diaR = new Date();
+          diaR.setDate(hoyR.getDate() - i);
+          let fechaR = diaR.toISOString().split("T")[0].substring(5); // Solo guarda el mes y el día
+          array30DiasR.push({ fecha: fechaR, cantidad: 0 });
+        }
+
+        for (let i = 0; i < 12; i++) {
+          let mesR = new Date();
+          mesR.setMonth(i);
+          arrayMensualR.push({
+            mes: nombresMeses[mesR.getMonth()],
+            cantidad: 0,
+          });
+        }
+
+        for (let i = 0; i < 10; i++) {
+          let anoR = new Date();
+          anoR.setFullYear(hoyR.getFullYear() - i);
+          arrayAnualR.push({ ano: anoR.getFullYear(), cantidad: 0 });
+        }
+
+        filterBookings.forEach((booking) => {
+          if (booking.tickets.items) {
+            let ticketsReturned = booking.tickets.items.filter(
+              (ticket) => ticket.status === "RETURNED"
+            );
+
+            ticketsReturned.forEach((ticket) => {
+              let fechaUpdatedAt = new Date(ticket.updatedAt);
+
+              if (fechaUpdatedAt >= hace30DiasR && fechaUpdatedAt <= hoyR) {
+                let diasPasados = Math.floor(
+                  (hoy - fechaUpdatedAt) / (1000 * 60 * 60 * 24)
+                );
+                array30DiasR[diasPasados].cantidad += 1;
+              }
+
+              if (
+                fechaUpdatedAt.getFullYear() === hoyR.getFullYear() &&
+                fechaUpdatedAt.getMonth() === hoyR.getMonth() &&
+                fechaUpdatedAt <= hoyR
+              ) {
+                arrayMensualR[fechaUpdatedAt.getMonth()].cantidad += 1;
+              }
+
+              if (
+                fechaUpdatedAt.getFullYear() >= hace10AnosR.getFullYear() &&
+                fechaUpdatedAt <= hoyR
+              ) {
+                arrayAnualR[
+                  hoyR.getFullYear() - fechaUpdatedAt.getFullYear()
+                ].cantidad += 1;
+              }
+            });
+          }
+        });
+        console.log(array30DiasR);
+        console.log(arrayMensualR);
+        console.log(arrayAnualR);
+        setListDaysProfit(array30DiasP);
+        setListMonthProfit(arrayMensualP);
+        setListYearProfit(arrayAnualP);
+        setListDaysTravels(array30Dias);
+        setListMonthTravels(arrayMensual);
+        setListYearTravels(arrayAnual);
+        setListDaysReturned(array30DiasR);
+        setListMonthReturned(arrayMensualR);
+        setListYearReturned(arrayAnualR);
         setDataList(filter);
       }
       setFilterTickets(newFilterTickets);
+      setTotalTicketsReturned(ticketsReturned);
+      setTotalTicketsSell(totalTickets);
+      setTotalAll(totalTodo);
+      setTotalGanancias(totalProfit);
       setTotal(newTotal);
     } catch (error) {
       console.error(error);
@@ -208,10 +519,32 @@ const Management = () => {
     console.log(newArray);
   };
 
+  const chartSetting = {
+    yAxis: [
+      {
+        label:
+          selectCharts === 1
+            ? "Ganancias ($)"
+            : selectCharts === 2
+            ? "Viajes creados"
+            : "Tickets devueltos",
+      },
+    ],
+    width: 900,
+    height: 500,
+    sx: {
+      [`.${axisClasses.left} .${axisClasses.label}`]: {
+        transform: "translate(-10px, 0)",
+      },
+    },
+  };
+
+  const valueFormatter = (value) => `${value}`;
+
   useEffect(() => {
     let hoy = formatearFecha(new Date());
     setDateInput(hoy);
-    console.log(data)
+    console.log(data);
   }, []);
 
   if (dateInput)
@@ -284,13 +617,34 @@ const Management = () => {
                       <div>
                         <p>
                           {" "}
-                          <span>Total tickets abordados:</span>{" "}
-                          {filterTickets.length}
+                          <span>Tickets vendidos:</span>{" "}
+                          {totalTicketsSell.length}
+                        </p>
+                        <p>
+                          {" "}
+                          <span>Tickets devueltos:</span>{" "}
+                          {totalTicketsReturned.length}
+                        </p>
+                        <p>
+                          {" "}
+                          <span>Tickets abordados:</span> {filterTickets.length}
                         </p>
                         <p>
                           {" "}
                           {console.log(filterTickets)}
-                          <span>Total ha pagar:</span> {total - (total/data.percentage)}$
+                          <span>Deuda ha pagar:</span>{" "}
+                          {total - total / data.percentage}$
+                        </p>
+                        <p>
+                          {" "}
+                          {console.log(filterTickets)}
+                          <span>Ganancias:</span>{" "}
+                          {totalGanancias + total / data.percentage}$
+                        </p>
+                        <p>
+                          {" "}
+                          {console.log(filterTickets)}
+                          <span>Ingresos totales:</span> {totalAll}$
                         </p>
                       </div>
                     </div>
@@ -373,12 +727,251 @@ const Management = () => {
               </div>
             )}
             {dataList.length !== 0 && (
-              <TableAgenciesManagement
-                rows={dataList}
-                businessID={(e) => setBusiness(e)}
-                search={(e) => fetchSearch(e)}
-                cleanList={() => setDataList([])}
-              />
+              <div
+                style={{
+                  flexDirection: "column",
+                }}
+              >
+                <TableAgenciesManagement
+                  rows={dataList}
+                  businessID={(e) => setBusiness(e)}
+                  search={(e) => fetchSearch(e)}
+                  cleanList={() => setDataList([])}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 10,
+                    marginTop: 20,
+                  }}
+                >
+                  <button
+                    onClick={() => setSelectModeCharts(1)}
+                    style={{
+                      width: 100,
+                      height: 35,
+                      padding: 10,
+                      outline: "none",
+                      // border: 'none',
+                      borderRadius: 5,
+                      fontSize: 12,
+                      color: "#333",
+                      fontWeight: 500,
+                      fontFamily: "Montserrat",
+                      backgroundColor:
+                        selectModeCharts === 1 ? "#84b6f4" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    30 días
+                  </button>
+                  <button
+                    onClick={() => setSelectModeCharts(2)}
+                    style={{
+                      width: 100,
+                      height: 35,
+                      padding: 10,
+                      outline: "none",
+                      // border: 'none',
+                      borderRadius: 5,
+                      fontSize: 12,
+                      color: "#333",
+                      fontWeight: 600,
+                      fontFamily: "Montserrat",
+                      backgroundColor:
+                        selectModeCharts === 2 ? "#84b6f4" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    Mensual
+                  </button>
+                  <button
+                    onClick={() => setSelectModeCharts(3)}
+                    style={{
+                      width: 100,
+                      height: 35,
+                      padding: 10,
+                      outline: "none",
+                      // border: 'none',
+                      borderRadius: 5,
+                      fontSize: 12,
+                      color: "#333",
+                      fontWeight: 600,
+                      fontFamily: "Montserrat",
+                      backgroundColor:
+                        selectModeCharts === 3 ? "#84b6f4" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    Anual
+                  </button>
+                </div>
+                {selectCharts === 1 && (
+                  <BarChart
+                    dataset={
+                      selectModeCharts === 1
+                        ? listDaysProfit
+                        : selectModeCharts === 2
+                        ? listMonthProfit
+                        : listYearProfit
+                    }
+                    xAxis={[
+                      {
+                        scaleType: "band",
+                        dataKey:
+                          selectModeCharts === 1
+                            ? "fecha"
+                            : selectModeCharts === 2
+                            ? "mes"
+                            : "ano",
+                      },
+                    ]}
+                    series={[
+                      {
+                        dataKey: "cantidad",
+                        label: "Tickets totales",
+                        valueFormatter,
+                      },
+                      {
+                        dataKey: "total",
+                        label: "Ganancias ($)",
+                        valueFormatter,
+                      },
+                    ]}
+                    {...chartSetting}
+                  />
+                )}
+                {selectCharts === 2 && (
+                  <BarChart
+                    dataset={
+                      selectModeCharts === 1
+                        ? listDaysTravels
+                        : selectModeCharts === 2
+                        ? listMonthTravels
+                        : listYearTravels
+                    }
+                    xAxis={[
+                      {
+                        scaleType: "band",
+                        dataKey:
+                          selectModeCharts === 1
+                            ? "fecha"
+                            : selectModeCharts === 2
+                            ? "mes"
+                            : "ano",
+                      },
+                    ]}
+                    series={[
+                      {
+                        dataKey: "cantidad",
+                        label: "Viajes totales",
+                        valueFormatter,
+                      },
+                    ]}
+                    {...chartSetting}
+                  />
+                )}
+                {selectCharts === 3 && (
+                  <BarChart
+                    dataset={
+                      selectModeCharts === 1
+                        ? listDaysReturned
+                        : selectModeCharts === 2
+                        ? listMonthReturned
+                        : listYearReturned
+                    }
+                    xAxis={[
+                      {
+                        scaleType: "band",
+                        dataKey:
+                          selectModeCharts === 1
+                            ? "fecha"
+                            : selectModeCharts === 2
+                            ? "mes"
+                            : "ano",
+                      },
+                    ]}
+                    series={[
+                      {
+                        dataKey: "cantidad",
+                        label: "Devoluciones",
+                        valueFormatter,
+                      },
+                    ]}
+                    {...chartSetting}
+                  />
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  <button
+                    onClick={() => setSelectCharts(1)}
+                    style={{
+                      width: 120,
+                      height: 50,
+                      padding: 10,
+                      outline: "none",
+                      // border: 'none',
+                      borderRadius: 5,
+                      fontSize: 14,
+                      color: "#333",
+                      fontWeight: 600,
+                      fontFamily: "Montserrat",
+                      backgroundColor: selectCharts === 1 ? "#77dd77" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    Ganancias
+                  </button>
+                  <button
+                    onClick={() => setSelectCharts(2)}
+                    style={{
+                      width: 120,
+                      height: 50,
+                      padding: 10,
+                      outline: "none",
+                      borderRadius: 5,
+                      fontSize: 14,
+                      color: "#333",
+                      fontWeight: 600,
+                      fontFamily: "Montserrat",
+                      backgroundColor: selectCharts === 2 ? "#fdfd96" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    Viajes
+                  </button>
+                  <button
+                    onClick={() => setSelectCharts(3)}
+                    style={{
+                      width: 120,
+                      height: 50,
+                      padding: 10,
+                      outline: "none",
+                      borderRadius: 5,
+                      fontSize: 14,
+                      color: "#333",
+                      fontWeight: 600,
+                      fontFamily: "Montserrat",
+                      backgroundColor: selectCharts === 3 ? "#84b6f4" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#1f1f1f",
+                    }}
+                  >
+                    Devoluciones
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>

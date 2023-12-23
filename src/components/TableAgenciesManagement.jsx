@@ -91,7 +91,7 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
       >
         Todas las empresas
       </p>
-      <Box sx={{ height: 700, width: 900 }}>
+      <Box sx={{ height: 500, width: 900 }}>
         <DataGrid
           rows={rows}
           columns={columns}
