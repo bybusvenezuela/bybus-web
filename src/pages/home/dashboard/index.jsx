@@ -164,16 +164,16 @@ const Dashboard = () => {
     let allOfficies = [];
     let allHistory = [];
 
-    listAgencies.forEach((agency) => {
-      agency.bookings.items.forEach((booking) => {
-        let orders = listOrders.filter(
-          (order) => order.bookingID === booking.id
-        );
-        orders.forEach((order) => {
-          allOrders.push({ agency: agency, booking: booking, order: order });
-        });
-      });
-    });
+    // listAgencies.forEach((agency) => {
+    //   agency.bookings.items.forEach((booking) => {
+    //     let orders = listOrders.filter(
+    //       (order) => order.bookingID === booking.id
+    //     );
+    //     orders.forEach((order) => {
+    //       allOrders.push({ agency: agency, booking: booking, order: order });
+    //     });
+    //   });
+    // });
 
     listAgencies.forEach((agency) => {
       agency.bookings.items.forEach((booking) => {
@@ -441,20 +441,20 @@ const Dashboard = () => {
       zip.file(
         `resumen_${
           i === 0
-            ? "agencies"
+            ? "empresas"
             : i === 1
-            ? "officies"
+            ? "oficinas"
             : i === 2
-            ? "employees"
+            ? "empelados"
             : i === 3
-            ? "booking"
+            ? "viajes"
             : i === 4
             ? "tickets"
             : i === 5
-            ? "customers"
+            ? "clientes"
             : i === 6
-            ? "history"
-            : "orders"
+            ? "historial"
+            : "ordenes"
         }.csv`,
         csv
       );

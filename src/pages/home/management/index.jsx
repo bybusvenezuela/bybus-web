@@ -629,12 +629,7 @@ const Management = () => {
                           {" "}
                           <span>Tickets abordados:</span> {filterTickets.length}
                         </p>
-                        <p>
-                          {" "}
-                          {console.log(filterTickets)}
-                          <span>Deuda ha pagar:</span>{" "}
-                          {total - total / data.percentage}$
-                        </p>
+
                         <p>
                           {" "}
                           {console.log(filterTickets)}
@@ -645,6 +640,24 @@ const Management = () => {
                           {" "}
                           {console.log(filterTickets)}
                           <span>Ingresos totales:</span> {totalAll}$
+                        </p>
+                        <p
+                          style={{
+                            color: "#000",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {" "}
+                          {console.log(filterTickets)}
+                          <span
+                            style={{
+                              color: "#000",
+                              fontWeight: 700,
+                            }}
+                          >
+                            Deuda ha pagar:
+                          </span>{" "}
+                          {total - total / data.percentage}$
                         </p>
                       </div>
                     </div>
