@@ -35,6 +35,7 @@ const Dashboard = () => {
   const [agenciesList, setAgenciesList] = useState([]);
   const [agencyOrders, setAgencyOrders] = useState([]);
   const [listCSV, setListCSV] = useState(null);
+  const [listCSVExtended, setListCSVExtended] = useState(null);
   const [agency, setAgency] = useState(null);
   const [travel, setTravel] = useState(null);
   const [open, setOpen] = useState(false);
@@ -154,34 +155,131 @@ const Dashboard = () => {
   const resumenDetallado = () => {
     let listAgencies = listCSV?.listAgencies;
     let listOrders = listCSV?.listOrdersDetails;
-    
-    listAgencies = listAgencies.map((agency) => {
-      agency.bookings.items = agency.bookings.items.map((booking) => {
-        agency.orders = listOrders.filter(
+
+    let allTickets = [];
+    let allCustomers = [];
+    let allBookings = [];
+    let allOrders = [];
+    let allEmployees = [];
+    let allOfficies = [];
+    let allHistory = [];
+
+    listAgencies.forEach((agency) => {
+      agency.bookings.items.forEach((booking) => {
+        let orders = listOrders.filter(
           (order) => order.bookingID === booking.id
         );
-        return booking;
+        orders.forEach((order) => {
+          allOrders.push({ agency: agency, booking: booking, order: order });
+        });
       });
-      return agency;
     });
 
-    listAgencies = listAgencies.map(agency => {
-      agency.bookings.items.forEach(booking => {
-          ['tickets', 'orders', 'customers'].forEach(field => {
-              if (!agency[field]) {
-                  agency[field] = [];
-              }
-              booking[field].forEach(item => {
-                  if (!agency[field].find(existingItem => existingItem.id === item.id)) {
-                      agency[field].push(item);
-                  }
-              });
-          });
+    listAgencies.forEach((agency) => {
+      agency.bookings.items.forEach((booking) => {
+        if (Array.isArray(booking.tickets.items)) {
+          booking.tickets.items.map((item) =>
+            allTickets.push({ booking: booking, agency: agency, ticket: item })
+          );
+        }
+        if (Array.isArray(booking.customers.items)) {
+          booking.customers.items.map((item) =>
+            allCustomers.push({
+              booking: booking,
+              agency: agency,
+              customer: item,
+            })
+          );
+        }
+        allBookings.push(booking);
       });
-      return agency;
-  });
-    console.log("nuevo nuevo list", listAgencies);
-return
+      if (Array.isArray(agency.employees.items)) {
+        agency.employees.items.map((item) =>
+          allEmployees.push({ agency: agency, employee: item })
+        );
+      }
+      if (Array.isArray(agency.officies.items)) {
+        agency.officies.items.map((item) =>
+          allOfficies.push({ agency: agency, office: item })
+        );
+      }
+      if (Array.isArray(agency.history.items)) {
+        agency.history.items.map((item) =>
+          allHistory.push({ agency: agency, history: item })
+        );
+      }
+    });
+
+    console.log("nuevo nuevo list", {
+      listAgencies: listAgencies,
+      listOfficies: allOfficies,
+      listEmployees: allEmployees,
+      listBookings: allBookings,
+      listTickets: allTickets,
+      listCustomers: allCustomers,
+      listHistory: allHistory,
+      listOrders: allOrders,
+    });
+
+    const JSZip = require("jszip");
+    const saveAs = require("file-saver");
+
+    let arrays = [
+      listAgencies,
+      allOfficies,
+      allEmployees,
+      allBookings,
+      allTickets,
+      allCustomers,
+      allHistory,
+      allOrders,
+    ];
+
+    let zip = new JSZip();
+
+    arrays.forEach((arr, i) => {
+      let csv = arr
+        .map((row) => {
+          // Si row es un objeto, convertirlo en un array
+          if (typeof row === "object" && row !== null) {
+            return Object.values(row).join(",");
+          }
+          // Si row es un array, usarlo tal cual
+          else if (Array.isArray(row)) {
+            return row.join(",");
+          }
+          // Si row no es un objeto ni un array, convertirlo en un string
+          else {
+            return String(row);
+          }
+        })
+        .join("\n");
+      zip.file(
+        `resumen_${
+          i === 0
+            ? "agencies"
+            : i === 1
+            ? "officies"
+            : i === 2
+            ? "employees"
+            : i === 3
+            ? "booking"
+            : i === 4
+            ? "tickets"
+            : i === 5
+            ? "customers"
+            : i === 6
+            ? "history"
+            : "orders"
+        }.csv`,
+        csv
+      );
+    });
+
+    zip.generateAsync({ type: "blob" }).then((blob) => {
+      saveAs.saveAs(blob, "resumen_detallado.zip");
+    });
+    return;
     let newArray = listAgencies.map((item, index) => {
       return {
         ID_Empresa: item.id,
