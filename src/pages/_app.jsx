@@ -5,13 +5,13 @@ import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MenuProvider } from "@/context/MenuContext";
 import { UserProvider } from "@/context/UserContext";
-import { RecoilEnv, RecoilRoot } from "recoil";
+// import { RecoilEnv, RecoilRoot } from "recoil";
 // amplify
 import { Amplify, Hub } from "aws-amplify";
 import awsExports from "@/aws-exports";
 // hooks
 import { useUserManagement } from "@/hooks";
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+// RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const theme = createTheme({
   palette: {
     primary: {
