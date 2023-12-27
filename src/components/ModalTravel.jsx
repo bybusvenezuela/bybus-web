@@ -35,6 +35,7 @@ export default function ModalTravel({ open, close, offices }) {
   const [driver, setDriver] = useState("");
   const [price, setPrice] = useState("");
   const [checked, setChecked] = useState(true);
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [min, setMin] = useState(null);
@@ -94,6 +95,7 @@ export default function ModalTravel({ open, close, offices }) {
     setQuantity("");
     setSelectWeek([]);
     setChecked(true);
+    setBtnDisabled(false)
     close();
   };
   const handleChange = (event) => {
@@ -113,6 +115,7 @@ export default function ModalTravel({ open, close, offices }) {
     },
   };
   const onCreateTravel = async () => {
+    setBtnDisabled(true)
     let timeD =
       timeDeparture.mode === "PM"
         ? Number(timeDeparture.hour) +
@@ -165,8 +168,8 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: { input: JSON.stringify(params) },
     });
-
-    close()
+    console.log(ejele)
+    resetModal()
   };
 
   useEffect(() => {

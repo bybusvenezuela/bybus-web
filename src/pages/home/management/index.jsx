@@ -88,11 +88,12 @@ const Management = () => {
               filter: {
                 agencyID: { eq: router.id },
                 id: {
-                  eq: businessId ? businessId : business,
+                  eq: business,
                 },
               },
             },
           });
+          console.log("AQUI FUNCIUONA", resultOwner);
           result = resultOwner;
         }
         if (router.type === "employee") {
@@ -107,12 +108,12 @@ const Management = () => {
           result = resultEmployee;
         }
 
-        // setData(result.data.listOffices.items[0]);
-        result.data.listOffices.items[0].history.items.map((item, index) => {
-          let coincidencia = item.reason.match(/\[(.*?)\]/);
-          let fecha = coincidencia ? coincidencia[1] : null;
-          if (fecha === dateInput) setDeuda(false);
-        });
+        setData(result.data.listOffices.items[0]);
+        // result.data.listOffices.items[0].history.items.map((item, index) => {
+        //   let coincidencia = item.reason.match(/\[(.*?)\]/);
+        //   let fecha = coincidencia ? coincidencia[1] : null;
+        //   if (fecha === dateInput) setDeuda(false);
+        // });
         let filterBookings =
           result.data.listOffices.items[0].bookings.items.filter(
             (item, index) => item.status !== "DISABLED"
@@ -151,12 +152,11 @@ const Management = () => {
             variables: {
               filter: {
                 agencyID: { eq: router.id },
-                id: {
-                  eq: businessId ? businessId : business,
-                },
               },
             },
           });
+          console.log("toy owner", resultOwner);
+          console.log("toy owner", router);
           result = resultOwner;
         }
         if (router.type === "employee") {
@@ -817,7 +817,7 @@ const Management = () => {
                   flexDirection: "column",
                 }}
               >
-                {router.type === "onwer" && (
+                {router.type === "owner" && (
                   <TableAgenciesManagement
                     rows={dataList}
                     businessID={(e) => setBusiness(e)}
