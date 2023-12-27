@@ -242,6 +242,28 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "updateAgencyCognito": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bybusgraphql"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bybus"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -370,6 +392,22 @@
         {
           "category": "function",
           "resourceName": "sheduleBookingUpdate"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateAgencyCognito_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateAgencyCognito"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateAgencyCognito_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateAgencyCognito"
         }
       ]
     }

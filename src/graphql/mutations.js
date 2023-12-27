@@ -16,6 +16,20 @@ export const deleteAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -309,6 +323,20 @@ export const createAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -393,6 +421,20 @@ export const updateAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -458,6 +500,57 @@ export const updateAgency = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createAgencyHistory = /* GraphQL */ `
+  mutation CreateAgencyHistory(
+    $input: CreateAgencyHistoryInput!
+    $condition: ModelAgencyHistoryConditionInput
+  ) {
+    createAgencyHistory(input: $input, condition: $condition) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const updateAgencyHistory = /* GraphQL */ `
+  mutation UpdateAgencyHistory(
+    $input: UpdateAgencyHistoryInput!
+    $condition: ModelAgencyHistoryConditionInput
+  ) {
+    updateAgencyHistory(input: $input, condition: $condition) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteAgencyHistory = /* GraphQL */ `
+  mutation DeleteAgencyHistory(
+    $input: DeleteAgencyHistoryInput!
+    $condition: ModelAgencyHistoryConditionInput
+  ) {
+    deleteAgencyHistory(input: $input, condition: $condition) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
       __typename
     }
   }
@@ -773,6 +866,10 @@ export const createEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -850,6 +947,10 @@ export const updateEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -927,6 +1028,10 @@ export const deleteEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1337,6 +1442,10 @@ export const createBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1484,6 +1593,10 @@ export const updateBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1631,6 +1744,10 @@ export const deleteBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -2927,5 +3044,10 @@ export const checkScan = /* GraphQL */ `
 export const reprogram = /* GraphQL */ `
   mutation Reprogram($input: String) {
     reprogram(input: $input)
+  }
+`;
+export const updateAgencyCognito = /* GraphQL */ `
+  mutation UpdateAgencyCognito($input: updateAgencyCognitoInput) {
+    updateAgencyCognito(input: $input)
   }
 `;

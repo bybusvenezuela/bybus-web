@@ -115,6 +115,20 @@ export const onCreateAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -199,6 +213,20 @@ export const onUpdateAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -283,6 +311,20 @@ export const onDeleteAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -348,6 +390,57 @@ export const onDeleteAgency = /* GraphQL */ `
       owner
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateAgencyHistory = /* GraphQL */ `
+  subscription OnCreateAgencyHistory(
+    $filter: ModelSubscriptionAgencyHistoryFilterInput
+    $owner: String
+  ) {
+    onCreateAgencyHistory(filter: $filter, owner: $owner) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateAgencyHistory = /* GraphQL */ `
+  subscription OnUpdateAgencyHistory(
+    $filter: ModelSubscriptionAgencyHistoryFilterInput
+    $owner: String
+  ) {
+    onUpdateAgencyHistory(filter: $filter, owner: $owner) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteAgencyHistory = /* GraphQL */ `
+  subscription OnDeleteAgencyHistory(
+    $filter: ModelSubscriptionAgencyHistoryFilterInput
+    $owner: String
+  ) {
+    onDeleteAgencyHistory(filter: $filter, owner: $owner) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
       __typename
     }
   }
@@ -654,6 +747,10 @@ export const onCreateEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -731,6 +828,10 @@ export const onUpdateEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -808,6 +909,10 @@ export const onDeleteEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1218,6 +1323,10 @@ export const onCreateBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1365,6 +1474,10 @@ export const onUpdateBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1512,6 +1625,10 @@ export const onDeleteBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename

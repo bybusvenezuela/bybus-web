@@ -190,6 +190,20 @@ export const getAgency = /* GraphQL */ `
       phone
       percentage
       status
+      history {
+        items {
+          id
+          agencyID
+          reason
+          description
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
       officies {
         items {
           id
@@ -276,6 +290,10 @@ export const listAgencies = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -323,6 +341,10 @@ export const getAgencyByEmail = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -338,6 +360,72 @@ export const getAgencyByEmail = /* GraphQL */ `
         owner
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAgencyHistory = /* GraphQL */ `
+  query GetAgencyHistory($id: ID!) {
+    getAgencyHistory(id: $id) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listAgencyHistories = /* GraphQL */ `
+  query ListAgencyHistories(
+    $filter: ModelAgencyHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAgencyHistories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        agencyID
+        reason
+        description
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const agencyHistoriesByAgencyID = /* GraphQL */ `
+  query AgencyHistoriesByAgencyID(
+    $agencyID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAgencyHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    agencyHistoriesByAgencyID(
+      agencyID: $agencyID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        agencyID
+        reason
+        description
+        createdAt
+        updatedAt
+        owner
         __typename
       }
       nextToken
@@ -561,6 +649,10 @@ export const getEmployee = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename
@@ -1028,6 +1120,10 @@ export const getBooking = /* GraphQL */ `
         phone
         percentage
         status
+        history {
+          nextToken
+          __typename
+        }
         officies {
           nextToken
           __typename

@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
-import { API } from "aws-amplify";
-import { createAgency, registerAgencyAdmin, updateAgency } from "@/graphql/mutations";
+import { API, Auth } from "aws-amplify";
+import {
+  createAgency,
+  registerAgencyAdmin,
+  updateAgency,
+  updateAgencyCognito,
+} from "@/graphql/mutations";
 
 export default function ModalBlock({ open, close, data }) {
   const [isLoading, setIsLoading] = useState(false);
   const [motivo, setMotivo] = useState("");
   const [description, setDescription] = useState("");
-    console.log('aqui', data)
+  console.log("aqui", data);
   const reset = () => {
     setDescription("");
     setMotivo("");
@@ -18,16 +23,18 @@ export default function ModalBlock({ open, close, data }) {
   };
 
   const onHandleRegister = async () => {
+    const result = await Auth.currentAuthenticatedUser();
     const params = {
-        // motivo: motivo,
-        // description: description,
-        id: data.id,
-        status: data.status === 'ACTIVO' ? 'ACTIVO' : 'BLOQUEADO'
-      };
+      reason: motivo,
+      description: description,
+      agencyID: data.id,
+      status: data.status === "ACTIVO" ? "BLOQUEADO" : "ACTIVO",
+      username: result?.username,
+    };
     setIsLoading(true);
     try {
       const response = await API.graphql({
-        query: updateAgency,
+        query: updateAgencyCognito,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: params,
@@ -55,7 +62,11 @@ export default function ModalBlock({ open, close, data }) {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.title}>
-                <h2>{data.status === 'ACTIVO' ? 'Bloquear empresa': 'Habilitar empresa'}</h2>
+                <h2>
+                  {data.status === "ACTIVO"
+                    ? "Bloquear empresa"
+                    : "Habilitar empresa"}
+                </h2>
               </div>
               <div className={styles.inputs}>
                 <div className={styles.input}>
@@ -80,7 +91,6 @@ export default function ModalBlock({ open, close, data }) {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
-               
               </div>
             </div>
 

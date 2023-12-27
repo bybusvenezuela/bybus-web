@@ -5,6 +5,8 @@
  **************************************************************************/
 
 export { default as AgencyCreateForm } from "./AgencyCreateForm";
+export { default as AgencyHistoryCreateForm } from "./AgencyHistoryCreateForm";
+export { default as AgencyHistoryUpdateForm } from "./AgencyHistoryUpdateForm";
 export { default as AgencySubscriptionCreateForm } from "./AgencySubscriptionCreateForm";
 export { default as AgencySubscriptionUpdateForm } from "./AgencySubscriptionUpdateForm";
 export { default as AgencyUpdateForm } from "./AgencyUpdateForm";
