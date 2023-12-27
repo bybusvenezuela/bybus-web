@@ -15,6 +15,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import { Auth } from "aws-amplify";
 
 const Menu = () => {
@@ -109,25 +110,26 @@ const Menu = () => {
           </ListItemIcon>
           <ListItemText primary="Devoluciones" />
         </ListItemButton>
-        {/* <ListItemButton
+        <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+        <ListItemButton
           // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-          selected={selectedIndex === 2}
+          selected={selectedIndex === 3}
           onClick={(e) => {
             e.preventDefault();
-            router.push("/home/support");
-            updateIndex(2);
+            router.push("/home/pays");
+            updateIndex(3);
             console.log(selectedIndex);
           }}
         >
           <ListItemIcon>
-            <PaidRoundedIcon
+            <AccountBalanceRoundedIcon
               sx={{
-                color: selectedIndex === 2 ? "white" : "#1f1f1f",
+                color: selectedIndex === 3 ? "white" : "#1f1f1f",
               }}
             />
           </ListItemIcon>
-          <ListItemText primary="Gestion de pagos" />
-        </ListItemButton> */}
+          <ListItemText primary="Aceptar pagos" />
+        </ListItemButton>
         <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
         <ListItemButton
           sx={{ borderBottomLeftRadius: "7px", borderBottomRightRadius: "7px" }}
