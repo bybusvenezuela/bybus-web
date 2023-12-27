@@ -155,7 +155,7 @@ const TableOrders = ({ rows }) => {
     return (
       <Box sx={{ height: 500, width: 900 }}>
         <DataGrid
-          rows={listRows ? listRows : ''}
+          rows={rows ? rows : ''}
           columns={columns}
           initialState={{
             pagination: {
