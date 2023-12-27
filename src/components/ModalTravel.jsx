@@ -24,7 +24,7 @@ import * as mutations from "@/graphql/mutations";
 import * as employee from "@/graphql/custom/mutations/employee";
 import { createScheduleBooking } from "@/graphql/custom/mutations/employee";
 import { useUser } from "@/context/UserContext";
-import { addDays, parseISO } from "date-fns";
+import { addDays } from "date-fns";
 
 export default function ModalTravel({ open, close, offices }) {
   const { profileAuth, userAuth } = useUser();
