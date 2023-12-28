@@ -13,9 +13,8 @@ const Pays = () => {
       query: queries.listOrderDetails,
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    let filter = result.data.listOrderDetails.items.filter((item) => item.status === 'PENDING')
+    let filter = result.data.listOrderDetails.items.filter((item) => item.status === 'PENDIENTE')
     setData(filter)
-    console.log(filter);
   };
   useEffect(() => {
     fetchOrders();

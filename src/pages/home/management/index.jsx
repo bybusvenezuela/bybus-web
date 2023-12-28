@@ -87,6 +87,7 @@ const Management = () => {
         filterBookings.map((booking, index1) => {
           booking.tickets.items.map((ticket, index2) => {
             let fechaFormateada = formatearFecha(new Date(ticket?.updatedAt));
+            console.log(ticket?.updatedAt)
             if (ticket.status === "BOARDED" && fechaFormateada === dateInput) {
               newFilterTickets.push({ ticket: ticket, booking: booking });
               newTotal += booking.price;
