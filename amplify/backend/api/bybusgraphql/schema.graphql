@@ -1,3 +1,22 @@
+type TasaCambio
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: iam }
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["admin", "sp"] }
+    ]
+  ) {
+  id: ID!
+  price: Float!
+    @index(
+      name: "TasaCambiosByDate"
+      queryField: "TasaCambiosByDate"
+      sortKeyFields: ["createdAt"]
+    )
+  createdAt: String!
+}
+
 type EmailSusbcription
   @model
   @auth(
@@ -565,6 +584,10 @@ type Mutation {
   updateAgencyCognito(input: updateAgencyCognitoInput): String
     @function(name: "updateAgencyCognito-${env}")
     @auth(rules: [{ allow: groups, groups: ["admin", "sp"] }])
+}
+
+type Query {
+  getTodayTasaCambio: String @function(name: "getTodayTasaCambio-${env}")
 }
 
 input CheckScanInput {

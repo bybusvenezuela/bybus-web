@@ -1,6 +1,70 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getTodayTasaCambio = /* GraphQL */ `
+  query GetTodayTasaCambio {
+    getTodayTasaCambio
+  }
+`;
+export const getTasaCambio = /* GraphQL */ `
+  query GetTasaCambio($id: ID!) {
+    getTasaCambio(id: $id) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listTasaCambios = /* GraphQL */ `
+  query ListTasaCambios(
+    $filter: ModelTasaCambioFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTasaCambios(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const TasaCambiosByDate = /* GraphQL */ `
+  query TasaCambiosByDate(
+    $price: Float!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTasaCambioFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    TasaCambiosByDate(
+      price: $price
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getEmailSusbcription = /* GraphQL */ `
   query GetEmailSusbcription($id: ID!) {
     getEmailSusbcription(id: $id) {

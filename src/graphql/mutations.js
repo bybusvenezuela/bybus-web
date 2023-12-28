@@ -203,6 +203,48 @@ export const deleteTicket = /* GraphQL */ `
     }
   }
 `;
+export const createTasaCambio = /* GraphQL */ `
+  mutation CreateTasaCambio(
+    $input: CreateTasaCambioInput!
+    $condition: ModelTasaCambioConditionInput
+  ) {
+    createTasaCambio(input: $input, condition: $condition) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTasaCambio = /* GraphQL */ `
+  mutation UpdateTasaCambio(
+    $input: UpdateTasaCambioInput!
+    $condition: ModelTasaCambioConditionInput
+  ) {
+    updateTasaCambio(input: $input, condition: $condition) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTasaCambio = /* GraphQL */ `
+  mutation DeleteTasaCambio(
+    $input: DeleteTasaCambioInput!
+    $condition: ModelTasaCambioConditionInput
+  ) {
+    deleteTasaCambio(input: $input, condition: $condition) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createEmailSusbcription = /* GraphQL */ `
   mutation CreateEmailSusbcription(
     $input: CreateEmailSusbcriptionInput!

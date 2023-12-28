@@ -107,3 +107,19 @@ export const updateBooking = /* GraphQL */ `
     }
   }
 `;
+
+export const createAgencyHistory = /* GraphQL */ `
+  mutation CreateAgencyHistory(
+    $input: CreateAgencyHistoryInput!
+    $condition: ModelAgencyHistoryConditionInput
+  ) {
+    createAgencyHistory(input: $input, condition: $condition) {
+      id
+      agencyID
+      reason
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;

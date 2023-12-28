@@ -52,6 +52,14 @@
         "updateAgencyCognito": {
           "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
           "s3Key": "amplify-builds/updateAgencyCognito-762b377944543553724c-build.zip"
+        },
+        "tasaCambio": {
+          "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
+          "s3Key": "amplify-builds/tasaCambio-5564684a53752f41424e-build.zip"
+        },
+        "getTodayTasaCambio": {
+          "deploymentBucketName": "amplify-bybus-prod-234733-deployment",
+          "s3Key": "amplify-builds/getTodayTasaCambio-4f58386f446e3751796c-build.zip"
         }
       },
       "storage": {

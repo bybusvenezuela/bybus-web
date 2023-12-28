@@ -26,6 +26,8 @@ export { default as ScheduleBookingCreateForm } from "./ScheduleBookingCreateFor
 export { default as ScheduleBookingUpdateForm } from "./ScheduleBookingUpdateForm";
 export { default as StateCreateForm } from "./StateCreateForm";
 export { default as StateUpdateForm } from "./StateUpdateForm";
+export { default as TasaCambioCreateForm } from "./TasaCambioCreateForm";
+export { default as TasaCambioUpdateForm } from "./TasaCambioUpdateForm";
 export { default as TicketCreateForm } from "./TicketCreateForm";
 export { default as TicketUpdateForm } from "./TicketUpdateForm";
 export { default as TransportCreateForm } from "./TransportCreateForm";

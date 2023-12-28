@@ -1,6 +1,45 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateTasaCambio = /* GraphQL */ `
+  subscription OnCreateTasaCambio(
+    $filter: ModelSubscriptionTasaCambioFilterInput
+  ) {
+    onCreateTasaCambio(filter: $filter) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTasaCambio = /* GraphQL */ `
+  subscription OnUpdateTasaCambio(
+    $filter: ModelSubscriptionTasaCambioFilterInput
+  ) {
+    onUpdateTasaCambio(filter: $filter) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTasaCambio = /* GraphQL */ `
+  subscription OnDeleteTasaCambio(
+    $filter: ModelSubscriptionTasaCambioFilterInput
+  ) {
+    onDeleteTasaCambio(filter: $filter) {
+      id
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateEmailSusbcription = /* GraphQL */ `
   subscription OnCreateEmailSusbcription(
     $filter: ModelSubscriptionEmailSusbcriptionFilterInput
