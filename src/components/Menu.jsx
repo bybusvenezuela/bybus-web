@@ -15,13 +15,15 @@ import Link from "next/link";
 import { useMenu } from "@/context/MenuContext";
 import { Auth } from "aws-amplify";
 import { useUser } from "@/context/UserContext";
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
 
 const Menu = () => {
-  const { userAuth, profileAuth, setTokenProfile, setTokenUser, setClearAll } = useUser();
+  const { userAuth, profileAuth, setTokenProfile, setTokenUser, setClearAll } =
+    useUser();
   const { updateIndex, selectedIndex } = useMenu();
   const router = useRouter();
   const [openAgencies, setOpenAgencies] = useState(true);
@@ -34,9 +36,9 @@ const Menu = () => {
     setOpenUsers(!openUsers);
   };
   const LogoutAccount = async () => {
-    setClearAll()
-    Auth.signOut()
-  }
+    setClearAll();
+    Auth.signOut();
+  };
 
   return (
     userAuth && (
@@ -65,9 +67,11 @@ const Menu = () => {
             selected={selectedIndex === 0}
             onClick={(e) => {
               e.preventDefault;
-              router.push(
-                `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}`
-              );
+              if(profileAuth?.rol === 'owner') {
+                router.push(`/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}`)
+              } else {
+                router.push(`/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}&offficeID=${profileAuth?.officeID}`)
+              }
               updateIndex(0);
             }}
           >
@@ -83,20 +87,43 @@ const Menu = () => {
           <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
           <ListItemButton
             // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
-            selected={selectedIndex === 2}
+            selected={selectedIndex === 1}
             onClick={(e) => {
-              setTokenProfile(null);
-              router.push(
-                `/auth/profiles`
-              );
+              e.preventDefault();
+              if(profileAuth?.rol === 'owner') {
+                router.push(`/home/management?type=${profileAuth?.rol}&id=${profileAuth?.id}`)
+              } else {
+                router.push(`/home/management?type=${profileAuth?.rol}&id=${profileAuth?.id}&offficeID=${profileAuth?.officeID}`)
+              }
+              updateIndex(1);
+              console.log(selectedIndex);
             }}
           >
             <ListItemIcon>
-            <KeyboardBackspaceRoundedIcon
-            sx={{
-              color: "#1f1f1f",
+              <PaidRoundedIcon
+                sx={{
+                  color: selectedIndex === 1 ? "white" : "#1f1f1f",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Gestion de pagos" />
+          </ListItemButton>
+          <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.04)" }} />
+
+          <ListItemButton
+            // sx={{ borderTopLeftRadius: "7px", borderTopRightRadius: "7px" }}
+            selected={selectedIndex === 2}
+            onClick={(e) => {
+              setTokenProfile(null);
+              router.push(`/auth/profiles`);
             }}
-          />
+          >
+            <ListItemIcon>
+              <KeyboardBackspaceRoundedIcon
+                sx={{
+                  color: "#1f1f1f",
+                }}
+              />
             </ListItemIcon>
             <ListItemText primary={`Salir del perfil`} />
           </ListItemButton>
@@ -107,7 +134,7 @@ const Menu = () => {
             onClick={(e) => {
               // setTokenProfile(null);
               // setTokenUser(null);
-              LogoutAccount()
+              LogoutAccount();
               // Auth.signOut();
             }}
           >

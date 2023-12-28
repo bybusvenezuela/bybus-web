@@ -125,6 +125,7 @@ const Profiles = ({ error }) => {
   // para verificar la contraseña colocada
   const onHandlePress = async () => {
     const stringPin = pinModal.join("");
+    console.log('BUSCANDO EL OFFICE ID', profileAuth.data?.officeID)
     setIsLoading(true);
     try {
       switch (profileAuth.rol) {
@@ -168,13 +169,13 @@ const Profiles = ({ error }) => {
               },
             });
             router.push(
-              `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}`
+              `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}&offficeID=${profileAuth?.officeID}`
             );
           } else {
             const pin = profileAuth?.data?.pin;
             if (pin === stringPin) {
               router.push(
-                `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}`
+                `/home/dashboard?type=${profileAuth?.rol}&id=${profileAuth?.id}&offficeID=${profileAuth?.officeID}`
               );
             } else {
               alert("pin incorrecto");
@@ -294,6 +295,7 @@ const AccountEmployee = ({
 }) => {
   const params = {
     id: data.id,
+    officeID: data.officeID,
     rol: "employee",
     data: data,
   };

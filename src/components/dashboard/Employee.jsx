@@ -21,8 +21,11 @@ import {
   TextField,
 } from "@mui/material";
 import TableOrderDetails from "../TableOrderDetails";
+import { useRouter } from "next/router";
 
 const Dashboard = ({ dataResult, userType }) => {
+  const router = useRouter().query;
+  console.log("ROUTER", router);
   const [travels, setTravels] = useState(false);
   const [travel, setTravel] = useState("");
   const [transport, setTransport] = useState(false);
@@ -53,9 +56,14 @@ const Dashboard = ({ dataResult, userType }) => {
       query: queries.listBookings,
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
-        id: list?.data?.getEmployee?.agencyID,
+        filter: {
+          agencyID: {eq: list?.data?.getEmployee?.agencyID},
+          createdBy: {eq: router.id}
+        }
       },
     });
+    console.log(travels)
+    console.log(list?.data?.getEmployee?.agencyID)
     let array = travels?.data.listBookings.items.sort(
       (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
     );
