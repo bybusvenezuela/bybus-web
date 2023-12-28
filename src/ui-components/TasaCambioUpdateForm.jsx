@@ -9,13 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTransport } from "../graphql/queries";
-import { updateTransport } from "../graphql/mutations";
+import { getTasaCambio } from "../graphql/queries";
+import { updateTasaCambio } from "../graphql/mutations";
 const client = generateClient();
-export default function TransportUpdateForm(props) {
+export default function TasaCambioUpdateForm(props) {
   const {
     id: idProp,
-    transport: transportModelProp,
+    tasaCambio: tasaCambioModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -25,48 +25,40 @@ export default function TransportUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    model: "",
-    serial: "",
-    type: "",
-    createdBy: "",
+    price: "",
+    createdAt: "",
   };
-  const [model, setModel] = React.useState(initialValues.model);
-  const [serial, setSerial] = React.useState(initialValues.serial);
-  const [type, setType] = React.useState(initialValues.type);
-  const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
+  const [price, setPrice] = React.useState(initialValues.price);
+  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = transportRecord
-      ? { ...initialValues, ...transportRecord }
+    const cleanValues = tasaCambioRecord
+      ? { ...initialValues, ...tasaCambioRecord }
       : initialValues;
-    setModel(cleanValues.model);
-    setSerial(cleanValues.serial);
-    setType(cleanValues.type);
-    setCreatedBy(cleanValues.createdBy);
+    setPrice(cleanValues.price);
+    setCreatedAt(cleanValues.createdAt);
     setErrors({});
   };
-  const [transportRecord, setTransportRecord] =
-    React.useState(transportModelProp);
+  const [tasaCambioRecord, setTasaCambioRecord] =
+    React.useState(tasaCambioModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTransport.replaceAll("__typename", ""),
+              query: getTasaCambio.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTransport
-        : transportModelProp;
-      setTransportRecord(record);
+          )?.data?.getTasaCambio
+        : tasaCambioModelProp;
+      setTasaCambioRecord(record);
     };
     queryData();
-  }, [idProp, transportModelProp]);
-  React.useEffect(resetStateValues, [transportRecord]);
+  }, [idProp, tasaCambioModelProp]);
+  React.useEffect(resetStateValues, [tasaCambioRecord]);
   const validations = {
-    model: [],
-    serial: [],
-    type: [],
-    createdBy: [],
+    price: [{ type: "Required" }],
+    createdAt: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -94,10 +86,8 @@ export default function TransportUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          model: model ?? null,
-          serial: serial ?? null,
-          type: type ?? null,
-          createdBy: createdBy ?? null,
+          price,
+          createdAt,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -128,10 +118,10 @@ export default function TransportUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTransport.replaceAll("__typename", ""),
+            query: updateTasaCambio.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: transportRecord.id,
+                id: tasaCambioRecord.id,
                 ...modelFields,
               },
             },
@@ -146,116 +136,62 @@ export default function TransportUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TransportUpdateForm")}
+      {...getOverrideProps(overrides, "TasaCambioUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Model"
-        isRequired={false}
+        label="Price"
+        isRequired={true}
         isReadOnly={false}
-        value={model}
+        type="number"
+        step="any"
+        value={price}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              model: value,
-              serial,
-              type,
-              createdBy,
+              price: value,
+              createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.model ?? value;
+            value = result?.price ?? value;
           }
-          if (errors.model?.hasError) {
-            runValidationTasks("model", value);
+          if (errors.price?.hasError) {
+            runValidationTasks("price", value);
           }
-          setModel(value);
+          setPrice(value);
         }}
-        onBlur={() => runValidationTasks("model", model)}
-        errorMessage={errors.model?.errorMessage}
-        hasError={errors.model?.hasError}
-        {...getOverrideProps(overrides, "model")}
+        onBlur={() => runValidationTasks("price", price)}
+        errorMessage={errors.price?.errorMessage}
+        hasError={errors.price?.hasError}
+        {...getOverrideProps(overrides, "price")}
       ></TextField>
       <TextField
-        label="Serial"
-        isRequired={false}
+        label="Created at"
+        isRequired={true}
         isReadOnly={false}
-        value={serial}
+        value={createdAt}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              model,
-              serial: value,
-              type,
-              createdBy,
+              price,
+              createdAt: value,
             };
             const result = onChange(modelFields);
-            value = result?.serial ?? value;
+            value = result?.createdAt ?? value;
           }
-          if (errors.serial?.hasError) {
-            runValidationTasks("serial", value);
+          if (errors.createdAt?.hasError) {
+            runValidationTasks("createdAt", value);
           }
-          setSerial(value);
+          setCreatedAt(value);
         }}
-        onBlur={() => runValidationTasks("serial", serial)}
-        errorMessage={errors.serial?.errorMessage}
-        hasError={errors.serial?.hasError}
-        {...getOverrideProps(overrides, "serial")}
-      ></TextField>
-      <TextField
-        label="Type"
-        isRequired={false}
-        isReadOnly={false}
-        value={type}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              model,
-              serial,
-              type: value,
-              createdBy,
-            };
-            const result = onChange(modelFields);
-            value = result?.type ?? value;
-          }
-          if (errors.type?.hasError) {
-            runValidationTasks("type", value);
-          }
-          setType(value);
-        }}
-        onBlur={() => runValidationTasks("type", type)}
-        errorMessage={errors.type?.errorMessage}
-        hasError={errors.type?.hasError}
-        {...getOverrideProps(overrides, "type")}
-      ></TextField>
-      <TextField
-        label="Created by"
-        isRequired={false}
-        isReadOnly={false}
-        value={createdBy}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              model,
-              serial,
-              type,
-              createdBy: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdBy ?? value;
-          }
-          if (errors.createdBy?.hasError) {
-            runValidationTasks("createdBy", value);
-          }
-          setCreatedBy(value);
-        }}
-        onBlur={() => runValidationTasks("createdBy", createdBy)}
-        errorMessage={errors.createdBy?.errorMessage}
-        hasError={errors.createdBy?.hasError}
-        {...getOverrideProps(overrides, "createdBy")}
+        onBlur={() => runValidationTasks("createdAt", createdAt)}
+        errorMessage={errors.createdAt?.errorMessage}
+        hasError={errors.createdAt?.hasError}
+        {...getOverrideProps(overrides, "createdAt")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -268,7 +204,7 @@ export default function TransportUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || transportModelProp)}
+          isDisabled={!(idProp || tasaCambioModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -280,7 +216,7 @@ export default function TransportUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || transportModelProp) ||
+              !(idProp || tasaCambioModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

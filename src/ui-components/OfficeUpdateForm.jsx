@@ -13,10 +13,11 @@ import {
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Office } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
+import { getOffice } from "../graphql/queries";
+import { updateOffice } from "../graphql/mutations";
+const client = generateClient();
 export default function OfficeUpdateForm(props) {
   const {
     id: idProp,
@@ -66,7 +67,12 @@ export default function OfficeUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Office, idProp)
+        ? (
+            await client.graphql({
+              query: getOffice.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getOffice
         : officeModelProp;
       setOfficeRecord(record);
     };
@@ -109,14 +115,14 @@ export default function OfficeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          state,
-          city,
-          address,
-          email,
-          phone,
-          status,
-          owner,
+          name: name ?? null,
+          state: state ?? null,
+          city: city ?? null,
+          address: address ?? null,
+          email: email ?? null,
+          phone: phone ?? null,
+          status: status ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -142,21 +148,26 @@ export default function OfficeUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Office.copyOf(officeRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await client.graphql({
+            query: updateOffice.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                id: officeRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

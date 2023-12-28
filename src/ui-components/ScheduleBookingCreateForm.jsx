@@ -19,10 +19,10 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { ScheduleBooking } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
+import { createScheduleBooking } from "../graphql/mutations";
+const client = generateClient();
 function ArrayField({
   items = [],
   onChange,
@@ -35,6 +35,7 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  runValidationTasks,
   errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
@@ -58,6 +59,7 @@ function ArrayField({
     setSelectedBadgeIndex(undefined);
   };
   const addItem = async () => {
+    const { hasError } = runValidationTasks();
     if (
       currentFieldValue !== undefined &&
       currentFieldValue !== null &&
@@ -167,12 +169,7 @@ function ArrayField({
               }}
             ></Button>
           )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
+          <Button size="small" variation="link" onClick={addItem}>
             {selectedBadgeIndex !== undefined ? "Save" : "Add"}
           </Button>
         </Flex>
@@ -278,11 +275,18 @@ export default function ScheduleBookingCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(new ScheduleBooking(modelFields));
+          await client.graphql({
+            query: createScheduleBooking.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -291,7 +295,8 @@ export default function ScheduleBookingCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -316,6 +321,9 @@ export default function ScheduleBookingCreateForm(props) {
         label={"Freq"}
         items={freq}
         hasError={errors?.freq?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("freq", currentFreqValue)
+        }
         errorMessage={errors?.freq?.errorMessage}
         getBadgeText={getDisplayValue.freq}
         setFieldValue={setCurrentFreqValue}

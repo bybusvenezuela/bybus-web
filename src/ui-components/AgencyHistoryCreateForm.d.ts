@@ -21,25 +21,28 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type EmailSusbcriptionCreateFormInputValues = {
-    email?: string;
+export declare type AgencyHistoryCreateFormInputValues = {
+    reason?: string;
+    description?: string;
 };
-export declare type EmailSusbcriptionCreateFormValidationValues = {
-    email?: ValidationFunction<string>;
+export declare type AgencyHistoryCreateFormValidationValues = {
+    reason?: ValidationFunction<string>;
+    description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type EmailSusbcriptionCreateFormOverridesProps = {
-    EmailSusbcriptionCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    email?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type AgencyHistoryCreateFormOverridesProps = {
+    AgencyHistoryCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    reason?: PrimitiveOverrideProps<TextFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type EmailSusbcriptionCreateFormProps = React.PropsWithChildren<{
-    overrides?: EmailSusbcriptionCreateFormOverridesProps | undefined | null;
+export declare type AgencyHistoryCreateFormProps = React.PropsWithChildren<{
+    overrides?: AgencyHistoryCreateFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: EmailSusbcriptionCreateFormInputValues) => EmailSusbcriptionCreateFormInputValues;
-    onSuccess?: (fields: EmailSusbcriptionCreateFormInputValues) => void;
-    onError?: (fields: EmailSusbcriptionCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: EmailSusbcriptionCreateFormInputValues) => EmailSusbcriptionCreateFormInputValues;
-    onValidate?: EmailSusbcriptionCreateFormValidationValues;
+    onSubmit?: (fields: AgencyHistoryCreateFormInputValues) => AgencyHistoryCreateFormInputValues;
+    onSuccess?: (fields: AgencyHistoryCreateFormInputValues) => void;
+    onError?: (fields: AgencyHistoryCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: AgencyHistoryCreateFormInputValues) => AgencyHistoryCreateFormInputValues;
+    onValidate?: AgencyHistoryCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function EmailSusbcriptionCreateForm(props: EmailSusbcriptionCreateFormProps): React.ReactElement;
+export default function AgencyHistoryCreateForm(props: AgencyHistoryCreateFormProps): React.ReactElement;

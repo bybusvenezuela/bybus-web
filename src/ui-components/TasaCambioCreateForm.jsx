@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createEmailSusbcription } from "../graphql/mutations";
+import { createTasaCambio } from "../graphql/mutations";
 const client = generateClient();
-export default function EmailSusbcriptionCreateForm(props) {
+export default function TasaCambioCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,16 +23,20 @@ export default function EmailSusbcriptionCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    email: "",
+    price: "",
+    createdAt: "",
   };
-  const [email, setEmail] = React.useState(initialValues.email);
+  const [price, setPrice] = React.useState(initialValues.price);
+  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setEmail(initialValues.email);
+    setPrice(initialValues.price);
+    setCreatedAt(initialValues.createdAt);
     setErrors({});
   };
   const validations = {
-    email: [{ type: "Required" }],
+    price: [{ type: "Required" }],
+    createdAt: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -60,7 +64,8 @@ export default function EmailSusbcriptionCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          email,
+          price,
+          createdAt,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -91,7 +96,7 @@ export default function EmailSusbcriptionCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createEmailSusbcription.replaceAll("__typename", ""),
+            query: createTasaCambio.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -111,32 +116,62 @@ export default function EmailSusbcriptionCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "EmailSusbcriptionCreateForm")}
+      {...getOverrideProps(overrides, "TasaCambioCreateForm")}
       {...rest}
     >
       <TextField
-        label="Email"
+        label="Price"
         isRequired={true}
         isReadOnly={false}
-        value={email}
+        type="number"
+        step="any"
+        value={price}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              price: value,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.price ?? value;
+          }
+          if (errors.price?.hasError) {
+            runValidationTasks("price", value);
+          }
+          setPrice(value);
+        }}
+        onBlur={() => runValidationTasks("price", price)}
+        errorMessage={errors.price?.errorMessage}
+        hasError={errors.price?.hasError}
+        {...getOverrideProps(overrides, "price")}
+      ></TextField>
+      <TextField
+        label="Created at"
+        isRequired={true}
+        isReadOnly={false}
+        value={createdAt}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              email: value,
+              price,
+              createdAt: value,
             };
             const result = onChange(modelFields);
-            value = result?.email ?? value;
+            value = result?.createdAt ?? value;
           }
-          if (errors.email?.hasError) {
-            runValidationTasks("email", value);
+          if (errors.createdAt?.hasError) {
+            runValidationTasks("createdAt", value);
           }
-          setEmail(value);
+          setCreatedAt(value);
         }}
-        onBlur={() => runValidationTasks("email", email)}
-        errorMessage={errors.email?.errorMessage}
-        hasError={errors.email?.hasError}
-        {...getOverrideProps(overrides, "email")}
+        onBlur={() => runValidationTasks("createdAt", createdAt)}
+        errorMessage={errors.createdAt?.errorMessage}
+        hasError={errors.createdAt?.hasError}
+        {...getOverrideProps(overrides, "createdAt")}
       ></TextField>
       <Flex
         justifyContent="space-between"

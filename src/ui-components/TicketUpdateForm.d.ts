@@ -6,8 +6,16 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Ticket } from "../models";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
@@ -49,7 +57,7 @@ export declare type TicketUpdateFormProps = React.PropsWithChildren<{
     overrides?: TicketUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    ticket?: Ticket;
+    ticket?: any;
     onSubmit?: (fields: TicketUpdateFormInputValues) => TicketUpdateFormInputValues;
     onSuccess?: (fields: TicketUpdateFormInputValues) => void;
     onError?: (fields: TicketUpdateFormInputValues, errorMessage: string) => void;

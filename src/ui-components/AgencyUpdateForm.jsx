@@ -6,11 +6,18 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Agency } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
+import { getAgency } from "../graphql/queries";
+import { updateAgency } from "../graphql/mutations";
+const client = generateClient();
 export default function AgencyUpdateForm(props) {
   const {
     id: idProp,
@@ -31,6 +38,7 @@ export default function AgencyUpdateForm(props) {
     email: "",
     phone: "",
     percentage: "",
+    status: "",
     owner: "",
   };
   const [cognitoID, setCognitoID] = React.useState(initialValues.cognitoID);
@@ -40,6 +48,7 @@ export default function AgencyUpdateForm(props) {
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
   const [percentage, setPercentage] = React.useState(initialValues.percentage);
+  const [status, setStatus] = React.useState(initialValues.status);
   const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -53,6 +62,7 @@ export default function AgencyUpdateForm(props) {
     setEmail(cleanValues.email);
     setPhone(cleanValues.phone);
     setPercentage(cleanValues.percentage);
+    setStatus(cleanValues.status);
     setOwner(cleanValues.owner);
     setErrors({});
   };
@@ -60,7 +70,12 @@ export default function AgencyUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Agency, idProp)
+        ? (
+            await client.graphql({
+              query: getAgency.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getAgency
         : agencyModelProp;
       setAgencyRecord(record);
     };
@@ -75,6 +90,7 @@ export default function AgencyUpdateForm(props) {
     email: [],
     phone: [],
     percentage: [],
+    status: [],
     owner: [],
   };
   const runValidationTasks = async (
@@ -103,14 +119,15 @@ export default function AgencyUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          cognitoID,
-          pin,
-          name,
-          rif,
-          email,
-          phone,
-          percentage,
-          owner,
+          cognitoID: cognitoID ?? null,
+          pin: pin ?? null,
+          name: name ?? null,
+          rif: rif ?? null,
+          email: email ?? null,
+          phone: phone ?? null,
+          percentage: percentage ?? null,
+          status: status ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -136,21 +153,26 @@ export default function AgencyUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Agency.copyOf(agencyRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await client.graphql({
+            query: updateAgency.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                id: agencyRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}
@@ -173,6 +195,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -204,6 +227,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -235,6 +259,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -266,6 +291,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -297,6 +323,7 @@ export default function AgencyUpdateForm(props) {
               email: value,
               phone,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -328,6 +355,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone: value,
               percentage,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -363,6 +391,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage: value,
+              status,
               owner,
             };
             const result = onChange(modelFields);
@@ -378,6 +407,49 @@ export default function AgencyUpdateForm(props) {
         hasError={errors.percentage?.hasError}
         {...getOverrideProps(overrides, "percentage")}
       ></TextField>
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              cognitoID,
+              pin,
+              name,
+              rif,
+              email,
+              phone,
+              percentage,
+              status: value,
+              owner,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Activo"
+          value="ACTIVO"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Bloqueado"
+          value="BLOQUEADO"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
       <TextField
         label="Owner"
         isRequired={false}
@@ -394,6 +466,7 @@ export default function AgencyUpdateForm(props) {
               email,
               phone,
               percentage,
+              status,
               owner: value,
             };
             const result = onChange(modelFields);

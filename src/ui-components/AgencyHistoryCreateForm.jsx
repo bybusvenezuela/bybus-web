@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createEmailSusbcription } from "../graphql/mutations";
+import { createAgencyHistory } from "../graphql/mutations";
 const client = generateClient();
-export default function EmailSusbcriptionCreateForm(props) {
+export default function AgencyHistoryCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,16 +23,22 @@ export default function EmailSusbcriptionCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    email: "",
+    reason: "",
+    description: "",
   };
-  const [email, setEmail] = React.useState(initialValues.email);
+  const [reason, setReason] = React.useState(initialValues.reason);
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setEmail(initialValues.email);
+    setReason(initialValues.reason);
+    setDescription(initialValues.description);
     setErrors({});
   };
   const validations = {
-    email: [{ type: "Required" }],
+    reason: [],
+    description: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -60,7 +66,8 @@ export default function EmailSusbcriptionCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          email,
+          reason,
+          description,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -91,7 +98,7 @@ export default function EmailSusbcriptionCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createEmailSusbcription.replaceAll("__typename", ""),
+            query: createAgencyHistory.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -111,32 +118,58 @@ export default function EmailSusbcriptionCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "EmailSusbcriptionCreateForm")}
+      {...getOverrideProps(overrides, "AgencyHistoryCreateForm")}
       {...rest}
     >
       <TextField
-        label="Email"
-        isRequired={true}
+        label="Reason"
+        isRequired={false}
         isReadOnly={false}
-        value={email}
+        value={reason}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              email: value,
+              reason: value,
+              description,
             };
             const result = onChange(modelFields);
-            value = result?.email ?? value;
+            value = result?.reason ?? value;
           }
-          if (errors.email?.hasError) {
-            runValidationTasks("email", value);
+          if (errors.reason?.hasError) {
+            runValidationTasks("reason", value);
           }
-          setEmail(value);
+          setReason(value);
         }}
-        onBlur={() => runValidationTasks("email", email)}
-        errorMessage={errors.email?.errorMessage}
-        hasError={errors.email?.hasError}
-        {...getOverrideProps(overrides, "email")}
+        onBlur={() => runValidationTasks("reason", reason)}
+        errorMessage={errors.reason?.errorMessage}
+        hasError={errors.reason?.hasError}
+        {...getOverrideProps(overrides, "reason")}
+      ></TextField>
+      <TextField
+        label="Description"
+        isRequired={false}
+        isReadOnly={false}
+        value={description}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              reason,
+              description: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.description ?? value;
+          }
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
+          }
+          setDescription(value);
+        }}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -7,10 +7,11 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Ticket } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
+import { getTicket } from "../graphql/queries";
+import { updateTicket } from "../graphql/mutations";
+const client = generateClient();
 export default function TicketUpdateForm(props) {
   const {
     id: idProp,
@@ -64,7 +65,12 @@ export default function TicketUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Ticket, idProp)
+        ? (
+            await client.graphql({
+              query: getTicket.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getTicket
         : ticketModelProp;
       setTicketRecord(record);
     };
@@ -107,14 +113,14 @@ export default function TicketUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          code,
-          orderDetailID,
-          stop,
-          seating,
-          status,
-          description,
-          url,
-          owner,
+          code: code ?? null,
+          orderDetailID: orderDetailID ?? null,
+          stop: stop ?? null,
+          seating: seating ?? null,
+          status: status ?? null,
+          description: description ?? null,
+          url: url ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -140,21 +146,26 @@ export default function TicketUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
-          await DataStore.save(
-            Ticket.copyOf(ticketRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await client.graphql({
+            query: updateTicket.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                id: ticketRecord.id,
+                ...modelFields,
+              },
+            },
+          });
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            onError(modelFields, err.message);
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
           }
         }
       }}

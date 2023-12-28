@@ -21,26 +21,29 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type EmailSusbcriptionUpdateFormInputValues = {
-    email?: string;
+export declare type TasaCambioUpdateFormInputValues = {
+    price?: number;
+    createdAt?: string;
 };
-export declare type EmailSusbcriptionUpdateFormValidationValues = {
-    email?: ValidationFunction<string>;
+export declare type TasaCambioUpdateFormValidationValues = {
+    price?: ValidationFunction<number>;
+    createdAt?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type EmailSusbcriptionUpdateFormOverridesProps = {
-    EmailSusbcriptionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    email?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type TasaCambioUpdateFormOverridesProps = {
+    TasaCambioUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    price?: PrimitiveOverrideProps<TextFieldProps>;
+    createdAt?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type EmailSusbcriptionUpdateFormProps = React.PropsWithChildren<{
-    overrides?: EmailSusbcriptionUpdateFormOverridesProps | undefined | null;
+export declare type TasaCambioUpdateFormProps = React.PropsWithChildren<{
+    overrides?: TasaCambioUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    emailSusbcription?: any;
-    onSubmit?: (fields: EmailSusbcriptionUpdateFormInputValues) => EmailSusbcriptionUpdateFormInputValues;
-    onSuccess?: (fields: EmailSusbcriptionUpdateFormInputValues) => void;
-    onError?: (fields: EmailSusbcriptionUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: EmailSusbcriptionUpdateFormInputValues) => EmailSusbcriptionUpdateFormInputValues;
-    onValidate?: EmailSusbcriptionUpdateFormValidationValues;
+    tasaCambio?: any;
+    onSubmit?: (fields: TasaCambioUpdateFormInputValues) => TasaCambioUpdateFormInputValues;
+    onSuccess?: (fields: TasaCambioUpdateFormInputValues) => void;
+    onError?: (fields: TasaCambioUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: TasaCambioUpdateFormInputValues) => TasaCambioUpdateFormInputValues;
+    onValidate?: TasaCambioUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function EmailSusbcriptionUpdateForm(props: EmailSusbcriptionUpdateFormProps): React.ReactElement;
+export default function TasaCambioUpdateForm(props: TasaCambioUpdateFormProps): React.ReactElement;
