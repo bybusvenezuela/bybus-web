@@ -57,13 +57,16 @@ const Login = () => {
         alert("POR FAVOR ACTUALIZAR CONTRASEÑA");
       }
     } catch (error) {
-      console.error(error.message);
+      console.error("HOLAÑ ", error);
       switch (error.message) {
         case "No se permiten campos vacios!":
           setErrorMsg(error.message);
           break;
         case "Incorrect username or password.":
           setErrorMsg("Correo o Contraseña Incorrectos");
+          break;
+        case "User is disabled.":
+          setErrorMsg("Acceso Bloqueado Comunicate con Soporte Tecnico.");
           break;
         default:
           setErrorMsg("Hubo un error intenta de Nuevo");
