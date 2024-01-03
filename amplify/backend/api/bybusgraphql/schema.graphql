@@ -464,7 +464,7 @@ type OrderDetail
   customerDocument: String
   customerName: String
   customerEmail: String
-  total: Int
+  total: Float
   isGuest: Boolean
   status: String @default(value: "APPROVED")
   paymentID: ID
@@ -587,7 +587,14 @@ type Mutation {
 }
 
 type Query {
-  getTodayTasaCambio: String @function(name: "getTodayTasaCambio-${env}")
+  getTodayTasaCambio: String
+    @function(name: "getTodayTasaCambio-${env}")
+    @auth(
+      rules: [
+        { allow: public, provider: iam }
+        { allow: private, provider: iam }
+      ]
+    )
 }
 
 input CheckScanInput {
