@@ -23,13 +23,12 @@ export default function ModalBlock({ open, close, data }) {
   };
 
   const onHandleRegister = async () => {
-    const result = await Auth.currentAuthenticatedUser();
     const params = {
       reason: motivo,
       description: description,
-      agencyID: data.id,
-      status: data.status === "ACTIVO" ? "BLOQUEADO" : "ACTIVO",
-      username: result?.username,
+      agencyID: data?.id,
+      status: data?.status === "ACTIVO" ? "BLOQUEADO" : "ACTIVO",
+      username: data?.email,
     };
     setIsLoading(true);
     try {
