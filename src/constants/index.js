@@ -150,7 +150,7 @@ export const footer = {
       {
         id: "info-2",
         icon: "bx bxs-phone",
-        text: "+ 58 426-5523463",
+        text: "+ 58 416-2012561",
       },
     ],
   },
@@ -219,7 +219,7 @@ export const cardContact = [
   {
     id: "card-2",
     title: "WhatsApp",
-    data: "+ 58 426-5523463",
+    data: "+ 58 416-2012561",
     icon: "bx bxl-whatsapp",
   },
   {
