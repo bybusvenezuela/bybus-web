@@ -1,6 +1,6 @@
 import Reac, { useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
@@ -20,7 +20,11 @@ const TableEmailSubs = ({ rows }) => {
       renderCell: (params) => {
         return (
           <div>
-            {params.row.status === "ACCEPTED" ? 'ACEPTADO' : params.row.status === "PENDING" ? 'PENDIENTE' : 'RECHAZADO'}
+            {params.row.status === "ACCEPTED"
+              ? "ACEPTADO"
+              : params.row.status === "PENDING"
+              ? "PENDIENTE"
+              : "RECHAZADO"}
           </div>
         );
       },
@@ -74,24 +78,25 @@ const TableEmailSubs = ({ rows }) => {
   ];
 
   return (
-    <div>
-      <Box sx={{ height: 400, width: 900 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
+    <Box sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-          pageSizeOptions={[10]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          slots={{ toolbar: GridToolbar }}
-        />
-      </Box>
+          },
+        }}
+        density='compact'
+
+        pageSizeOptions={[10]}
+        checkboxSelection
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        disableRowSelectionOnClick
+        slots={{ toolbar: GridToolbar }}
+      />
       <ModalAgencies
         data={data}
         open={open}
@@ -100,7 +105,7 @@ const TableEmailSubs = ({ rows }) => {
           setData({});
         }}
       />
-    </div>
+    </Box>
   );
 };
 

@@ -496,7 +496,9 @@ const Dashboard = () => {
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Empresas Subscritas</h2>
+              <h2 style={{
+                fontWeight: 700
+              }}>Listado de empresas suscritas</h2>
               <IconButton
                 aria-label="refresh-email"
                 onClick={() => fetchAgencySubs()}
@@ -508,7 +510,9 @@ const Dashboard = () => {
           </div>
           <div className={styles.users}>
             <div className={styles.title}>
-              <h2>Listado de Peticion de Subscripcion de Agencias</h2>
+              <h2 style={{
+                fontWeight: 700
+              }}>Listado de Peticion de Subscripcion de Agencias</h2>
               <IconButton
                 aria-label="refresh-agency"
                 onClick={() => fetchAgencySubs()}
@@ -522,7 +526,9 @@ const Dashboard = () => {
           {/*  */}
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Viajes por Empresa</h2>
+              <h2 style={{
+                fontWeight: 700
+              }}>Lista de Viajes por Empresa</h2>
             </div>
             <FormControl fullWidth>
               <Autocomplete
@@ -561,7 +567,9 @@ const Dashboard = () => {
               </div>
             )}
             <div className={styles.title}>
-              <h2>Lista de Ordenes de Venta por Viajes</h2>
+              <h2 style={{
+                fontWeight: 700
+              }}>Lista de Ordenes de Venta por Viajes</h2>
             </div>
             <FormControl fullWidth>
               <Autocomplete

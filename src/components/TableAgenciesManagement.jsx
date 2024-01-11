@@ -1,6 +1,6 @@
 import Reac, { useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
@@ -103,7 +103,9 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
             },
           }}
           pageSizeOptions={[10]}
+        density='compact'
         //   checkboxSelection
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableRowSelectionOnClick
           slots={{ toolbar: GridToolbar }}
         />

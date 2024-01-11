@@ -384,15 +384,15 @@ const Management = () => {
         console.log(array30DiasR);
         console.log(arrayMensualR);
         console.log(arrayAnualR);
-        setListDaysProfit(array30DiasP);
-        setListMonthProfit(arrayMensualP);
-        setListYearProfit(arrayAnualP);
-        setListDaysTravels(array30Dias);
-        setListMonthTravels(arrayMensual);
-        setListYearTravels(arrayAnual);
-        setListDaysReturned(array30DiasR);
-        setListMonthReturned(arrayMensualR);
-        setListYearReturned(arrayAnualR);
+        setListDaysProfit(array30DiasP.reverse());
+        setListMonthProfit(arrayMensualP.reverse());
+        setListYearProfit(arrayAnualP.reverse());
+        setListDaysTravels(array30Dias.reverse());
+        setListMonthTravels(arrayMensual.reverse());
+        setListYearTravels(arrayAnual.reverse());
+        setListDaysReturned(array30DiasR.reverse());
+        setListMonthReturned(arrayMensualR.reverse());
+        setListYearReturned(arrayAnualR.reverse());
         setDataList(filter);
       }
       setFilterTickets(newFilterTickets);
@@ -446,6 +446,11 @@ const Management = () => {
   };
 
   const resumenSimple = () => {
+    if (!filterTickets || filterTickets.length === 0) {
+      alert("No tienes nada");
+      return;
+    }
+    
     let newArray = filterTickets.map((item, index) => {
       return {
         ID_Viaje: item.booking.id,
@@ -478,6 +483,11 @@ const Management = () => {
   };
 
   const resumenDetallado = () => {
+    if (!filterTickets || filterTickets.length === 0) {
+      alert("No tienes nada");
+      return;
+    }
+
     let newArray = filterTickets.map((item, index) => {
       return {
         ID_Empresa: item.booking.agencyID,

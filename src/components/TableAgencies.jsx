@@ -73,6 +73,8 @@ const TableAgencies = () => {
             },
           },
         }}
+        density='compact'
+
         pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick

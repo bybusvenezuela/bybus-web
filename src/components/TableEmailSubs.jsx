@@ -1,16 +1,26 @@
-import Reac, { useState } from "react";
+import Reac, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
-import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
+import BlockRoundedIcon from "@mui/icons-material/BlockRounded";
 import ModalBlock from "./ModalBlock";
-import ThumbUpOffAltRoundedIcon from '@mui/icons-material/ThumbUpOffAltRounded';
-
+import ThumbUpOffAltRoundedIcon from "@mui/icons-material/ThumbUpOffAltRounded";
 
 const TableEmailSubs = ({ rows }) => {
+  const [anchoVentana, setAnchoVentana] = useState(0);
+
+  useEffect(() => {
+    const manejarCambioDeTamaño = () => setAnchoVentana(window.innerWidth);
+
+    window.addEventListener('resize', manejarCambioDeTamaño);
+    return () => {
+      window.removeEventListener('resize', manejarCambioDeTamaño);
+    };
+  }, []);
+
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
-  console.log(rows)
+  console.log(rows);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -53,11 +63,15 @@ const TableEmailSubs = ({ rows }) => {
             <IconButton
               aria-label="delete-agency-subs"
               onClick={() => {
-                setData(params.row)
-                setOpen(!open)
+                setData(params.row);
+                setOpen(!open);
               }}
             >
-              {params.row.status === 'ACTIVO' ? <BlockRoundedIcon /> : <ThumbUpOffAltRoundedIcon />}
+              {params.row.status === "ACTIVO" ? (
+                <BlockRoundedIcon />
+              ) : (
+                <ThumbUpOffAltRoundedIcon />
+              )}
             </IconButton>
           </div>
         );
@@ -65,24 +79,26 @@ const TableEmailSubs = ({ rows }) => {
     },
   ];
   return (
-    <div>
-      <Box sx={{ height: 400, width: 900 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
+    <Box sx={{ height: 400, width: anchoVentana >= 1440 && anchoVentana <= 1740 ? 1200 : anchoVentana >= 1740 && anchoVentana <= 2140 ? 1400 : anchoVentana >= 2140 ? 1900 : '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-          pageSizeOptions={[10]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          slots={{ toolbar: GridToolbar }}
-        />
-      </Box>
+          },
+        }}
+        density='compact'
+
+        style={{width: '100%'}}
+        pageSizeOptions={[10]}
+        checkboxSelection
+        disableRowSelectionOnClick
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        slots={{ toolbar: GridToolbar }}
+      />
       <ModalBlock
         data={data}
         open={open}
@@ -91,7 +107,7 @@ const TableEmailSubs = ({ rows }) => {
           setData({});
         }}
       />
-    </div>
+    </Box>
   );
 };
 
