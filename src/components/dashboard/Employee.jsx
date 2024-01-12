@@ -124,7 +124,7 @@ const Dashboard = ({ dataResult, userType }) => {
         </div>
         <div className={styles.agencies}>
           <div className={styles.title}>
-            <h2>Lista de Ordenes de Venta</h2>
+            <h2 style={{fontWeight: 'bold'}}>Lista de Ordenes de Venta</h2>
           </div>
           <FormControl fullWidth>
             <Autocomplete
