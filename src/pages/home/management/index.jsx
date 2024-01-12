@@ -135,10 +135,10 @@ const Management = () => {
               totalTodo += booking.price;
               setDateInputSearch(fechaFormateada);
             }
-            if (ticket.status === "PAID" && fechaFormateada === dateInput) {
-              totalProfit += booking.price;
-              setDateInputSearch(fechaFormateada);
-            }
+            // if (ticket.status === "PAID" && fechaFormateada === dateInput) {
+            //   totalProfit += booking.price;
+            //   setDateInputSearch(fechaFormateada);
+            // }
           });
         });
         setDataList([]);
@@ -295,29 +295,29 @@ const Management = () => {
 
         filterBookings.forEach((booking) => {
           if (booking.tickets.items) {
-            let ticketsPagados = booking.tickets.items.filter(
-              (ticket) =>
-                ticket.status === "PAID" && ticket.description !== "TAQUILLA"
-            );
+            // let ticketsPagados = booking.tickets.items.filter(
+            //   (ticket) =>
+            //     ticket.status === "PAID" && ticket.description !== "TAQUILLA"
+            // );
             let ticketsBoarded = booking.tickets.items.filter(
               (ticket) =>
                 ticket.status === "BOARDED" && ticket.description !== "TAQUILLA"
             );
-            ticketsPagados.concat(ticketsBoarded).forEach((ticket) => {
+            ticketsBoarded.forEach((ticket) => {
               let fechaUpdatedAt = new Date(ticket.updatedAt);
-              fechaUpdatedAt.setDate(fechaUpdatedAt.getDate() - 1);
+              fechaUpdatedAt.setDate(fechaUpdatedAt.getDate());
               let fecha = fechaUpdatedAt.toISOString().split("T")[0];
               console.log(fecha);
-              let totalPagados = 0;
+              // let totalPagados = 0;
               let totalBoarded = 0;
 
-              if (
-                ticket.status === "PAID" &&
-                fecha >= hace30DiasP.toISOString().split("T")[0] &&
-                fecha <= hoyP.toISOString().split("T")[0]
-              ) {
-                totalPagados = (totalPagados + booking.price).toFixed(1);
-              }
+              // if (
+              //   ticket.status === "PAID" &&
+              //   fecha >= hace30DiasP.toISOString().split("T")[0] &&
+              //   fecha <= hoyP.toISOString().split("T")[0]
+              // ) {
+              //   totalPagados = (totalPagados + booking.price).toFixed(1);
+              // }
 
               if (
                 ticket.status === "BOARDED" &&
@@ -326,11 +326,11 @@ const Management = () => {
               ) {
                 totalBoarded = (
                   totalBoarded +
-                  booking.price * (booking.percentage / 100)
+                  booking.price
                 ).toFixed(1);
               }
 
-              let total = parseFloat(totalPagados) + parseFloat(totalBoarded);
+              let total = parseFloat(totalBoarded);
 
               if (
                 fecha >= hace30DiasP.toISOString().split("T")[0] &&
@@ -439,15 +439,15 @@ const Management = () => {
         console.log(array30DiasR);
         console.log(arrayMensualR);
         console.log(arrayAnualR);
-        setListDaysProfit(array30DiasP);
-        setListMonthProfit(arrayMensualP);
-        setListYearProfit(arrayAnualP);
-        setListDaysTravels(array30Dias);
-        setListMonthTravels(arrayMensual);
-        setListYearTravels(arrayAnual);
-        setListDaysReturned(array30DiasR);
-        setListMonthReturned(arrayMensualR);
-        setListYearReturned(arrayAnualR);
+        setListDaysProfit(array30DiasP.reverse());
+        setListMonthProfit(arrayMensualP.reverse());
+        setListYearProfit(arrayAnualP.reverse());
+        setListDaysTravels(array30Dias.reverse());
+        setListMonthTravels(arrayMensual.reverse());
+        setListYearTravels(arrayAnual.reverse());
+        setListDaysReturned(array30DiasR.reverse());
+        setListMonthReturned(arrayMensualR.reverse());
+        setListYearReturned(arrayAnualR.reverse());
         setDataList(filter);
       }
       setFilterTickets(newFilterTickets);
@@ -501,6 +501,10 @@ const Management = () => {
   };
 
   const resumenSimple = () => {
+    if (!filterTickets || filterTickets.length === 0) {
+      alert("No tienes nada");
+      return;
+    }
     let newArray = filterTickets.map((item, index) => {
       return {
         ID_Viaje: item.booking.id,
@@ -533,6 +537,10 @@ const Management = () => {
   };
 
   const resumenDetallado = () => {
+    if (!filterTickets || filterTickets.length === 0) {
+      alert("No tienes nada");
+      return;
+    }
     let newArray = filterTickets.map((item, index) => {
       return {
         ID_Empresa: item.booking.agencyID,
@@ -606,7 +614,7 @@ const Management = () => {
   if (dateInput)
     return (
       <div className={styles.content}>
-        <Menu />
+        <Menu ancho={288} />
         <div className="container section">
           <div className={styles.up}>
             <h1>Gestion de pagos</h1>

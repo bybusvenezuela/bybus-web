@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
 import { useState } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
@@ -10,6 +10,16 @@ import ModalOfficeEdit from "./ModalOfficeEdit";
 const TableOffices = ({ rows }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [anchoVentana, setAnchoVentana] = useState(0);
+
+  useEffect(() => {
+    const manejarCambioDeTamaño = () => setAnchoVentana(window.innerWidth);
+
+    window.addEventListener("resize", manejarCambioDeTamaño);
+    return () => {
+      window.removeEventListener("resize", manejarCambioDeTamaño);
+    };
+  }, []);
   const DeleteOffice = async (officeId) => {
     const office = await API.graphql({
       query: mutation.updateOffice,
@@ -17,12 +27,11 @@ const TableOffices = ({ rows }) => {
       variables: {
         input: {
           id: officeId,
-          status: 'DISABLED'
-        }
+          status: "DISABLED",
+        },
       },
     });
   };
-
 
   const columns = [
     {
@@ -46,9 +55,7 @@ const TableOffices = ({ rows }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <div>
-            {params.row.status === "ENABLED" ? 'ACTIVO' : 'INACTIVO'}
-          </div>
+          <div>{params.row.status === "ENABLED" ? "ACTIVO" : "INACTIVO"}</div>
         );
       },
     },
@@ -58,7 +65,9 @@ const TableOffices = ({ rows }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <Stack>
+          <Stack style={{
+            flexDirection: 'row'
+          }}>
             <button
               onClick={() => {
                 setData(params.row);
@@ -67,12 +76,14 @@ const TableOffices = ({ rows }) => {
             >{`Ver`}</button>
             <button
               onClick={() => {
-                let opcion = confirm("Quieres eliminar la siguiente agencia de viaje?");
+                let opcion = confirm(
+                  "Quieres eliminar la siguiente agencia de viaje?"
+                );
                 if (opcion == true) {
-                  alert('Se ha eliminado con exito. Refresque la pagina');
-                  DeleteOffice(params.row.id)
+                  alert("Se ha eliminado con exito. Refresque la pagina");
+                  DeleteOffice(params.row.id);
                 } else {
-                  alert('Has cancelado con exito');
+                  alert("Has cancelado con exito");
                 }
               }}
             >{`Eliminar`}</button>
@@ -83,7 +94,19 @@ const TableOffices = ({ rows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: 900 }}>
+    <Box
+      sx={{
+        height: 400,
+        width:
+          anchoVentana >= 1440 && anchoVentana <= 1740
+            ? '100%'
+            : anchoVentana >= 1740 && anchoVentana <= 2140
+            ? '100%'
+            : anchoVentana >= 2140
+            ? '100%'
+            : "100%",
+      }}
+    >
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
@@ -94,6 +117,8 @@ const TableOffices = ({ rows }) => {
             },
           },
         }}
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        density={`compact`}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick={true}
         slots={{ toolbar: GridToolbar }}

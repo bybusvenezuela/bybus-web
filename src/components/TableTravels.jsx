@@ -1,16 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import ModalTravelEdit from "./ModalTravelEdit";
 import { useState } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import * as mutation from "@/graphql/custom/mutations/profile";
 
-const TableTravels = ({ rows  }) => {
+const TableTravels = ({ rows }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const filteredData = rows.filter(item => item.status !== 'CANCELLED');
+  const filteredData = rows.filter((item) => item.status !== "CANCELLED");
   const DeleteBooking = async (bookingId) => {
     const booking = await API.graphql({
       query: mutation.updateBooking,
@@ -18,8 +18,8 @@ const TableTravels = ({ rows  }) => {
       variables: {
         input: {
           id: bookingId,
-          status: 'CANCELLED'
-        }
+          status: "CANCELLED",
+        },
       },
     });
   };
@@ -58,7 +58,13 @@ const TableTravels = ({ rows  }) => {
       renderCell: (params) => {
         return (
           <div>
-            {params.row.status === "AVAILABLE" ? 'DISPONIBLE' : params.row.status === "BOARDING" ? 'ABORDANDO' : params.row.status === "ARRIVED" ? 'FINALIZO' : 'CANCELADO'}
+            {params.row.status === "AVAILABLE"
+              ? "DISPONIBLE"
+              : params.row.status === "BOARDING"
+              ? "ABORDANDO"
+              : params.row.status === "ARRIVED"
+              ? "FINALIZO"
+              : "CANCELADO"}
           </div>
         );
       },
@@ -69,7 +75,9 @@ const TableTravels = ({ rows  }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <Stack>
+          <Stack style={{
+            flexDirection: 'row'
+          }}>
             <button
               onClick={() => {
                 setData(params.row);
@@ -80,10 +88,10 @@ const TableTravels = ({ rows  }) => {
               onClick={() => {
                 let opcion = confirm("Quieres eliminar el siguiente viaje?");
                 if (opcion == true) {
-                  alert('Se ha eliminado con exito. Refresque la pagina');
-                  DeleteBooking(params.row.id)
+                  alert("Se ha eliminado con exito. Refresque la pagina");
+                  DeleteBooking(params.row.id);
                 } else {
-                  alert('Has cancelado con exito');
+                  alert("Has cancelado con exito");
                 }
               }}
             >{`Eliminar`}</button>
@@ -94,7 +102,7 @@ const TableTravels = ({ rows  }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: 900 }}>
+    <Box sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={filteredData ? filteredData : ""}
         columns={columns}
@@ -105,6 +113,8 @@ const TableTravels = ({ rows  }) => {
             },
           },
         }}
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        density={`compact`}
         pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick

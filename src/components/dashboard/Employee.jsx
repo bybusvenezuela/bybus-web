@@ -115,7 +115,7 @@ const Dashboard = ({ dataResult, userType }) => {
         </div>
         <div className={styles.agencies}>
           <div className={styles.title}>
-            <h2>Lista de Viajes</h2>
+            <h2 style={{fontWeight: 'bold'}}>Lista de Viajes</h2>
             <IconButton aria-label="refresh-email" onClick={() => Employee()}>
               <RefreshIcon />
             </IconButton>
