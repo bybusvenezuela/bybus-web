@@ -18,7 +18,7 @@ import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import { Auth } from "aws-amplify";
 
-const Menu = () => {
+const Menu = ({ancho}) => {
   const { updateIndex, selectedIndex } = useMenu();
   const router = useRouter();
   const [openAgencies, setOpenAgencies] = useState(true);
@@ -32,7 +32,9 @@ const Menu = () => {
   };
 
   return (
-    <div className={styles.menu}>
+    <div className={styles.menu} style={{
+      width: ancho
+    }}>
       <div className={styles.logo}>
         <Image src={menu.image} alt="" />
       </div>

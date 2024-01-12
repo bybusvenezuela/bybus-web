@@ -474,7 +474,7 @@ const Dashboard = () => {
 
   return (
     <div className={styles.content}>
-      <Menu />
+      <Menu ancho={300} />
       <div className="container section">
         <div className={styles.pages}>
           <div className={styles.panel}>

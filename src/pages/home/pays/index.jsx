@@ -22,10 +22,11 @@ const Pays = () => {
 
   return (
     <div className={styles.content}>
-      <Menu />
+      <Menu ancho={250}  />
       <div
         style={{
           padding: 80,
+          width: 900
         }}
       >
         <div>
