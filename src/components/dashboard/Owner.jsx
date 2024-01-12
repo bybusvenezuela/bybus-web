@@ -93,7 +93,7 @@ const Dashboard = ({ dataResult, userType }) => {
 
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Oficinas</h2>
+              <h2 style={{fontWeight: 'bold'}}>Lista de Oficinas</h2>
             </div>
             {data?.officies?.items && (
               <TableOffices rows={data?.officies?.items} />
@@ -101,7 +101,7 @@ const Dashboard = ({ dataResult, userType }) => {
           </div>
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Empleados</h2>
+              <h2 style={{fontWeight: 'bold'}}>Lista de Empleados</h2>
             </div>
             <FormControl fullWidth>
               <Autocomplete
@@ -138,7 +138,7 @@ const Dashboard = ({ dataResult, userType }) => {
           </div>
           <div className={styles.agencies}>
             <div className={styles.title}>
-              <h2>Lista de Viajes</h2>
+              <h2 style={{fontWeight: 'bold'}}>Lista de Viajes</h2>
             </div>
             <div className={styles.inputs}>
             <FormControl sx={{

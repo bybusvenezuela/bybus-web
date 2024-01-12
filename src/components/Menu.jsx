@@ -21,7 +21,7 @@ import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
 
-const Menu = () => {
+const Menu = ({ancho}) => {
   const { userAuth, profileAuth, setTokenProfile, setTokenUser, setClearAll } =
     useUser();
   const { updateIndex, selectedIndex } = useMenu();
@@ -42,7 +42,9 @@ const Menu = () => {
 
   return (
     userAuth && (
-      <div className={styles.menu}>
+      <div className={styles.menu} style={{
+        width: ancho
+      }}>
         <div className={styles.logo}>
           <Image src={menu.image} alt="" />
         </div>

@@ -1,9 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
-
-
 
 const TableOrderDetails = ({ rows }) => {
   const columns = [
@@ -53,10 +51,16 @@ const TableOrderDetails = ({ rows }) => {
     {
       field: "status",
       renderCell: (params) => {
-        console.log(params)
+        console.log(params);
         return (
           <Stack>
-            <div>{params.row.status === 'APPROVED' ? 'APROBADO' : params.row.status === 'RETURNED' ? 'DEVUELTO' : 'CANCELADO'}</div>
+            <div>
+              {params.row.status === "APPROVED"
+                ? "APROBADO"
+                : params.row.status === "RETURNED"
+                ? "DEVUELTO"
+                : "CANCELADO"}
+            </div>
           </Stack>
         );
       },
@@ -66,7 +70,7 @@ const TableOrderDetails = ({ rows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: 900 }}>
+    <Box sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
@@ -77,6 +81,8 @@ const TableOrderDetails = ({ rows }) => {
             },
           },
         }}
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        density={`compact`}
         pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick

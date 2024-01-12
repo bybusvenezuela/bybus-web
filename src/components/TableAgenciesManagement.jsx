@@ -1,6 +1,6 @@
 import Reac, { useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
@@ -55,9 +55,9 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
             </button> */}
             <button
               onClick={() => {
-                businessID(params.id)
-                search(params.id)
-                cleanList()
+                businessID(params.id);
+                search(params.id);
+                cleanList();
                 console.log(params);
               }}
               style={{
@@ -67,7 +67,7 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
                 border: "none",
                 borderRadius: 4,
                 color: "#fff",
-                marginLeft: 5
+                marginLeft: 5,
               }}
             >
               Gestionar pago
@@ -91,7 +91,7 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
       >
         Todas las oficinas
       </p>
-      <Box sx={{ height: 500, width: 900 }}>
+      <Box sx={{ height: 500, width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -103,7 +103,9 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
             },
           }}
           pageSizeOptions={[10]}
-        //   checkboxSelection
+          //   checkboxSelection
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          density={`compact`}
           disableRowSelectionOnClick
           slots={{ toolbar: GridToolbar }}
         />

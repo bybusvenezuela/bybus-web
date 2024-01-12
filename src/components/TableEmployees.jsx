@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import * as mutation from "@/graphql/custom/mutations/profile";
@@ -16,12 +16,12 @@ const TableEmployees = ({ rows }) => {
       variables: {
         input: {
           id: employeeId,
-          status: 'DISABLED'
-        }
+          status: "DISABLED",
+        },
       },
     });
   };
-  
+
   const columns = [
     {
       field: "name",
@@ -64,9 +64,7 @@ const TableEmployees = ({ rows }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <div>
-            {params.row.status === "ENABLED" ? 'ACTIVO' : 'INACTIVO'}
-          </div>
+          <div>{params.row.status === "ENABLED" ? "ACTIVO" : "INACTIVO"}</div>
         );
       },
     },
@@ -76,7 +74,9 @@ const TableEmployees = ({ rows }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <Stack>
+          <Stack  style={{
+            flexDirection: 'row'
+          }}>
             <button
               onClick={() => {
                 setData(params.row);
@@ -85,12 +85,14 @@ const TableEmployees = ({ rows }) => {
             >{`Ver`}</button>
             <button
               onClick={() => {
-                let opcion = confirm("Quieres eliminar la siguiente agencia de viaje?");
+                let opcion = confirm(
+                  "Quieres eliminar la siguiente agencia de viaje?"
+                );
                 if (opcion == true) {
-                  alert('Se ha eliminado con exito. Refresque la pagina');
-                  DeleteEmployee(params.row.id)
+                  alert("Se ha eliminado con exito. Refresque la pagina");
+                  DeleteEmployee(params.row.id);
                 } else {
-                  alert('Has cancelado con exito');
+                  alert("Has cancelado con exito");
                 }
               }}
             >{`Eliminar`}</button>
@@ -101,7 +103,7 @@ const TableEmployees = ({ rows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: 900 }}>
+    <Box sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
@@ -112,6 +114,8 @@ const TableEmployees = ({ rows }) => {
             },
           },
         }}
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        density={`compact`}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick={true}
         loading={rows ? false : true}
