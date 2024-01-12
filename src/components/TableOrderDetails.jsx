@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 
 
@@ -59,7 +59,7 @@ const TableOrderDetails = ({ rows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: 900 }}>
+    <Box sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
@@ -70,8 +70,11 @@ const TableOrderDetails = ({ rows }) => {
             },
           },
         }}
+        density='compact'
+
         pageSizeOptions={[10]}
         checkboxSelection
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         disableRowSelectionOnClick
         slots={{ toolbar: GridToolbar }}
       />

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import * as queries from "@/graphql/custom/queries";
 import * as subs from "@/graphql/custom/subscriptions";
@@ -164,6 +164,9 @@ const TableOrders = ({ rows }) => {
               },
             },
           }}
+        density='compact'
+
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[10]}
           checkboxSelection
           disableRowSelectionOnClick
