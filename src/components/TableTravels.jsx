@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import * as mutation from "@/graphql/custom/mutations/profile";
 
-const TableTravels = ({ rows }) => {
+const TableTravels = ({ rows, type }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const filteredData = rows.filter((item) => item.status !== "CANCELLED");
@@ -23,6 +23,7 @@ const TableTravels = ({ rows }) => {
       },
     });
   };
+  console.log(filteredData)
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -48,12 +49,12 @@ const TableTravels = ({ rows }) => {
         );
       },
       headerName: "Fecha y Hora",
-      width: 200,
+      width: 129,
     },
     {
       field: "status",
       headerName: "Estado",
-      width: 150,
+      width: 110,
       editable: true,
       renderCell: (params) => {
         return (
@@ -65,6 +66,32 @@ const TableTravels = ({ rows }) => {
               : params.row.status === "ARRIVED"
               ? "FINALIZO"
               : "CANCELADO"}
+          </div>
+        );
+      },
+    },
+    {
+      field: "ticketsAvailable",
+      headerName: "Disponibles",
+      width: 135,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {`${params.row.stock} tickets`}
+          </div>
+        );
+      },
+    },
+    {
+      field: "ticketsSell",
+      headerName: "Vendidos",
+      width: 135,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {`${params.row?.tickets?.items?.length} tickets`}
           </div>
         );
       },

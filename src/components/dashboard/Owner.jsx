@@ -202,8 +202,8 @@ const Dashboard = ({ dataResult, userType }) => {
             </FormControl>
             </div>
             
-            {employeeListT ? <TableTravels rows={filteredData} /> : dataOfficeTravel?.bookings?.items ? (
-              <TableTravels rows={dataOfficeTravel?.bookings?.items?.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
+            {employeeListT ? <TableTravels type={`employee`} rows={filteredData} /> : dataOfficeTravel?.bookings?.items ? (
+              <TableTravels type={`dash`} rows={dataOfficeTravel?.bookings?.items?.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
             ) : (
               <div className={styles.nothingTable}>
                 Selecciona una oficina o un empleado para ver sus viajes

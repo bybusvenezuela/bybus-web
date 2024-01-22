@@ -306,6 +306,20 @@ export const getOffice = /* GraphQL */ `
             nextToken
           }
           tickets {
+            items {
+              id
+              code
+              bookingID
+              stop
+              customerID
+              seating
+              status
+              description
+              url
+              createdAt
+              updatedAt
+              stopBookingTicketsId
+            }
             nextToken
           }
           stops {

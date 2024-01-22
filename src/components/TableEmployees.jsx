@@ -43,7 +43,7 @@ const TableEmployees = ({ rows }) => {
     {
       field: "office",
       headerName: "Oficina",
-      width: 300,
+      width: 139,
       valueGetter: (params) => {
         return params?.row?.office?.name;
       },
