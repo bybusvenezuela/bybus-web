@@ -8,7 +8,7 @@ import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
 const Dashboard = ({ dataResult, userType }) => {
   return (
     <div className={styles.content}>
-      <Menu ancho={350}/>
+      <Menu ancho={357.50}/>
       {userType === "owner" ? (
         <DashOwner dataResult={dataResult} userType={userType} />
       ) : (
