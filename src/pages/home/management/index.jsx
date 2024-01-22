@@ -561,7 +561,7 @@ const Management = () => {
   if (dateInput)
     return (
       <div className={styles.content}>
-        <Menu ancho={250} />
+        <Menu ancho={249} />
         <div className="container section">
           <div className={styles.up}>
             <h1>Gestion de pagos</h1>

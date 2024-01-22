@@ -24,6 +24,7 @@ const TableTravels = ({ rows  }) => {
     });
     console.log(booking.data.updateBooking);
   };
+  console.log('aqui', filteredData)
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -60,6 +61,32 @@ const TableTravels = ({ rows  }) => {
         return (
           <div>
             {params.row.status === "AVAILABLE" ? 'DISPONIBLE' : params.row.status === "BOARDING" ? 'ABORDANDO' : params.row.status === "ARRIVED" ? 'FINALIZO' : 'CANCELADO'}
+          </div>
+        );
+      },
+    },
+    {
+      field: "ticketsAvailable",
+      headerName: "Disponibles",
+      width: 135,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {`${params.row.stock} tickets`}
+          </div>
+        );
+      },
+    },
+    {
+      field: "ticketsSell",
+      headerName: "Vendidos",
+      width: 135,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {`${params.row?.tickets?.items?.length} tickets`}
           </div>
         );
       },

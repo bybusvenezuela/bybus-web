@@ -286,6 +286,11 @@ export const getAgency = /* GraphQL */ `
           }
           stock
           price
+          tickets {
+            items {
+              id
+            }
+          }
           createdBy
           driver
           transport
@@ -346,6 +351,9 @@ export const listOrderDetails = /* GraphQL */ `
           updatedAt
         }
         tickets {
+          items {
+            id
+          }
           nextToken
         }
         userID
@@ -416,6 +424,9 @@ export const getOrderDetail = /* GraphQL */ `
           nextToken
         }
         tickets {
+          items {
+            id
+          }
           nextToken
         }
         stops {
