@@ -16,6 +16,7 @@ const Dashboard = ({ dataResult, userType }) => {
   const [employee, setEmployee] = useState(false);
   const [data, setData] = useState(dataResult);
   const [dataO, setDataO] = useState([]);
+  const [dataTravels, setDataTravels] = useState([]);
   const [dataOfficeTravel, setDataOfficeTravel] = useState([]);
   const [userT, setUserT] = useState(userType);
   const [officeList, setOfficeList] = useState("");
@@ -59,8 +60,26 @@ const Dashboard = ({ dataResult, userType }) => {
       },
     });
     let array = list?.data?.getOffice?.bookings?.items.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date));
+
+    let aprobados = list?.data?.getOffice?.bookings?.items.filter(
+      (obj) => obj.status === "AVAILABLE"
+    );
+    let cancelados = list?.data?.getOffice?.bookings?.items.filter(
+      (obj) => obj.status !== "AVAILABLE"
+    );
+    aprobados.sort(
+      (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+    );
+    cancelados.sort(
+      (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+    );
+    let resultado = [...aprobados, ...cancelados];
+    // let arrayFilter = resultado.filter(
+    //   (objeto) => objeto.createdBy === dataResult.id
+    // );
+      console.log(resultado)
     console.log('AQUI MI BRO', list?.data?.getOffice)
-    // setDataTravels(array);
+    setDataTravels(resultado);
     setDataOfficeTravel(list?.data?.getOffice);
   };
 
@@ -203,7 +222,7 @@ const Dashboard = ({ dataResult, userType }) => {
             </div>
             
             {employeeListT ? <TableTravels type={`employee`} rows={filteredData} /> : dataOfficeTravel?.bookings?.items ? (
-              <TableTravels type={`dash`} rows={dataOfficeTravel?.bookings?.items?.sort((a, b) => new Date(a.departure.date) - new Date(b.departure.date))} />
+              <TableTravels type={`dash`} rows={dataTravels} />
             ) : (
               <div className={styles.nothingTable}>
                 Selecciona una oficina o un empleado para ver sus viajes

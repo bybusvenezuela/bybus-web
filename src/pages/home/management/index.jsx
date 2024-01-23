@@ -15,7 +15,6 @@ import { useRouter } from "next/router";
 
 const Management = () => {
   const router = useRouter().query;
-  console.log("ROUTER", router);
 
   const [business, setBusiness] = useState("");
   const [description, setDescription] = useState("");
@@ -54,30 +53,18 @@ const Management = () => {
     return año + "-" + mes + "-" + dia;
   };
   const fetchSearch = async (businessId) => {
-    console.log("businessid", businessId);
     setDescription("");
     setDeuda(true);
     setData(null);
     setDataList([]);
-    console.log("toy aqui cabron", filterTickets);
     let newFilterTickets = [];
     let newTotal = 0;
     let totalTickets = [];
     let ticketsReturned = [];
     let totalProfit = 0;
     let totalTodo = 0;
-    console.log("VOY AQUI");
-    console.log(router.type !== "employee" ? router.id : "JEJE");
-    console.log(
-      businessId
-        ? businessId
-        : router.type !== "employee"
-        ? business
-        : router.offficeID
-    );
     try {
       if (business || businessId) {
-        console.log("TOY AQUI 2");
 
         let result;
         if (router.type === "owner") {
@@ -93,7 +80,6 @@ const Management = () => {
               },
             },
           });
-          console.log("AQUI FUNCIUONA", resultOwner);
           result = resultOwner;
         }
         if (router.type === "employee") {
@@ -120,6 +106,7 @@ const Management = () => {
           );
         filterBookings.map((booking, index1) => {
           booking.tickets.items.map((ticket, index2) => {
+
             let fechaFormateada = formatearFecha(new Date(ticket?.updatedAt));
             if (ticket.status === "BOARDED" && fechaFormateada === dateInput) {
               newFilterTickets.push({ ticket: ticket, booking: booking });
@@ -130,20 +117,20 @@ const Management = () => {
               ticketsReturned.push({ ticket: ticket, booking: booking });
               setDateInputSearch(fechaFormateada);
             }
-            if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
-              totalTickets.push({ ticket: ticket, booking: booking });
-              totalTodo += booking.price;
-              setDateInputSearch(fechaFormateada);
-            }
-            // if (ticket.status === "PAID" && fechaFormateada === dateInput) {
-            //   totalProfit += booking.price;
+            // if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
+            //   totalTickets.push({ ticket: ticket, booking: booking });
+            //   totalTodo += booking.price;
             //   setDateInputSearch(fechaFormateada);
             // }
+
+            if (ticket.status === "PAID" && ticket.description === 'TAQUILLA' && fechaFormateada === dateInput) {
+              totalTickets.push({ticket: ticket, booking: booking})
+              totalTodo += booking.price;
+            }
           });
         });
         setDataList([]);
       } else {
-        console.log("TOY AQUI");
         let result;
         if (router.type === "owner") {
           const resultOwner = await API.graphql({
@@ -155,8 +142,6 @@ const Management = () => {
               },
             },
           });
-          console.log("toy owner", resultOwner);
-          console.log("toy owner", router);
           result = resultOwner;
         }
         if (router.type === "employee") {
@@ -170,7 +155,6 @@ const Management = () => {
           setData(resultEmployee.data.listOffices.items[0]);
           result = resultEmployee;
         }
-        console.log("RESULT", result.data.listAgencies);
         let filter = result.data.listOffices.items.filter(
           (item, index) => item.status === "ENABLED"
         );
@@ -246,7 +230,6 @@ const Management = () => {
             });
           }
         });
-        console.log(filter);
 
         /* GRAFICAS GANANCIAS */
         let filterBookings = filter.map((item, index) =>
@@ -267,9 +250,6 @@ const Management = () => {
         let hace10AnosP = new Date();
         hace10AnosP.setFullYear(hoyP.getFullYear() - 10);
 
-        console.log(hoyP);
-        console.log(hace30DiasP);
-        console.log(hace10AnosP);
         for (let i = 0; i < 30; i++) {
           let diaP = new Date();
           diaP.setDate(hoyP.getDate() - i);
@@ -296,9 +276,18 @@ const Management = () => {
         filterBookings.forEach((booking) => {
           if (booking.tickets.items) {
             // let ticketsPagados = booking.tickets.items.filter(
-            //   (ticket) =>
-            //     ticket.status === "PAID" && ticket.description !== "TAQUILLA"
+            //   (ticket) => {
+            //     ticket.status === "PAID" && ticket.description === "TAQUILLA" && fechaFormateada === dateInput
+            //     console.log(fechaFormateada)
+            //   }
             // );
+            booking.tickets.items.forEach((ticket) => {
+              let fechaFormateada = formatearFecha(new Date(ticket?.updatedAt));
+              if ( ticket.status === "PAID" && ticket.description === "TAQUILLA" && fechaFormateada === dateInput ) {
+                totalTickets.push({ticket: ticket, booking: booking})
+              }
+              console.log(fechaFormateada)
+            })
             let ticketsBoarded = booking.tickets.items.filter(
               (ticket) =>
                 ticket.status === "BOARDED" && ticket.description !== "TAQUILLA"
@@ -307,7 +296,6 @@ const Management = () => {
               let fechaUpdatedAt = new Date(ticket.updatedAt);
               fechaUpdatedAt.setDate(fechaUpdatedAt.getDate());
               let fecha = fechaUpdatedAt.toISOString().split("T")[0];
-              console.log(fecha);
               // let totalPagados = 0;
               let totalBoarded = 0;
 
@@ -436,9 +424,7 @@ const Management = () => {
             });
           }
         });
-        console.log(array30DiasR);
-        console.log(arrayMensualR);
-        console.log(arrayAnualR);
+        
         setListDaysProfit(array30DiasP.reverse());
         setListMonthProfit(arrayMensualP.reverse());
         setListYearProfit(arrayAnualP.reverse());
@@ -479,7 +465,6 @@ const Management = () => {
             },
           },
         });
-        console.log(result);
         setData(null);
         setFilterTickets([]);
         setDescription("");
@@ -496,7 +481,6 @@ const Management = () => {
       alert(
         "No se ha podido completar el registro de la confirmacion de tu pago"
       );
-      console.log(error);
     }
   };
 
@@ -533,7 +517,6 @@ const Management = () => {
     enlaceDescarga.target = "_blank";
     enlaceDescarga.download = "resumen_simple.csv";
     enlaceDescarga.click();
-    console.log(newArray);
   };
 
   const resumenDetallado = () => {
@@ -580,7 +563,6 @@ const Management = () => {
     enlaceDescarga.target = "_blank";
     enlaceDescarga.download = "resumen_detallado.csv";
     enlaceDescarga.click();
-    console.log(newArray);
   };
 
   const chartSetting = {
@@ -608,7 +590,7 @@ const Management = () => {
   useEffect(() => {
     let hoy = formatearFecha(new Date());
     setDateInput(hoy);
-    console.log(data);
+    fetchSearch()
   }, []);
 
   if (dateInput)
@@ -617,8 +599,12 @@ const Management = () => {
         <Menu ancho={288} />
         <div className="container section">
           <div className={styles.up}>
-            <h1>Gestion de pagos</h1>
-            <div>
+            <h1 style={{
+              textAlign: 'center'
+            }}>Gestion de pagos</h1>
+            <div  style={{
+              textAlign: 'center'
+            }}>
               Selecciona la fecha para poder verificar la informacion y gestionar su pago
             </div>
             <div className={styles.search}>
@@ -644,7 +630,6 @@ const Management = () => {
                   }}
                   onChange={(e) => {
                     let fecha = formatearFecha(new Date(e));
-                    console.log(fecha);
                     setDateInput(fecha);
                   }}
                 />
@@ -686,8 +671,9 @@ const Management = () => {
                       <div>
                         <p>
                           {" "}
-                          <span>Tickets vendidos:</span>{" "}
+                          <span>Tickets por taquilla:</span>{" "}
                           {totalTicketsSell.length}
+                          {console.log('taos', totalTicketsSell)}
                         </p>
                         <p>
                           {" "}
@@ -699,18 +685,16 @@ const Management = () => {
                           <span>Tickets abordados:</span> {filterTickets.length}
                         </p>
 
-                        <p>
+                        {/* <p>
                           {" "}
-                          {console.log(filterTickets)}
                           <span>Comision:</span>{" "}
                           {isNaN(totalGanancias + total / data.percentage)
                             ? "0"
                             : totalGanancias + total / data.percentage}
                           $
-                        </p>
+                        </p> */}
                         <p>
                           {" "}
-                          {console.log(filterTickets)}
                           <span>Ingresos totales:</span> {totalAll}$
                         </p>
                         <p
@@ -720,7 +704,6 @@ const Management = () => {
                           }}
                         >
                           {" "}
-                          {console.log(filterTickets)}
                           <span
                             style={{
                               color: "#000",

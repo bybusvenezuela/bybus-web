@@ -16,6 +16,7 @@ import {
 } from "@/graphql/custom/mutations/profile";
 import { useRouter } from "next/router";
 import { useUser } from "@/context/UserContext";
+import { getOffice, listOffices } from "@/graphql/queries";
 
 const Profiles = ({ error }) => {
   const router = useRouter();
@@ -125,7 +126,7 @@ const Profiles = ({ error }) => {
   // para verificar la contraseña colocada
   const onHandlePress = async () => {
     const stringPin = pinModal.join("");
-    console.log('BUSCANDO EL OFFICE ID', profileAuth.data?.officeID)
+    console.log("BUSCANDO EL OFFICE ID", profileAuth.data?.officeID);
     setIsLoading(true);
     try {
       switch (profileAuth.rol) {
@@ -299,16 +300,35 @@ const AccountEmployee = ({
     rol: "employee",
     data: data,
   };
+  const [office, setOffice] = useState(null)
+  const agencyFetch = async () => {
+    const result = await API.graphql({
+      query: listOffices,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      filter: {
+        id: { eq: data.officeID },
+      },
+    });
+    setOffice(result.data.listOffices.items[0]);
+  };
+
+  useEffect(() => {
+    agencyFetch();
+  }, []);
+
   return (
     <div
       className={styles.profile}
       onClick={() => onHandleProfileClick(params)}
     >
+      <p style={{
+          fontSize: 16
+        }}>Oficina: {office?.name}</p>
       <PersonRoundedIcon
         sx={{ color: "rgba(0, 0, 0, 0.85)", height: 100, width: 100 }}
       />
       <div className={styles.profileName}>
-        <p>{name}- </p>
+        <p>{name} -</p>
         {type === "OFFICE" && (
           <ApartmentIcon
             sx={{ color: "rgba(0, 0, 0, 0.85)", height: 30, width: 30 }}

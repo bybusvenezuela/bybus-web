@@ -57,22 +57,32 @@ const Dashboard = ({ dataResult, userType }) => {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: {
         filter: {
-          agencyID: {eq: list?.data?.getEmployee?.agencyID},
-          createdBy: {eq: router.id}
-        }
+          agencyID: { eq: list?.data?.getEmployee?.agencyID },
+          createdBy: { eq: router.id },
+        },
       },
     });
-    console.log(travels)
-    console.log(list?.data?.getEmployee?.agencyID)
-    let array = travels?.data.listBookings.items.sort(
+    console.log(travels);
+    console.log(list?.data?.getEmployee?.agencyID);
+    // let array = travels?.data.listBookings.items.sort(
+    //   (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+    // );
+    let aprobados = travels?.data.listBookings.items.filter(
+      (obj) => obj.status === "AVAILABLE"
+    );
+    let cancelados = travels?.data.listBookings.items.filter(
+      (obj) => obj.status !== "AVAILABLE"
+    );
+    aprobados.sort(
       (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
     );
-
-    let arrayFilter = array.filter(
+    cancelados.sort(
+      (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+    );
+    let resultado = [...aprobados, ...cancelados];
+    let arrayFilter = resultado.filter(
       (objeto) => objeto.createdBy === dataResult.id
     );
-    // console.log(arrayFilter)
-    // console.log(array)
     setDataTravels(arrayFilter);
   };
 
@@ -115,7 +125,7 @@ const Dashboard = ({ dataResult, userType }) => {
         </div>
         <div className={styles.agencies}>
           <div className={styles.title}>
-            <h2 style={{fontWeight: 'bold'}}>Lista de Viajes</h2>
+            <h2 style={{ fontWeight: "bold" }}>Lista de Viajes</h2>
             <IconButton aria-label="refresh-email" onClick={() => Employee()}>
               <RefreshIcon />
             </IconButton>
@@ -124,7 +134,7 @@ const Dashboard = ({ dataResult, userType }) => {
         </div>
         <div className={styles.agencies}>
           <div className={styles.title}>
-            <h2 style={{fontWeight: 'bold'}}>Lista de Ordenes de Venta</h2>
+            <h2 style={{ fontWeight: "bold" }}>Lista de Ordenes de Venta</h2>
           </div>
           <FormControl fullWidth>
             <Autocomplete

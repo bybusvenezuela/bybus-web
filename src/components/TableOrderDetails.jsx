@@ -4,6 +4,7 @@ import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 
 const TableOrderDetails = ({ rows }) => {
+  console.log(rows)
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -31,10 +32,16 @@ const TableOrderDetails = ({ rows }) => {
       editable: true,
     },
     {
-      field: "total",
+      field: "price",
       headerName: "Total ($)",
       width: 80,
-      editable: true,
+      renderCell: (params) => {
+        return (
+          <Stack>
+            <div>{params.row.booking.price}</div>
+          </Stack>
+        );
+      },
     },
     {
       field: "orderTickets",
