@@ -185,6 +185,10 @@ export const listOrderDetails = /* GraphQL */ `
         customerName
         customerEmail
         total
+        booking {
+          id
+          price
+        }
         isGuest
         status
         paymentID
