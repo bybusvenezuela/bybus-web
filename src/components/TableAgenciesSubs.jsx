@@ -6,10 +6,37 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import ModalAgencies from "./ModalAgencies";
 import { setRevalidateHeaders } from "next/dist/server/send-payload";
+import { updateAgencySubscription } from "@/graphql/mutations";
 
 const TableEmailSubs = ({ rows }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+
+  const deleteAgencySub = async (params) => {
+    let opcion = confirm(
+      `Quieres borrar la siguiente peticion?`
+    );
+    if (opcion) {
+      try {
+        const result = await API.graphql({
+          query: updateAgencySubscription,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variable: {
+            input: {
+              id: params.row.id
+            }
+          }
+        });
+        console.log(result);
+        alert("Se borro con exito!");
+      } catch (error) {
+        console.log(error);
+        alert("No se ha podido borrar");
+      }
+    } else {
+      alert("No se ha podido borrar");
+    }
+  }
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -67,7 +94,7 @@ const TableEmailSubs = ({ rows }) => {
             </IconButton>
             <IconButton
               aria-label="delete-agency-subs"
-              onClick={() => console.log(params)}
+              onClick={() => deleteAgencySub(params)}
             >
               <DeleteIcon />
             </IconButton>

@@ -15,6 +15,7 @@ const Pays = () => {
     });
     let filter = result.data.listOrderDetails.items.filter((item) => item.status === 'PENDIENTE')
     setData(filter)
+    console.log(filter)
   };
   useEffect(() => {
     fetchOrders();
@@ -29,9 +30,9 @@ const Pays = () => {
           width: 900
         }}
       >
-        <div>
-          <h1>Aceptar pagos</h1>
-          <div>
+        <div style={{marginLeft: '20%'}}>
+          <h1 style={{textAlign: 'center', marginBottom: 30, marginTop: -20}}>Aceptar pagos</h1>
+          <div style={{textAlign: 'center'}}>
             Recuerda que este es la seccion para aceptar las ordenes pendientes
             provenientes de la app de viajes y asi cambiar el estatus de las
             ordenes de los clientes a 'PAGADO'. Recuerda comprobar la
@@ -43,7 +44,7 @@ const Pays = () => {
             marginTop: 40,
           }}
         >
-          <TableOrders rows={data} />
+          <TableOrders rows={data} update={() => fetchOrders()}/>
         </div>
       </div>
     </div>

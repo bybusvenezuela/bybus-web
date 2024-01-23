@@ -8,15 +8,25 @@ import * as mutation from "@/graphql/custom/mutations";
 import { Auth, API } from "aws-amplify";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
-const TableOrders = ({ rows }) => {
-  console.log("primerooooooooo", rows);
+const TableOrders = ({ rows, update }) => {
   const [listRows, setListRows] = useState(rows);
+  const [anchoVentana, setAnchoVentana] = useState(0);
+  console.log('toy aqui', listRows)
+
+  useEffect(() => {
+    const manejarCambioDeTamaño = () => setAnchoVentana(window.innerWidth);
+
+    window.addEventListener("resize", manejarCambioDeTamaño);
+    return () => {
+      window.removeEventListener("resize", manejarCambioDeTamaño);
+    };
+  }, []);
   const fetchApproved = async (data) => {
     let opcion = confirm(
       `Recuerda comprobar la informacion correctamente antes de aceptar una orden.`
     );
-    console.log(data);
     if (opcion) {
       try {
         const order = await API.graphql({
@@ -31,6 +41,7 @@ const TableOrders = ({ rows }) => {
         });
         console.log(order);
         alert("Has aprobado el pago con exito!");
+        update()
       } catch (error) {
         console.log(error);
         alert("No se ha podido aprobar el pago");
@@ -39,7 +50,6 @@ const TableOrders = ({ rows }) => {
       alert("No se ha podido aprobar el pago");
     }
   };
-
   const columns = [
     // { field: "id", headerName: "ID", width: 90 },
     {
@@ -72,6 +82,31 @@ const TableOrders = ({ rows }) => {
       width: 80,
       editable: true,
     },
+    {
+      field: "departure",
+      headerName: "Lugar de salida",
+      width: 120,
+      renderCell: (params) => {
+        return (
+          <Stack>
+            <div>{params.row.booking?.departureCity}</div>
+          </Stack>
+        );
+      },
+    },
+    {
+      field: "arrival",
+      headerName: "Lugar de llegada",
+      width: 120,
+      renderCell: (params) => {
+        return (
+          <Stack>
+            <div>{params.row.booking?.arrivalCity}</div>
+          </Stack>
+        );
+      },
+    },
+
     {
       field: "orderTickets",
       renderCell: (params) => {
@@ -133,47 +168,58 @@ const TableOrders = ({ rows }) => {
     },
   ];
 
-  useEffect(() => {
-    setListRows(rows)
-    const updateSub = API.graphql({
-      query: subs.onUpdateOrderDetail,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).subscribe({
-      next: ({ provider, value: { data } }) => {
-        setListRows(data.onUpdateOrderDetail);
-        console.log("dataaaa", data);
-      },
-      error: (error) => console.warn(error),
-    });
-    return () => {
-      updateSub.unsubscribe();
-      console.log("listtttt", listRows);
-    };
+  useLayoutEffect(() => {
+    // const updateSub = API.graphql({
+    //   query: subs.onUpdateOrderDetail,
+    //   authMode: "AMAZON_COGNITO_USER_POOLS",
+    // }).subscribe({
+    //   next: ({ provider, value: { data } }) => {
+    //     setListRows(data.onUpdateOrderDetail);
+    //     console.log("dataaaa", data);
+    //   },
+    //   error: (error) => console.warn(error),
+    // });
+    // return () => {
+    //   updateSub.unsubscribe();
+    //   console.log("listtttt", listRows);
+    // };
   }, []);
 
   // if (listRows.length !== 0)
-    return (
-      <Box sx={{ height: 500, width: 900 }}>
-        <DataGrid
-          rows={rows ? rows : ''}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
+return (
+    <Box
+      sx={{
+        height: 400,
+        width:
+          anchoVentana >= 1440 && anchoVentana <= 1740
+            ? 1300
+            : anchoVentana >= 1740 && anchoVentana <= 2140
+            ? 1600
+            : anchoVentana >= 2140
+            ? 2300
+            : 950,
+      }}
+    >
+      <DataGrid
+        rows={rows ? rows : ''}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-        density='compact'
-
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          pageSizeOptions={[10]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          slots={{ toolbar: GridToolbar }}
-        />
-      </Box>
-    );
+          },
+        }}
+        style={{ width: "100%" }}
+        density="compact"
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        pageSizeOptions={[10]}
+        checkboxSelection
+        disableRowSelectionOnClick
+        slots={{ toolbar: GridToolbar }}
+      />
+    </Box>
+  );
 };
 
 export default TableOrders;
