@@ -84,13 +84,15 @@ const Management = () => {
           result.data.listAgencies.items[0].bookings.items.filter(
             (item, index) => item.status !== "CANCELLED"
           );
+        console.log(filterBookings)
+
         filterBookings.map((booking, index1) => {
           booking.tickets.items.map((ticket, index2) => {
             let fechaFormateada = formatearFecha(new Date(ticket?.updatedAt));
             console.log(ticket?.updatedAt)
             if (ticket.status === "BOARDED" && fechaFormateada === dateInput) {
               newFilterTickets.push({ ticket: ticket, booking: booking });
-              newTotal += booking.price;
+              newTotal += booking.price + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
             }
             if (ticket.status === "RETURNED" && fechaFormateada === dateInput) {
@@ -99,11 +101,11 @@ const Management = () => {
             }
             if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
               totalTickets.push({ ticket: ticket, booking: booking });
-              totalTodo += booking.price;
+              totalTodo += booking.price + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
             }
             if (ticket.status === "PAID" && fechaFormateada === dateInput) {
-              totalProfit += booking.price;
+              totalProfit += booking.price  + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
             }
           });
@@ -261,7 +263,7 @@ const Management = () => {
                 fecha >= hace30DiasP.toISOString().split("T")[0] &&
                 fecha <= hoyP.toISOString().split("T")[0]
               ) {
-                totalPagados = (totalPagados + booking.price).toFixed(1);
+                totalPagados = (totalPagados + booking.price + (booking.price / booking.percentage)).toFixed(1);
               }
 
               if (
@@ -555,6 +557,7 @@ const Management = () => {
   useEffect(() => {
     let hoy = formatearFecha(new Date());
     setDateInput(hoy);
+    fetchSearch()
     console.log(data);
   }, []);
 
@@ -564,8 +567,8 @@ const Management = () => {
         <Menu ancho={249} />
         <div className="container section">
           <div className={styles.up}>
-            <h1>Gestion de pagos</h1>
-            <div>
+            <h1 style={{textAlign: 'center'}}>Gestion de pagos</h1>
+            <div style={{textAlign: 'center'}}>
               Introduce el numero de la empresa para poder verificar la
               informacion y gestionar su pago
             </div>

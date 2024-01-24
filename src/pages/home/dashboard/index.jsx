@@ -38,6 +38,7 @@ const Dashboard = () => {
   const [listCSVExtended, setListCSVExtended] = useState(null);
   const [agency, setAgency] = useState(null);
   const [travel, setTravel] = useState(null);
+  const [listTravels, setListTravels] = useState([]);
   const [open, setOpen] = useState(false);
 
   const fetchAgencySubs = async () => {
@@ -68,8 +69,21 @@ const Dashboard = () => {
           id: agency,
         },
       });
-      setAgencyBookings(result?.data?.getAgency?.bookings?.items);
-      // console.log(result?.data?.getAgency?.bookings?.items);
+      let aprobados = result?.data?.getAgency?.bookings?.items.filter(
+        (obj) => obj.status === "AVAILABLE"
+      );
+      let cancelados = result?.data?.getAgency?.bookings?.items.filter(
+        (obj) => obj.status !== "AVAILABLE"
+      );
+      aprobados.sort(
+        (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+      );
+      cancelados.sort(
+        (a, b) => new Date(a.departure.date) - new Date(b.departure.date)
+      );
+      let resultado = [...aprobados, ...cancelados];
+      setAgencyBookings(resultado);
+
       const orders = await API.graphql({
         query: queries.listOrderDetails,
         authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -556,10 +570,7 @@ const Dashboard = () => {
             </FormControl>
             {agencyBookings.length !== 0 ? (
               <TableTravels
-                rows={agencyBookings.sort(
-                  (a, b) =>
-                    new Date(a.departure.date) - new Date(b.departure.date)
-                )}
+                rows={agencyBookings}
               />
             ) : (
               <div className={styles.nothingTable}>

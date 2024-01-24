@@ -92,8 +92,8 @@ const Support = () => {
       <Menu ancho={249} />
       <div className="container section">
         <div className={styles.up}>
-          <h1>Devoluciones</h1>
-          <div>
+          <h1 style={{textAlign: 'center'}}>Devoluciones</h1>
+          <div style={{textAlign: 'center'}}>
             Introduce el numero de la orden del viaje para poder verificar la
             informacion y realizar la devolucion
           </div>
