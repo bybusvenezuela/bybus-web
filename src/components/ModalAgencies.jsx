@@ -4,7 +4,7 @@ import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 import { API } from "aws-amplify";
 import { registerAgencyAdmin } from "@/graphql/mutations";
-export default function ModalAgencies({ open, close, data }) {
+export default function ModalAgencies({ open, close, data, type }) {
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(true);
   const [name, setName] = useState("");
@@ -109,7 +109,7 @@ export default function ModalAgencies({ open, close, data }) {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.title}>
-                <h2>Registrar agencia</h2>
+                <h2>{type === 'edit' ? `Editar agencia` : `Registrar agencia`}</h2>
               </div>
               <div className={styles.inputs}>
                 <div className={styles.input}>
@@ -177,7 +177,7 @@ export default function ModalAgencies({ open, close, data }) {
                   onClick={onHandleRegister}
                   disabled={isLoading}
                 >
-                  {isLoading ? <CircularProgress /> : "REGISTRAR"}
+                  {isLoading ? <CircularProgress /> : type === 'edit' ? `GUARDAR` : `Registrar`}
                 </Button>
                 <Button
                   variant="contained"
