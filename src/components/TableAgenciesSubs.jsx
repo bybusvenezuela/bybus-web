@@ -6,7 +6,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import ModalAgencies from "./ModalAgencies";
 import { setRevalidateHeaders } from "next/dist/server/send-payload";
-import { updateAgencySubscription } from "@/graphql/mutations";
+import { deleteAgencySubscription, updateAgencySubscription } from "@/graphql/mutations";
+import { Auth, API } from "aws-amplify";
 
 const TableEmailSubs = ({ rows }) => {
   const [open, setOpen] = useState(false);
@@ -16,14 +17,16 @@ const TableEmailSubs = ({ rows }) => {
     let opcion = confirm(
       `Quieres borrar la siguiente peticion?`
     );
+    console.log(params)
+    // return
     if (opcion) {
       try {
         const result = await API.graphql({
-          query: updateAgencySubscription,
+          query: deleteAgencySubscription,
           authMode: "AMAZON_COGNITO_USER_POOLS",
-          variable: {
+          variables: {
             input: {
-              id: params.row.id
+              id: params?.id,
             }
           }
         });

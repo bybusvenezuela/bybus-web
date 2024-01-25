@@ -5,6 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import BlockRoundedIcon from "@mui/icons-material/BlockRounded";
 import ModalBlock from "./ModalBlock";
 import ThumbUpOffAltRoundedIcon from "@mui/icons-material/ThumbUpOffAltRounded";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import ModalAgencies from "./ModalAgencies";
 
 const TableEmailSubs = ({ rows }) => {
   const [anchoVentana, setAnchoVentana] = useState(0);
@@ -20,6 +22,8 @@ const TableEmailSubs = ({ rows }) => {
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [openA, setOpenA] = useState(false);
+  const [dataA, setDataA] = useState({});
   console.log(rows);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -73,6 +77,16 @@ const TableEmailSubs = ({ rows }) => {
                 <ThumbUpOffAltRoundedIcon />
               )}
             </IconButton>
+            <IconButton
+              aria-label="delete-agency-subs"
+              onClick={() => {
+                setOpenA(!open);
+                setDataA(params.row);
+                console.log(params);
+              }}
+            >
+              <AddBusinessIcon />
+            </IconButton>
           </div>
         );
       },
@@ -105,6 +119,15 @@ const TableEmailSubs = ({ rows }) => {
         close={() => {
           setOpen(!open);
           setData({});
+        }}
+      />
+      <ModalAgencies
+        data={dataA}
+        type={`edit`}
+        open={openA}
+        close={() => {
+          setOpenA(!openA);
+          setDataA({});
         }}
       />
     </Box>
