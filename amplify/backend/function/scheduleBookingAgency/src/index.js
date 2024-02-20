@@ -179,6 +179,7 @@ export const handler = async (event) => {
         code,
         ...booking,
         price: totalPrice,
+        percentage: percentage,
         owner: owner,
       },
     });

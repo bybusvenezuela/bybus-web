@@ -13,7 +13,7 @@ import { useLayoutEffect } from "react";
 const TableOrders = ({ rows, update }) => {
   const [listRows, setListRows] = useState(rows);
   const [anchoVentana, setAnchoVentana] = useState(0);
-  console.log('toy aqui', listRows)
+  console.log("toy aqui", listRows);
 
   useEffect(() => {
     const manejarCambioDeTamaño = () => setAnchoVentana(window.innerWidth);
@@ -41,7 +41,7 @@ const TableOrders = ({ rows, update }) => {
         });
         console.log(order);
         alert("Has aprobado el pago con exito!");
-        update()
+        update();
       } catch (error) {
         console.log(error);
         alert("No se ha podido aprobar el pago");
@@ -141,7 +141,7 @@ const TableOrders = ({ rows, update }) => {
     {
       field: "actions",
       headerName: "Acciones",
-      width: 110,
+      width: 150,
       renderCell: (params) => {
         return (
           <div>
@@ -186,22 +186,10 @@ const TableOrders = ({ rows, update }) => {
   }, []);
 
   // if (listRows.length !== 0)
-return (
-    <Box
-      sx={{
-        height: 400,
-        width:
-          anchoVentana >= 1440 && anchoVentana <= 1740
-            ? 1300
-            : anchoVentana >= 1740 && anchoVentana <= 2140
-            ? 1600
-            : anchoVentana >= 2140
-            ? 2300
-            : 950,
-      }}
-    >
+  return (
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
-        rows={rows ? rows : ''}
+        rows={rows ? rows : ""}
         columns={columns}
         initialState={{
           pagination: {

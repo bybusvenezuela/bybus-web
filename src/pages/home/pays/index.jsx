@@ -7,15 +7,17 @@ import * as mutation from "@/graphql/custom/mutations";
 import { Auth, API } from "aws-amplify";
 
 const Pays = () => {
-    const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const fetchOrders = async () => {
     const result = await API.graphql({
       query: queries.listOrderDetails,
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    let filter = result.data.listOrderDetails.items.filter((item) => item.status === 'PENDIENTE')
-    setData(filter)
-    console.log(filter)
+    let filter = result.data.listOrderDetails.items.filter(
+      (item) => item.status === "PENDIENTE"
+    );
+    setData(filter);
+    console.log(filter);
   };
   useEffect(() => {
     fetchOrders();
@@ -23,16 +25,17 @@ const Pays = () => {
 
   return (
     <div className={styles.content}>
-      <Menu ancho={249}  />
+      <Menu ancho={249} />
       <div
         style={{
           padding: 80,
-          width: 900
         }}
       >
-        <div style={{marginLeft: '20%'}}>
-          <h1 style={{textAlign: 'center', marginBottom: 30, marginTop: -20}}>Aceptar pagos</h1>
-          <div style={{textAlign: 'center'}}>
+        <div >
+          <h1 style={{ textAlign: "center", marginBottom: 30, marginTop: -20 }}>
+            Aceptar pagos
+          </h1>
+          <div style={{ textAlign: "center" }}>
             Recuerda que este es la seccion para aceptar las ordenes pendientes
             provenientes de la app de viajes y asi cambiar el estatus de las
             ordenes de los clientes a 'PAGADO'. Recuerda comprobar la
@@ -44,7 +47,7 @@ const Pays = () => {
             marginTop: 40,
           }}
         >
-          <TableOrders rows={data} update={() => fetchOrders()}/>
+          <TableOrders rows={data} update={() => fetchOrders()} />
         </div>
       </div>
     </div>

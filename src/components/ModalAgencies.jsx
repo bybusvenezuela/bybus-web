@@ -4,6 +4,7 @@ import { Button, TextField, CircularProgress } from "@mui/material";
 import styles from "@/styles/Modal.module.css";
 import { API } from "aws-amplify";
 import { registerAgencyAdmin } from "@/graphql/mutations";
+import { updateAgency } from "@/graphql/custom/mutations";
 export default function ModalAgencies({ open, close, data, type }) {
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(true);
@@ -12,7 +13,9 @@ export default function ModalAgencies({ open, close, data, type }) {
   const [rif, setRif] = useState("");
   const [tableID, setTableID] = useState("");
   const [phone, setPhone] = useState("");
-  const [percentage, setPercentage] = useState(10);
+  const [percentage, setPercentage] = useState(
+    data?.percentage ? data?.percentage : 10
+  );
 
   const reset = () => {
     setEdit(true);
@@ -21,7 +24,7 @@ export default function ModalAgencies({ open, close, data, type }) {
     setRif("");
     setPhone("");
     setTableID("");
-    setPercentage(10)
+    setPercentage(10);
     setIsLoading(false);
     close();
   };
@@ -32,6 +35,7 @@ export default function ModalAgencies({ open, close, data, type }) {
       setRif(data.rif);
       setPhone(data.phone);
       setTableID(data.id);
+      setPercentage(data?.percentage ? data?.percentage : 10);
     }
   }, [data]);
 
@@ -97,6 +101,32 @@ export default function ModalAgencies({ open, close, data, type }) {
 
   useEffect(() => {}, []);
 
+  const onHandleEdit = async () => {
+    console.log("listo ara editar");
+    const params = {
+      id: data?.id,
+      percentage,
+      name,
+      email,
+      rif,
+      phone,
+    };
+    setIsLoading(true);
+    try {
+      await API.graphql({
+        query: updateAgency,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          input: params,
+        },
+      });
+    } catch (error) {
+      console.error(" ERROR EN ACTUALIZAR AGENCIA: ", error);
+      setIsLoading(false);
+    }
+    reset();
+  };
+
   return (
     <div>
       <Modal
@@ -109,7 +139,9 @@ export default function ModalAgencies({ open, close, data, type }) {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.title}>
-                <h2>{type === 'edit' ? `Editar agencia` : `Registrar agencia`}</h2>
+                <h2>
+                  {type === "edit" ? `Editar agencia` : `Registrar agencia`}
+                </h2>
               </div>
               <div className={styles.inputs}>
                 <div className={styles.input}>
@@ -174,10 +206,16 @@ export default function ModalAgencies({ open, close, data, type }) {
                 <Button
                   variant="contained"
                   size="large"
-                  onClick={onHandleRegister}
+                  onClick={type === "edit" ? onHandleEdit : onHandleRegister}
                   disabled={isLoading}
                 >
-                  {isLoading ? <CircularProgress /> : type === 'edit' ? `GUARDAR` : `Registrar`}
+                  {isLoading ? (
+                    <CircularProgress />
+                  ) : type === "edit" ? (
+                    `GUARDAR`
+                  ) : (
+                    `Registrar`
+                  )}
                 </Button>
                 <Button
                   variant="contained"

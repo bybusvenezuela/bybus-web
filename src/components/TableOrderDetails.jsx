@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 
-
-
 const TableOrderDetails = ({ rows }) => {
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -42,11 +40,12 @@ const TableOrderDetails = ({ rows }) => {
       field: "orderTickets",
       renderCell: (params) => {
         // console.log(params.formattedValue.items.length !== 0)
-        if (params?.formattedValue?.items?.length !== 0) return (
-          <Stack>
-            <div>{params.row.amount}</div>
-          </Stack>
-        );
+        if (params?.formattedValue?.items?.length !== 0)
+          return (
+            <Stack>
+              <div>{params.row.amount}</div>
+            </Stack>
+          );
         return (
           <Stack>
             <div>No hay nada</div>
@@ -54,12 +53,33 @@ const TableOrderDetails = ({ rows }) => {
         );
       },
       headerName: "Cantidad de tickets",
-      width: 450,
+      width: 200,
+    },
+    {
+      field: "status",
+      renderCell: (params) => {
+        console.log(params);
+        return (
+          <Stack>
+            <div>
+              {params.row.status === "APPROVED"
+                ? "APROBADO"
+                : params.row.status === "RETURNED"
+                ? "DEVUELTO"
+                : params.row.status === "PENDIENTE"
+                ? "PENDIENTE"
+                : params.row.status}
+            </div>
+          </Stack>
+        );
+      },
+      headerName: "Estatus",
+      width: 100,
     },
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
@@ -70,8 +90,7 @@ const TableOrderDetails = ({ rows }) => {
             },
           },
         }}
-        density='compact'
-
+        density="compact"
         pageSizeOptions={[10]}
         checkboxSelection
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}

@@ -123,3 +123,14 @@ export const createAgencyHistory = /* GraphQL */ `
     }
   }
 `;
+
+export const updateAgency = /* GraphQL */ `
+  mutation UpdateAgency(
+    $input: UpdateAgencyInput!
+    $condition: ModelAgencyConditionInput
+  ) {
+    updateAgency(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
