@@ -12,6 +12,7 @@ import {
   IconButton,
   InputAdornment,
   CircularProgress,
+  FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -29,6 +30,7 @@ const Login = () => {
   const [userChangePwd, setUserChangePwd] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     clear();
@@ -83,9 +85,40 @@ const Login = () => {
       setIsNewPassword(false);
       alert("CONTRASEÑA ACTUALIZADA, INICIA SESION");
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+      switch (error.message) {
+        case "No se permiten campos vacios!":
+          setErrorMsg(error.message);
+          break;
+        case "Incorrect username or password.":
+          setErrorMsg("Correo o Contraseña Incorrectos");
+          break;
+        case "User is disabled.":
+          setErrorMsg("Acceso Bloqueado Comunicate con Soporte Tecnico.");
+          break;
+        case "Password does not conform to policy: Password not long enough":
+          setErrorMsg(
+            "Contraseña no cumple con las caracteristicas permitdas!"
+          );
+          break;
+        default:
+          setErrorMsg("Hubo un error intenta de Nuevo");
+          break;
+      }
     }
     setIsLoading(false);
+  };
+
+  const handlePasswordChange = (e) => {
+    const { value } = e.target;
+    setNewPassword(value);
+
+    // Verificar que la contraseña tenga al menos 8 caracteres
+    if (value.length >= 8) {
+      setPasswordError("");
+    } else {
+      setPasswordError("La contraseña debe tener al menos 8 caracteres.");
+    }
   };
 
   return (
@@ -143,7 +176,7 @@ const Login = () => {
               <OutlinedInput
                 id="outlined-adornment-password-new"
                 type={showNewPassword ? "text" : "password"}
-                onChange={(e) => setNewPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -159,6 +192,7 @@ const Login = () => {
                 label="New Password"
                 value={newPassword}
               />
+              <FormHelperText error>{passwordError}</FormHelperText>
             </FormControl>
           )}
         </div>
