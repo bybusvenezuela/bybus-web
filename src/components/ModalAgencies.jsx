@@ -192,6 +192,7 @@ export default function ModalAgencies({ open, close, data, type }) {
                     label="Porcentaje %"
                     variant="outlined"
                     value={percentage}
+                    disabled={edit}
                     inputProps={{
                       style: { fontSize: 14 },
                     }}
