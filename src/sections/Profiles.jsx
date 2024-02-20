@@ -215,13 +215,16 @@ const Profiles = ({ error }) => {
               employees.map((item, index) => (
                 <>
                   {item?.type === "OFFICE" && (
-                    <AccountEmployee
-                      onHandleProfileClick={onHandleProfileClick}
-                      name={item.name}
-                      type={item.type}
-                      key={`${index}-acc`}
-                      data={item}
-                    />
+                    <>
+                      {console.log("EMPELADO: ", item)}
+                      <AccountEmployee
+                        onHandleProfileClick={onHandleProfileClick}
+                        name={item.name}
+                        type={item.type}
+                        key={`${index}-acc`}
+                        data={item}
+                      />
+                    </>
                   )}
                 </>
               ))}
@@ -300,16 +303,16 @@ const AccountEmployee = ({
     rol: "employee",
     data: data,
   };
-  const [office, setOffice] = useState(null)
+  const [office, setOffice] = useState(null);
   const agencyFetch = async () => {
     const result = await API.graphql({
-      query: listOffices,
+      query: getOffice,
       authMode: "AMAZON_COGNITO_USER_POOLS",
-      filter: {
-        id: { eq: data.officeID },
+      variables: {
+        id: data.officeID,
       },
     });
-    setOffice(result.data.listOffices.items[0]);
+    setOffice(result.data.getOffice);
   };
 
   useEffect(() => {
@@ -321,9 +324,13 @@ const AccountEmployee = ({
       className={styles.profile}
       onClick={() => onHandleProfileClick(params)}
     >
-      <p style={{
-          fontSize: 16
-        }}>Oficina: {office?.name}</p>
+      <p
+        style={{
+          fontSize: 14,
+        }}
+      >
+        Oficina: {office?.state}-{office?.city}
+      </p>
       <PersonRoundedIcon
         sx={{ color: "rgba(0, 0, 0, 0.85)", height: 100, width: 100 }}
       />

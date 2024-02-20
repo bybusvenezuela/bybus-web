@@ -6,8 +6,9 @@
 .profile {
   border: 1px solid var(--black);
   padding: 1rem;
-  width: 180px;
-  height: 180px;
+
+  max-width: 250px;
+  max-height: 250px;
   border-radius: 8px;
   background-color: var(--white);
   display: flex;

@@ -4,7 +4,7 @@ import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 
 const TableOrderDetails = ({ rows }) => {
-  console.log(rows)
+  console.log(rows);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -66,7 +66,9 @@ const TableOrderDetails = ({ rows }) => {
                 ? "APROBADO"
                 : params.row.status === "RETURNED"
                 ? "DEVUELTO"
-                : "CANCELADO"}
+                : params.row.status === "PENDIENTE"
+                ? "PENDIENTE"
+                : params.row.status}
             </div>
           </Stack>
         );
@@ -77,7 +79,7 @@ const TableOrderDetails = ({ rows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
         rows={rows ? rows : ""}
         columns={columns}
