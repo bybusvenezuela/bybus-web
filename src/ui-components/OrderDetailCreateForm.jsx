@@ -402,9 +402,9 @@ export default function OrderDetailCreateForm(props) {
         step="any"
         value={total}
         onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
+          let value = isNaN(parseFloat(e.target.value))
             ? e.target.value
-            : parseInt(e.target.value);
+            : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
               amount,

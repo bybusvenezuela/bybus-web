@@ -15,17 +15,6 @@ export const getAgencySubscriptionbyRif = /* GraphQL */ `
     ) {
       items {
         id
-        name
-        rif
-        email
-        phone
-        subscriptionDate
-        status
-        scheduledDate
-        agencyID
-        createdAt
-        updatedAt
-        __typename
       }
     }
   }

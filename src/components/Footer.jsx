@@ -89,7 +89,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.bot}>
-          <p>Copyright <i class='bx bx-copyright'></i> 2023 - ByBus conserva todos los derechos.</p>
+          <p>Copyright <i className='bx bx-copyright'></i> 2023 - ByBus conserva todos los derechos.</p>
         </div>
       </div>
     </div>
