@@ -33,3 +33,11 @@ export const getAgency = /* GraphQL */ `
   }
 `;
 
+export const getBooking = /* GraphQL */ `
+  query GetBooking($id: ID!) {
+    getBooking(id: $id) {
+      id
+      stock
+    }
+  }
+`;

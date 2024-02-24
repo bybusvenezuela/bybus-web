@@ -12,3 +12,29 @@ export const createOffice = /* GraphQL */ `
     }
   }
 `;
+
+export const updateBooking = /* GraphQL */ `
+  mutation UpdateBooking(
+    $input: UpdateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    updateBooking(input: $input, condition: $condition) {
+      id
+      status
+      code
+      agencyID
+      stock
+    }
+  }
+`;
+
+export const createOrderDetail = /* GraphQL */ `
+  mutation CreateOrderDetail(
+    $input: CreateOrderDetailInput!
+    $condition: ModelOrderDetailConditionInput
+  ) {
+    createOrderDetail(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;

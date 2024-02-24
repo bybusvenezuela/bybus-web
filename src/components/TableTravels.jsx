@@ -23,7 +23,7 @@ const TableTravels = ({ rows, type }) => {
       },
     });
   };
-  console.log(filteredData)
+  console.log(filteredData);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -65,6 +65,8 @@ const TableTravels = ({ rows, type }) => {
               ? "ABORDANDO"
               : params.row.status === "ARRIVED"
               ? "FINALIZO"
+              : params.row.status === "SOLDOUT"
+              ? "AGOTADO"
               : "CANCELADO"}
           </div>
         );
@@ -76,11 +78,7 @@ const TableTravels = ({ rows, type }) => {
       width: 135,
       editable: true,
       renderCell: (params) => {
-        return (
-          <div>
-            {`${params.row.stock} tickets`}
-          </div>
-        );
+        return <div>{`${params.row.stock} tickets`}</div>;
       },
     },
     {
@@ -89,11 +87,7 @@ const TableTravels = ({ rows, type }) => {
       width: 135,
       editable: true,
       renderCell: (params) => {
-        return (
-          <div>
-            {`${params.row?.tickets?.items?.length} tickets`}
-          </div>
-        );
+        return <div>{`${params.row?.tickets?.items?.length} tickets`}</div>;
       },
     },
     {
@@ -102,26 +96,30 @@ const TableTravels = ({ rows, type }) => {
       width: 150,
       renderCell: (params) => {
         return (
-          <Stack style={{
-            flexDirection: 'row'
-          }}>
+          <Stack
+            style={{
+              flexDirection: "row",
+            }}
+          >
             <button
               onClick={() => {
                 setData(params.row);
                 setOpen(!open);
               }}
             >{`Editar`}</button>
-            <button
-              onClick={() => {
-                let opcion = confirm("Quieres eliminar el siguiente viaje?");
-                if (opcion == true) {
-                  alert("Se ha eliminado con exito. Refresque la pagina");
-                  DeleteBooking(params.row.id);
-                } else {
-                  alert("Has cancelado con exito");
-                }
-              }}
-            >{`Eliminar`}</button>
+            {params.row.status !== "SOLDOUT" && (
+              <button
+                onClick={() => {
+                  let opcion = confirm("Quieres eliminar el siguiente viaje?");
+                  if (opcion == true) {
+                    alert("Se ha eliminado con exito. Refresque la pagina");
+                    DeleteBooking(params.row.id);
+                  } else {
+                    alert("Has cancelado con exito");
+                  }
+                }}
+              >{`Eliminar`}</button>
+            )}
           </Stack>
         );
       },
@@ -129,7 +127,7 @@ const TableTravels = ({ rows, type }) => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
         rows={filteredData ? filteredData : ""}
         columns={columns}

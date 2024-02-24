@@ -4,7 +4,7 @@ import { DataGrid, GridToolbar, esES } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 
 const TableOrderDetails = ({ rows }) => {
-  console.log(rows);
+  console.log("EJELE ROWS: ", rows);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {

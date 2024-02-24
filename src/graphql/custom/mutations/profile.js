@@ -27,7 +27,7 @@ export const updateBooking = /* GraphQL */ `
   ) {
     updateBooking(input: $input, condition: $condition) {
       id
-      status
+      stock
     }
   }
 `;
@@ -40,6 +40,27 @@ export const updateOffice = /* GraphQL */ `
     updateOffice(input: $input, condition: $condition) {
       id
       status
+    }
+  }
+`;
+export const createOrderDetail = /* GraphQL */ `
+  mutation CreateOrderDetail(
+    $input: CreateOrderDetailInput!
+    $condition: ModelOrderDetailConditionInput
+  ) {
+    createOrderDetail(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+export const createTicket = /* GraphQL */ `
+  mutation CreateTicket(
+    $input: CreateTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    createTicket(input: $input, condition: $condition) {
+      id
     }
   }
 `;

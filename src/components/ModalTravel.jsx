@@ -182,6 +182,7 @@ export default function ModalTravel({ open, close, offices }) {
       authMode: "AMAZON_COGNITO_USER_POOLS",
       variables: { input: JSON.stringify(params) },
     });
+    console.log("QUE RESPUESTA ESPERO:", ejele);
     resetModal();
   };
 
@@ -552,8 +553,8 @@ export default function ModalTravel({ open, close, offices }) {
                           marginTop: 5,
                         }}
                       >
-                        Recuerda que tu precio se vera reflejo al final por el 
-                        {" "}{percentage}% de comision de Bybus
+                        Recuerda que tu precio se vera reflejo al final por el{" "}
+                        {percentage}% de comision de Bybus
                       </div>
                     </div>
                   </div>

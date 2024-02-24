@@ -23,6 +23,12 @@ import { time, transportes, venezuela, week } from "@/constants";
 import { Auth, API } from "aws-amplify";
 import * as queries from "@/graphql/queries";
 import * as mutations from "@/graphql/mutations";
+import {
+  updateBooking as UPDATEBOOKING,
+  createOrderDetail as CREATEORDERDETAILS,
+  createTicket as CREATETICKET,
+} from "@/graphql/custom/mutations/profile";
+import { getBooking as GETBOOKING } from "@/graphql/custom/queries/profile";
 import * as subscriptions from "@/graphql/subscriptions";
 import { useUser } from "@/context/UserContext";
 
@@ -30,6 +36,8 @@ export default function ModalTravelEdit({ data, open, close }) {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(data.price);
   const [stockVerify, setStockVerify] = useState(0);
+  const [stock, setStock] = useState(data?.stock);
+  const [isDisabled, setIsDisabled] = useState(false);
   // console.log(stockVerify.toString().padStart(2, "0"))
   const [edit, setEdit] = useState(false);
   const ITEM_HEIGHT = 48;
@@ -49,12 +57,29 @@ export default function ModalTravelEdit({ data, open, close }) {
     if (!respuesta) {
       return;
     }
+    setIsDisabled(true);
     try {
+      console.log("STOCK: ", stock);
       const { attributes } = await Auth.currentAuthenticatedUser();
+      console.log("ID: ", data?.id);
+      const bookingData = await API.graphql({
+        query: GETBOOKING,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        variables: {
+          id: data?.id,
+        },
+      });
+
+      if (bookingData.data.getBooking.stock !== stock) {
+        console.log("Cambios Existentes, refresca Pagina");
+        setIsDisabled(false);
+        alert("Cambios Existentes");
+        return;
+      }
 
       /* Creamos el orderDetail */
       const orderDetail = await API.graphql({
-        query: mutations.createOrderDetail,
+        query: CREATEORDERDETAILS,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: {
@@ -71,13 +96,11 @@ export default function ModalTravelEdit({ data, open, close }) {
           },
         },
       });
-      console.log(orderDetail.data.createOrderDetail);
-
+      console.log("ORDERDETAILS: ", orderDetail);
       /* Creamos el ticket */
-      let i = data.stock.toString().padStart(2, "0");
-      console.log(i);
+      let i = stock.toString().padStart(2, "0");
       const ticket = await API.graphql({
-        query: mutations.createTicket,
+        query: CREATETICKET,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: {
@@ -90,23 +113,22 @@ export default function ModalTravelEdit({ data, open, close }) {
           },
         },
       });
-      console.log("createTicket", ticket.data.createTicket);
-
       /* Actualizamos el stock */
       const updateBookingStock = await API.graphql({
-        query: mutations.updateBooking,
+        query: UPDATEBOOKING,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: {
             id: data.id,
-            stock: data.stock - 1,
+            stock: stock - 1,
           },
         },
       });
-      console.log("updateBooking", updateBookingStock.data.updateBooking);
+      setStock(updateBookingStock.data.updateBooking.stock);
     } catch (error) {
       console.log(error);
     }
+    setIsDisabled(false);
   };
 
   useEffect(() => {
@@ -121,17 +143,22 @@ export default function ModalTravelEdit({ data, open, close }) {
     }).subscribe({
       next: ({ provider, value: { data } }) => {
         setStockVerify(data?.onUpdateBooking?.stock);
-        console.log(data);
-        console.log("TOY AQUI");
+        console.log("QUE VERGA HACE: ", data?.onUpdateBooking?.stock);
       },
       error: (error) => console.warn(error),
     });
     return () => {
       updateSub.unsubscribe();
-      console.log(stockVerify);
-      console.log("TOY por");
     };
   }, []);
+
+  useEffect(() => {
+    console.log("DATA: ", data);
+    setQuantity("");
+    setPrice(data.price);
+    setStockVerify(0);
+    setStock(data?.stock);
+  }, [data]);
 
   return (
     <div>
@@ -344,7 +371,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                         variant="outlined"
                         label="Cantidad de puestos disponibles"
                         disabled
-                        value={stockVerify ? stockVerify : data.stock}
+                        value={stockVerify ? stockVerify : stock}
                         //   onChange={(e) => setQuantity(e.target.value)}
                         sx={{ width: 200 }}
                       />
@@ -377,6 +404,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                     setEdit(!edit);
                     setPrice(data?.price);
                   }}
+                  disabled={isDisabled}
                 >
                   {edit ? "Guardar" : "Editar"}
                 </Button>
@@ -384,6 +412,7 @@ export default function ModalTravelEdit({ data, open, close }) {
                   variant="contained"
                   size="large"
                   color="error"
+                  disabled={isDisabled}
                   onClick={() => {
                     close();
                     setPrice(data?.price);
@@ -392,16 +421,19 @@ export default function ModalTravelEdit({ data, open, close }) {
                   Salir
                 </Button>
               </div>
-              <Button
-                variant="contained"
-                size="large"
-                // color="error"
-                onClick={() => {
-                  onHandleOrder();
-                }}
-              >
-                Agregar venta por taquilla
-              </Button>
+              {stock > 0 && (
+                <Button
+                  variant="contained"
+                  size="large"
+                  // color="error"
+                  onClick={() => {
+                    onHandleOrder();
+                  }}
+                  disabled={isDisabled}
+                >
+                  Agregar venta por taquilla
+                </Button>
+              )}
             </div>
           </div>
         </div>
