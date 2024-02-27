@@ -115,6 +115,7 @@ const Management = () => {
             }
             if (ticket.status === "RETURNED" && fechaFormateada === dateInput) {
               ticketsReturned.push({ ticket: ticket, booking: booking });
+              newFilterTickets.push({ ticket: ticket, booking: booking });
               setDateInputSearch(fechaFormateada);
             }
             // if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
@@ -126,6 +127,7 @@ const Management = () => {
             if (ticket.status === "PAID" && ticket.description === 'TAQUILLA' && fechaFormateada === dateInput) {
               totalTickets.push({ticket: ticket, booking: booking})
               totalTodo += booking.price;
+              newFilterTickets.push({ ticket: ticket, booking: booking });
             }
           });
         });
@@ -442,6 +444,7 @@ const Management = () => {
       setTotalAll(totalTodo);
       setTotalGanancias(totalProfit);
       setTotal(newTotal);
+      if (newTotal === 0) setDeuda(false)
     } catch (error) {
       console.error(error);
     }
@@ -673,7 +676,6 @@ const Management = () => {
                           {" "}
                           <span>Tickets por taquilla:</span>{" "}
                           {totalTicketsSell.length}
-                          {console.log('taos', totalTicketsSell)}
                         </p>
                         <p>
                           {" "}
@@ -748,7 +750,7 @@ const Management = () => {
                   >
                     Resumen detallado
                   </Button>
-                  {deuda && filterTickets.length !== 0 ? (
+                  {deuda ? (
                     <div
                       style={{
                         marginLeft: 25,
