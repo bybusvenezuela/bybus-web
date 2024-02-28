@@ -52,7 +52,7 @@ const Management = () => {
   const fetchSearch = async (businessId) => {
     console.log("businessid", businessId);
     setDescription("");
-    setDeuda(true);
+    // setDeuda(true);
     setData(null);
     setDataList([]);
     console.log("toy aqui cabron", filterTickets);
@@ -64,6 +64,8 @@ const Management = () => {
     let totalTodo = 0;
     try {
       if (business || businessId) {
+        console.log('Aqui es por empresa')
+
         const result = await API.graphql({
           query: queries.listAgencies,
           authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -85,6 +87,7 @@ const Management = () => {
             (item, index) => item.status !== "CANCELLED"
           );
         console.log(filterBookings)
+        console.log('1', newFilterTickets)
 
         filterBookings.map((booking, index1) => {
           booking.tickets.items.map((ticket, index2) => {
@@ -94,24 +97,37 @@ const Management = () => {
               newFilterTickets.push({ ticket: ticket, booking: booking });
               newTotal += booking.price + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
+              console.log('Boarded', {ticket: ticket, booking: booking})
             }
             if (ticket.status === "RETURNED" && fechaFormateada === dateInput) {
               ticketsReturned.push({ ticket: ticket, booking: booking });
               setDateInputSearch(fechaFormateada);
+              console.log('Returned', {ticket: ticket, booking: booking})
+              newFilterTickets.push({ ticket: ticket, booking: booking });
             }
             if (ticket.status !== "RETURNED" && fechaFormateada === dateInput) {
               totalTickets.push({ ticket: ticket, booking: booking });
               totalTodo += booking.price + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
+              console.log('No se', {ticket: ticket, booking: booking})
+
             }
             if (ticket.status === "PAID" && fechaFormateada === dateInput) {
               totalProfit += booking.price  + (booking.price / booking.percentage);
               setDateInputSearch(fechaFormateada);
+              newFilterTickets.push({ ticket: ticket, booking: booking });
+              console.log('Paid', {ticket: ticket, booking: booking})
+
             }
           });
         });
+        console.log('2', newFilterTickets)
+
         setDataList([]);
+        console.log('3', newFilterTickets)
+
       } else {
+        console.log('Aqui es lista')
         const result = await API.graphql({
           query: queries.listAgencies,
           authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -403,6 +419,7 @@ const Management = () => {
       setTotalAll(totalTodo);
       setTotalGanancias(totalProfit);
       setTotal(newTotal);
+      if (newTotal === 0) setDeuda(false)
     } catch (error) {
       console.error(error);
     }
@@ -646,13 +663,11 @@ const Management = () => {
 
                         <p>
                           {" "}
-                          {console.log(filterTickets)}
                           <span>Ganancias:</span>{" "}
                           {totalGanancias + total / data.percentage}$
                         </p>
                         <p>
                           {" "}
-                          {console.log(filterTickets)}
                           <span>Ingresos totales:</span> {totalAll}$
                         </p>
                         <p
@@ -662,7 +677,6 @@ const Management = () => {
                           }}
                         >
                           {" "}
-                          {console.log(filterTickets)}
                           <span
                             style={{
                               color: "#000",
@@ -702,7 +716,7 @@ const Management = () => {
                   >
                     Resumen detallado
                   </Button>
-                  {deuda && filterTickets.length !== 0 ? (
+                  {deuda ? (
                     <div
                       style={{
                         marginLeft: 25,
