@@ -503,7 +503,6 @@ export const listAgencyHistories = /* GraphQL */ `
   }
 `;
 
-
 export const listAgenciesCSV = /* GraphQL */ `
   query ListAgencies(
     $filter: ModelAgencyFilterInput
@@ -685,6 +684,84 @@ export const listOrdersCSV = /* GraphQL */ `
         userOrdersId
       }
       nextToken
+    }
+  }
+`;
+
+export const listBookings = /* GraphQL */ `
+  query ListBookings(
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        code
+        agencyID
+        agency {
+          id
+          name
+          rif
+          email
+          phone
+        }
+        departureCity
+        arrivalCity
+        departure {
+          date
+          city
+          state
+        }
+        arrival {
+          date
+          city
+          state
+        }
+        tickets {
+          items {
+            id
+            bookingID
+            orderDetailID
+            customerID
+            status
+            code
+            booking {
+              id
+              agencyID
+              officeID
+              createdBy
+              percentage
+              code
+              driver
+              transport
+              stock
+              status
+              departure {
+                city
+                date
+                time
+                state
+              }
+              arrival {
+                city
+                date
+                time
+                state
+              }
+              price
+            }
+          }
+        }
+        stock
+        price
+        percentage
+        transport
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;

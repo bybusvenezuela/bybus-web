@@ -1825,6 +1825,25 @@ export const getCustomer = /* GraphQL */ `
         id
         code
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          percentage
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
         orderDetailID
         stop
         customerID
@@ -1956,6 +1975,83 @@ export const getTicket = /* GraphQL */ `
       id
       code
       bookingID
+      booking {
+        id
+        status
+        code
+        agencyID
+        agency {
+          id
+          cognitoID
+          pin
+          name
+          rif
+          email
+          phone
+          percentage
+          status
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        officeID
+        office {
+          id
+          agencyID
+          name
+          state
+          city
+          address
+          email
+          phone
+          status
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        customers {
+          nextToken
+          __typename
+        }
+        tickets {
+          nextToken
+          __typename
+        }
+        stops {
+          nextToken
+          __typename
+        }
+        departureCity
+        arrivalCity
+        departure {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        arrival {
+          time
+          date
+          city
+          state
+          address
+          __typename
+        }
+        stock
+        price
+        percentage
+        createdBy
+        driver
+        transport
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
       orderDetailID
       stop
       customerID
@@ -2013,6 +2109,25 @@ export const listTickets = /* GraphQL */ `
         id
         code
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          percentage
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
         orderDetailID
         stop
         customerID
@@ -2063,6 +2178,25 @@ export const ticketsByBookingID = /* GraphQL */ `
         id
         code
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          percentage
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
         orderDetailID
         stop
         customerID
@@ -2113,6 +2247,25 @@ export const ticketsByOrderDetailID = /* GraphQL */ `
         id
         code
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          percentage
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
         orderDetailID
         stop
         customerID
@@ -2163,6 +2316,25 @@ export const ticketsByStop = /* GraphQL */ `
         id
         code
         bookingID
+        booking {
+          id
+          status
+          code
+          agencyID
+          officeID
+          departureCity
+          arrivalCity
+          stock
+          price
+          percentage
+          createdBy
+          driver
+          transport
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
         orderDetailID
         stop
         customerID

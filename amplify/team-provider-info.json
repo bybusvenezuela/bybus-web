@@ -64,6 +64,10 @@
       },
       "storage": {
         "s3storagebybus": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "bybusgraphql": {}
       }
     }
   }
