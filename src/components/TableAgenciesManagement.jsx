@@ -18,12 +18,6 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
       editable: true,
     },
     {
-      field: "rif",
-      headerName: "RIF",
-      width: 120,
-      editable: true,
-    },
-    {
       field: "email",
       headerName: "Correo",
       width: 200,
@@ -91,7 +85,7 @@ const TableAgenciesManagement = ({ rows, businessID, search, cleanList }) => {
       >
         Todas las oficinas
       </p>
-      <Box sx={{ height: 500, width: '100%' }}>
+      <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}

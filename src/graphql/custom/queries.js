@@ -670,14 +670,11 @@ export const listAgencyHistories = /* GraphQL */ `
         agencyID
         reason
         description
-        createdAt
-        updatedAt
       }
       nextToken
     }
   }
 `;
-
 
 export const listAgenciesCSV = /* GraphQL */ `
   query ListAgencies(
@@ -860,6 +857,104 @@ export const listOrdersCSV = /* GraphQL */ `
         userOrdersId
       }
       nextToken
+    }
+  }
+`;
+
+export const listBookings = /* GraphQL */ `
+  query ListBookings(
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        code
+        agencyID
+        officeID
+        office {
+          id
+          name
+          city
+          state
+          email
+          address
+          phone
+        }
+        agency {
+          id
+          name
+          rif
+          email
+          phone
+        }
+        departureCity
+        arrivalCity
+        departure {
+          date
+          city
+          state
+        }
+        arrival {
+          date
+          city
+          state
+        }
+        tickets {
+          items {
+            id
+            bookingID
+            orderDetailID
+            customerID
+            status
+            code
+            description
+            booking {
+              id
+              agencyID
+              officeID
+              createdBy
+              percentage
+              code
+              driver
+              transport
+              stock
+              status
+              departure {
+                city
+                date
+                time
+                state
+              }
+              arrival {
+                city
+                date
+                time
+                state
+              }
+              price
+            }
+          }
+        }
+        stock
+        price
+        percentage
+        transport
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const getEmployee = /* GraphQL */ `
+  query GetEmployee($id: ID!) {
+    getEmployee(id: $id) {
+      id
+      agencyID
     }
   }
 `;
